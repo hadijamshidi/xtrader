@@ -1,19 +1,17 @@
 import requests as r
 import json
-from show.models import company
+from show.models import company, intradaytrades
 
 server_url = 'http://66.70.160.142:8000/mabna/api'
 
 
-def company_data():
-    for company_id in range(2, 50):
-        print(company_id)
+def company_data(start, finish):
+    for company_id in range(start, finish):
         company_filter = '/stock/companies?id={}'.format(company_id)
         output = r.get(server_url, params={'url': company_filter})
         output = json.loads(output.text)
         data = output['data'][0]
         add_to_db_company(data)
-
 
 
 def add_to_db_company(data):
@@ -31,4 +29,40 @@ def add_to_db_company(data):
             categories=data['categories'][0]['id'] if 'categories' in data else 'False',
             metaversion=data['meta']['version'] if ('meta' in data and 'version' in data['meta'])else 'False',
         )
-        new_company = company(**company_dict).save()
+        company(**company_dict).save()
+
+
+def intraday_trades_data(company_id):
+    company_intraday_filter = '/exchange/intradaytrades?instrument.stock.company.id={}'.format(company_id)
+    output = r.get(server_url, params={'url': company_intraday_filter})
+    output = json.loads(output.text)
+    data = output['data'][0]
+    add_to_db_company_intraday_trades(data)
+
+
+def add_to_db_company_intraday_trades(data):
+    needed_keys = [
+        'date_time',
+        'open_price',
+        'high_price',
+        'low_price',
+        'close_price',
+        'close_price_change',
+        'real_close_price',
+        'real_close_price_change',
+        "buyer_count",
+        "trade_count",
+        "volume",
+        "value",
+    ]
+    intraday_trades_dict = dict(
+        id1=data['id'] if 'id' in data else 0,
+        trade=data['trade']['id'] if 'trade' in data else 0,
+        instrument=data['instrument']['id'] if 'instrument' in data else 0,
+        metaversion=data['meta']['version'] if ('meta' in data and 'version' in data['meta'])else 'False',
+    )
+
+
+for key in needed_keys:
+    intraday_trades_dict[key] = data[key]
+    intradaytrades(**intraday_trades_dict).save()

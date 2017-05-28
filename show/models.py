@@ -14,7 +14,7 @@ class company(models.Model):
     categories = models.CharField( max_length=80,verbose_name='دسته بندی‌ها')
     metaversion = models.CharField(max_length=80,verbose_name='اطلاعات رکورد')
 class intradaytrades(models.Model):
-    id1 = models.IntegerField(verbose_name='id')
+    company = models.ForiengKey(Company)
     # company = models.OneToOneField(company,
     #                             verbose_name=_('company'),
     #                             related_name='company')

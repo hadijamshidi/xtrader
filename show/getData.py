@@ -10,9 +10,11 @@ def company_data(start, finish):
         company_filter = '/stock/companies?id={}'.format(company_id)
         output = r.get(server_url, params={'url': company_filter})
         output = json.loads(output.text)
-        data = output['data'][0]
-        add_to_db_company(data)
-
+        try:
+	        data = output['data'][0]
+	        add_to_db_company(data)
+        except Exception:
+        	print('Oops: That was no valid number:'+str(company_id)+" try again")
 
 def add_to_db_company(data):
     if data['trade_symbol'] != '':
@@ -36,11 +38,13 @@ def intraday_trades_data(company_id):
     company_intraday_filter = '/exchange/intradaytrades?instrument.stock.company.id={}'.format(company_id)
     output = r.get(server_url, params={'url': company_intraday_filter})
     output = json.loads(output.text)
-    data = output['data'][0]
-    add_to_db_company_intraday_trades(data)
+    try:
+	    data = output['data'][0]
+	    add_to_db_company_intraday_trades(data,company_id)
+    except Exception:
+    	print('Oops: there is problem at company id: '+str(company_id))
 
-
-def add_to_db_company_intraday_trades(data):
+def add_to_db_company_intraday_trades(data,company_id):
     needed_keys = [
         'date_time',
         'open_price',
@@ -56,13 +60,11 @@ def add_to_db_company_intraday_trades(data):
         "value",
     ]
     intraday_trades_dict = dict(
-        id1=data['id'] if 'id' in data else 0,
+        # id1=data['id'] if 'id' in data else 0,
         trade=data['trade']['id'] if 'trade' in data else 0,
         instrument=data['instrument']['id'] if 'instrument' in data else 0,
         metaversion=data['meta']['version'] if ('meta' in data and 'version' in data['meta'])else 'False',
     )
-
-
-for key in needed_keys:
-    intraday_trades_dict[key] = data[key]
-    intradaytrades(**intraday_trades_dict).save()
+	for key in needed_keys:
+	    intraday_trades_dict[key] = data[key]
+	    intradaytrades(**intraday_trades_dict,company=Company.objects.get(id=company_id)).save()

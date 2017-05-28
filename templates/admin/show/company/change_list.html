@@ -95,24 +95,14 @@
                 {% endif %}
 
                 {% block result_list %}
-                    <div>
-                        فرستادن sms
-                        <input class="action-select" name="sendsms" value="sms" type="checkbox">
-                        فرستادن email
-                        <input class="action-select" name="sendemail" value="email" type="checkbox">
-                        فرستادن پیام به داخل برنامه
-                        <input class="action-select" name="sendwithin" value="inbox" type="checkbox">
 
-                    </div>
-                    <label><input style="margin-left: 6%" class="form-control" type="text" name="messageTitle"
-                                  id="messageTitle"
-                                  placeholder="موضوع پیام"
+                    <label><input style="margin-left: 6%" class="form-control" type="text" name="copmanyid"
+                                  id="copmanyid"
+                                  placeholder="کد شرکت"
                     ></label>
                     <div style="margin-left: 5%" id="textarea_feedback"></div>
                     </span>
                     <br>
-                    <label><textarea rows="6" class="form-control" name="message text"
-                                     id="message text"></textarea></label>
                     {% if action_form and actions_on_top and cl.show_admin_actions %} {% admin_actions %}{% endif %}
                     {% result_list cl %}
                     {% if action_form and actions_on_bottom and cl.show_admin_actions %}{% admin_actions %}{% endif %}

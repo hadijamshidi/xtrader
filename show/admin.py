@@ -18,7 +18,7 @@ class Company_Admin(admin.ModelAdmin):
     # inlines = [ManagementInline]
 admin.site.register(company, Company_Admin)
 class Intradaytrades_Admin(admin.ModelAdmin):
-    list_display = ['instrument', 'date_time','close_price','real_close_price','volume','value','metaversion']
+    list_display = ['id1',  'instrument', 'date_time','close_price','real_close_price','volume','value','metaversion']
     list_filter = ['close_price']
 
     # inlines = [ManagementInline]

@@ -1,2 +1,5 @@
 database/db.sqlite3
 .idea
+xtrader/__pycache__
+xtrader/__init__.py
+xtrader/localsetting.py

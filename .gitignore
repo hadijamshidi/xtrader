@@ -5,3 +5,6 @@ xtrader/__init__.py
 xtrader/localsetting.py
 .idea/
 database/
+mabna/__pycache__/*
+show/__pycache__/*
+*/__pycache__/*

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # Create your views here.
-from django.http import JsonResponse, HttpResponse
-import json, requests
+from django.http import HttpResponse
+import requests
 from xtrader import localsetting as local
 
 
@@ -13,6 +13,4 @@ def get(request):
         r = requests.get(local.client['url'] + '/maban/api', params=result)
     if local.client['job'] == 'server':
         r = requests.get(local.client['url'] + request.GET['url'], headers=local.client['auth'])
-        print(type(r))
-        print(r)
-    return JsonResponse(r,safe=False)
+    return HttpResponse(r)

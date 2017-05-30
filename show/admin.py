@@ -15,7 +15,7 @@ getdata.short_description = ('گرفتن اطاعات شرکت')
 class Company_Admin(admin.ModelAdmin):
     list_display = ['id1', 'name', 'english_name', 'short_name', 'english_short_name', 'trade_symbol', 'state',
                     'exchange', 'categories']
-    list_filter = ['name']
+    list_filter = ['categories']
     actions = [getdata]
 
     # inlines = [ManagementInline]
@@ -25,7 +25,7 @@ admin.site.register(Company, Company_Admin)
 
 
 class Intradaytrades_Admin(admin.ModelAdmin):
-    list_display = ['instrument', 'date_time', 'close_price', 'real_close_price', 'volume', 'value', 'metaversion']
+    list_display = ['company','instrument', 'date_time', 'close_price', 'real_close_price', 'volume', 'value', 'metaversion']
     list_filter = ['close_price']
 
     # inlines = [ManagementInline]

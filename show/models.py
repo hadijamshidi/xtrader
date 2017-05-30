@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class Company(models.Model):
-    id1 = models.IntegerField(verbose_name='id')
+    id1 = models.IntegerField(unique=True,verbose_name='id')
     name = models.CharField(max_length=80, verbose_name='نام شرکت')
     english_name = models.CharField(max_length=80, verbose_name='نام انگلیسی شرکت')
     short_name = models.CharField(max_length=80, verbose_name='نام کوتاه شرکت')
@@ -15,12 +15,15 @@ class Company(models.Model):
     categories = models.CharField(max_length=80, verbose_name='دسته بندی‌ها')
     metaversion = models.CharField(max_length=80, verbose_name='اطلاعات رکورد')
 
+    def __str__(self):
+        return self.name
+
 
 class Intradaytrades(models.Model):
     company = models.ForeignKey(Company, related_name='Company')
-    id1 = models.IntegerField(verbose_name='id')
+    id1 = models.IntegerField(unique=True,verbose_name='id')
     instrument = models.CharField(max_length=80, verbose_name='نماد')
-    date_time = models.CharField(max_length=80, verbose_name='زمان انجام معامله')
+    date_time = models.CharField(max_length=80, verbose_name='تاریخ انجام معامله')
     open_price = models.CharField(max_length=80, verbose_name='اولین قیمت معاملاتی')
     high_price = models.CharField(max_length=80, verbose_name='بیشترین قیمت معاملاتی')
     low_price = models.CharField(max_length=80, verbose_name='کمترین قیمت معاملاتی')
@@ -36,7 +39,7 @@ class Intradaytrades(models.Model):
 
     def find_Company(self):
         self.company = Company.objects.get(id1=self.id1)
-    find_Company.short_description = ('شرکت')
+    # find_Company.short_description = ('شرکت')
 
     def update(self):
         import requests as a

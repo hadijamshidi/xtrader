@@ -33,7 +33,10 @@ def add_to_db_company(data):
             categories=data['categories'][0]['id'] if 'categories' in data else 'False',
             metaversion=data['meta']['version'] if ('meta' in data and 'version' in data['meta'])else 'False',
         )
-        Company(**company_dict).save()
+        try:
+            Company(**company_dict).save()
+        except Exception:
+            print('Oops: That was no valid number:dupilcate')
 
 
 def intraday_trades_data(company_id):
@@ -71,3 +74,14 @@ def add_to_db_company_intraday_trades(data, company_id):
     for key in needed_keys:
         intraday_trades_dict[key] = data[key]
         Intradaytrades(**intraday_trades_dict, company=Company.objects.get(id=company_id)).save()
+
+
+def duplicate():
+    for i in range(0, 575):
+        a = Company.objects.filter(id1=i)
+        if len(a) > 1:
+            a = a.order_by('-id')
+            b=a.first()
+            for j in a:
+                j.delete()
+            b.save()

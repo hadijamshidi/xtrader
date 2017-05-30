@@ -1,6 +1,6 @@
 import requests as r
 import json
-from show.models import company, intradaytrades
+from show.models import Company, Intradaytrades
 
 server_url = 'http://66.70.160.142:8000/mabna/api'
 
@@ -33,7 +33,7 @@ def add_to_db_company(data):
             categories=data['categories'][0]['id'] if 'categories' in data else 'False',
             metaversion=data['meta']['version'] if ('meta' in data and 'version' in data['meta'])else 'False',
         )
-        company(**company_dict).save()
+        Company(**company_dict).save()
 
 
 def intraday_trades_data(company_id):
@@ -70,4 +70,4 @@ def add_to_db_company_intraday_trades(data, company_id):
     )
     for key in needed_keys:
         intraday_trades_dict[key] = data[key]
-        intradaytrades(**intraday_trades_dict, company=Company.objects.get(id=company_id)).save()
+        Intradaytrades(**intraday_trades_dict, company=Company.objects.get(id=company_id)).save()

@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class company(models.Model):
+class Company(models.Model):
     id1 = models.IntegerField(verbose_name='id')
     name = models.CharField(max_length=80,verbose_name='نام شرکت')
     english_name = models.CharField(max_length=80,verbose_name='نام انگلیسی شرکت')
@@ -13,7 +13,7 @@ class company(models.Model):
     exchange = models.CharField(max_length=80,verbose_name='بازار معاملاتی')
     categories = models.CharField( max_length=80,verbose_name='دسته بندی‌ها')
     metaversion = models.CharField(max_length=80,verbose_name='اطلاعات رکورد')
-class intradaytrades(models.Model):
+class Intradaytrades(models.Model):
     # company = models.ForiengKey(Company)
     # company = models.OneToOneField(company,
     #                             verbose_name=_('company'),

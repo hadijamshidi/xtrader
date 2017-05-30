@@ -39,15 +39,16 @@ def add_to_db_company(data):
             print('Oops: That was no valid number:dupilcate')
 
 
-def intraday_trades_data(company_id):
-    company_intraday_filter = '/exchange/intradaytrades?instrument.stock.company.id={}'.format(company_id)
+def intraday_trades_data(start,finish):
+    company_intraday_filter = '/exchange/intradaytrades?instrument.stock.company.id={},{}&id_op=bw'.format(start,finish)
     output = r.get(server_url, params={'url': company_intraday_filter})
     output = json.loads(output.text)
-    try:
-        data = output['data'][0]
-        add_to_db_company_intraday_trades(data, company_id)
-    except Exception:
-        print('Oops: there is problem at company id: ' + str(company_id))
+    # TODO: create loop for ids
+    # try:
+    #     data = output['data'][0]
+    #     add_to_db_company_intraday_trades(data, company_id)
+    # except Exception:
+    #     print('Oops: there is problem at company id: ' + str(company_id))
 
 
 def add_to_db_company_intraday_trades(data, company_id):
@@ -73,7 +74,7 @@ def add_to_db_company_intraday_trades(data, company_id):
     )
     for key in needed_keys:
         intraday_trades_dict[key] = data[key]
-        Intradaytrades(**intraday_trades_dict, company=Company.objects.get(id=company_id)).save()
+    Intradaytrades(**intraday_trades_dict, company=Company.objects.get(id=company_id)).save()
 
 
 def duplicate():

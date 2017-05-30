@@ -1,12 +1,12 @@
 from django.contrib import admin
-from show.models import company, intradaytrades
+from show.models import Company, Intradaytrades
 
 
 # Register your models here.
 def getdata(self, request, queryset):
     sendsms = request.POST.get('copmanyid')
     import show.getData as f
-    f.company_data()
+    f.company_data(1,500)
 
 
 getdata.short_description = ('گرفتن اطاعات شرکت')
@@ -21,7 +21,7 @@ class Company_Admin(admin.ModelAdmin):
     # inlines = [ManagementInline]
 
 
-admin.site.register(company, Company_Admin)
+admin.site.register(Company, Company_Admin)
 
 
 class Intradaytrades_Admin(admin.ModelAdmin):
@@ -31,4 +31,4 @@ class Intradaytrades_Admin(admin.ModelAdmin):
     # inlines = [ManagementInline]
 
 
-admin.site.register(intradaytrades, Intradaytrades_Admin)
+admin.site.register(Intradaytrades, Intradaytrades_Admin)

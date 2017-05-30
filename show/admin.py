@@ -1,15 +1,23 @@
 from django.contrib import admin
-from show.models import Company, Intradaytrades
+from show.models import Company, Intradaytrades , Isin
 
 
 # Register your models here.
 def getdata(self, request, queryset):
-    sendsms = request.POST.get('copmanyid')
+
     import show.getData as f
     f.company_data(1,500)
 
 
 getdata.short_description = ('گرفتن اطاعات شرکت')
+def getdataisin(self, request, queryset):
+
+    import show.getData as f
+    f.isin_data(1,2)
+
+
+getdataisin.short_description = ('گرفتن اطاعات نماد')
+
 
 
 class Company_Admin(admin.ModelAdmin):
@@ -32,3 +40,12 @@ class Intradaytrades_Admin(admin.ModelAdmin):
 
 
 admin.site.register(Intradaytrades, Intradaytrades_Admin)
+class  Isin_Admin(admin.ModelAdmin):
+    list_display = ['company','name', 'code', 'english_name', 'isin']
+    actions = [getdataisin]
+
+    # inlines = [ManagementInline]
+
+
+admin.site.register(Isin, Isin_Admin)
+

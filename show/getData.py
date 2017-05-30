@@ -1,6 +1,6 @@
 import requests as r
 import json
-from show.models import Company, Intradaytrades
+from show.models import Company, Intradaytrades , Isin
 
 server_url = 'http://66.70.160.142:8000/mabna/api'
 
@@ -86,3 +86,30 @@ def duplicate():
             for j in a:
                 j.delete()
             b.save()
+def isin_data(start, finish):
+    for company_id in range(start, finish):
+        print(company_id)
+        company_filter = '/exchange/instruments?stock.company.id={}'.format(company_id)
+        output = r.get(server_url, params={'url': company_filter})
+        output = json.loads(output.text)
+        data = output['data'][0]
+        add_to_db_isin(data,company_id)
+        try:
+            print(data)
+        except Exception:
+            print('Oops: That was no valid number:' + str(company_id) + " try again")
+
+
+def add_to_db_isin(data,company_id):
+    isin_dict = dict(
+        id1=data['id'] if 'id' in data else 0,
+        name=data['name'] if 'name' in data else 'False',
+        code=data['code'] if 'code' in data else 'False',
+        english_name=data['english_name'] if 'english_name' in data else 'False',
+        isin=data['isin'] if 'isin' in data else 'False',
+        company=Company.objects.get(id1=company_id)
+    )
+    try:
+        Isin(**isin_dict).save()
+    except Exception:
+        print('Oops: That was no valid number:dupilcate')

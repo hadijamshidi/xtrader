@@ -46,3 +46,12 @@ class Intradaytrades(models.Model):
         r = a.get("http://66.70.160.142:8000/mabna/api",
                   params={'url': '/exchange/intradaytrades?_sort=meta.version&meta.version=' + str(
                       self.metaversion) + '&meta.version_op=gt'})
+
+
+class Isin(models.Model):
+    company = models.ForeignKey(Company, related_name='company')
+    id1 = models.IntegerField(unique=True, verbose_name='id')
+    code=models.CharField(max_length=80, verbose_name='کد بورسی')
+    name = models.CharField(max_length=80, verbose_name='نام نماد')
+    english_name = models.CharField(max_length=80, verbose_name='نام انگلیسی نماد')
+    isin = models.CharField(max_length=80, verbose_name='isin')

@@ -13,4 +13,4 @@ def get(request):
         r = requests.get(local.client['url'] + '/maban/api', params=result)
     if local.client['job'] == 'server':
         r = requests.get(local.client['url'] + request.GET['url'], headers=local.client['auth'])
-    return HttpResponse(json.dumps(r))
+    return JsonResponse(r)

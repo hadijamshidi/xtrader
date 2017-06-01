@@ -21,7 +21,7 @@ class Company(models.Model):
 
 class Intradaytrades(models.Model):
     company = models.ForeignKey(Company, related_name='Company')
-    id1 = models.IntegerField(unique=True,verbose_name='id')
+    # id1 = models.IntegerField(unique=False,verbose_name='id',default=0)
     instrument = models.CharField(max_length=80, verbose_name='نماد')
     date_time = models.CharField(max_length=80, verbose_name='تاریخ انجام معامله')
     open_price = models.CharField(max_length=80, verbose_name='اولین قیمت معاملاتی')

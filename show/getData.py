@@ -8,12 +8,13 @@ server_url = 'http://66.70.160.142:8000/mabna/api'
 def company_data():
     url = '/stock/companies'
     step = 100
-    # # hadi got until 3299 begin from 3300
-    for i in range(800, 1400, step):
+    wrongs = []
+    for i in range(0, 1400, step):
         print('request for getting Companies from {} until {}'.format(i, i + step))
         output = r.get(server_url, params={'url': url + '?_count=100&_skip={}'.format(i)}).text
         companies = json.loads(output)['data']
-        add_to_db_company(companies, i)
+        w = add_to_db_company(companies, i)
+        wrongs.append(w)
         # for company_id in range(start, finish):
         #     print(company_id)
         #     company_filter = '/stock/companies?id={}'.format(company_id)

@@ -96,6 +96,7 @@ def call_threads_for_marketWatch():
     # print('finish')
     return wrong
 
+
 def get_market_watch_data(stocks, user, i):
     wrong_symbol_ids = []
     for index, stock in enumerate(stocks):
@@ -106,22 +107,39 @@ def get_market_watch_data(stocks, user, i):
             trades_data = json.loads(output)
             # print(trades_data)
             if symbol_id == trades_data['SymbolId']:
-                # wrong_symbol_ids.append('difrrent ids at {}'.format(symbol_id))
-                trades_dict = dict(
-                    symbol_id=trades_data['SymbolId'],
-                    closing_price=trades_data['ClosingPrice'],
-                    first_trade_price=trades_data['FirstTradePrice'],
-                    last_trade_price=trades_data['LastTradePrice'],
-                    lowest_trade_price=trades_data['LowestTradePrice'],
-                    highest_trade_price=trades_data['HighestTradePrice']
-                )
+                trades_dict = {}
+                all_name = MarketWatch.__dict__.keys()
+                for i in all_name:
+                    if i not in ['__doc__', 'MultipleObjectsReturned', '_meta', '__module__', 'id', '__str__',
+                                 'DoesNotExist']:
+
+                        # wrong_symbol_ids.append('difrrent ids at {}'.format(symbol_id))
+                        trades_dict[i] = trades_data[i]
+                        for i in range(1, 4):
+                            j = trades_data['BidAsk'][i]['RowPlace']
+                            trades_dict['pd' + str(j)] = trades_data['BidAsk'][i]['AskPrice']
+                            trades_dict['zd' + str(j)] = trades_data['BidAsk'][i]['AskNumber']
+                            trades_dict['qd' + str(j)] = trades_data['BidAsk'][i]['AskQuantity']
+                            trades_dict['po' + str(j)] = trades_data['BidAsk'][i]['BidPrice']
+                            trades_dict['zo' + str(j)] = trades_data['BidAsk'][i]['BidNumber']
+                            trades_dict['qo' + str(j)] = trades_data['BidAsk'][i]['BidQuantity']
+
+                # trades_dict = dict(
+                #             symbol_id=trades_data['SymbolId'],
+                #             closing_price=trades_data['ClosingPrice'],
+                #             first_trade_price=trades_data['FirstTradePrice'],
+                #             last_trade_price=trades_data['LastTradePrice'],
+                #             lowest_trade_price=trades_data['LowestTradePrice'],
+                #             highest_trade_price=trades_data['HighestTradePrice']
+                #             # isin
+                #         )
                 new_marketWatch = MarketWatch(**trades_dict)
             else:
                 print('different ids at {}'.format(symbol_id))
-                wrong_symbol_ids.append(dict(id=symbol_id,problem='different ids'))
+                wrong_symbol_ids.append(dict(id=symbol_id, problem='different ids'))
         except Exception:
             print('failed to json.loads output at symbol id: {}'.format(symbol_id))
             # print('symbol id: {} has some problem please check later!'.format(symbol_id))
-            wrong_symbol_ids.append(dict(id=symbol_id,problem='failed to json.loads'))
+            wrong_symbol_ids.append(dict(id=symbol_id, problem='failed to json.loads'))
 
     return wrong_symbol_ids

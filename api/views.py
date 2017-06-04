@@ -2,6 +2,7 @@ from django.shortcuts import render
 from api.data import create_company_table , call_threads_for_marketWatch
 from api.models import Stock
 from django.http import HttpResponse
+import json
 # Create your views here.
 def stock(request):
     stocks = Stock.objects.all()
@@ -12,7 +13,7 @@ def stock(request):
                             'mabna_short_name':stock.mabna_short_name,'mabna_kind':stock.mabna_kind})
         print(stocks_list)
 
-    return HttpResponse(stocks_list)
+    return HttpResponse(json.dump(stocks_list))
 def company():
     call_threads_for_marketWatch()
     return render('my_programs.html',

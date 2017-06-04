@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from api.data import create_company_table , call_threads_for_marketWatch
 from api.models import Stock
 from django.http import HttpResponse
+from api import redis
 import json
+
+
 # Create your views here.
 def stock(request):
     stocks = Stock.objects.all()
@@ -13,7 +14,15 @@ def stock(request):
                             'mabna_short_name':stock.mabna_short_name,'mabna_kind':stock.mabna_kind})
         print(stocks_list)
     return HttpResponse(json.dumps(stocks_list))
-def company():
-    call_threads_for_marketWatch()
-    return render('my_programs.html',
-                  {'regs': 0})
+
+def history(request):
+    symbol_ids = redis.keys()
+    histories = []
+    for symbol_id in symbol_ids:
+        symbol_id = symbol_id.decode()
+        symbol_history_dict = {}
+        symbol_history_dict[symbol_id] = {}
+        for key in ['date', 'close', 'open', 'high', 'low', 'volume']:
+            symbol_history_dict[symbol_id][key] = redis.hget(name=symbol_id, key=key)
+        histories.append(symbol_history_dict)
+    return HttpResponse(json.dumps(histories))

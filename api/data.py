@@ -2,6 +2,7 @@ from api.models import Stock, MarketWatch
 from show.models import Company
 import requests as r
 import json
+from api import redis
 from threading import Thread
 
 server_url = 'http://66.70.160.142:8000/mabna/api'
@@ -146,8 +147,8 @@ def get_market_watch_data(stocks, user, i):
 
 
 def readstock():
-    x=r.get('http://66.70.160.142/api/stock/').text
-    x=json.loads(x)
+    x = r.get('http://66.70.160.142/api/stock/').text
+    x = json.loads(x)
     for stock in x:
         d = {}
         for key in stock:
@@ -155,4 +156,19 @@ def readstock():
         Stock(**d).save()
 
 
-
+def read_history():
+    history = r.get('http://66.70.160.142/api/history/').text
+    history = json.loads(history)
+    print(history)
+    for data in history:
+        for symbol_id in data:
+            for key in data[symbol_id]:
+                print(symbol_id,key)
+                # redis.hset(symbol_id, key, data[symbol_id][key])
+def jalalitotimestamp(g):
+    from . import jalali
+    jdate="{}/{}/{}".format(g[:4], g[4:6], g[6:8])
+    s=jalali.Persian(jdate).gregorian_string("{}/{}/{}")
+    import time
+    import datetime
+    return time.mktime(datetime.datetime.strptime(s, "%Y/%m/%d").timetuple())

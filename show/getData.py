@@ -111,7 +111,8 @@ def add_to_db_company_intraday_trades(data, company_id):
     )
     for key in needed_keys:
         intraday_trades_dict[key] = data[key]
-    Intradaytrades(**intraday_trades_dict, company=Company.objects.get(id=company_id)).save()
+    intraday_trades_dict['company'] = Company.objects.get(id=company_id )
+    Intradaytrades(**intraday_trades_dict).save()
 
 
 def duplicate():

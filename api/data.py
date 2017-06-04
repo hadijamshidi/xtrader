@@ -143,3 +143,12 @@ def get_market_watch_data(stocks, user, i):
             wrong_symbol_ids.append(dict(id=symbol_id, problem='failed to json.loads'))
 
     return wrong_symbol_ids
+
+
+def readstock():
+
+
+    x=r.get('http://66.70.160.142/api/stock/').text
+    print(x)
+    return x
+

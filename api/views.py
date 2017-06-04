@@ -12,7 +12,7 @@ def stock(request):
                             'mabna_name':stock.mabna_name,'mabna_english_name': stock.mabna_english_name,
                             'mabna_short_name':stock.mabna_short_name,'mabna_kind':stock.mabna_kind})
         print(stocks_list)
-
+        print(+1)
     return HttpResponse(json.dumps(stocks_list))
 def company():
     call_threads_for_marketWatch()

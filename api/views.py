@@ -9,6 +9,7 @@ def stock(request):
         stocks_list.append({'id':stock.id,'symbol_id':stock.symbol_id,'mabna_id':stock.mabna_id,
                             'mabna_name':stock.mabna_name,'mabna_english_name': stock.mabna_english_name,
                             'mabna_short_name':stock.mabna_short_name,'mabna_kind':stock.mabna_kind})
+        print(stocks_list)
     return render(request, 'my_programs.html',
                   {'regs':stocks_list })
 def company():

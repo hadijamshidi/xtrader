@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime
 
 # Create your models here.
 class Stock(models.Model):
@@ -56,7 +56,7 @@ class MarketWatch(models.Model):
 
     BuyIndividualCount = models.IntegerField()
     BuyIndividualVolume = models.BigIntegerField()
-    buy_individual_volume_percentage = models.FloatField()
+    BuyIndividualVolumePercentage = models.FloatField()
 
     SellFirmCount = models.IntegerField()
     SellFirmVolume = models.BigIntegerField()
@@ -74,7 +74,7 @@ class MarketWatch(models.Model):
     ExchangeName = models.CharField(max_length=50)
     ExchangeCode = models.CharField(max_length=50)
 
-    LastTradeDate = models.DateField()
+    LastTradeDate = models.DateField(default=datetime.now())
 
     FirstTradePrice = models.DecimalField(max_digits=7, decimal_places=1)
     LastTradePrice = models.DecimalField(max_digits=7, decimal_places=1)
@@ -100,8 +100,8 @@ class MarketWatch(models.Model):
     TotalNumberOfTrades = models.BigIntegerField()
     TotalTradeValue = models.BigIntegerField()
     Eps = models.IntegerField()
-    PricePerEarningGroup = models.FloatField()
-    PricePerEarning = models.FloatField()
+    PricePerEarningGroup = models.DecimalField(max_digits=4, decimal_places=2)
+    PricePerEarning = models.DecimalField(max_digits=4, decimal_places=2)
     FreeFloatPercent = models.DecimalField(max_digits=4, decimal_places=2)
     MonthAverageVolume = models.BigIntegerField()
     InstrumentMarketValue = models.BigIntegerField()

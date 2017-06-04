@@ -146,9 +146,13 @@ def get_market_watch_data(stocks, user, i):
 
 
 def readstock():
-
-
     x=r.get('http://66.70.160.142/api/stock/').text
-    print(x)
-    return x
+    x=json.loads(x)
+    for stock in x:
+        d = {}
+        for key in stock:
+            d[key] = stock[key]
+        Stock(**d).save()
+
+
 

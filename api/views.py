@@ -1,4 +1,4 @@
-from api.models import Stock
+from api.models import Stock,Status
 from django.http import HttpResponse
 from api import redis
 import json

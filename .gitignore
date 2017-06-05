@@ -7,4 +7,8 @@ xtrader/localsetting.py
 database/
 mabna/__pycache__/*
 show/__pycache__/*
+api/__pycache__/*
 */__pycache__/*
+mabna/migrations/*
+show/migrations/*
+api/migrations/*

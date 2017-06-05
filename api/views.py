@@ -1,4 +1,6 @@
-from api.models import Stock
+from django.db.models.functions import datetime
+
+from api.models import Stock,MarketWatch
 from django.http import HttpResponse
 from api import redis
 import json
@@ -26,3 +28,10 @@ def history(request):
             symbol_history_dict[symbol_id][key] = redis.hget(name=symbol_id, key=key)
         histories.append(symbol_history_dict)
     return HttpResponse(json.dumps(histories))
+def update_history(request):
+    c=MarketWatch.objects.all()
+    for m in c:
+
+        if str(m.LastTradeDate) == str(datetime.datetime.today())[:10]:
+            #TO DO
+            pass

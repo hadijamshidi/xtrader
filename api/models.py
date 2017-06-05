@@ -11,6 +11,9 @@ class Stock(models.Model):
     mabna_short_name = models.CharField(max_length=80)
     mabna_kind = models.CharField(max_length=80, default='Nan')
 
+    def __str__(self):
+        return self.symbol_id
+
 
 class MarketWatch(models.Model):
     # isin = models.CharField(max_length=80)
@@ -106,3 +109,5 @@ class MarketWatch(models.Model):
     MonthAverageVolume = models.BigIntegerField()
     InstrumentMarketValue = models.BigIntegerField()
     NumberOfSharesOrBonds = models.BigIntegerField()
+    def __str__(self):
+        return self.SymbolId

@@ -6,7 +6,7 @@ from api.models import Stock,MarketWatch
 
 class Stock_Admin(admin.ModelAdmin):
     list_display = ['symbol_id', 'isin', 'mabna_id', 'mabna_name', 'mabna_english_name', 'mabna_short_name', 'mabna_kind']
-
+    search_fields = ['mabna_short_name']
 admin.site.register(Stock, Stock_Admin)
 class MarketWatch_Admin(admin.ModelAdmin):
     list_display = ['SymbolId','InstrumentName','InstrumentStateTitle','ExchangeName', 'LastTradePrice', 'LastTradeDate']

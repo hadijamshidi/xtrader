@@ -23,7 +23,7 @@ getdataisin.short_description = ('گرفتن اطاعات نماد')
 class Company_Admin(admin.ModelAdmin):
     list_display = ['id1', 'name', 'english_name', 'short_name', 'english_short_name', 'trade_symbol', 'state',
                     'exchange', 'categories']
-    list_filter = ['categories']
+    search_fields = ['trade_symbol']
     actions = [getdata]
 
     # inlines = [ManagementInline]

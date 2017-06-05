@@ -1,6 +1,7 @@
 import requests as r
 import json
-from show.models import Company, Intradaytrades, Isin
+from .models import Company, Intradaytrades, Isin
+from api.models import Stock
 
 server_url = 'http://66.70.160.142:8000/mabna/api'
 
@@ -153,3 +154,10 @@ def add_to_db_isin(data, company_id):
         Isin(**isin_dict).save()
     except Exception:
         print('Oops: That was no valid number:dupilcate')
+def cleancompany():
+    companys=Company.objects.all()
+    for company in companys:
+        if not company.exchange:
+            Stock.objects.filter(mabna_english_name=company.trade_symbol).delete()
+            company.delete()
+

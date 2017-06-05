@@ -158,8 +158,8 @@ def read_history():
     for data in history:
         for symbol_id in data:
             for key in data[symbol_id]:
-                print(symbol_id,key)
-                # redis.hset(symbol_id, key, data[symbol_id][key])
+                # print(symbol_id,key)
+                redis.hset(symbol_id, key, data[symbol_id][key])
 def jalalitotimestamp(g):
     from . import jalali
     jdate="{}/{}/{}".format(g[:4], g[4:6], g[6:8])
@@ -167,4 +167,9 @@ def jalalitotimestamp(g):
     import time
     import datetime
     return time.mktime(datetime.datetime.strptime(s, "%Y/%m/%d").timetuple())
+
+
+
+
+
 

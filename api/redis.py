@@ -94,3 +94,16 @@ def get_historical_data_stock(stock):
             condition = False
             print('this stock has no database')
     return historical_data
+def cleanmr():
+    from api import redis as r
+    import json
+    s=[]
+    for i in r.keys():
+        c = r.hget(i, 'close')
+
+        c = json.loads(c)
+
+        if len(c)<30:
+            s.append(i)
+
+    return s

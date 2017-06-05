@@ -157,7 +157,11 @@ def add_to_db_isin(data, company_id):
 def cleancompany():
     companys=Company.objects.all()
     for company in companys:
-        if not company.exchange:
-            Stock.objects.filter(mabna_english_name=company.trade_symbol).delete()
+        # print(company)
+        if company.exchange=='False':
+            print(company.trade_symbol)
+            t=Stock.objects.filter(mabna_short_name=company.trade_symbol)
+            print(t)
+            t.delete()
             company.delete()
 

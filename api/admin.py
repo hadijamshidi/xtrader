@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from api.models import Stock,MarketWatch
+from api.models import Stock,MarketWatch,Status
 
 
 class Stock_Admin(admin.ModelAdmin):
@@ -12,3 +12,5 @@ class MarketWatch_Admin(admin.ModelAdmin):
     list_display = ['SymbolId','InstrumentName','InstrumentStateTitle','ExchangeName', 'LastTradePrice', 'LastTradeDate']
 
 admin.site.register(MarketWatch, MarketWatch_Admin)
+# admin.site.register(Stock, Stock_Admin)
+admin.site.register(Status)

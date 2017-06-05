@@ -79,7 +79,7 @@ def create_company_table(companies, i):
     return wrong_ids
 
 
-def call_threads_for_marketWatch():
+def call_threads_for_marketWatch(step=100):
     login_data = {
         'UserName': 'farabi_hadi',
         'Password': 'h159753159753H'
@@ -88,17 +88,16 @@ def call_threads_for_marketWatch():
     user.post('http://api.farabixo.com/api/account/repo/login', data=login_data)
     MarketWatch.objects.all().delete()
     stocks = Stock.objects.all()
-    # wrong = get_market_watch_data(stocks, user, 0)
-    step = 150
-    for i in range(0, 600, step):
-        discription = 'thread for {} until {}'.format(i, i + step)
-        t = Thread(target=get_market_watch_data, name=discription,
-                   args=(stocks[i:i + step], user, i))
-        # t.setDaemon(True)
-        t.start()
-
-    #     # t.join()
-    return 'finish'
+    get_market_watch_data(stocks, user, 0)
+    # step = 100
+    # for i in range(0, 600, step):
+    #     discription = 'thread for {} until {}'.format(i, i + step)
+    #     t = Thread(target=get_market_watch_data, name=discription,
+    #                args=(stocks[i:i + step], user, i))
+    #     # t.setDaemon(True)
+    #     t.start()
+    # # t.join()
+    # return wrong
 
 
 def get_market_watch_data(stocks, user, i):
@@ -135,10 +134,21 @@ def get_market_watch_data(stocks, user, i):
             wrong_symbol_ids.append(dict(id=symbol_id, problem='different ids'))
             # wrong_symbol_ids.append(dict(id=symbol_id, problem='failed to json.loads'))
         try:
+            # call_redis(trades_dict)
+            # redis.set([symbol_id + ' test'],trades_dict)
+            # redis.delete(["[symbol_id + ' test']"],trades_dict)
             MarketWatch(**trades_dict).save()
+            pass
         except Exception:
             wrong_symbol_ids.append(dict(id=symbol_id, problem='failed to save'))
-    return wrong_symbol_ids
+    # return wrong_symbol_ids
+
+
+def call_redis(trades):
+    symbolId = trades['SymbolId']
+    for key in trades:
+        if key != 'SymbolId':
+            redis.hset(symbolId + ' test',key=key,value=trades[key])
 
 
 def readstock():
@@ -154,17 +164,18 @@ def readstock():
 def read_history():
     history = r.get('http://66.70.160.142/api/history/').text
     history = json.loads(history)
-    print(history)
+    # print(history)
     for data in history:
         for symbol_id in data:
             for key in data[symbol_id]:
-                print(symbol_id,key)
-                # redis.hset(symbol_id, key, data[symbol_id][key])
+                # print(symbol_id,key)
+                redis.hset(symbol_id, key, data[symbol_id][key])
+
+
 def jalalitotimestamp(g):
     from . import jalali
-    jdate="{}/{}/{}".format(g[:4], g[4:6], g[6:8])
-    s=jalali.Persian(jdate).gregorian_string("{}/{}/{}")
+    jdate = "{}/{}/{}".format(g[:4], g[4:6], g[6:8])
+    s = jalali.Persian(jdate).gregorian_string("{}/{}/{}")
     import time
     import datetime
     return time.mktime(datetime.datetime.strptime(s, "%Y/%m/%d").timetuple())
-

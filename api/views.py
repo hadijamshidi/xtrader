@@ -1,6 +1,4 @@
-from django.db.models.functions import datetime
-
-from api.models import Stock,MarketWatch
+from api.models import Stock
 from django.http import HttpResponse
 from api import redis
 import json
@@ -28,10 +26,23 @@ def history(request):
             symbol_history_dict[symbol_id][key] = redis.hget(name=symbol_id, key=key)
         histories.append(symbol_history_dict)
     return HttpResponse(json.dumps(histories))
-def update_history(request):
-    c=MarketWatch.objects.all()
-    for m in c:
 
-        if str(m.LastTradeDate) == str(datetime.datetime.today())[:10]:
-            #TO DO
-            pass
+
+def marketwatch(request):
+    if Status.objects.get(job='server').market_watch == 'ready':
+        from api.models import MarketWatch
+        query = request.GET['query']
+        results = MarketWatch.objects.raw('select * from api_marketwatch where {}'.format(query))
+        final_result = []
+        for result in results:
+            final_result.append(result.to_dict())
+        return HttpResponse(json.dumps(final_result))
+    else:
+        return HttpResponse('database is updating please try a min later')
+def update_MarketWatch(request):
+    from api import testdate
+    if Status.objects.get(job='server').number_of_requests == 0:
+        testdate.update_MarketWatch()
+    else:
+        return HttpResponse('workers are working')
+    # returnadmin.site.register(MarketWatch)

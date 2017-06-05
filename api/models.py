@@ -111,3 +111,31 @@ class MarketWatch(models.Model):
     NumberOfSharesOrBonds = models.BigIntegerField()
     def __str__(self):
         return self.SymbolId
+
+    def to_dict(self):
+        attrs = [i for i in self.__dict__.keys() if i[:1] != '_']
+        obj_dict = {}
+        for attr in attrs:
+            if attr != 'LastTradeDate':
+                print(attr)
+                print(getattr(self, attr))
+                if is_number(getattr(self, attr)):
+                    obj_dict[attr] = float(getattr(self, attr))
+                else:
+                    obj_dict[attr] = str(getattr(self, attr))
+            else:
+                obj_dict[attr] = str(getattr(self, attr))
+        return obj_dict
+
+
+class Status(models.Model):
+    market_watch = models.CharField(max_length=50)
+    job = models.CharField(max_length=50)
+    market_watch_updating_permission = models.CharField(max_length=50, default='allowed')
+    number_of_requests = models.IntegerField(default=0)
+
+    def permision(self):
+        if self.market_watch_updating_permission == 'allowed':
+            return True
+        else:
+            return False

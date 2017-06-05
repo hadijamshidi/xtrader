@@ -9,6 +9,6 @@ class Stock_Admin(admin.ModelAdmin):
 
 admin.site.register(Stock, Stock_Admin)
 class MarketWatch_Admin(admin.ModelAdmin):
-    list_display = ['SymbolId', 'LastTradeDate', 'FirstTradePrice']
+    list_display = [ 'LastTradeDate', 'FirstTradePrice']
 
 admin.site.register(MarketWatch, MarketWatch_Admin)

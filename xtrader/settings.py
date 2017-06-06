@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mabna',
     'show',
     'api',
+    'main',
 ]
 
 MIDDLEWARE = [

@@ -113,18 +113,7 @@ class MarketWatch(models.Model):
         return self.SymbolId
 
     def to_dict(self):
-        attrs = [i for i in self.__dict__.keys() if i[:1] != '_']
-        obj_dict = {}
-        for attr in attrs:
-            if attr != 'LastTradeDate':
-                print(attr)
-                print(getattr(self, attr))
-                if is_number(getattr(self, attr)):
-                    obj_dict[attr] = float(getattr(self, attr))
-                else:
-                    obj_dict[attr] = str(getattr(self, attr))
-            else:
-                obj_dict[attr] = str(getattr(self, attr))
+        obj_dict = {'SymbolId':self.SymbolId}
         return obj_dict
 
 

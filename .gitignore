@@ -12,3 +12,6 @@ api/__pycache__/*
 mabna/migrations/*
 show/migrations/*
 api/migrations/*
+main/__pycache__/*
+main/migrations/*
+

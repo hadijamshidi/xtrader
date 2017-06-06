@@ -39,7 +39,7 @@ urlpatterns = [
     # url(r'^main/', views.main, name='main'),
     # url(r'^favicon.ico', views.favicon, name='favicon'),
 
-    # url(r'^about-us', views.about_us, name='about_us'),
+    url(r'^about-us', views.about_us, name='about_us'),
     # url(r'^contact-us', views.contact_us, name='contact_us'),
 
     # url(r'^test', views.test, name='test'),

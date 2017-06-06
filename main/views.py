@@ -153,9 +153,9 @@ def display(request):
 #         return Http404('this is not a Post!')
 #
 #
-# def about_us(request):
-#     bot.send_details(request, 'about us')
-#     return render(request, 'aboutus.html', {'username': request.user.username})
+def about_us(request):
+    # bot.send_details(request, 'about us')
+    return render(request, 'aboutus.html', {'username': request.user.username})
 #
 #
 # def test(request):

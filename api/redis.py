@@ -49,12 +49,12 @@ def create_historical_table(num):
     # num = 54
     stocks = Stock.objects.all()[num:]
     for stock in stocks:
-        print('stock number: {}'.format(num))
-        print('creating database for {} calling: {}'.format(stock.symbol_id, stock.mabna_short_name))
+        # print('stock number: {}'.format(num))
+        # print('creating database for {} calling: {}'.format(stock.symbol_id, stock.mabna_short_name))
         data = get_historical_data_stock(stock)
         for key in data:
             r.hset(stock.symbol_id, key, data[key])
-        print('{} database created'.format(stock.symbol_id))
+        # print('{} database created'.format(stock.symbol_id))
         num += 1
 
 
@@ -71,14 +71,14 @@ def get_historical_data_stock(stock):
     condition = True
     i = 0
     while condition:
-        print('request to get {} to {}'.format(i, i + step))
+        # print('request to get {} to {}'.format(i, i + step))
         url = '/exchange/trades?instrument.id={}&_count={}&_skip={}&_sort=-date_time'.format(stock.mabna_id,
                                                                                              step, i)
         output = re.get('http://66.70.160.142:8000/mabna/api', params={'url': url}).text
         history = json.loads(output)['data']
         if len(history) > 0:
             condition = len(history) == step
-            print('condition: {}'.format(condition))
+            # print('condition: {}'.format(condition))
             for day in history:
                 if 'date_time' in day:
                     historical_data['date'].append(day['date_time'])
@@ -87,23 +87,20 @@ def get_historical_data_stock(stock):
                     historical_data['high'].append(day['high_price'])
                     historical_data['open'].append(day['open_price'])
                     historical_data['volume'].append(day['volume'])
-                else:
-                    print('no date time')
+                # else:
+                #     print('no date time')
             i += step
         else:
             condition = False
-            print('this stock has no database')
+            # print('this stock has no database')
     return historical_data
-def cleanmr():
+def clean_historical_data_stock():
     from api import redis as r
     import json
-    s=[]
-    for i in r.keys():
-        c = r.hget(i, 'close')
-
-        c = json.loads(c)
-
-        if len(c)<30:
-            s.append(i)
-
-    return s
+    incorrect_keys=[]
+    for keys in r.keys():
+        close_price = r.hget(keys, 'close')
+        close_price = json.loads(close_price)
+        if len(close_price)<30:
+            incorrect_keys.append(keys)
+    return incorrect_keys

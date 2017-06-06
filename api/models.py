@@ -18,7 +18,6 @@ class Stock(models.Model):
 class MarketWatch(models.Model):
     # isin = models.CharField(max_length=80)
     SymbolId = models.CharField(max_length=80)
-    # TODO: setting FloatField for tow decimal: 1.22 and handle decimal and optional Fields
 
     InstrumentName = models.CharField(max_length=80)
     InstrumentTitle = models.CharField(max_length=80)
@@ -26,7 +25,7 @@ class MarketWatch(models.Model):
     InstrumentStateCode = models.CharField(max_length=50)
     InstrumentStateTitle = models.CharField(max_length=50)
     BaseQuantity = models.BigIntegerField()
-    # TODO: BidAsk model:
+
 
     pd1 = models.DecimalField(max_digits=7, decimal_places=1)
     zd1 = models.IntegerField()

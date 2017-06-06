@@ -14,21 +14,21 @@ def get_data_companies():
     wrong = []
     companies = Company.objects.all()
     for i, company in enumerate(companies):
-        print('request for getting Companies with english name {} for {}-th company with mabna id {}'.format(
-            company.trade_symbol, i, company.id1))
+        # print('request for getting Companies with english name {} for {}-th company with mabna id {}'.format(
+        #     company.trade_symbol, i, company.id1))
         outputs = r.get(server_url,
                         params={'url': url + '?short_name={}&type=share'.format(company.trade_symbol)}).text
         try:
             symbols = json.loads(outputs)['data']
-            print('{} symbols found for {}'.format(len(symbols), company.trade_symbol))
+            # print('{} symbols found for {}'.format(len(symbols), company.trade_symbol))
             for symbol in symbols:
                 if symbol['short_name'] == company.trade_symbol:
                     create_company_table_new(symbol)
-                    print('{} symbol and isin found'.format(company.trade_symbol))
-                else:
-                    print('{} bullshit symbol for symbol: {}'.format(symbol['short_name'], company.trade_symbol))
+                    # print('{} symbol and isin found'.format(company.trade_symbol))
+                # else:
+                #     print('{} bullshit symbol for symbol: {}'.format(symbol['short_name'], company.trade_symbol))
         except Exception:
-            print('failed to handle {}'.format(company.trade_symbol))
+            # print('failed to handle {}'.format(company.trade_symbol))
             wrong.append(company.trade_symbol)
 
 
@@ -52,14 +52,14 @@ def create_company_table_new(company):
         )
         new_company = Stock(**company_data)
         new_company.save()
-        print('{} added'.format(company['short_name']))
+        # print('{} added'.format(company['short_name']))
 
 
 def create_company_table(companies, i):
-    print(len(companies))
+    # print(len(companies))
     wrong_ids = []
     for index, company in enumerate(companies):
-        print('trying to add company number: {} type:{}'.format(i + index, company['type']))
+        # print('trying to add company number: {} type:{}'.format(i + index, company['type']))
         if company['type'] == 'share':
             company_data = dict(
                 symbol_id=company['code'],
@@ -71,11 +71,11 @@ def create_company_table(companies, i):
                 mabna_kind=company['type'],
             )
             new_company = Stock(**company_data)
-            print('added')
+            # print('added')
             new_company.save()
         else:
             wrong_ids.append(company['code'])
-            print('{} is not share'.format(company['code']))
+            # print('{} is not share'.format(company['code']))
     return wrong_ids
 
 
@@ -105,7 +105,7 @@ def get_market_watch_data(stocks, user, i):
     wrong_symbol_ids = []
     for index, stock in enumerate(stocks):
         symbol_id = stock.symbol_id
-        print('trying to get data for symbol index: {} with mabna id: {}'.format(i + index, stock.mabna_id))
+        # print('trying to get data for symbol index: {} with mabna id: {}'.format(i + index, stock.mabna_id))
         output = user.get('http://api.farabixo.com/api/pub/GetSymbol', params={'SymbolId': symbol_id}).text
         try:
             trades_data = json.loads(output)
@@ -141,32 +141,32 @@ def get_market_watch_data(stocks, user, i):
     return wrong_symbol_ids
 
 
-def readstock():
-    x = r.get('http://66.70.160.142/api/stock/').text
-    x = json.loads(x)
-    for stock in x:
-        d = {}
+def read_stock():
+    stocks_text = r.get('http://66.70.160.142/api/stock/').text
+    stocks_data = json.loads(stocks_text)
+    for stock in stocks_data:
+        stock_dict = {}
         for key in stock:
-            d[key] = stock[key]
-        Stock(**d).save()
+            stock_dict[key] = stock[key]
+        Stock(**stock_dict).save()
 
 
 def read_history():
     history = r.get('http://66.70.160.142/api/history/').text
-    history = json.loads(history)
-    print(history)
-    for data in history:
+    history_data = json.loads(history)
+    # print(history)
+    for data in history_data:
         for symbol_id in data:
             for key in data[symbol_id]:
                 # print(symbol_id,key)
                 redis.hset(symbol_id, key, data[symbol_id][key])
-def jalalitotimestamp(g):
+def jalali_to_timestamp(jalali_date):
     from . import jalali
-    jdate="{}/{}/{}".format(g[:4], g[4:6], g[6:8])
-    s=jalali.Persian(jdate).gregorian_string("{}/{}/{}")
+    jdate="{}/{}/{}".format(jalali_date[:4], jalali_date[4:6], jalali_date[6:8])
+    gorgeain_date=jalali.Persian(jdate).gregorian_string("{}/{}/{}")
     import time
     import datetime
-    return time.mktime(datetime.datetime.strptime(s, "%Y/%m/%d").timetuple())
+    return time.mktime(datetime.datetime.strptime(gorgeain_date, "%Y/%m/%d").timetuple())
 
 
 

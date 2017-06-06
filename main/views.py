@@ -5,11 +5,16 @@ from django.contrib.auth.decorators import login_required
 # from account.forms import UserLoginForm
 # from influxdb import DataFrameClient
 # from bot import bot
-# from .models import Symbol
-# from . import indicator
+from numpy.distutils.misc_util import as_list
+
+from api.models import Stock as Symbol
+import json
+
+from main import indicator
+
+
 # from . import data_handling as dh
 
-# import json
 #
 # influx_client = DataFrameClient(settings.INFLUX_DB['host'], settings.INFLUX_DB['port'], settings.INFLUX_DB['user'],
 #                                 settings.INFLUX_DB['password'], settings.INFLUX_DB['db_name'])
@@ -39,25 +44,50 @@ from django.contrib.auth.decorators import login_required
 #                    'username': request.user.username})
 #
 #
-# def symbol_search(request, query):
-#     symbols = Symbol.objects.filter(symbol_name__istartswith=query, has_DB=True) \
-#               | Symbol.objects.filter(eng_name__icontains=query, has_DB=True) \
-#         # | Symbol.objects.filter(name__icontain=query)
-#     symbol_max_results = 8
-#     if symbols.count() < symbol_max_results:
-#         symbols = symbols | Symbol.objects.filter(symbol_name__icontains=query, has_DB=True)
-#     results = [ob.as_json() for ob in symbols]
-#     mydict = dict(
-#         items=results,
-#     )
-#     return HttpResponse(json.dumps(mydict, ensure_ascii=False).encode("utf8"),
-#                         content_type="application/json; charset=utf-8")
+def symbol_search(request, query):
+    symbols = Symbol.objects.filter(mabna_short_name__istartswith=query) \
+              | Symbol.objects.filter(mabna_english_name__icontains=query) \
+        # | Symbol.objects.filter(name__icontain=query)
+    symbol_max_results = 8
+    if symbols.count() < symbol_max_results:
+        symbols = symbols | Symbol.objects.filter(mabna_name__icontains=query)
+    results = [ob.as_json() for ob in symbols]
+    mydict = dict(
+        items=results,
+    )
+    return HttpResponse(json.dumps(mydict, ensure_ascii=False).encode("utf8"),
+                        content_type="application/json; charset=utf-8")
+
+
 #
 #
 # @login_required(login_url='/account/login/')
+def get_data(request, name):
+    from api import redis as r
+    from api import data
+    import pandas as pd
+    needs = ['open', 'high', 'low', 'close','volume']
+    data_dict = dict()
+    for need in needs:
+        data_dict[need] = json.loads(r.hget(name=name, key=need))[::-1]
+    days = eval(r.hget(name=name, key='date'))[::-1]
+    date = [data.jalali_to_timestamp(day) for day in days]
+    data_dict['date'] = date
+    df = pd.DataFrame(data=data_dict, index=date)
+    df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
+    stock = Symbol.objects.get(symbol_id=name)
+    stock_information = dict(
+        name=stock.mabna_short_name,
+        # measurement_name=name,
+        per_name=stock.mabna_name,
+    )
+    stock_history = df.to_json(orient='values')
+
+    stock_information['items'] = stock_history
+    return JsonResponse(json.dumps(stock_information), safe=False)
+
+
 # def get_data(request, name):
-#     if not request.user.username == 'aidin':
-#         bot.send_message(request.user.username + ' search for symbol ' + name)
 #     result = influx_client.query("SELECT * FROM {measurement_name}".format(measurement_name=name))
 #     per_name = Symbol.objects.filter(eng_name=name).first().symbol_name
 #
@@ -79,13 +109,13 @@ from django.contrib.auth.decorators import login_required
 #         return JsonResponse(json.dumps(mydict), safe=False)
 #     else:
 #         return JsonResponse(json.dumps(mydict), safe=False)
-#
-#
-# def indicators_api(request):
-#     if request.method == 'POST':
-#         return JsonResponse(json.dumps(indicator.get_group_api()), safe=False)
-#     else:
-#         return JsonResponse(json.dumps({'api': 'null'}), safe=False)
+
+
+def indicators_api(request):
+    if request.method == 'POST':
+        return JsonResponse(json.dumps(indicator.get_group_api()), safe=False)
+    else:
+        return JsonResponse(json.dumps({'api': 'null'}), safe=False)
 
 
 # @login_required(login_url='/account/login/')
@@ -93,8 +123,7 @@ def display(request):
     # if not request.user.username == 'aidin':
     #     bot.send_message(request.user.username + ' goes to finance page!')
     # return render(request, 'applyTheme.html', {'username': request.user.username,'bool1':True,'bool2':True})
-    return render(request, 'applyTheme.html')
-
+    return render(request, 'applyTheme.html', {'SymbolId': 'IRO1IKCO0001'})
 
 # @login_required(login_url='/account/login/')
 # def display_item(request, stock_name):

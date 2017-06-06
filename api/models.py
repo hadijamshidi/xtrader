@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 
+
 # Create your models here.
 class Stock(models.Model):
     symbol_id = models.CharField(max_length=80, unique=True)
@@ -10,6 +11,14 @@ class Stock(models.Model):
     mabna_english_name = models.CharField(max_length=80)
     mabna_short_name = models.CharField(max_length=80)
     mabna_kind = models.CharField(max_length=80, default='Nan')
+
+    def as_json(self):
+        return dict(
+            id=self.mabna_id, eng_name=self.mabna_english_name,
+            kind='kind',
+            category='سهام',
+            symbol_name=self.mabna_short_name, name=self.mabna_name
+        )
 
     def __str__(self):
         return self.symbol_id
@@ -25,7 +34,6 @@ class MarketWatch(models.Model):
     InstrumentStateCode = models.CharField(max_length=50)
     InstrumentStateTitle = models.CharField(max_length=50)
     BaseQuantity = models.BigIntegerField()
-
 
     pd1 = models.DecimalField(max_digits=7, decimal_places=1)
     zd1 = models.IntegerField()
@@ -108,11 +116,12 @@ class MarketWatch(models.Model):
     MonthAverageVolume = models.BigIntegerField()
     InstrumentMarketValue = models.BigIntegerField()
     NumberOfSharesOrBonds = models.BigIntegerField()
+
     def __str__(self):
         return self.SymbolId
 
     def to_dict(self):
-        obj_dict = {'SymbolId':self.SymbolId}
+        obj_dict = {'SymbolId': self.SymbolId}
         return obj_dict
 
 

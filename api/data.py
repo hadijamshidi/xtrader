@@ -25,8 +25,8 @@ def get_data_companies():
                 if symbol['short_name'] == company.trade_symbol:
                     create_company_table_new(symbol)
                     # print('{} symbol and isin found'.format(company.trade_symbol))
-                # else:
-                #     print('{} bullshit symbol for symbol: {}'.format(symbol['short_name'], company.trade_symbol))
+                    # else:
+                    #     print('{} bullshit symbol for symbol: {}'.format(symbol['short_name'], company.trade_symbol))
         except Exception:
             # print('failed to handle {}'.format(company.trade_symbol))
             wrong.append(company.trade_symbol)
@@ -97,7 +97,7 @@ def call_threads_for_marketWatch():
         # t.setDaemon(True)
         t.start()
 
-    #     # t.join()
+    # # t.join()
     return 'finish'
 
 
@@ -160,16 +160,15 @@ def read_history():
             for key in data[symbol_id]:
                 # print(symbol_id,key)
                 redis.hset(symbol_id, key, data[symbol_id][key])
+
+
 def jalali_to_timestamp(jalali_date):
     from . import jalali
-    jdate="{}/{}/{}".format(jalali_date[:4], jalali_date[4:6], jalali_date[6:8])
-    gorgeain_date=jalali.Persian(jdate).gregorian_string("{}/{}/{}")
+    jdate = "{}/{}/{}".format(jalali_date[:4], jalali_date[4:6], jalali_date[6:8])
+    gorgeain_date = jalali.Persian(jdate).gregorian_string("{}/{}/{}")
     import time
     import datetime
-    return time.mktime(datetime.datetime.strptime(gorgeain_date, "%Y/%m/%d").timetuple())
-
-
-
-
-
-
+    timestamp = time.mktime(datetime.datetime.strptime(gorgeain_date, "%Y/%m/%d").timetuple())
+    date = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+    print('conveted from {} to timestamp: {} which is equal to {}'.format(jalali_date, timestamp, date))
+    return timestamp

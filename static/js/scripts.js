@@ -4,17 +4,17 @@
 var indicators;
 var output = '';
 // TODO: reading indicators
-// $.ajax({
-//     type: 'POST',
-//     url: "/indicators-api",
-//     data: {
-//         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-//     },
-//     success: function (result) {
-//         indicators = JSON.parse(result);
-//         insert_indicators();
-//     }
-// });
+$.ajax({
+    type: 'POST',
+    url: "/indicators-api",
+    data: {
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+    },
+    success: function (result) {
+        indicators = JSON.parse(result);
+        insert_indicators();
+    }
+});
 var isStrategySaved;
 var drawing_tool = {'tool': {'name': 'line', 'params': {}}, 'status': 0, 'num_of_points': 0};
 var per_name;
@@ -34,7 +34,7 @@ window.Date = JDate;
 $(function () {
     // $( "a" ).css( "font-family", "IranSanc" );
     isStrategySaved = false;
-    // load_data('/get-data/name=' + symbol_name);
+    load_data('/get-data/name=' + symbol_name);
     Highcharts.setOptions({
         lang: {
             months: ['فروردين', 'ارديبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
@@ -328,12 +328,13 @@ function load_data(url) {
     waiting('wait');
     $.getJSON(url, function (data) {
         window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_name);
+        console.log(data);
         data = JSON.parse(data);
-        // console.log(data);
         per_name = data['per_name'];
         name = per_name;
         symbol_name = data['measurement_name'];
         data = JSON.parse(data['items']);
+        console.log(data);
         data2 = data;
         var dataLength = data.length;
         groupingUnits = [[
@@ -375,7 +376,8 @@ function load_data(url) {
         }
         result_type_2[0] = type_2;
         draw_chart();
-        load_strategy();
+        // TODO: load strategy
+        // load_strategy();
         waiting('default');
         // console.log('default');
     });
@@ -809,7 +811,7 @@ function check_strategies_number() {
             }
         });
         delete_all_button.addEventListener('click', function () {
-            delete_all(['stock_names','indicators', 'back test', 'scan', 'filters'], true);
+            delete_all(['stock_names', 'indicators', 'back test', 'scan', 'filters'], true);
         });
         var txt = document.createTextNode('پاک کردن همه');
         delete_all_button.appendChild(txt);
@@ -950,11 +952,11 @@ function apply() {
         success: function (result) {
             // console.log(result);
             res = JSON.parse(result);
-            if(res == "f"){
+            if (res == "f") {
                 alert('این فیلترها هیچ اشتراکی با هم ندارند.');
                 waiting('default');
-            }else{                
-            apply2(res);
+            } else {
+                apply2(res);
             }
         }
     });
@@ -971,8 +973,8 @@ function apply2(backtest) {
         for (var i = num_of_trades; i > 0; i -= 1) {
             if (Object.keys(res["" + i]).length == 2) {
                 tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["sell"]["date"]][0], translate(res["" + i]["sell"]['action']), dohlcv[res["" + i]["sell"]["date"]][4], 'NaN', res["" + i]["sell"]["candles in trade"], res["" + i]["sell"]["return"], res["" + i]["sell"]["capital"]];
-                if(res["" + i]["sell"]['action']!='Not Sold Yet'){
-                    console.log('yes');                    
+                if (res["" + i]["sell"]['action'] != 'Not Sold Yet') {
+                    console.log('yes');
                     sell_b.unshift([dohlcv[res["" + i]["sell"]["date"]][0], dohlcv[res["" + i]["sell"]["date"]][4]]);
                 }
                 appendRow(tbl);
@@ -1064,7 +1066,7 @@ function save_filters(pointer) {
     pick_portfolio('none');
     waiting('wait');
     var filters = Object.keys(chosen_strategies);
-    var strategy = {'name': 'my_strategy', 'filters': filters,'stock_names' : portfo};
+    var strategy = {'name': 'my_strategy', 'filters': filters, 'stock_names': portfo};
     console.log('save ajax');
     if (!isStrategySaved) {
         $.ajax({
@@ -1092,20 +1094,20 @@ function save_filters(pointer) {
         waiting('default');
     }
 }
-function pick_portfolio(stat){
+function pick_portfolio(stat) {
     document.getElementById('portfolio place').style.display = stat;
 }
-function add_stock(result){
-    if(portfo.indexOf(result.eng_name) == -1){
+function add_stock(result) {
+    if (portfo.indexOf(result.eng_name) == -1) {
         var div = document.getElementById('stocks place');
         var but = document.createElement('button');
         but.appendChild(document.createTextNode(result.title));
-        but.setAttribute('class','ui button');
-        but.setAttribute('title','حذف نماد');
-        but.setAttribute('name',result.eng_name);
+        but.setAttribute('class', 'ui button');
+        but.setAttribute('title', 'حذف نماد');
+        but.setAttribute('name', result.eng_name);
         portfo.push(result.eng_name);
-        but.addEventListener('click',function(){
-            portfo.splice(portfo.indexOf(this.getAttribute('name')),1);
+        but.addEventListener('click', function () {
+            portfo.splice(portfo.indexOf(this.getAttribute('name')), 1);
             this.remove();
             isStrategySaved = false;
         });
@@ -1148,8 +1150,8 @@ function apply_strategy(name) {
                 calculate_indicators(filter, true);
                 // waiting('wait');
             });
-                // waiting('wait');
-            strategy['stock_names'].forEach(function(stock){
+            // waiting('wait');
+            strategy['stock_names'].forEach(function (stock) {
                 add_stock(stock);
             });
             isStrategySaved = true;
@@ -1294,10 +1296,10 @@ function createCell(cell, text, style, i) {
             if (text == 'NaN') {
                 cell.setAttribute("class", "collapsed");
                 txt = document.createTextNode('');
-            }else{
-                if(text[0]!='م'){
+            } else {
+                if (text[0] != 'م') {
                     // console.log(text);
-                    txt = document.createTextNode(numberSeparator(text));                    
+                    txt = document.createTextNode(numberSeparator(text));
                 }
             }
             break;
@@ -1307,21 +1309,21 @@ function createCell(cell, text, style, i) {
     div.setAttribute('className', style);    // set DIV class attribute for IE (?!)
     cell.appendChild(div);                   // append DIV to the table cell
 }
-function numberSeparator(n){
+function numberSeparator(n) {
     n = String(n);
     var m = [],
-    ll = n.length;
-    for(var i = 0;i<ll ;i++){
-        m.push(n.substring(i,i+1));
+        ll = n.length;
+    for (var i = 0; i < ll; i++) {
+        m.push(n.substring(i, i + 1));
     }
     m.reverse();
     var i = 0,
-    n = '';
-    m.forEach(function(digit){
-        i ++;
+        n = '';
+    m.forEach(function (digit) {
+        i++;
         n = digit + n;
-        if(i%3==0 & i!=ll){
-            n = ','+ n;
+        if (i % 3 == 0 & i != ll) {
+            n = ',' + n;
         }
     });
     return n
@@ -1524,10 +1526,10 @@ function toggle(obj, div_id) {
     }
 }
 function show_div(id) {
-    if(id == 'order'){
+    if (id == 'order') {
         get_stock_info();
-    }    
-    var idss = ["TSE_Filters","config_trade", "order", "draw line", "just draw", "Technical_Patterns", "cross", "ascending_main", "more_than", "special_methods", "advance_cross"];
+    }
+    var idss = ["TSE_Filters", "config_trade", "order", "draw line", "just draw", "Technical_Patterns", "cross", "ascending_main", "more_than", "special_methods", "advance_cross"];
     idss.forEach(function (ids) {
         if (ids != id) {
             document.getElementById(ids).style.display = 'none';
@@ -1690,24 +1692,6 @@ function check_strategy(strategy) {
     }
     return strategy
 }
-function farabi() {
-    console.log('farabi!!');
-    $.ajax({
-        type: 'POST',
-        url: "http://www.farabixo.com/api/account/repo/login",
-        data: {
-            param: JSON.stringify({'UserName': 'farabi20740', 'Password': '95433856'}),
-            // csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-        },
-        error: function () {
-            console.log('server Error');
-        },
-        success: function (result) {
-            console.log(result);
-        },
-    })
-
-}
 function calculate_indicators(strategy, saving_status) {
     var strg = jQuery.extend(true, {}, strategy);
     waiting('wait');
@@ -1788,7 +1772,7 @@ function calculate_indicators(strategy, saving_status) {
                     alert('No ' + strategy['indicators']['candlestick']['name'] + ' detected!');
                 }
             }
-            waiting('default');                
+            waiting('default');
             // if(!isStrategySaved){
             //     waiting('default');                
             // }
@@ -2291,27 +2275,23 @@ window.onclick = function (event) {
 };
 $(document).ready(function () {
     $('input.prompt').attr('style', 'background-color: #333;color:white;text-align: center;font-family:IranSanc');
-    // $('div.results').attr('style', 'background-color: #333;color:white;direction:rtl');
     $('.ui.search').search({
         type: 'category',
         error: false,
-        onResultsClose: function(yes){
+        onResultsClose: function (yes) {
             console.log(this);
         },
         onSelect: function (result) {
-            // var value = result;
-            // symbol_name = value.eng_name;
-            // console.log(this.children[0].children[0].value);
-            if(this.id == 'search'){
+            if (this.id == 'search') {
                 var value = result;
                 symbol_name = value.eng_name;
                 var backtest_state = document.getElementById('table_place').style.display;
                 load_data('/get-data/name=' + symbol_name);
-                if(backtest_state == 'block'){
+                if (backtest_state == 'block') {
                     delete_all(['back test']);
                 }
                 window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_name);
-            }else{
+            } else {
                 add_stock(result);
             }
             console.log(this);
@@ -2345,11 +2325,8 @@ $(document).ready(function () {
                         eng_name: item.eng_name,
                     });
                 });
-                // console.log(this);
-                // document.getElementById(this.id).children[0].children[0].value = '';
                 return response;
-            }
-            ,
+            },
             url: '/symbol-search/q={query}'
         }
     });
@@ -2391,9 +2368,9 @@ function show_news(result) {
     });
     document.getElementById('news_div').style.display = 'block';
 }
-function order(type){
+function order(type) {
     console.log('fuck');
     // var modal = $('#order');
     // modal.attr('sytle','display:block'); 
-    document.getElementById('order').setAttribute('sytle','display:block');
+    document.getElementById('order').setAttribute('sytle', 'display:block');
 }

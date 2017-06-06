@@ -3,17 +3,18 @@
  */
 var indicators;
 var output = '';
-$.ajax({
-    type: 'POST',
-    url: "/indicators-api",
-    data: {
-        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-    },
-    success: function (result) {
-        indicators = JSON.parse(result);
-        insert_indicators();
-    }
-});
+// TODO: reading indicators
+// $.ajax({
+//     type: 'POST',
+//     url: "/indicators-api",
+//     data: {
+//         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+//     },
+//     success: function (result) {
+//         indicators = JSON.parse(result);
+//         insert_indicators();
+//     }
+// });
 var isStrategySaved;
 var drawing_tool = {'tool': {'name': 'line', 'params': {}}, 'status': 0, 'num_of_points': 0};
 var per_name;
@@ -26,14 +27,14 @@ var result_type_1 = {};
 var result_type_2 = {};
 var chosen_strategies = {};
 var indicators_cross = {};
-// var indicator_function_name = 'fun_name';
 
 window.ODate = Date;
 window.Date = JDate;
 
-$(function () {$( "a" ).css( "font-family", "IranSanc" );
+$(function () {
+    // $( "a" ).css( "font-family", "IranSanc" );
     isStrategySaved = false;
-    load_data('/get-data/name=' + symbol_name);
+    // load_data('/get-data/name=' + symbol_name);
     Highcharts.setOptions({
         lang: {
             months: ['فروردين', 'ارديبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],

@@ -1,7 +1,7 @@
-{#{% extends "base.html" %}#}
+{% extends "base.html" %}
 {% load staticfiles %}
 
-{#{% block headContent %}#}
+{% block headContent %}
     <title>Xtrader</title>
     {% csrf_token %}
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
@@ -20,14 +20,14 @@
     <script type="text/javascript" src="{% static 'js/finance.js' %}"></script>
     {# <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js"></script> #}
 
-{#{% endblock headContent %}#}
+{% endblock headContent %}
 
-{#{% block bodyAttr %}#}
-    {# style="font-fami" #}
-{#{% endblock bodyAttr %}#}
+{% block bodyAttr %}
+     style="font-fami"
+{% endblock bodyAttr %}
 {#{% block menuAttrBlock %}#}
 {#{% endblock menuAttrBlock %}#}
-{#{% block bodyContent %}#}
+{% block bodyContent %}
     {% csrf_token %}
     <div class="ui container">
         <div id="search" class="ui fluid category search" style="z-index:10 ">
@@ -471,4 +471,4 @@
         </div>
     </div>
 
-{#{% endblock bodyContent %}#}
+{% endblock bodyContent %}

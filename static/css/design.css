@@ -1,0 +1,302 @@
+:root {
+    --input_color: #fcfcfc;
+    --background_main_color: #444;
+    --background_minor_color: #555;
+}
+@font-face {
+   font-family: IranSanc;
+   src: url('/media/iransanc.woff');
+}
+html{
+    /*font-family: IranSanc;*/
+}
+body {
+    /*font-family: IranSans;*/
+    background: #444;
+    background: var(--background_main_color);
+    margin: 0;
+    /*    padding: 1em; */
+    /*    font-size: 16px;*/
+    /*color: #080506;#777;*/
+}
+
+.hadi {
+    background: #444;
+    background: var(--background_main_color);
+    color: white;
+}
+
+${demo.css}
+    /* Full-width input fields */
+input[type=text], input[type=password] {
+    background-color: #fcfcfc;
+    background-color: var(--input_color);
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+div[class=paramshadi]{
+     dir: "ltr";
+     text-align: right;
+}
+
+/*.params {
+     dir: "ltr";
+     text-align: "right";
+}
+*/
+input[type=number],input[type=query] {
+    background-color: #444;
+    background-color: var(--background_main_color);
+    /*{#        var(--input_color);#} */
+    border: none;
+    text-align: center;
+
+}
+
+a[class=link] {
+    color: yellow;
+}
+
+input[type=search] {
+    background-color: black;
+    font-family: IranSanc;
+    /*{#        var(--input_color);#}{#        border: none;#}{#        text-align: center;#}*/
+    color: #0d71bb;
+}
+
+.ui.segments {
+    background-color: #555;
+    background-color: var(--background_minor_color);
+    color: #fcfcfc;
+    color: var(--input_color);
+}
+.ui.horizontal.segments {
+    background-color: #555;
+    background-color: var(--background_minor_color);
+    color: #fcfcfc;
+    color: var(--input_color);
+}
+
+.ui.segment {
+    background-color: #555;
+    background-color: var(--background_minor_color);
+}
+
+.ui.attached.label {
+    background-color: #555;
+    background-color: var(--background_minor_color);
+    color: #fcfcfc;
+    color: var(--input_color);
+
+}
+
+select {
+    background-color: #555;
+    background-color: var(--background_minor_color);
+}
+
+/* Set a style for all buttons */
+.ui.button {
+    /*margin: 8px 0;*/
+    /*border: none;*/
+    /*cursor: pointer;*/
+    background: #333;
+    color: white;
+    /*            background-color: #4CAF50; */
+    /*            padding: 14px 20px;*/
+    /*            width: 100%;*/
+}
+
+.loginbtn {
+    background-color: #333;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #333;
+    /*{#background-color: #f44336;#}*/
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+img.avatar {
+    width: 40%;
+    border-radius: 50%;
+}
+
+.container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+    /*main: none; !* Hidden by default *!*/
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    /*{#        background-color: #444;#} */
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {
+        -webkit-transform: scale(0)
+    }
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes animatezoom {
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(1)
+    }
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+
+    .cancelbtn {
+        width: 100%;
+    }
+}
+
+/* showing in line */
+.about {
+    display: inline;
+}
+
+/*.about:hover {
+font: 13px helvetica;
+text-decoration: underline;
+}
+*/
+.footer {
+    width: 100%;
+    height: 175px;
+    position: absolute;
+    bottom: 0;
+    background-color: #212121;
+    color: white;
+
+    margin-top: 30px;
+
+    /*z-index: 10; !* Sit on top *!*/
+    /*top: 0;*/
+    /*height: 100%; !* Full height *!*/
+}
+
+@import 'https://code.highcharts.com/css/highcharts.css';
+/*.highcharts-root {*/
+/*font-family: 'Courier New', monospace;*/
+/*}*/
+/*.highcharts-title {*/
+/*font-family: Arial;*/
+/*}*/
+/*"Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;*/
+/*.highcharts-background {*/
+/*fill: #efefef;*/
+/*stroke: #a4edba;*/
+/*stroke-width: 2px;*/
+/*}*/
+
+#wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+#content {
+    padding-bottom: 200px; /* Height of the footer element */
+    padding-top: 80px;
+}
+
+#header{
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+#content .ui.category.search>.results .category>.name{
+    float: right;
+}
+
+#content .container .results{
+    direction: rtl;
+}
+
+#content .ui.search>.results .result .price{
+    float: left;
+}
+
+#content .ui.category.search>.results .category .result {
+    margin-right: 100px;
+    border-right: 1px solid rgba(34,36,38,.15);
+    margin-left: 0px;
+    border-left: 0px;
+}

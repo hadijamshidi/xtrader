@@ -327,14 +327,14 @@ $(function () {
 function load_data(url) {
     waiting('wait');
     $.getJSON(url, function (data) {
-        window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_name);
-        console.log(data);
+        // window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_name);
+        // console.log(data);
         data = JSON.parse(data);
         per_name = data['per_name'];
         name = per_name;
         symbol_name = data['measurement_name'];
         data = JSON.parse(data['items']);
-        console.log(data);
+        // console.log(data);
         data2 = data;
         var dataLength = data.length;
         groupingUnits = [[
@@ -762,8 +762,8 @@ function check_strategies_number() {
         });
         var txt = document.createTextNode('تشکیل سبد');
         save_button.appendChild(txt);
-        document.getElementById('button_place').appendChild(document.createTextNode('  '));
-        document.getElementById('button_place').appendChild(save_button);
+        // document.getElementById('button_place').appendChild(document.createTextNode('  '));
+        // document.getElementById('button_place').appendChild(save_button);
 
         // creating scan button
         var scan_button = document.createElement('button');
@@ -788,8 +788,8 @@ function check_strategies_number() {
         });
         var txt = document.createTextNode('اسکن بازار');
         scan_button.appendChild(txt);
-        document.getElementById('button_place').appendChild(document.createTextNode('  '));
-        document.getElementById('button_place').appendChild(scan_button);
+        // document.getElementById('button_place').appendChild(document.createTextNode('  '));
+        // document.getElementById('button_place').appendChild(scan_button);
 
         // creating delete button
         var delete_all_button = document.createElement('button');
@@ -974,8 +974,7 @@ function apply2(backtest) {
             if (Object.keys(res["" + i]).length == 2) {
                 tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["sell"]["date"]][0], translate(res["" + i]["sell"]['action']), dohlcv[res["" + i]["sell"]["date"]][4], 'NaN', res["" + i]["sell"]["candles in trade"], res["" + i]["sell"]["return"], res["" + i]["sell"]["capital"]];
                 if (res["" + i]["sell"]['action'] != 'Not Sold Yet') {
-                    console.log('yes');
-                    sell_b.unshift([dohlcv[res["" + i]["sell"]["date"]][0], dohlcv[res["" + i]["sell"]["date"]][4]]);
+                    sell_b.unshift([dohlcv[res["" + i]["sell"]["date"]][0], dohlcv[res["" + i]["sell"]["date"]][2]]);
                 }
                 appendRow(tbl);
             } else {
@@ -985,11 +984,11 @@ function apply2(backtest) {
             }
             if (i == 1) {
                 tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["buy"]["date"]][0], translate(res["" + i]["buy"]['action']), dohlcv[res["" + i]["buy"]["date"]][4], translate(res["" + i]["buy"]["waiting candles"]), 'NaN', 'NaN', translate('Initial Deposit: ') + numberSeparator(res["" + i]["buy"]["initaial deposit"])];
-                buy_b.unshift([dohlcv[res["" + i]["buy"]["date"]][0], dohlcv[res["" + i]["buy"]["date"]][4]]);
+                buy_b.unshift([dohlcv[res["" + i]["buy"]["date"]][0], dohlcv[res["" + i]["buy"]["date"]][2]]);
                 appendRow(tbl);
             } else {
                 tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["buy"]["date"]][0], translate(res["" + i]["buy"]['action']), dohlcv[res["" + i]["buy"]["date"]][4], res["" + i]["buy"]["waiting candles"], 'NaN', 'NaN', 'NaN'];
-                buy_b.unshift([dohlcv[res["" + i]["buy"]["date"]][0], dohlcv[res["" + i]["buy"]["date"]][4]]);
+                buy_b.unshift([dohlcv[res["" + i]["buy"]["date"]][0], dohlcv[res["" + i]["buy"]["date"]][2]]);
                 appendRow(tbl);
             }
         }
@@ -1526,9 +1525,6 @@ function toggle(obj, div_id) {
     }
 }
 function show_div(id) {
-    if (id == 'order') {
-        get_stock_info();
-    }
     var idss = ["TSE_Filters", "config_trade", "order", "draw line", "just draw", "Technical_Patterns", "cross", "ascending_main", "more_than", "special_methods", "advance_cross"];
     idss.forEach(function (ids) {
         if (ids != id) {
@@ -1697,7 +1693,7 @@ function calculate_indicators(strategy, saving_status) {
     waiting('wait');
     $.ajax({
         type: 'POST',
-        url: "/fin/calculate_filter",
+        url: "finance/calculate_filter",
         data: {
             param: JSON.stringify(strategy),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -1715,7 +1711,10 @@ function calculate_indicators(strategy, saving_status) {
             chosen_strategies[st] = {};
             strategy['str_brief'] = st;
             strategy['id'] = num_of_charts;
+            // console.log(result);
             result = JSON.parse(result);
+            // console.log(result);
+            // console.log(JSON.parse(result));
             switch (result['type']) {
                 case 'second':
                     result_type_2[strategy['id']] = JSON.parse(result['result']);
@@ -2284,13 +2283,14 @@ $(document).ready(function () {
         onSelect: function (result) {
             if (this.id == 'search') {
                 var value = result;
-                symbol_name = value.eng_name;
+                console.log(value);
+                symbol_name = value.symbol_id;
                 var backtest_state = document.getElementById('table_place').style.display;
                 load_data('/get-data/name=' + symbol_name);
                 if (backtest_state == 'block') {
                     delete_all(['back test']);
                 }
-                window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_name);
+                // window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_name);
             } else {
                 add_stock(result);
             }
@@ -2323,6 +2323,7 @@ $(document).ready(function () {
                         description: item.name,
                         price: item.kind,
                         eng_name: item.eng_name,
+                        symbol_id: item.symbol_id,
                     });
                 });
                 return response;

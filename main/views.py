@@ -13,7 +13,7 @@ import json
 from main import indicator
 
 
-# from . import data_handling as dh
+from finance import data_handling as dh
 
 #
 # influx_client = DataFrameClient(settings.INFLUX_DB['host'], settings.INFLUX_DB['port'], settings.INFLUX_DB['user'],
@@ -77,9 +77,9 @@ def get_data(request, name):
     df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
     stock = Symbol.objects.get(symbol_id=name)
     stock_information = dict(
-        name=stock.mabna_short_name,
-        # measurement_name=name,
-        per_name=stock.mabna_name,
+        per_name=stock.mabna_short_name,
+        measurement_name=name,
+        name=stock.mabna_name,
     )
     stock_history = df.to_json(orient='values')
 
@@ -169,17 +169,15 @@ def display(request):
 #         return Http404('this is not a Post!')
 #
 #
-# def back_test(request):
-#     bot.send_details(request, 'finance')
-#
-#     if request.method == 'POST':
-#         data = json.loads(request.POST['param'])
-#         name = data['name']
-#         res = json.loads(data['trades'])
-#         result = dh.give_result_backtest(name, res, data['config'])
-#         return JsonResponse(result, safe=False)
-#     else:
-#         return Http404('this is not a Post!')
+def back_test(request):
+    if request.method == 'POST':
+        data = json.loads(request.POST['param'])
+        name = data['name']
+        res = json.loads(data['trades'])
+        result = dh.give_result_backtest(name, res, data['config'])
+        return JsonResponse(result, safe=False)
+    else:
+        return Http404('this is not a Post!')
 #
 #
 def about_us(request):

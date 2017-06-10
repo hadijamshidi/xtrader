@@ -14,7 +14,11 @@ class Stock(models.Model):
 
     def as_json(self):
         return dict(
-            id=self.mabna_id, eng_name=self.mabna_english_name,
+            id=self.mabna_id,
+            # TODO: be careful
+            symbol_id=self.symbol_id,
+            eng_name=self.mabna_english_name,
+            # eng_name=self.symbol_id,
             kind='kind',
             category='سهام',
             symbol_name=self.mabna_short_name, name=self.mabna_name

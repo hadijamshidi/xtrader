@@ -4,7 +4,7 @@ from django.conf import settings
 import pandas as pd
 import numpy as np
 import talib
-
+from api import redis
 columns = ['<TIME>', '<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']
 fields = ['Open', 'High', 'Low', 'Close', 'Volume']
 
@@ -26,6 +26,7 @@ class Indicator:
             self.inputs = dict()
 
     def set_symbol(self, name, tail=None):
+        self.SymbolId = name
         self.name = name
         self.df = self.load_db(tail)
         self.inputs = dict()
@@ -34,27 +35,30 @@ class Indicator:
                 self.inputs[c] = np.asarray(self.df[c], dtype='f8')
 
     def load_db(self, tail=None):
-        measurement_name = self.name
+        db = redis.load_history(self.SymbolId)
+        df = pd.DataFrame(db)
+        # measurement_name = self.name
         # TODO: replace client
         # client = DataFrameClient(host, port, user, password, db_name)
-        if not tail:
-            query_text = "Select * from {pointname}".format(pointname=measurement_name)
-            # df = client.query(query_text)[measurement_name]
-        else:
-            query_text = "Select * from {pointname} order by time DESC LIMIT {tail}".format(pointname=measurement_name,
-                                                                                            tail=tail)
+        # if not tail:
+        #     query_text = "Select * from {pointname}".format(pointname=measurement_name)
+        #     # df = client.query(query_text)[measurement_name]
+        # else:
+        #     query_text = "Select * from {pointname} order by time DESC LIMIT {tail}".format(pointname=measurement_name,
+                                                                                            # tail=tail)
             # df = client.query(query_text)[measurement_name].iloc[::-1]
         # df['<TIME>'] = df.index
-        # df = df.loc[:, columns]
-        # df.columns = ['time', 'open', 'high', 'low', 'close', 'volume']
-        # return df
+        df.index = df['date']
+        df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
+        df.columns = ['time', 'open', 'high', 'low', 'close', 'volume']
+        return df
 
     def ichimoku(self, *args, **kwargs):
-        print('ichimoku')
-        print('args')
-        print(args)
-        print('kwargs')
-        print(kwargs)
+        # print('ichimoku')
+        # print('args')
+        # print(args)
+        # print('kwargs')
+        # print(kwargs)
         # conversion line period
         cl = float(kwargs['conversionLineperiod'])
         # base line

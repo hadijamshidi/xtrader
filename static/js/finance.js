@@ -1,5 +1,5 @@
 var info = {"SymbolId":"IRO7SASP0001","InstrumentName":"سجام","InstrumentTitle":"مجتمع سیمان غرب آسیا","InstrumentCode":"309","InstrumentStateCode":"A","InstrumentStateTitle":"مجاز","BaseQuantity":1.0,"BidAsk":[{"RowPlace":1,"AskNumber":1,"AskPrice":853.0,"AskQuantity":5800,"BidNumber":1,"BidPrice":879.0,"BidQuantity":1200},{"RowPlace":2,"AskNumber":2,"AskPrice":852.0,"AskQuantity":60000,"BidNumber":1,"BidPrice":880.0,"BidQuantity":5264},{"RowPlace":3,"AskNumber":1,"AskPrice":841.0,"AskQuantity":4000,"BidNumber":1,"BidPrice":931.0,"BidQuantity":144}],"BuyGroupCount":0,"BuyGroupVolume":0,"BuyGroupVolumePercentage":0.0,"BuyFirmCount":0,"BuyFirmVolume":0,"BuyFirmVolumePercentage":0.0,"BuyIndividualCount":10,"BuyIndividualVolume":57721,"BuyIndividualVolumePercentage":100.0,"SellFirmCount":0,"SellFirmVolume":0,"SellFirmVolumePercentage":0.0,"SellIndividualCount":7,"SellIndividualVolume":57721,"SellIndividualVolumePercentage":100.0,"ClosingPrice":854.0,"ClosingPriceVariation":-72.00,"ClosingPriceVariationPercent":-7.78,"CompanyName":"مجتمع سيمان غرب آسيا          ","ExchangeName":"پایه فرابورس","ExchangeCode":"366","FirstTradePrice":900.0,"LastTradePrice":853.0,"LastTradeDate":"2017-04-24T12:30:07","ReferencePrice":926.00,"ReferencePriceVariation":-73.00,"ReferencePriceVariationPercent":-7.88,"YearHighestTradePrice":1026.00,"YearLowestTradePrice":521.00,"MinimumOrderQuantity":1,"MaximumOrderQuantity":50000,"LowerPriceThreshold":834.00,"UpperPriceThreshold":1018.00,"LowestTradePrice":850.0,"HighestTradePrice":900.0,"PreviousDayPrice":926.00,"TotalNumberOfSharesTraded":57721,"TotalNumberOfTrades":15.0,"TotalTradeValue":49271653.0,"Eps":-2,"PricePerEarningGroup":0.0,"PricePerEarning":-427.0,"FreeFloatPercent":0.0,"MonthAverageVolume":410764,"InstrumentMarketValue":1317564010000.0,"NumberOfSharesOrBonds":1542815000};
-
+/*
 function get_stock_info(){
 	var persianlist = {
 		"InstrumentTitle":'نام شرکت',
@@ -66,6 +66,7 @@ function get_stock_info(){
     });
 
 }
+*/
 function filter_market(query){
     $.ajax({
         type: 'POST',

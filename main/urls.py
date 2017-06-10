@@ -34,7 +34,7 @@ urlpatterns = [
     # url(r'^calculate-indicators', views.calculate_indicators, name='calculate_indicators'),
     # url(r'^update-indicators', views.update_indicators, name='update_indicators'),
     # url(r'^amir', views.amir, name='amir'),
-    # url(r'^back-test', views.back_test, name='back_test'),
+    url(r'^back-test', views.back_test, name='back_test'),
 
     # url(r'^main/', views.main, name='main'),
     # url(r'^favicon.ico', views.favicon, name='favicon'),

@@ -1,0 +1,390 @@
+from finance import backtest as bt
+from main import indicator
+from main.indicator import Indicator
+import json
+import pandas as pd
+import numpy as np
+import requests
+
+
+def give_result_more(data, mt=None, get_json=True):
+    if mt is None:
+        mt = Indicator(name=data['stock_name'])
+    valid = int(data['valid'])
+    indicators = {'main': {}, 'minor': {}}
+
+    main = {'function_name': data['indicators']['main']['name']}
+    if 'params' in data['indicators']['main']:
+        params = data['indicators']['main']['params']
+        for param in params:
+            main[param] = float(params[param])
+
+    indicator_main_org = bt.shifter(mt.indicator_calculator(**main),
+                                    int(data['indicators']['main']['settings']['shift']))
+    indicator_main = indicator_main_org[data['indicators']['main']['output']['name']]
+    indicator_main = pd.DataFrame(indicator_main)
+
+    outputs = data['indicators']['main']['outputs']
+    for output in outputs:
+        indicators['main'][output] = indicator.add_time(pd.DataFrame(indicator_main_org[output])).to_json(
+            orient='values')
+
+    minor = {'function_name': data['indicators']['minor']['name']}
+    if data['indicators']['minor']['apply_to'] != 'default':
+        minor['price'] = data['indicators']['minor']['apply_to']
+    if 'params' in data['indicators']['minor']:
+        params = data['indicators']['minor']['params']
+        for param in params:
+            minor[param] = float(params[param])
+
+    indicator_minor_org = bt.shifter(mt.indicator_calculator(**minor),
+                                     int(data['indicators']['minor']['settings']['shift']))
+    indicator_minor = indicator_minor_org[data['indicators']['minor']['output']['name']]
+    indicator_minor = pd.DataFrame(indicator_minor)
+
+    outputs = data['indicators']['minor']['outputs']
+    for output in outputs:
+        indicators['minor'][output] = indicator.add_time(pd.DataFrame(indicator_minor_org[output])).to_json(
+            orient='values')
+
+    more = bt.more_than(indicator_main, indicator_minor)
+    more = bt.set_valid_time(bt.change_df(more), valid)
+
+    indicators['type'] = 'second'
+    indicators['result'] = more.to_json(orient='values')
+    # add_to_db(data['id'],more)
+    # print(more.head(10))
+    if not get_json:
+        return indicators
+    return json.dumps(indicators)
+
+
+def give_result_special(data, mt=None, get_json=True):
+    if mt is None:
+        mt = Indicator(name=data['stock_name'])
+    valid = int(data['valid'])
+    special = {'function_name': data['indicators']['special']['name']}
+    # ascending['price'] = data['apply_to']
+    if 'params' in data['indicators']['special']:
+        params = data['indicators']['special']['params']
+        for param in params:
+            special[param] = float(params[param])
+
+    indicator_special_org = bt.shifter(mt.indicator_calculator(**special),
+                                       int(data['indicators']['special']['settings']['shift']))
+    # indicator_ascending = indicator_ascending_org[data['indicators']['ascending']['output']['name']]
+    # indicator_ascending = pd.DataFrame(indicator_ascending)
+
+    outputs = data['indicators']['special']['outputs']
+    indicators = {'special': {}}
+    for output in outputs:
+        indicators['special'][output] = indicator.add_time(pd.DataFrame(indicator_special_org[output])).to_json(
+            orient='values')
+
+    result = bt.special(indicator_special_org, data['indicators']['special']['name'])
+    result = bt.set_valid_time(result, valid)
+
+    indicators['result'] = result.to_json(orient='values')
+    indicators['type'] = 'first'
+    # add_to_db(data['id'],result)
+    if not get_json:
+        return indicators
+    return json.dumps(indicators)
+
+
+def give_result_ascending(data, mt=None, get_json=True):
+    if mt is None:
+        mt = Indicator(name=data['stock_name'])
+    days = int(data['days'])
+    valid = int(data['valid'])
+    ascending = {'function_name': data['indicators']['ascending']['name']}
+    # ascending['price'] = data['apply_to']
+    if 'params' in data['indicators']['ascending']:
+        params = data['indicators']['ascending']['params']
+        for param in params:
+            ascending[param] = float(params[param])
+
+    indicator_ascending_org = bt.shifter(mt.indicator_calculator(**ascending),
+                                         int(data['indicators']['ascending']['settings']['shift']))
+    indicator_ascending = indicator_ascending_org[data['indicators']['ascending']['output']['name']]
+    indicator_ascending = pd.DataFrame(indicator_ascending)
+
+    outputs = data['indicators']['ascending']['outputs']
+    indicators = {'ascending': {}}
+    for output in outputs:
+        indicators['ascending'][output] = indicator.add_time(pd.DataFrame(indicator_ascending_org[output])).to_json(
+            orient='values')
+    print('monoto called!')
+    result = bt.monotono(indicator_ascending, days)
+    result = bt.set_valid_time(result, valid)
+    indicators['type'] = 'first'
+    indicators['result'] = result.to_json(orient='values')
+    if not get_json:
+        return indicators
+    return json.dumps(indicators)
+
+
+def give_result_draw(data, mt=None, get_json=True):
+    if mt is None:
+        mt = Indicator(name=data['stock_name'])
+    draw = {'function_name': data['indicators']['draw']['name']}
+    if 'params' in data['indicators']['draw']:
+        params = data['indicators']['draw']['params']
+        for param in params:
+            draw[param] = float(params[param])
+
+    indicator_draw_org = bt.shifter(mt.indicator_calculator(**draw),
+                                    int(data['indicators']['draw']['settings']['shift']))
+    # print(data['stock_name'])
+    # print(draw)
+    # print(calc_filter.delay(data['stock_name'],draw).get())
+    # print(type(calc_filter.delay(data['stock_name'],draw).get()))
+    # indicator_draw_org = bt.shifter(calc_filter.delay(data['stock_name'],draw).get(),
+    #                                 int(data['indicators']['draw']['settings']['shift']))
+    #
+    outputs = data['indicators']['draw']['outputs']
+    indicators = {'draw': {}}
+    for output in outputs:
+        indicators['draw'][output] = indicator.add_time(pd.DataFrame(indicator_draw_org[output])).to_json(
+            orient='values')
+
+    indicators['type'] = 'default'
+    # return indicators
+    if not get_json:
+        return indicators
+    return json.dumps(indicators)
+
+
+def give_result_candlestick(data, mt=None, get_json=True):
+    if mt is None:
+        mt = Indicator(name=data['stock_name'])
+    valid = int(data['valid'])
+    candlestick = {'function_name': data['indicators']['candlestick']['name']}
+    # ascending['price'] = data['apply_to']
+    if 'params' in data['indicators']['candlestick']:
+        params = data['indicators']['candlestick']['params']
+        for param in params:
+            candlestick[param] = float(params[param])
+
+    indicator_candlestick_org = bt.shifter(mt.indicator_calculator(**candlestick),
+                                           int(data['indicators']['candlestick']['settings']['shift']))
+    indicator_candlestick = indicator_candlestick_org[data['indicators']['candlestick']['output']['name']]
+    indicator_candlestick = pd.DataFrame(indicator_candlestick)
+
+    # for i in indicator_candlestick.index:
+    #     if indicator_candlestick['integer'][i] not in [0,200,-200]:
+    #         print('fuck: ',indicator_candlestick['integer'][i])
+
+    # indicator_candlestick_display = []
+    # high = mt.indicator_calculator(**{'function_name':'high'})
+    # low = mt.indicator_calculator(**{'function_name':'low'})
+    # for i in indicator_candlestick.index:
+    #     if indicator_candlestick['integer'][i] != 0:
+    #         indicator_candlestick_display +=[[i,1.05*high['real'][i],0.95*low['real'][i]]]
+    # df = pd.DataFrame(indicator_candlestick_display)
+    # indicators['test'] = df.to_json(orient='values')
+
+    indicators = {'candlestick': {}}
+    outputs = data['indicators']['candlestick']['outputs']
+    for output in outputs:
+        indicators['candlestick'][output] = indicator.add_time(pd.DataFrame(indicator_candlestick_org[output])).to_json(
+            orient='values')
+
+    indicator_candlestick = indicator_candlestick.replace([100, -100], [1, -1])
+    result = indicator_candlestick
+
+    result = bt.set_valid_time(result, valid)
+
+    indicators['type'] = 'first'
+    indicators['result'] = result.to_json(orient='values')
+    if not get_json:
+        return indicators
+    return json.dumps(indicators)
+
+
+def give_result_cross(data, mt=None, get_json=True):
+    if mt is None:
+        mt = Indicator(name=data['stock_name'])
+    valid = int(data['valid'])
+    indicators = {'shorter': {}, 'longer': {}}
+
+    shorter = {'function_name': data['indicators']['shorter']['name']}
+    # shorter['price'] = data['shorter']['apply_to']
+    if 'params' in data['indicators']['shorter']:
+        params = data['indicators']['shorter']['params']
+        for param in params:
+            shorter[param] = float(params[param])
+
+    indicator_shorter_org = bt.shifter(mt.indicator_calculator(**shorter),
+                                       int(data['indicators']['shorter']['settings']['shift']))
+    print(indicator_shorter_org)
+    indicator_shorter = indicator_shorter_org[data['indicators']['shorter']['output']['name']]
+    indicator_shorter = pd.DataFrame(indicator_shorter)
+
+    outputs = data['indicators']['shorter']['outputs']
+    for output in outputs:
+        indicators['shorter'][output] = indicator.add_time(pd.DataFrame(indicator_shorter_org[output])).to_json(
+            orient='values')
+
+    longer = {'function_name': data['indicators']['longer']['name']}
+    if 'params' in data['indicators']['longer']:
+        params = data['indicators']['longer']['params']
+        for param in params:
+            longer[param] = float(params[param])
+
+    indicator_longer_org = bt.shifter(mt.indicator_calculator(**longer),
+                                      int(data['indicators']['longer']['settings']['shift']))
+    indicator_longer = indicator_longer_org[data['indicators']['longer']['output']['name']]
+    indicator_longer = pd.DataFrame(indicator_longer)
+    outputs = data['indicators']['longer']['outputs']
+    for output in outputs:
+        indicators['longer'][output] = indicator.add_time(pd.DataFrame(indicator_longer_org[output])).to_json(
+            orient='values')
+
+    cross = bt.cross(indicator_shorter, indicator_longer)
+    cross = bt.set_valid_time(cross, valid)
+
+    indicators['type'] = 'first'
+    indicators['result'] = cross.to_json(orient='values')
+    # add_to_db(data['id'],cross)
+    if not get_json:
+        return indicators
+    return json.dumps(indicators)
+
+
+def give_result_advance_cross(data, mt=None, get_json=True):
+    if mt is None:
+        mt = Indicator(name=data['stock_name'])
+    valid = int(data['valid'])
+    indicators = {'buying shorter': {}, 'buying longer': {}, 'selling shorter': {}, 'selling longer': {}}
+
+    selling_shorter = {'function_name': data['indicators']['selling shorter']['name']}
+    # shorter['price'] = data['shorter']['apply_to']
+    if 'params' in data['indicators']['selling shorter']:
+        params = data['indicators']['selling shorter']['params']
+        for param in params:
+            selling_shorter[param] = float(params[param])
+
+    indicator_selling_shorter_org = bt.shifter(mt.indicator_calculator(**selling_shorter),
+                                               int(data['indicators']['selling shorter']['settings']['shift']))
+    indicator_selling_shorter = indicator_selling_shorter_org[data['indicators']['selling shorter']['output']['name']]
+    indicator_selling_shorter = pd.DataFrame(indicator_selling_shorter)
+
+    outputs = data['indicators']['selling shorter']['outputs']
+    for output in outputs:
+        indicators['selling shorter'][output] = indicator.add_time(
+            pd.DataFrame(indicator_selling_shorter_org[output])).to_json(
+            orient='values')
+
+    selling_longer = {'function_name': data['indicators']['selling longer']['name']}
+    if 'params' in data['indicators']['selling longer']:
+        params = data['indicators']['selling longer']['params']
+        for param in params:
+            selling_longer[param] = float(params[param])
+
+    indicator_selling_longer_org = bt.shifter(mt.indicator_calculator(**selling_longer),
+                                              int(data['indicators']['selling longer']['settings']['shift']))
+    indicator_selling_longer = indicator_selling_longer_org[data['indicators']['selling longer']['output']['name']]
+    indicator_selling_longer = pd.DataFrame(indicator_selling_longer)
+    outputs = data['indicators']['selling longer']['outputs']
+    for output in outputs:
+        indicators['selling longer'][output] = indicator.add_time(
+            pd.DataFrame(indicator_selling_longer_org[output])).to_json(
+            orient='values')
+
+    selling_cross = bt.cross(indicator_selling_shorter, indicator_selling_longer).replace([1], [0])
+
+    buying_shorter = {'function_name': data['indicators']['buying shorter']['name']}
+    if 'params' in data['indicators']['buying shorter']:
+        params = data['indicators']['buying shorter']['params']
+        for param in params:
+            buying_shorter[param] = float(params[param])
+
+    indicator_buying_shorter_org = bt.shifter(mt.indicator_calculator(**buying_shorter),
+                                              int(data['indicators']['buying shorter']['settings']['shift']))
+    indicator_buying_shorter = indicator_buying_shorter_org[data['indicators']['buying shorter']['output']['name']]
+    indicator_buying_shorter = pd.DataFrame(indicator_buying_shorter)
+
+    outputs = data['indicators']['buying shorter']['outputs']
+    for output in outputs:
+        indicators['buying shorter'][output] = indicator.add_time(
+            pd.DataFrame(indicator_buying_shorter_org[output])).to_json(
+            orient='values')
+
+    buying_longer = {'function_name': data['indicators']['buying longer']['name']}
+    if 'params' in data['indicators']['buying longer']:
+        params = data['indicators']['buying longer']['params']
+        for param in params:
+            buying_longer[param] = float(params[param])
+
+    indicator_buying_longer_org = bt.shifter(mt.indicator_calculator(**buying_longer),
+                                             int(data['indicators']['buying longer']['settings']['shift']))
+    indicator_buying_longer = indicator_buying_longer_org[data['indicators']['buying longer']['output']['name']]
+    indicator_buying_longer = pd.DataFrame(indicator_buying_longer)
+    outputs = data['indicators']['buying longer']['outputs']
+    for output in outputs:
+        indicators['buying longer'][output] = indicator.add_time(
+            pd.DataFrame(indicator_buying_longer_org[output])).to_json(
+            orient='values')
+
+    buying_cross = bt.cross(indicator_buying_shorter, indicator_buying_longer).replace([-1], [0])
+    cross = buying_cross + selling_cross
+    cross = bt.set_valid_time(cross, valid)
+
+    indicators['type'] = 'first'
+    indicators['result'] = cross.to_json(orient='values')
+    if not get_json:
+        return indicators
+    return json.dumps(indicators)
+
+
+def add_to_db(id, data):
+    pass
+    # db = bt.Database_Signal('hadi')
+    # db.write_to_db(data, id)
+
+
+def give_result_backtest(name, res, config):
+    print(config)
+    mt = Indicator(name=name)
+    price = {'function_name': 'close'}
+    price = mt.indicator_calculator(**price)
+
+    res = pd.DataFrame(data=res)
+    # result = bt.BackTest(price, res, config).back_test()
+    result = bt.testresult(price, res, config)
+    return json.dumps(result)
+
+# def give_update_indicators(data):
+#     price = data['price']
+#     data = data['params']
+#     draw = {'function_name': data['name']}
+#     length = 5
+#     if 'params' in data:
+#         params = data['params']
+#         for param in params:
+#             draw[param] = float(params[param])
+#             length = np.max([length, np.abs(float(params[param]))])
+#     length = 10 * (int(length) + 2)
+#     tail = {'price': price, 'length': length}
+#     mt = Indicator(name=data['stock_name'], tail=tail)
+#     indicator_draw_org = mt.indicator_calculator(**draw)
+#     outputs = data['outputs']
+#     indicators = {}
+#     for output in outputs:
+#         indicators[outputs[output]['id']] = indicator.add_time(
+#             pd.DataFrame(indicator_draw_org[output].tail(1))).to_json(
+#             orient='values')
+#     return json.dumps(indicators)
+#
+#
+# def amir(name):
+#     print(name)
+#     data = {"entities": ["نماد " + name]}
+#     data_json = json.dumps(data)
+#     headers = {'Content-type': 'application/json',
+#                "Authorization": "Token 291e2d3a45317cf72f4b10928eb6c6df41c228cf"}
+#
+#     response = requests.post("https://khabareman.com/api/telegram_search/", data=data_json, headers=headers)
+#     # response.json()
+#     return response.json()

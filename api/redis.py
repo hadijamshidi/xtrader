@@ -1,4 +1,5 @@
 import redis
+from api import data
 
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
@@ -27,6 +28,20 @@ def keys():
     return r.keys()
 
 
+def load_history(name):
+    needs = ['date', 'open', 'high', 'low', 'close', 'volume']
+    data_dict = dict()
+    for need in needs:
+        data_dict[need] = eval(r.hget(name=name, key=need))[::-1]
+    date = [data.jalali_to_timestamp(day) for day in data_dict['date']]
+    data_dict['date'] = date
+    return data_dict
+
+
+def flushall():
+    return r.flushall()
+
+
 # read historical data:
 
 import requests as re, threading
@@ -46,15 +61,11 @@ import json
 
 
 def create_historical_table(num):
-    # num = 54
     stocks = Stock.objects.all()[num:]
     for stock in stocks:
-        # print('stock number: {}'.format(num))
-        # print('creating database for {} calling: {}'.format(stock.symbol_id, stock.mabna_short_name))
         data = get_historical_data_stock(stock)
         for key in data:
             r.hset(stock.symbol_id, key, data[key])
-        # print('{} database created'.format(stock.symbol_id))
         num += 1
 
 
@@ -71,36 +82,33 @@ def get_historical_data_stock(stock):
     condition = True
     i = 0
     while condition:
-        # print('request to get {} to {}'.format(i, i + step))
         url = '/exchange/trades?instrument.id={}&_count={}&_skip={}&_sort=-date_time'.format(stock.mabna_id,
                                                                                              step, i)
         output = re.get('http://66.70.160.142:8000/mabna/api', params={'url': url}).text
         history = json.loads(output)['data']
         if len(history) > 0:
             condition = len(history) == step
-            # print('condition: {}'.format(condition))
             for day in history:
                 if 'date_time' in day:
-                    historical_data['date'].append(day['date_time'])
-                    historical_data['close'].append(day['close_price'])
-                    historical_data['low'].append(day['low_price'])
-                    historical_data['high'].append(day['high_price'])
-                    historical_data['open'].append(day['open_price'])
-                    historical_data['volume'].append(day['volume'])
-                # else:
-                #     print('no date time')
+                    historical_data['date'].insert(0, day['date_time'])
+                    historical_data['close'].insert(0, day['close_price'])
+                    historical_data['low'].insert(0, day['low_price'])
+                    historical_data['high'].insert(0, day['high_price'])
+                    historical_data['open'].insert(0, day['open_price'])
+                    historical_data['volume'].insert(0, day['volume'])
             i += step
         else:
             condition = False
-            # print('this stock has no database')
     return historical_data
+
+
 def clean_historical_data_stock():
     from api import redis as r
     import json
-    incorrect_keys=[]
+    incorrect_keys = []
     for keys in r.keys():
         close_price = r.hget(keys, 'close')
         close_price = json.loads(close_price)
-        if len(close_price)<30:
+        if len(close_price) < 30:
             incorrect_keys.append(keys)
     return incorrect_keys

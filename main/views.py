@@ -1,19 +1,12 @@
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, Http404
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-# from account.forms import UserLoginForm
-# from influxdb import DataFrameClient
-# from bot import bot
-from numpy.distutils.misc_util import as_list
-
-from api.models import Stock as Symbol
 import json
 
+from django.http import JsonResponse, HttpResponse, Http404
+from django.shortcuts import render
+
+from api.models import Stock as Symbol
+from finance import data_handling as dh
 from main import indicator
 
-
-from finance import data_handling as dh
 
 #
 # influx_client = DataFrameClient(settings.INFLUX_DB['host'], settings.INFLUX_DB['port'], settings.INFLUX_DB['user'],
@@ -63,17 +56,19 @@ def symbol_search(request, query):
 #
 # @login_required(login_url='/account/login/')
 def get_data(request, name):
-    from api import redis as r
-    from api import data
+    from data import redis
+    from task import testdate
     import pandas as pd
-    needs = ['open', 'high', 'low', 'close','volume']
-    data_dict = dict()
-    for need in needs:
-        data_dict[need] = json.loads(r.hget(name=name, key=need))[::-1]
-    days = eval(r.hget(name=name, key='date'))[::-1]
-    date = [data.jalali_to_timestamp(day) for day in days]
-    data_dict['date'] = date
-    df = pd.DataFrame(data=data_dict, index=date)
+    # needs = ['open', 'high', 'low', 'close','volume']
+    # data_dict = dict()
+    # for need in needs:
+    #     data_dict[need] = json.loads(r.hget(name=name, key=need))
+    # days = eval(r.hget(name=name, key='date'))[::-1]
+    # date = [testdate.jalali_to_timestamp(day) for day in days]
+    # data_dict['date'] = date
+    # df = pd.DataFrame(data=data_dict, index=date)
+    data_dict = redis.load_history(name)
+    df = pd.DataFrame(data=data_dict,index=data_dict['date'])
     df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
     stock = Symbol.objects.get(symbol_id=name)
     stock_information = dict(

@@ -1,10 +1,11 @@
-from django.conf import settings
 # TODO: handle db
 # from influxdb import DataFrameClient
-import pandas as pd
 import numpy as np
+import pandas as pd
 import talib
-from api import redis
+
+from data import redis
+
 columns = ['<TIME>', '<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']
 fields = ['Open', 'High', 'Low', 'Close', 'Volume']
 

@@ -88,6 +88,7 @@ class MarketWatch(models.Model):
     ExchangeName = models.CharField(max_length=50)
     ExchangeCode = models.CharField(max_length=50)
 
+    # TODO: change default value  to constant
     LastTradeDate = models.DateField(default=datetime.now())
 
     FirstTradePrice = models.DecimalField(max_digits=7, decimal_places=1)

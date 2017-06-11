@@ -1,8 +1,10 @@
-from api.models import Stock, Status
-from django.http import HttpResponse
-from api import redis
 import json
 from datetime import datetime
+
+from django.http import HttpResponse
+
+from api.models import Stock, Status
+from data import redis
 
 
 # Create your views here.
@@ -45,7 +47,7 @@ def marketwatch(request):
 
 
 def update_MarketWatch(request):
-    from api import testdate
+    from task import testdate
     if Status.objects.get(job='server').number_of_requests == 0:
         testdate.update_MarketWatch()
     else:

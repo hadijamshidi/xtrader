@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'api',
     'main',
     'finance',
+    'task',
+    'data',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,14 @@
+{% extends "account_base.html" %}
+
+{% block title %}تایید حساب{% endblock %}
+
+{% block formBlock %}
+    <div dir="rtl">
+
+        <h1>فعال شدن حساب</h1>
+        <hr/>
+        <br/>
+        <p>حساب شما با موفقیت فعال شده است. اکنون می توانید <a
+                href="{% url "account:login" %}">وارد سایت شوید.</a></p>
+    </div>
+{% endblock %}

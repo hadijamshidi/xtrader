@@ -1,0 +1,12 @@
+{% extends "account_base.html" %}
+
+{% block title %}Account Confirm{% endblock %}
+
+{% block formBlock %}
+
+    <h1>Account has been Confirmed.</h1>
+    <hr/>
+    <br/>
+    <p>Your Account has been Confirmed. Now you can <a
+            href="{% url "account:login" %}">log in</a>.</p>
+{% endblock %}

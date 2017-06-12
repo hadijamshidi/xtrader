@@ -24,8 +24,8 @@ urlpatterns = [
 
 
     # TODO: handle this lines later
-    # url(r'^$', views.index, name='index'),
-    url(r'^$', views.display, name='display'),
+    url(r'^$', views.index, name='index'),
+    url(r'^backtest', views.display, name='display'),
     # TODO: finish
 
     # url(r'^backtest/stock=(?P<stock_name>\w+)', views.display_item, name='display_item'),

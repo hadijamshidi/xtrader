@@ -1,0 +1,14 @@
+{% extends "account_base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block formBlock %}
+    <h2 class="ui header" style="color: #DDD">Register Form </h2>
+    <hr/>
+    <br/>
+    <form class="ui form" method='post' action='' enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="ui button" value="Register"/>
+    </form>
+{% endblock %}

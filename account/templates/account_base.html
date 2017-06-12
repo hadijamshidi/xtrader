@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block headContent %}
+    <style type="text/css">
+        .row {
+            margin-bottom: 10%;
+        }
+
+        .column {
+            width: 50%;
+            margin: 20% 20% 10% 20%;
+        }
+
+        body {
+            color: #DDD;
+        }
+
+        input[type=text], input[type=email], input[type=search], input[type=password] {
+            width: 100%;
+            height: 35px;
+            padding-left: 4%;
+        }
+
+        #id_date_of_birth {
+            width: 110px;
+            padding-left: 2%;
+        }
+
+        {#        input[type=checkbox], input[type=radio], button, html input[type=button], input[type=reset], input[type=submit] {#}
+        {#            width: auto;#}
+        {#        }#}
+        {##}
+        button, input, optgroup, select, textarea {
+            color: #000;
+        }
+
+        li {
+            color: #DD8129;
+        }
+
+        /* messages */
+        ul.messages {
+            margin: 10px 100px;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        ul.messages li.success,
+        ul.messages li.warning,
+        ul.messages li.error,
+        ul.messages li.info {
+            margin: 0;
+            padding: 14px 20px;
+            list-style: none;
+            color: #fff;
+        }
+
+        ul.messages li.success {
+            background: #81ce81;
+            text-align: center;
+            direction: rtl;
+        }
+
+        ul.messages li.success a {
+            color: #0ac33e;
+        }
+
+        ul.messages li.error {
+            background: #a30029;
+            text-align: center;
+            direction: rtl;
+        }
+
+        ul.messages li.error a {
+            color: #e9828e;
+        }
+
+        ul.messages li.info {
+            background: #faffae;
+            color: #696b4e;
+        }
+
+        ul.messages li.info a {
+            color: #1586de;
+        }
+
+        ul.messages li.warning {
+            background: #de9404;
+        }
+
+        ul.messages li.warning a {
+            color: #f49000;
+        }
+
+        ul.messages li a.close {
+            margin: 0;
+            float: right;
+            opacity: 1;
+            border: 0;
+            box-shadow: none;
+            text-shadow: none;
+        }
+
+        button, input, optgroup, select, textarea {
+            color: #000;
+            background-color: #FFF;
+        }
+    </style>
+{% endblock headContent %}
+
+{% block bodyContent %}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="#" class="close">×</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="ui grid container">
+        <div class="row">
+            <div class="column" dir="rtl">
+                {% block formBlock %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock bodyContent %}

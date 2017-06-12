@@ -760,10 +760,10 @@ function check_strategies_number() {
             pick_portfolio('block');
             // save_filters('default');
         });
-        var txt = document.createTextNode('تشکیل سبد');
+        var txt = document.createTextNode('تشکیل هات لیست');
         save_button.appendChild(txt);
-        // document.getElementById('button_place').appendChild(document.createTextNode('  '));
-        // document.getElementById('button_place').appendChild(save_button);
+        document.getElementById('button_place').appendChild(document.createTextNode('  '));
+        document.getElementById('button_place').appendChild(save_button);
 
         // creating scan button
         var scan_button = document.createElement('button');
@@ -1097,14 +1097,14 @@ function pick_portfolio(stat) {
     document.getElementById('portfolio place').style.display = stat;
 }
 function add_stock(result) {
-    if (portfo.indexOf(result.eng_name) == -1) {
+    if (portfo.indexOf(result.symbol_id) == -1) {
         var div = document.getElementById('stocks place');
         var but = document.createElement('button');
         but.appendChild(document.createTextNode(result.title));
         but.setAttribute('class', 'ui button');
         but.setAttribute('title', 'حذف نماد');
-        but.setAttribute('name', result.eng_name);
-        portfo.push(result.eng_name);
+        but.setAttribute('name', result.symbol_id);
+        portfo.push(result.symbol_id);
         but.addEventListener('click', function () {
             portfo.splice(portfo.indexOf(this.getAttribute('name')), 1);
             this.remove();

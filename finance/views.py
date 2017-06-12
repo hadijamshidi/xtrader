@@ -24,5 +24,10 @@ def calculate_indicators(request):
     # print(data)
     function = all_functions['give_result_' + kind]
     result = function(data)
-    # res = Filter.make_filter(data).calculate()
-    return JsonResponse(result,safe=False)
+    return JsonResponse(result, safe=False)
+
+
+def save_strategy(request):
+    data = json.loads(request.POST['param'])
+    strategy.add_strategy_to_db(data, request.user)
+    return JsonResponse('', safe=False)

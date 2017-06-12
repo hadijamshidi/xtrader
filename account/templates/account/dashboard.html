@@ -1,0 +1,13 @@
+{% extends "account_base.html" %}
+
+{% block title %}داشبورد{% endblock %}
+
+{% block formBlock %}
+    <div dir="rtl">
+        <h1>داشبورد</h1>
+        <hr/>
+        <br/>
+        <p>به داشبورد تغییرات پروفایل خوش آمدید. اینجا می توانید <a href="{% url "account:edit" %}">پروفایل</a> یا <a
+                href="{% url "account:password_change" %}">رمز عبور </a> خود را به تغییر دهید.</p>
+    </div>
+{% endblock %}

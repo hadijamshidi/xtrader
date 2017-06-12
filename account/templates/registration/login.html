@@ -1,0 +1,21 @@
+{% extends "account_base.html" %}
+
+{% block title %}ورود{% endblock %}
+
+{% block formBlock %}
+<div dir="rtl">
+    <h2 class="ui header" style="color: #DDD">صفحه ورود</h2>
+    <hr/>
+    <br/>
+    <form class="ui form" method='post' action='' enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="ui button" value="ورود"/>
+        <a class="ui button" href="{% url "account:register" %}"> ثبت نام </a>
+        {#        <a class="ui button" href="{% url "social:begin" "google-oauth2" %}">Login with Google</a>#}
+    </form>
+    <br>
+    <p><a class="link" href="{% url "account:password_reset" %}">رمز خود را فراموش کرده اید؟</a></p>
+
+</div>
+{% endblock %}

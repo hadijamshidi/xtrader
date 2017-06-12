@@ -2,7 +2,7 @@ import json
 
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render
-
+from account.forms import UserLoginForm
 from api.models import Stock as Symbol
 from finance import data_handling as dh
 from main import indicator
@@ -129,9 +129,9 @@ def display(request):
 #         return render(request, 'applyTheme.html', {'username': request.user.username, 'symbol_name': stock_name})
 
 
-# def index(request):
-#     bot.send_details(request, 'index ')
-#     return render(request, 'index.html', {'username': request.user.username, 'form': UserLoginForm})
+def index(request):
+    # bot.send_details(request, 'index ')
+    return render(request, 'index.html', {'username': request.user.username, 'form': UserLoginForm})
 #
 #
 # def calculate_indicators(request):

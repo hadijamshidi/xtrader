@@ -64,24 +64,24 @@
 {#            <a class="item" id="contact_us" href={% url 'contact:contact_us' %}>#}
 {#                <h4>تماس با ما</h4>#}
 {#            </a>#}
-{#            {% if user.is_authenticated %}#}
-{#                {% if username %}#}
-{#                    <div class="left item" style="cursor: default"><h4><a#}
-{#                            href="{% url "account:dashboard" %}">{{ username }}</a> خوش آمدی </h4></div>#}
-{#                    <a class="item" href=/account/logout>#}
-{#                        <h4>خروج</h4></a>#}
-{#                {% else %}#}
-{#                    <a class="left item"#}
-{#                       href="{% url "account:logout" %}">#}
-{#                        <h4>خروج</h4>#}
-{#                    </a>#}
-{#                {% endif %}#}
-{#            {% else %}#}
-{#                <a class="left item"#}
-{#                   href="{% url "account:login" %}">#}
-{#                    <h4>ورود</h4>#}
-{#                </a>#}
-{#            {% endif %}#}
+            {% if user.is_authenticated %}
+                {% if username %}
+                    <div class="left item" style="cursor: default"><h4><a
+                            href="{% url "account:dashboard" %}">{{ username }}</a> خوش آمدی </h4></div>
+                    <a class="item" href=/account/logout>
+                        <h4>خروج</h4></a>
+                {% else %}
+                    <a class="left item"
+                       href="{% url "account:logout" %}">
+                        <h4>خروج</h4>
+                    </a>
+                {% endif %}
+            {% else %}
+                <a class="left item"
+                   href="{% url "account:login" %}">
+                    <h4>ورود</h4>
+                </a>
+            {% endif %}
         </div>
 
     </div>

@@ -58,4 +58,4 @@ def jalali_to_timestamp(jalali_date):
     timestamp = time.mktime(datetime.datetime.strptime(gorgeain_date, "%Y/%m/%d").timetuple())
     date = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
     # print('conveted from {} to timestamp: {} which is equal to {}'.format(jalali_date, timestamp, date))
-    return 1000*timestamp
+    return 10000*timestamp

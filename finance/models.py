@@ -12,6 +12,6 @@ class Strategy(models.Model):
 
 
 class Follower(models.Model):
-    owner = models.ForeignKey(User)
-    strategy = models.ForeignKey(Strategy)
-    follower = models.ForeignKey(User)
+    owner = models.ForeignKey(User,related_name='Owner')
+    strategy = models.ForeignKey(Strategy,related_name='Strategy')
+    follower = models.ForeignKey(User,related_name='Follower')

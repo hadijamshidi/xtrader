@@ -65,7 +65,7 @@ def clean_company():
 # read historical price data:
 
 def create_historical_table(num=0):
-    stocks = Stock.objects.all()[num:2]
+    stocks = Stock.objects.all()[num:]
     for index, stock in enumerate(stocks):
         data = get_historical_data_stock(stock, index + num)
         for key in data:

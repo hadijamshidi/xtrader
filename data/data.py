@@ -7,8 +7,7 @@ from api.models import Stock, MarketWatch
 server_url = 'http://66.70.160.142:8000/mabna/api'
 
 
-
-def call_threads_for_marketWatch(step=150):
+def call_threads_for_marketWatch():
     login_data = {
         'UserName': 'farabi_hadi',
         'Password': 'h159753159753H'
@@ -17,18 +16,19 @@ def call_threads_for_marketWatch(step=150):
     user.post('http://api.farabixo.com/api/account/repo/login', data=login_data)
     MarketWatch.objects.all().delete()
     stocks = Stock.objects.all()
-    for i in range(0, 600, step):
-        discription = 'thread for {} until {}'.format(i, i + step)
-        t = Thread(target=get_market_watch_data, name=discription,
-                   args=(stocks[i:i + step], user, i))
-        t.start()
+    return get_market_watch_data(stocks=stocks, user=user)
+    # for i in range(0, 600, step):
+    #     discription = 'thread for {} until {}'.format(i, i + step)
+    #     t = Thread(target=get_market_watch_data, name=discription,
+    #                args=(stocks[i:i + step], user, i))
+    #     t.start()
 
 
-def get_market_watch_data(stocks, user, i):
+def get_market_watch_data(stocks, user):
     wrong_symbol_ids = []
     for index, stock in enumerate(stocks):
         symbol_id = stock.symbol_id
-        # print('trying to get data for symbol index: {} with mabna id: {}'.format(i + index, stock.mabna_id))
+        print('trying to get data for symbol index: {} with mabna id: {}'.format(index, stock.mabna_id))
         output = user.get('http://api.farabixo.com/api/pub/GetSymbol', params={'SymbolId': symbol_id}).text
         try:
             trades_data = json.loads(output)

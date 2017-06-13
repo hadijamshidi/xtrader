@@ -1,6 +1,6 @@
 import redis
 
-from task import testdate
+from task import testdate, dates
 
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
@@ -30,12 +30,12 @@ def keys():
 
 
 def load_history(name):
-    needs = ['date', 'open', 'high', 'low', 'close', 'volume']
+    needed_keys = ['date', 'open', 'high', 'low', 'close', 'volume']
     data_dict = dict()
-    for need in needs:
-        data_dict[need] = eval(r.hget(name=name, key=need))
-    date = [testdate.jalali_to_timestamp(day) for day in data_dict['date']]
-    data_dict['date'] = date
+    for key in needed_keys:
+        data_dict[key] = eval(r.hget(name=name, key=key))
+    # date = [dates.to_timestamp(day, mode='mabna') for day in data_dict['date']]
+    # data_dict['date'] = date
     return data_dict
 
 

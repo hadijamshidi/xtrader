@@ -57,16 +57,7 @@ def symbol_search(request, query):
 # @login_required(login_url='/account/login/')
 def get_data(request, name):
     from data import redis
-    from task import testdate
     import pandas as pd
-    # needs = ['open', 'high', 'low', 'close','volume']
-    # data_dict = dict()
-    # for need in needs:
-    #     data_dict[need] = json.loads(r.hget(name=name, key=need))
-    # days = eval(r.hget(name=name, key='date'))[::-1]
-    # date = [testdate.jalali_to_timestamp(day) for day in days]
-    # data_dict['date'] = date
-    # df = pd.DataFrame(data=data_dict, index=date)
     data_dict = redis.load_history(name)
     df = pd.DataFrame(data=data_dict,index=data_dict['date'])
     df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
@@ -77,7 +68,6 @@ def get_data(request, name):
         name=stock.mabna_name,
     )
     stock_history = df.to_json(orient='values')
-
     stock_information['items'] = stock_history
     return JsonResponse(json.dumps(stock_information), safe=False)
 

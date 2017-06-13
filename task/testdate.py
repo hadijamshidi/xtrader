@@ -48,6 +48,7 @@ def validate_time(time):
         return False
     return True
 
+
 # TODO: move to jalali.py
 def jalali_to_timestamp(jalali_date):
     from . import jalali
@@ -56,8 +57,8 @@ def jalali_to_timestamp(jalali_date):
     import time
     import datetime
     # deltatime=
-    dt=datetime.datetime.strptime(gorgeain_date, "%Y/%m/%d").replace(hour=17)
+    dt = datetime.datetime.strptime(gorgeain_date, "%Y/%m/%d").replace(hour=17)
     timestamp = time.mktime(dt.timetuple())
     date = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
     # print('conveted from {} to timestamp: {} which is equal to {}'.format(jalali_date, timestamp, date))
-    return (1000*timestamp)
+    return (1000 * timestamp)

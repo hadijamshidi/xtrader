@@ -2,6 +2,7 @@ import requests as r, json
 from show.models import Company
 from api.models import Stock
 from data import redis
+from task import dates
 
 server_url = 'http://66.70.160.142:8000/mabna/api'
 
@@ -63,15 +64,15 @@ def clean_company():
 
 # read historical price data:
 
-def create_historical_table(num=0, step=100):
-    stocks = Stock.objects.all()[num:]
-    for stock in stocks:
-        data = get_historical_data_stock(stock, step)
+def create_historical_table(num=0):
+    stocks = Stock.objects.all()[num:2]
+    for index, stock in enumerate(stocks):
+        data = get_historical_data_stock(stock, index + num)
         for key in data:
-            r.hset(stock.symbol_id, key, data[key])
+            redis.hset(stock.symbol_id, key, data[key])
 
 
-def get_historical_data_stock(stock, step=100):
+def get_historical_data_stock(stock, index, step=100):
     historical_data = dict(
         date=[],
         close=[],
@@ -82,21 +83,28 @@ def get_historical_data_stock(stock, step=100):
     )
     condition = True
     i = 0
+    mabna_id = stock.mabna_id
+    print('trying to get historical data for {} index of {} in stocks'.format(mabna_id, index))
     while condition:
         url = '/exchange/trades?instrument.id={}&_count={}&_skip={}&_sort=-date_time'.format(stock.mabna_id,
                                                                                              step, i)
+        print('trying to get data from {} and {} days ago'.format(i, i + step))
         output = r.get('http://66.70.160.142:8000/mabna/api', params={'url': url}).text
         history = json.loads(output)['data']
         if len(history) > 0:
             condition = len(history) == step
             for day in history:
                 if 'date_time' in day:
-                    historical_data['date'].insert(0, day['date_time'])
-                    historical_data['close'].insert(0, day['close_price'])
-                    historical_data['low'].insert(0, day['low_price'])
-                    historical_data['high'].insert(0, day['high_price'])
-                    historical_data['open'].insert(0, day['open_price'])
-                    historical_data['volume'].insert(0, day['volume'])
+                    try:
+                        historical_data['date'].insert(0, dates.to_timestamp(date=day['date_time'], mode='mabna'))
+                        historical_data['close'].insert(0, day['close_price'])
+                        historical_data['low'].insert(0, day['low_price'])
+                        historical_data['high'].insert(0, day['high_price'])
+                        historical_data['open'].insert(0, day['open_price'])
+                        historical_data['volume'].insert(0, day['volume'])
+                    except Exception:
+                        print('some problem happened during getting {} data at date: {}'.format(mabna_id,
+                                                                                                day['date_time']))
             i += step
         else:
             condition = False
@@ -105,8 +113,8 @@ def get_historical_data_stock(stock, step=100):
 
 def find_bad_historical_data():
     incorrect_keys = []
-    for keys in r.keys():
-        close_price = r.hget(keys, 'close')
+    for keys in redis.keys():
+        close_price = redis.hget(keys, 'close')
         close_price = json.loads(close_price)
         if len(close_price) < 30:
             incorrect_keys.append(keys)

@@ -89,8 +89,17 @@ def get_historical_data_stock(stock, index, step=100):
         url = '/exchange/trades?instrument.id={}&_count={}&_skip={}&_sort=-date_time'.format(stock.mabna_id,
                                                                                              step, i)
         print('trying to get data from {} and {} days ago'.format(i, i + step))
-        output = r.get('http://66.70.160.142:8000/mabna/api', params={'url': url}).text
-        history = json.loads(output)['data']
+        try:
+            output = r.get('http://66.70.160.142:8000/mabna/api', params={'url': url}).text
+        except Exception:
+            print('problem at sending request either on server or mabna')
+            condition = False
+            continue
+        try:
+            history = json.loads(output)['data']
+        except Exception:
+            condition = False
+            continue
         if len(history) > 0:
             condition = len(history) == step
             for day in history:

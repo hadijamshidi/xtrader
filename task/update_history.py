@@ -9,16 +9,23 @@ from task import dates
 # use farabixo
 
 
-def update_history_with_farabixo():
-    updated_stocks = get_updated_stocks_symbol_ids()
-    update_stocks_with_farabixo(updated_stocks)
+def update_history_with_farabixo(num=0):
+    updated_stocks = get_updated_stocks_symbol_ids(num)
+    update_stocks_with_farabixo(updated_stocks, num)
     return 'finish'
 
 
-def get_updated_stocks_symbol_ids():
+def get_updated_stocks_symbol_ids(num):
     data.call_threads_for_marketWatch()
     symbols = MarketWatch.objects.filter(LastTradeDate=str(datetime.today())[:10]).values('SymbolId')
-    symbol_ids = [symbol['SymbolId'] for symbol in symbols]
+    keys = redis.keys()
+    keys = [key.decode() for key in keys]
+    symbol_ids = []
+    for symbol in symbols[num:]:
+        if symbol['SymbolId'] in keys:
+            symbol_ids.append(symbol['SymbolId'])
+        else:
+            print('{} is a dangerous symbol check it quickly'.format(symbol['SymbolId']))
     return symbol_ids
 
 
@@ -32,11 +39,16 @@ def login_farabi():
     return user
 
 
-def update_stocks_with_farabixo(symbol_ids):
+def update_stocks_with_farabixo(symbol_ids, num):
     user = login_farabi()
-    for symbol_id in symbol_ids:
-        output = user.get('http://api.farabixo.com/api/pub/GetSymbol', params={'SymbolId': symbol_id}).text
-        output = eval(output)
+    for index, symbol_id in enumerate(symbol_ids):
+        try:
+            output = user.get('http://api.farabixo.com/api/pub/GetSymbol', params={'SymbolId': symbol_id}).text
+            output = eval(output)
+        except Exception:
+            print('problem at sending request of SymbolId: {} and num {}'.format(symbol_id, index + num))
+            continue
+
         historical_data_keys = dict(
             date='LastTradeDate',
             close='ClosingPrice',
@@ -46,17 +58,27 @@ def update_stocks_with_farabixo(symbol_ids):
             volume='TotalNumberOfSharesTraded',
         )
         today_data = dict()
-        for key in historical_data_keys:
-            today_data[key] = output[historical_data_keys[key]]
+        try:
+            for key in historical_data_keys:
+                today_data[key] = output[historical_data_keys[key]]
+        except Exception:
+            print('problem at creating today_data dict of SymbolId: {} and num {}'.format(symbol_id, index + num))
+            continue
         today_data['date'] = dates.to_timestamp(date=today_data['date'], mode='farabi')
-        update_history(symbol_id, today_data)
+        update_history(symbol_id, today_data, index + num)
 
 
-def update_history(symbol_id, today_data):
+def update_history(symbol_id, today_data, index):
     for key in today_data:
-        history = eval(redis.hget(name=symbol_id, key=key))
-        history.append(today_data[key])
-        redis.hset(name=symbol_id, key=key, value=history)
+        try:
+            history = eval(redis.hget(name=symbol_id, key=key))
+            history.append(today_data[key])
+            try:
+                redis.hset(name=symbol_id, key=key, value=history)
+            except Exception:
+                print('problem at set data redis for symbolId: {} and index: {}'.format(symbol_id, index))
+        except Exception:
+            print('problem at loading from redis for symbolId: {} and index: {}'.format(symbol_id, index))
 
 # def update_history_with_mabna():
 #     updated_stocks = get_updated_stocks()

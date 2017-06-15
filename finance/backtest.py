@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+
+
 # from influxdb import DataFrameClient
 
 
@@ -83,7 +85,7 @@ def change_df(df):
     return mdf
 
 
-def monotono(indicator, days=2,angel=90):
+def monotono(indicator, days=2, angel=90):
     index = indicator.index
     current_day = change_df(indicator)
     result = pd.DataFrame(data=np.zeros(len(index)), index=index, columns=[0])
@@ -92,9 +94,12 @@ def monotono(indicator, days=2,angel=90):
     result = ascending(mono, days, result)
     result = descending(mono, days, result)
     return result
+
+
 xxx = 0
 
-def ascending(diff, days, result,value=100):
+
+def ascending(diff, days, result, value=100):
     index = diff.index
     mono = diff
     mono = mono > 0
@@ -177,6 +182,7 @@ def give_macd_result(indicators):
 
     return result
 
+
 class BackTest:
     def __init__(self, price, trades, config):
         self.price = pd.DataFrame(change_df(price), copy=True)
@@ -199,9 +205,10 @@ class BackTest:
         self.days_waiting_for_new_trade = 0
         self.selling_commision = 0.01
         self.buying_commision = 0.005
-    def order(self,details,kind):
+
+    def order(self, details, kind):
         if kind == 'sell':
-            self.result[self.trade_num-1][kind] = details
+            self.result[self.trade_num - 1][kind] = details
 
         elif kind == 'buy':
             self.result[self.trade_num] = {}
@@ -210,8 +217,10 @@ class BackTest:
                 self.result[self.trade_num]['buy']['initaial deposit'] = self.capital
                 self.result[self.trade_num]['buy']['waiting candles'] = 'Start'
         elif kind == 'nothing':
-            print('wrong kind: ',kind)
-    def change_other_things(self,kind,i):
+            # print('wrong kind: ', kind)
+            pass
+
+    def change_other_things(self, kind, i):
         if kind == 'sell':
             self.days_in_trade = 0
             self.position = 0
@@ -221,8 +230,9 @@ class BackTest:
             self.days_in_trade = i
             self.position = 1
             self.trade_num += 1
-    def sell(self,i,sell_type):
-        self.asset = 100 * (( (1- self.selling_commision) * self.price['0'][self.index[i]]) - self.asset) / self.asset
+
+    def sell(self, i, sell_type):
+        self.asset = 100 * (((1 - self.selling_commision) * self.price['0'][self.index[i]]) - self.asset) / self.asset
         self.asset = np.round(100 * self.asset) / 100
         self.avg_returns = self.avg_returns + [self.asset]
         self.days_in_trade = i - self.days_in_trade + 1
@@ -230,31 +240,35 @@ class BackTest:
         self.days_waiting_for_new_trade = i
         self.capital = np.round(self.capital * ((100 + self.asset) / 100))
         return {
-                "date": str(i),
-                "action": sell_type,
-                "price": str(self.price['0'][self.index[i]]),
-                "return": str(self.asset),
-                "candles in trade": self.days_in_trade,
-                "capital": self.capital
-            }
-    def buy(self,i):
-        self.asset = (1+ self.buying_commision) * self.price['0'][self.index[i]]
+            "date": str(i),
+            "action": sell_type,
+            "price": str(self.price['0'][self.index[i]]),
+            "return": str(self.asset),
+            "candles in trade": self.days_in_trade,
+            "capital": self.capital
+        }
+
+    def buy(self, i):
+        self.asset = (1 + self.buying_commision) * self.price['0'][self.index[i]]
         if self.days_waiting_for_new_trade != 0:
             self.days_waiting_for_new_trade = i - self.days_waiting_for_new_trade
-            self.avg_days_waiting_for_new_trade = self.avg_days_waiting_for_new_trade + [self.days_waiting_for_new_trade]
+            self.avg_days_waiting_for_new_trade = self.avg_days_waiting_for_new_trade + [
+                self.days_waiting_for_new_trade]
         return {
-                "action": 'buy',
-                "date": str(i),
-                "price": str(self.price['0'][self.index[i]]),
-                "waiting candles": self.days_waiting_for_new_trade
-            }
+            "action": 'buy',
+            "date": str(i),
+            "price": str(self.price['0'][self.index[i]]),
+            "waiting candles": self.days_waiting_for_new_trade
+        }
+
     def check_last_trade(self):
         if len(self.result[self.trade_num - 1]) == 1:
-            print('not sold')
+            # print('not sold')
             i = len(self.trades) - 1
-            details = self.sell(i,'Not Sold Yet')
-            self.order(details,'sell')
-            self.change_other_things('sell',i)
+            details = self.sell(i, 'Not Sold Yet')
+            self.order(details, 'sell')
+            self.change_other_things('sell', i)
+
     def summery(self):
         return {
             "average": {
@@ -268,9 +282,11 @@ class BackTest:
                 "profits": np.round(np.std(self.avg_returns) * 100) / 100
             }
         }
-    def call_order_and_change(self,details,order_type,i):
-        self.order(details,order_type)
-        self.change_other_things(order_type,i)
+
+    def call_order_and_change(self, details, order_type, i):
+        self.order(details, order_type)
+        self.change_other_things(order_type, i)
+
     def backtest_result(self):
         for i in range(len(self.trades)):
             order_type = 'nothing'
@@ -278,28 +294,34 @@ class BackTest:
             if self.position == 0 and self.trades['0'][self.index[i]] == 1:
                 details = self.buy(i)
                 order_type = 'buy'
-                self.call_order_and_change(details,order_type,i)
-            elif self.position == 1 and self.trades['0'][self.index[i]] == -1  and self.result[self.trade_num - 1]['buy']['date'] != str(i):
-                details = self.sell(i,'sell')
+                self.call_order_and_change(details, order_type, i)
+            elif self.position == 1 and self.trades['0'][self.index[i]] == -1 and \
+                            self.result[self.trade_num - 1]['buy']['date'] != str(i):
+                details = self.sell(i, 'sell')
                 order_type = 'sell'
-                self.call_order_and_change(details,order_type,i)
+                self.call_order_and_change(details, order_type, i)
             if self.position == 1:
-                if self.takeProfit != 0 and ((1-self.selling_commision)*self.price['0'][self.index[i]] - self.asset) > self.takeProfit and self.result[self.trade_num - 1]['buy']['date'] != str(i):
-                    details = self.sell(i,'takeprofit')
+                if self.takeProfit != 0 and ((1 - self.selling_commision) * self.price['0'][
+                    self.index[i]] - self.asset) > self.takeProfit and self.result[self.trade_num - 1]['buy'][
+                    'date'] != str(i):
+                    details = self.sell(i, 'takeprofit')
                     order_type = 'sell'
-                    self.call_order_and_change(details,order_type,i)
-                if self.stopLoss != 0 and (self.asset - (1-self.selling_commision)* self.price['0'][self.index[i]]) > self.stopLoss:
-                    details = self.sell(i,'stoploss')
-                    order_type = 'sell'        
-                    self.call_order_and_change(details,order_type,i)
+                    self.call_order_and_change(details, order_type, i)
+                if self.stopLoss != 0 and (
+                    self.asset - (1 - self.selling_commision) * self.price['0'][self.index[i]]) > self.stopLoss:
+                    details = self.sell(i, 'stoploss')
+                    order_type = 'sell'
+                    self.call_order_and_change(details, order_type, i)
         self.check_last_trade()
         return self.result
+
     def back_test(self):
         result = self.backtest_result()
         summery = self.summery()
-        return {'result':result,'summery':summery}
+        return {'result': result, 'summery': summery}
 
-def testresult(price, trades,config):
+
+def testresult(price, trades, config):
     selling_commision = 0.01
     buying_commision = 0.005
     stopLoss = float(config['stop loss'])
@@ -308,6 +330,9 @@ def testresult(price, trades,config):
     price = pd.DataFrame(change_df(price), copy=True)
     trades = pd.DataFrame(change_df(trades), copy=True)
     index = price.index
+    # print(index)
+    index = [str(i) for i in np.asarray(index)]
+    price.index = index
     trades.index = index
     result = {}
 
@@ -323,8 +348,8 @@ def testresult(price, trades,config):
     days_waiting_for_new_trade = 0
 
     for i in range(len(trades)):
-        if  position == 0 and trades['0'][index[i]] == 1:
-            asset = (1+buying_commision) * price['0'][index[i]]
+        if position == 0 and trades['0'][index[i]] == 1:
+            asset = (1 + buying_commision) * price['0'][index[i]]
             if days_waiting_for_new_trade != 0:
                 days_waiting_for_new_trade = i - days_waiting_for_new_trade
                 avg_days_waiting_for_new_trade = avg_days_waiting_for_new_trade + [days_waiting_for_new_trade]
@@ -345,8 +370,8 @@ def testresult(price, trades,config):
             position = 1
             trade_num += 1
         # print(trade_num, result)
-        if position == 1 and trades['0'][index[i]] == -1  and result[trade_num - 1]['buy']['date'] != str(i):
-            asset = 100 * (( (1-selling_commision) * price['0'][index[i]]) - asset) / asset
+        if position == 1 and trades['0'][index[i]] == -1 and result[trade_num - 1]['buy']['date'] != str(i):
+            asset = 100 * (((1 - selling_commision) * price['0'][index[i]]) - asset) / asset
             asset = np.round(100 * asset) / 100
             avg_returns = avg_returns + [asset]
             days_in_trade = i - days_in_trade + 1
@@ -366,8 +391,9 @@ def testresult(price, trades,config):
             position = 0
             asset = 0
         if position == 1:
-            if ((1-selling_commision)*price['0'][index[i]] - asset) > takeProfit and result[trade_num - 1]['buy']['date'] != str(i) and takeProfit != 0:
-                asset = 100 * (( (1-selling_commision) * price['0'][index[i]]) - asset) / asset
+            if ((1 - selling_commision) * price['0'][index[i]] - asset) > takeProfit and result[trade_num - 1]['buy'][
+                'date'] != str(i) and takeProfit != 0:
+                asset = 100 * (((1 - selling_commision) * price['0'][index[i]]) - asset) / asset
                 asset = np.round(100 * asset) / 100
                 avg_returns = avg_returns + [asset]
                 days_in_trade = i - days_in_trade + 1
@@ -385,11 +411,11 @@ def testresult(price, trades,config):
                 days_in_trade = 0
                 position = 0
                 asset = 0
-            if (asset - (1-selling_commision)* price['0'][index[i]]) > stopLoss and stopLoss != 0:
+            if (asset - (1 - selling_commision) * price['0'][index[i]]) > stopLoss and stopLoss != 0:
                 # print('asset: ',asset,' price: ',price['0'][index[i]],' sl: ',stopLoss)
                 # print('date: ',index[i])
                 # print('diff: ',asset - price['0'][index[i]])
-                asset = 100 * (( (1-selling_commision) * price['0'][index[i]]) - asset) / asset
+                asset = 100 * (((1 - selling_commision) * price['0'][index[i]]) - asset) / asset
                 asset = np.round(100 * asset) / 100
                 avg_returns = avg_returns + [asset]
                 days_in_trade = i - days_in_trade + 1
@@ -408,9 +434,9 @@ def testresult(price, trades,config):
                 days_in_trade = 0
                 position = 0
                 asset = 0
-    print(trade_num)
-    if trade_num!=1 and len(result[trade_num - 1]) == 1:
-        print('not sold')
+    # print(trade_num)
+    if trade_num != 1 and len(result[trade_num - 1]) == 1:
+        # print('not sold')
         i = len(trades) - 1
         asset = 100 * ((0.99 * price['0'][index[i]]) - asset) / asset
         asset = np.round(100 * asset) / 100
@@ -435,20 +461,23 @@ def testresult(price, trades,config):
         "result": result,
         "summery": {
             "average": {
-                "candles in trade": np.round(np.mean(avg_days_in_tarde)) if len(avg_days_in_tarde)!=0 else 0,
-                "waiting candles": np.round(np.mean(avg_days_waiting_for_new_trade)) if len(avg_days_waiting_for_new_trade)!=0 else 0,
-                "profits": np.round(np.mean(avg_returns) * 100) / 100 if len(avg_returns)!=0 else 0,
+                "candles in trade": np.round(np.mean(avg_days_in_tarde)) if len(avg_days_in_tarde) != 0 else 0,
+                "waiting candles": np.round(np.mean(avg_days_waiting_for_new_trade)) if len(
+                    avg_days_waiting_for_new_trade) != 0 else 0,
+                "profits": np.round(np.mean(avg_returns) * 100) / 100 if len(avg_returns) != 0 else 0,
             },
             "std": {
-                "candles in trade": np.round(np.std(avg_days_in_tarde)) if len(avg_days_in_tarde)!=0 else 0,
-                "waiting candles": np.round(np.std(avg_days_waiting_for_new_trade)) if len(avg_days_waiting_for_new_trade)!=0 else 0,
-                "profits": np.round(np.std(avg_returns) * 100) / 100 if len(avg_returns)!=0 else 0,
+                "candles in trade": np.round(np.std(avg_days_in_tarde)) if len(avg_days_in_tarde) != 0 else 0,
+                "waiting candles": np.round(np.std(avg_days_waiting_for_new_trade)) if len(
+                    avg_days_waiting_for_new_trade) != 0 else 0,
+                "profits": np.round(np.std(avg_returns) * 100) / 100 if len(avg_returns) != 0 else 0,
             }}
     }
     if trade_num != 1:
         return backtest_result
     else:
         return 'f'
+
 
 def Trade(startegies_results):
     # print(startegies_results)
@@ -537,4 +566,3 @@ password = 'root'
 #     df = pd.DataFrame(np.random.randint(-1, 2, n), index=times, columns=list('A'))
 #     print(df.head())
 #     print(shifter2(df, 2).head())
-

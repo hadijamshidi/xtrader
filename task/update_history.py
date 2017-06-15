@@ -1,5 +1,5 @@
 from api.models import MarketWatch
-from datetime import datetime
+from datetime import datetime,timedelta
 from data import redis, data
 import requests as r
 from task import dates
@@ -15,9 +15,13 @@ def update_history_with_farabixo(num=0):
     return 'finish'
 
 
-def get_updated_stocks_symbol_ids(num):
-    data.call_threads_for_marketWatch()
+def get_updated_stocks_symbol_ids(num=0, update_market_watch=True):
+    if update_market_watch:
+        data.call_threads_for_marketWatch()
     symbols = MarketWatch.objects.filter(LastTradeDate=str(datetime.today())[:10]).values('SymbolId')
+    # TODO: check time better
+    # if not symbols.exists():
+    #     symbols = MarketWatch.objects.filter(LastTradeDate=str(datetime.today()-timedelta(1))[:10]).values('SymbolId')
     keys = redis.keys()
     keys = [key.decode() for key in keys]
     symbol_ids = []

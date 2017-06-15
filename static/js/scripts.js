@@ -32,7 +32,6 @@ window.ODate = Date;
 window.Date = JDate;
 
 $(function () {
-    // $( "a" ).css( "font-family", "IranSanc" );
     isStrategySaved = false;
     load_data('/get-data/name=' + symbol_name);
     Highcharts.setOptions({
@@ -100,7 +99,6 @@ $(function () {
                 ]
             },
             style: {
-                // fontFamily: '\'Unica One\', sans-serif'
                 fontFamily: 'IranSanc'
             },
             plotBorderColor: '#606063',
@@ -110,7 +108,6 @@ $(function () {
             panning: true,
             panKey: 'shift'
         },
-
         title: {
             style: {
                 color: '#E0E0E3',
@@ -377,7 +374,7 @@ function load_data(url) {
         result_type_2[0] = type_2;
         draw_chart();
         // TODO: load strategy
-        // load_strategy();
+        load_strategy_names();
         waiting('default');
         // console.log('default');
     });
@@ -1070,7 +1067,7 @@ function save_filters(pointer) {
     if (!isStrategySaved) {
         $.ajax({
             type: 'POST',
-            url: "/fin/save_strategy",
+            url: "/finance/save_strategy",
             data: {
                 param: JSON.stringify(strategy),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -1097,6 +1094,7 @@ function pick_portfolio(stat) {
     document.getElementById('portfolio place').style.display = stat;
 }
 function add_stock(result) {
+    console.log(result);
     if (portfo.indexOf(result.symbol_id) == -1) {
         var div = document.getElementById('stocks place');
         var but = document.createElement('button');
@@ -1114,13 +1112,13 @@ function add_stock(result) {
         isStrategySaved = false;
     }
 }
-function load_strategy() {
+function load_strategy_names() {
     // console.log('load strategy');
     delete_all(['indicators'], false);
     // console.log('loading strategy');
     $.ajax({
         type: 'POST',
-        url: "/fin/get_strategy_names",
+        url: "/finance/get_strategy_names",
         data: {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
@@ -1128,20 +1126,24 @@ function load_strategy() {
             var strategy_names = JSON.parse(result);
             if (strategy_names.length > 0) {
                 // console.log('applying strategy: ' + strategy_names[0]);
-                apply_strategy(strategy_names[0]);
+                load_strategy(strategy_names[0]);
             } else {
                 console.log('no strategy saved!');
             }
         }
     });
 }
-function apply_strategy(name) {
+function load_strategy(name) {
     waiting('wait');
     $.ajax({
         type: 'GET',
-        url: "/api/fin/name=my_strategy?format=json",
+        url: "/finance/load_strategy",
+        data:{
+            name: name,
+        },
         success: function (strategy) {
-            // console.log(strategy);
+            console.log(JSON.parse(strategy));
+            strategy = JSON.parse(strategy);
             strategy['filters'].forEach(function (filter) {
                 filter = JSON.parse(filter);
                 waiting('wait');
@@ -1702,7 +1704,7 @@ function calculate_indicators(strategy, saving_status) {
             // chosen_strategies.splice(chosen_strategies.indexOf(strategy['str_brief']), 1);
             // delete chosen_strategies[strategy['str_brief']];
             waiting('default');
-            alert('مشکلی پیش آمده است.\n مقدار یکی از پارامترcalcها را اشتباه وارد کرده اید.');
+            alert('مشکلی پیش آمده است.\n مقدار یکی از پارامترها را اشتباه وارد کرده اید.');
             // alert('Sorry something went wrong \nCheck inputs please.');
         },
         success: function (result) {

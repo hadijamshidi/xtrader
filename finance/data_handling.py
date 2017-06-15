@@ -114,7 +114,7 @@ def give_result_ascending(data, mt=None, get_json=True):
     for output in outputs:
         indicators['ascending'][output] = indicator.add_time(pd.DataFrame(indicator_ascending_org[output])).to_json(
             orient='values')
-    print('monoto called!')
+    # print('monoto called!')
     result = bt.monotono(indicator_ascending, days)
     result = bt.set_valid_time(result, valid)
     indicators['type'] = 'first'
@@ -217,7 +217,7 @@ def give_result_cross(data, mt=None, get_json=True):
 
     indicator_shorter_org = bt.shifter(mt.indicator_calculator(**shorter),
                                        int(data['indicators']['shorter']['settings']['shift']))
-    print(indicator_shorter_org)
+    # print(indicator_shorter_org)
     indicator_shorter = indicator_shorter_org[data['indicators']['shorter']['output']['name']]
     indicator_shorter = pd.DataFrame(indicator_shorter)
 
@@ -345,7 +345,7 @@ def add_to_db(id, data):
 
 
 def give_result_backtest(name, res, config):
-    print(config)
+    # print(config)
     mt = Indicator(name=name)
     price = {'function_name': 'close'}
     price = mt.indicator_calculator(**price)

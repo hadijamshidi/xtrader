@@ -9,7 +9,7 @@ import requests
 
 def give_result_more(data, mt=None, get_json=True):
     if mt is None:
-        mt = Indicator(name=data['stock_name'])
+        mt = Indicator(name=data['symbol_id'])
     valid = int(data['valid'])
     indicators = {'main': {}, 'minor': {}}
 
@@ -61,7 +61,7 @@ def give_result_more(data, mt=None, get_json=True):
 
 def give_result_special(data, mt=None, get_json=True):
     if mt is None:
-        mt = Indicator(name=data['stock_name'])
+        mt = Indicator(name=data['symbol_id'])
     valid = int(data['valid'])
     special = {'function_name': data['indicators']['special']['name']}
     # ascending['price'] = data['apply_to']
@@ -94,7 +94,7 @@ def give_result_special(data, mt=None, get_json=True):
 
 def give_result_ascending(data, mt=None, get_json=True):
     if mt is None:
-        mt = Indicator(name=data['stock_name'])
+        mt = Indicator(name=data['symbol_id'])
     days = int(data['days'])
     valid = int(data['valid'])
     ascending = {'function_name': data['indicators']['ascending']['name']}
@@ -126,7 +126,7 @@ def give_result_ascending(data, mt=None, get_json=True):
 
 def give_result_draw(data, mt=None, get_json=True):
     if mt is None:
-        mt = Indicator(name=data['stock_name'])
+        mt = Indicator(name=data['symbol_id'])
     draw = {'function_name': data['indicators']['draw']['name']}
     if 'params' in data['indicators']['draw']:
         params = data['indicators']['draw']['params']
@@ -157,7 +157,7 @@ def give_result_draw(data, mt=None, get_json=True):
 
 def give_result_candlestick(data, mt=None, get_json=True):
     if mt is None:
-        mt = Indicator(name=data['stock_name'])
+        mt = Indicator(name=data['symbol_id'])
     valid = int(data['valid'])
     candlestick = {'function_name': data['indicators']['candlestick']['name']}
     # ascending['price'] = data['apply_to']
@@ -204,7 +204,7 @@ def give_result_candlestick(data, mt=None, get_json=True):
 
 def give_result_cross(data, mt=None, get_json=True):
     if mt is None:
-        mt = Indicator(name=data['stock_name'])
+        mt = Indicator(name=data['symbol_id'])
     valid = int(data['valid'])
     indicators = {'shorter': {}, 'longer': {}}
 
@@ -254,7 +254,7 @@ def give_result_cross(data, mt=None, get_json=True):
 
 def give_result_advance_cross(data, mt=None, get_json=True):
     if mt is None:
-        mt = Indicator(name=data['stock_name'])
+        mt = Indicator(name=data['symbol_id'])
     valid = int(data['valid'])
     indicators = {'buying shorter': {}, 'buying longer': {}, 'selling shorter': {}, 'selling longer': {}}
 

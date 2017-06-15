@@ -1,7 +1,7 @@
 from finance import data_handling
 from django.http import HttpResponse, JsonResponse
 import json
-from . import strategy
+from . import strategy, scan
 # Create your views here.
 
 import inspect
@@ -32,3 +32,9 @@ def load_strategy(request):
     strategy_name = request.GET['name']
     filters = strategy.load_strategy_from_db(request.user, strategy_name)
     return JsonResponse(json.dumps(filters), safe=False)
+
+
+def scan_market(request):
+    strategy_name = request.GET['name']
+    scan_result = scan.scan_market(request.user, strategy_name)
+    return JsonResponse(json.dumps(scan_result), safe=False)

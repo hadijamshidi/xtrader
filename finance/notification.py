@@ -20,7 +20,7 @@ def make_orders(update_market_watch=True):
             first_kind_dict, second_kind_dict, final_dict = {}, {}, {}
             first, second = False, False
             for index, strategy_filter in enumerate(strategy['filters']):
-                strategy_filter['stock_name'] = SymbolId
+                strategy_filter['symbol_id'] = SymbolId
                 function = all_functions['give_result_' + strategy_filter['kind']]
                 result = eval(function(strategy_filter))
                 if result['type'] == 'first':

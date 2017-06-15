@@ -8,7 +8,7 @@ def add_strategy_to_db(data, user_name):
         trader=User.objects.get_by_natural_key(username=user_name),
         name=data['name'],
         filters=str(data['filters']),
-        watch_list=str(data['stock_names'])
+        watch_list=str(data['symbol_ids'])
     )
     st = Strategy.objects.filter(trader=strategy['trader'], name=strategy['name'])
     st.update(**strategy) if st.exists() else st.create(**strategy)
@@ -26,7 +26,7 @@ def load_strategy_from_db(user_name,strategy_name):
     strategy = Strategy.objects.get(trader=trader, name=strategy_name)
     filters, symbol_ids = strategy.filters, strategy.watch_list
     watch_list_dicts_list = get_watch_list_dicts_list(symbol_ids)
-    return {'filters': eval(filters), 'stock_names': watch_list_dicts_list}
+    return {'filters': eval(filters), 'symbol_ids': watch_list_dicts_list}
 
 
 def get_watch_list_dicts_list(symbol_ids):

@@ -1,6 +1,6 @@
 from django.db import models
-from datetime import datetime
-
+# from datetime import datetime
+from django.utils import timezone
 
 # Create your models here.
 class Stock(models.Model):
@@ -21,7 +21,9 @@ class Stock(models.Model):
             # eng_name=self.symbol_id,
             kind='kind',
             category='سهام',
-            symbol_name=self.mabna_short_name, name=self.mabna_name
+            symbol_name=self.mabna_short_name, name=self.mabna_name,
+            description= self.mabna_name,
+            title=self.mabna_short_name,
         )
 
     def __str__(self):
@@ -89,7 +91,7 @@ class MarketWatch(models.Model):
     ExchangeCode = models.CharField(max_length=50)
 
     # TODO: change default value  to constant
-    LastTradeDate = models.DateField(default=datetime.now())
+    LastTradeDate = models.DateField(default=timezone.now())
 
     FirstTradePrice = models.DecimalField(max_digits=7, decimal_places=1)
     LastTradePrice = models.DecimalField(max_digits=7, decimal_places=1)

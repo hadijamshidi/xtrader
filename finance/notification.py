@@ -1,24 +1,26 @@
-from numpy.ma.core import _check_mask_axis
-
 from .models import Strategy
 from . import data_handling as dh
-import inspect, pandas as pd, numpy as np
+import inspect
+import pandas as pd
+import numpy as np
+from task import update_history
 
 all_functions = dict(inspect.getmembers(dh, inspect.isfunction))
 
 
-def scan_market():
+# from finance.notification import scan_market as s
+def make_orders(update_market_watch=True):
     strategys = Strategy.objects.all()
-    for strategy in strategys:
-        strategy = strategy.loads()
-        for SymbolId in strategy['watch_list']:
-            first_kind_dict = {}
-            first = False
-            second_kind_dict = {}
-            second = False
-            final_dict = {}
+    today_symbol_ids = update_history.get_updated_stocks_symbol_ids(num=0, update_market_watch=update_market_watch)
+    orders = []
+    for strategy_org in strategys:
+        strategy = strategy_org.loads()
+        strategy_orders = []
+        for SymbolId in filter(lambda x: True if x in today_symbol_ids else False, strategy['watch_list']):
+            first_kind_dict, second_kind_dict, final_dict = {}, {}, {}
+            first, second = False, False
             for index, strategy_filter in enumerate(strategy['filters']):
-                strategy_filter['stock_name'] = SymbolId
+                strategy_filter['symbol_id'] = SymbolId
                 function = all_functions['give_result_' + strategy_filter['kind']]
                 result = eval(function(strategy_filter))
                 if result['type'] == 'first':
@@ -28,22 +30,25 @@ def scan_market():
                     second_kind_dict['filter-second {}'.format(index)] = make_list_ready(result['result'])
                     second = True
             if first:
-                print('it has first type')
-                first = check_first_kind(first_kind_dict)
-                final_dict['first'] = first
+                final_dict['first'] = check_first_kind(first_kind_dict)
             if second:
-                print('it has second type')
-                second = check_second_type(second_kind_dict)
-                final_dict['second'] = second
+                final_dict['second'] = check_second_type(second_kind_dict)
             final = final_check(final_dict)
             backtest = dh.give_result_backtest(name=SymbolId, res=final,
                                                config={'take profit': '0', 'stop loss': '0',
                                                        'initial deposit': '1000000'})
             backtest = eval(backtest)['result']
-            last = len(backtest)
-            # print(len())
-            print(backtest['{}'.format(last)])
-            print(backtest['{}'.format(last)]['sell'])
+            history_len = len(final)
+            last_trade = backtest['{}'.format(len(backtest))]
+            for trade in ['buy', 'sell']:
+                if last_trade[trade]['date'] == '{}'.format(history_len - 1):
+                    if last_trade[trade]['action'] != 'Not Sold Yet':
+                        strategy_orders.append(
+                            {'symbol_id': SymbolId, 'trade': trade, 'action': last_trade[trade]['action']}
+                        )
+        if len(strategy_orders) > 0:
+            orders.append({'strategy': strategy_org, 'orders': strategy_orders})
+    return orders
 
 
 def check_first_kind(results):

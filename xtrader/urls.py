@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+
 urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^', include('main.urls', namespace='main')),
@@ -26,8 +27,7 @@ urlpatterns = [
     url(r'^show/', include('show.urls')),
     url(r'^mabna/', include('mabna.urls')),
     url(r'^api/', include('api.urls')),
-    url(r'^finance/',include('finance.urls')),
-
+    url(r'^finance/', include('finance.urls')),
 
 ]
 if settings.DEBUG:

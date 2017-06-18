@@ -32,9 +32,8 @@ window.ODate = Date;
 window.Date = JDate;
 
 $(function () {
-    // $( "a" ).css( "font-family", "IranSanc" );
     isStrategySaved = false;
-    load_data('/get-data/name=' + symbol_name);
+    load_data('/get-data/name=' + symbol_id);
     Highcharts.setOptions({
         lang: {
             months: ['فروردين', 'ارديبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
@@ -100,7 +99,6 @@ $(function () {
                 ]
             },
             style: {
-                // fontFamily: '\'Unica One\', sans-serif'
                 fontFamily: 'IranSanc'
             },
             plotBorderColor: '#606063',
@@ -110,7 +108,6 @@ $(function () {
             panning: true,
             panKey: 'shift'
         },
-
         title: {
             style: {
                 color: '#E0E0E3',
@@ -327,12 +324,12 @@ $(function () {
 function load_data(url) {
     waiting('wait');
     $.getJSON(url, function (data) {
-        // window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_name);
+        // window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_id);
         // console.log(data);
         data = JSON.parse(data);
         per_name = data['per_name'];
         name = per_name;
-        symbol_name = data['measurement_name'];
+        symbol_id = data['measurement_name'];
         data = JSON.parse(data['items']);
         // console.log(data);
         data2 = data;
@@ -377,7 +374,8 @@ function load_data(url) {
         result_type_2[0] = type_2;
         draw_chart();
         // TODO: load strategy
-        // load_strategy();
+        load_strategy_names();
+        document.getElementById('search').children[0].children[0].value = '';
         waiting('default');
         // console.log('default');
     });
@@ -390,12 +388,12 @@ function draw_chart() {
                 click: function (e) {
                     switch (this.series.name) {
                         case name:
-                            console.log(name);
+                            // console.log(name);
                             break;
                         default:
                             if (drawing_tool['status']) {
                                 var chart = $('#container').highcharts();
-                                console.log(drawing_tool);
+                                // console.log(drawing_tool);
                                 switch (drawing_tool['tool']['name']) {
                                     case 'line':
                                         var series = chart.get('line');
@@ -419,7 +417,7 @@ function draw_chart() {
                                                 // drawing_tool['status'] = 0;
                                                 break;
                                             case 2:
-                                                console.log('here');
+                                                // console.log('here');
                                                 var new_point = [e.xAxis[0].value, e.yAxis[0].value],
                                                     point1 = drawing_tool['tool']['params']['point1'],
                                                     point2 = drawing_tool['tool']['params']['point2'];
@@ -501,13 +499,13 @@ function draw_chart() {
                         'click': function (e) {
                             switch (this.series.name) {
                                 case name:
-                                    console.log(name);
+                                    // console.log(name);
                                     break;
                                 case 'line':
 
                                     break;
                                 default:
-                                    console.log('default');
+                                    // console.log('default');
                                     break;
                             }
                         }
@@ -693,10 +691,10 @@ function check_distance(point1, point2) {
             s += Math.pow((point1[i] - point2[i]), 2);
         }
         s = Math.sqrt(s);
-        console.log(s);
+        // console.log(s);
         return s
     } else {
-        console.log('input error, inputs length does not match!');
+        // console.log('input error, inputs length does not match!');
     }
 }
 function check_strategies_number() {
@@ -788,8 +786,8 @@ function check_strategies_number() {
         });
         var txt = document.createTextNode('اسکن بازار');
         scan_button.appendChild(txt);
-        // document.getElementById('button_place').appendChild(document.createTextNode('  '));
-        // document.getElementById('button_place').appendChild(scan_button);
+        document.getElementById('button_place').appendChild(document.createTextNode('  '));
+        document.getElementById('button_place').appendChild(scan_button);
 
         // creating delete button
         var delete_all_button = document.createElement('button');
@@ -811,7 +809,7 @@ function check_strategies_number() {
             }
         });
         delete_all_button.addEventListener('click', function () {
-            delete_all(['stock_names', 'indicators', 'back test', 'scan', 'filters'], true);
+            delete_all(['symbol_ids', 'indicators', 'back test', 'scan', 'filters'], true);
         });
         var txt = document.createTextNode('پاک کردن همه');
         delete_all_button.appendChild(txt);
@@ -845,7 +843,7 @@ function delete_all(targets, save) {
                 }
                 check_strategies_number();
                 if (save) {
-                    console.log('saved null filters');
+                    // console.log('saved null filters');
                     isStrategySaved = false;
                     save_filters('default');
                 }
@@ -870,12 +868,12 @@ function delete_all(targets, save) {
                 save_filters('default');
                 isStrategySaved = false;
                 break;
-            case 'stock_names':
+            case 'symbol_ids':
                 portfo = [];
-                console.log('names deleted');
+                // console.log('names deleted');
                 break;
             default:
-                console.log('undefined target: ' + target);
+                // console.log('undefined target: ' + target);
                 break;
         }
     });
@@ -933,7 +931,7 @@ function apply() {
         'take profit': document.getElementById('config_take profit').value,
         'initial deposit': document.getElementById('config_initial deposit').value,
     };
-    var dd = {'name': symbol_name, 'trades': JSON.stringify(result2), 'config': config};
+    var dd = {'name': symbol_id, 'trades': JSON.stringify(result2), 'config': config};
     // console.log(dd);
     waiting('wait');
 
@@ -978,7 +976,7 @@ function apply2(backtest) {
                 }
                 appendRow(tbl);
             } else {
-                console.log('no sold yet');
+                // console.log('no sold yet');
                 tbl = [num_of_trades - i + 1, dohlcv[dohlcv.length - 1][0], res["" + i]["sell"]['action'], 'NaN', 'NaN', 'NaN', "NaN", "NaN"];
                 appendRow(tbl);
             }
@@ -1065,12 +1063,12 @@ function save_filters(pointer) {
     pick_portfolio('none');
     waiting('wait');
     var filters = Object.keys(chosen_strategies);
-    var strategy = {'name': 'my_strategy', 'filters': filters, 'stock_names': portfo};
-    console.log('save ajax');
+    var strategy = {'name': user_current_strategy, 'filters': filters, 'symbol_ids': portfo};
+    // console.log('save ajax');
     if (!isStrategySaved) {
         $.ajax({
             type: 'POST',
-            url: "/fin/save_strategy",
+            url: "/finance/save_strategy",
             data: {
                 param: JSON.stringify(strategy),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -1078,25 +1076,30 @@ function save_filters(pointer) {
             async: false,
             error: function () {
                 waiting('default');
-                alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.')
+                alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
                 // alert('Sorry, while saving your strategy something went wrong.');
             },
             success: function () {
                 isStrategySaved = true;
                 waiting(pointer);
-                console.log('saved!');
-                console.log('save ajax done');
             }
         });
     } else {
-        console.log('already saved');
+        // console.log('already saved');
         waiting('default');
     }
 }
 function pick_portfolio(stat) {
     document.getElementById('portfolio place').style.display = stat;
+    // switch (state){
+    //     case 'block':
+    //         break;
+    //     case 'none':
+    //         break;
+    // }
 }
 function add_stock(result) {
+    // console.log(result);
     if (portfo.indexOf(result.symbol_id) == -1) {
         var div = document.getElementById('stocks place');
         var but = document.createElement('button');
@@ -1104,6 +1107,7 @@ function add_stock(result) {
         but.setAttribute('class', 'ui button');
         but.setAttribute('title', 'حذف نماد');
         but.setAttribute('name', result.symbol_id);
+        console.log(result);
         portfo.push(result.symbol_id);
         but.addEventListener('click', function () {
             portfo.splice(portfo.indexOf(this.getAttribute('name')), 1);
@@ -1114,47 +1118,52 @@ function add_stock(result) {
         isStrategySaved = false;
     }
 }
-function load_strategy() {
-    // console.log('load strategy');
+function load_strategy_names() {
     delete_all(['indicators'], false);
-    // console.log('loading strategy');
     $.ajax({
         type: 'POST',
-        url: "/fin/get_strategy_names",
+        url: "/finance/get_strategy_names",
         data: {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         success: function (result) {
             var strategy_names = JSON.parse(result);
             if (strategy_names.length > 0) {
-                // console.log('applying strategy: ' + strategy_names[0]);
-                apply_strategy(strategy_names[0]);
+                user_strategy_names = strategy_names;
+                user_current_strategy = strategy_names[0];
+                load_strategy(strategy_names[0]);
             } else {
-                console.log('no strategy saved!');
+                user_current_strategy = 'جدید';
+                user_strategy_names = ['جدید'];
             }
+            insert_strategys_names();
         }
     });
 }
-function apply_strategy(name) {
+function load_strategy(name) {
     waiting('wait');
     $.ajax({
         type: 'GET',
-        url: "/api/fin/name=my_strategy?format=json",
+        url: "/finance/load_strategy",
+        data:{
+            name: name,
+        },
         success: function (strategy) {
-            // console.log(strategy);
+            strategy = JSON.parse(strategy);
             strategy['filters'].forEach(function (filter) {
                 filter = JSON.parse(filter);
                 waiting('wait');
-                filter['stock_name'] = symbol_name;
+                filter['symbol_id'] = symbol_id;
                 calculate_indicators(filter, true);
                 // waiting('wait');
             });
             // waiting('wait');
-            strategy['stock_names'].forEach(function (stock) {
+            document.getElementById('stocks place').innerHTML = '';
+            strategy['symbol_ids'].forEach(function (stock) {
                 add_stock(stock);
             });
             isStrategySaved = true;
-            // waiting('default');
+            user_current_strategy = name;
         }
     });
     waiting('default');
@@ -1162,10 +1171,10 @@ function apply_strategy(name) {
 function scan() {
     waiting('wait');
     $.ajax({
-        type: 'POST',
-        url: "/fin/scan",
-        data: {
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        type: 'GET',
+        url: "/finance/scan_market",
+        data:{
+            name: user_current_strategy,
         },
         error: function () {
             waiting('default');
@@ -1191,16 +1200,16 @@ function show_scan_result(result) {
         place.innerHTML = '';
         if (result[signal].length > 0) {
             result[signal].forEach(function (signal_symbol) {
-                var signal_symbol_name = signal_symbol['per_name'],
+                var signal_symbol_name = signal_symbol['symbol_name'],
                     description_text = signal_symbol['description'],
-                    symbol_url = signal_symbol['url'];
+                    symbol_url = signal_symbol['symbol_id'];
                 var item = document.createElement('div');
                 item.setAttribute('class', 'item');
                 item.setAttribute('name', symbol_url);
                 item.addEventListener('click', function () {
                     delete_all(['indicators'], false);
-                    symbol_name = symbol_url;
-                    load_data('/get-data/name=' + symbol_name);
+                    symbol_id = symbol_url;
+                    load_data('/get-data/name=' + symbol_id);
                 });
 
                 var content = document.createElement('div');
@@ -1547,7 +1556,7 @@ function waiting(pointer) {
 }
 function let_draw(data) {
     drawing_tool['status'] = data['status'];
-    console.log(drawing_tool);
+    // console.log(drawing_tool);
 }
 function call_add(kind) {
     var data = {'kind': kind};
@@ -1598,7 +1607,7 @@ function add_method(data) {
     var strategy = new Object();
     strategy = {
         'kind': kind,
-        'stock_name': symbol_name,
+        'symbol_id': symbol_id,
         'request': 'add',
         'indicators': {},
         'valid': document.getElementById('valid_' + kind).value,
@@ -1702,7 +1711,7 @@ function calculate_indicators(strategy, saving_status) {
             // chosen_strategies.splice(chosen_strategies.indexOf(strategy['str_brief']), 1);
             // delete chosen_strategies[strategy['str_brief']];
             waiting('default');
-            alert('مشکلی پیش آمده است.\n مقدار یکی از پارامترcalcها را اشتباه وارد کرده اید.');
+            alert('مشکلی پیش آمده است.\n مقدار یکی از پارامترها را اشتباه وارد کرده اید.');
             // alert('Sorry something went wrong \nCheck inputs please.');
         },
         success: function (result) {
@@ -1723,7 +1732,7 @@ function calculate_indicators(strategy, saving_status) {
                     result_type_1[strategy['id']] = JSON.parse(result['result']);
                     break;
                 default:
-                    console.log('default');
+                    // console.log('default');
                     break;
             }
             var candlestick = false;
@@ -2218,7 +2227,7 @@ function update_indicators(c) {
         }
         Object.keys(strategy['indicators']).forEach(function (type) {
             var params = strategy['indicators'][type];
-            params['stock_name'] = strategy['stock_name'];
+            params['symbol_id'] = strategy['symbol_id'];
             $.ajax({
                 type: 'POST',
                 url: "/update-indicators",
@@ -2227,7 +2236,7 @@ function update_indicators(c) {
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
                 error: function () {
-                    console.log('Sorry something went wrong \nCheck your network connection please.');
+                    // console.log('Sorry something went wrong \nCheck your network connection please.');
                 },
                 success: function (result) {
                     var ids = [];
@@ -2278,23 +2287,24 @@ $(document).ready(function () {
         type: 'category',
         error: false,
         onResultsClose: function (yes) {
-            console.log(this);
+            // console.log(this);
         },
         onSelect: function (result) {
             if (this.id == 'search') {
                 var value = result;
-                console.log(value);
-                symbol_name = value.symbol_id;
+                // console.log(value);
+                symbol_id = value.symbol_id;
                 var backtest_state = document.getElementById('table_place').style.display;
-                load_data('/get-data/name=' + symbol_name);
+                load_data('/get-data/name=' + symbol_id);
                 if (backtest_state == 'block') {
                     delete_all(['back test']);
                 }
-                // window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_name);
+                // window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_id);
             } else {
+                document.getElementById('portfolio search id').innerHTML = '';
                 add_stock(result);
             }
-            console.log(this);
+            // console.log(this);
         },
         apiSettings: {
             onResponse: function (serverResponse) {
@@ -2370,7 +2380,7 @@ function show_news(result) {
     document.getElementById('news_div').style.display = 'block';
 }
 function order(type) {
-    console.log('fuck');
+    // console.log('fuck');
     // var modal = $('#order');
     // modal.attr('sytle','display:block'); 
     document.getElementById('order').setAttribute('sytle', 'display:block');

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Strategy(models.Model):
+    trader = models.ForeignKey(User, related_name='trader')
     description = models.CharField(max_length=500, null=True, blank=True)
     name = models.CharField(max_length=80, default=' استراتژی من ')
     filters = models.TextField()
@@ -11,7 +12,6 @@ class Strategy(models.Model):
     watch_list = models.TextField()
 
     def loads(self):
-        print(self.config)
         strategy_dict = dict(
             filters=[],
             watch_list=eval(self.watch_list),
@@ -22,7 +22,7 @@ class Strategy(models.Model):
             strategy_dict['filters'].append(eval(filter))
         return strategy_dict
 
+
 class Follower(models.Model):
-    owner = models.ForeignKey(User, related_name='Owner')
     strategy = models.ForeignKey(Strategy, related_name='Strategy')
     follower = models.ForeignKey(User, related_name='Follower')

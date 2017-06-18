@@ -1,17 +1,17 @@
 {% load i18n %}{% autoescape off %}
 <html>
 <body>
-    {% if not without_usernames %}<p>{% blocktrans with user.username as username %}Dear {{ username }},</p>{% endblocktrans %}{% endif %}
+    {% if not without_usernames %}<p>{{  user.username  }}عزیز</p>{% endif %}
     <p>
-        {% blocktrans with site.name as site %}You requested a change of your email address at {{ site }}.{% endblocktrans %}
+        {% site.name  %}درخواست شما برای تغییر ایمیل در سایت .
     </p>
     <p>
-        {% trans "Please confirm this email address by clicking on the link below:" %}<br>
+       با کلیک کردن برروی لینک زیر ایمیل خود را تایید کنید <br>
         {{ protocol }}://{{ site.domain }}{% url 'accounts:userena_email_confirm' confirmation_key %}
     </p>
     <p>
-        {% trans "Thanks for using our site!" %}<br />
-        {% trans "Sincerely" %},<br />
+        با تشکر از شما <br />
+        <br />
         {{ site_name }}
     </p>
     </body>

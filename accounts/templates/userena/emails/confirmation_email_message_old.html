@@ -1,19 +1,19 @@
 {% load i18n %}{% autoescape off %}
 <html>
   <body>
-    {% if not without_usernames %}<p>{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}</p>{% endif %}
+    {% if not without_usernames %}<p>{{  user.username  }}عزیز</p>{% endif %}
     <p>
-      {% blocktrans with site.name as site %}There was a request to change your email address at {{ site }}.{% endblocktrans %}
+      درخواستی برای تغییر ایمیل برای شما در سایت {{ site.name }} وجود دارد
     </p>
 
     <p>
-      {% blocktrans %}An email has been send to {{ new_email }} which contains a verification link. Click on the link in this email to activate it.{% endblocktrans %}
+      برای شما در این ایمیل {{ new_email }} لینک تاییده وجود دارد
     </p>
 
-    <p>{% trans "Thanks for using our site!" %}</p>
+    <p>با تشکر </p>
 
     <p>
-      {% trans "Sincerely" %},<br />
+      <br />
       {{ site.name }}
     </p>
   </body>

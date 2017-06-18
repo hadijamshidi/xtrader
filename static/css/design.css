@@ -54,7 +54,7 @@ input[type=number],input[type=query] {
     /*{#        var(--input_color);#} */
     border: none;
     text-align: center;
-
+    color: black;
 }
 
 a[class=link] {
@@ -115,7 +115,6 @@ select {
     background-color: #333;
     color: white;
     padding: 14px 20px;
-    margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;

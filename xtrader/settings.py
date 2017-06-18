@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from django.conf import settings
 
+settings_dir = os.path.dirname(__file__)
+PROJECT_ROOT = os.path.abspath(os.path.dirname(settings_dir))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'mytemplates'),)
+# TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'mytemplates'),
+#                  os.path.join(PROJECT_ROOT, 'templates/'),)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -26,12 +30,18 @@ SECRET_KEY = '*xc_x16#(&vv@-3^-d#i#$92_=e&nopq200q(@p97^nvv0m(-b'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+USERENA_SIGNIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
+ANONYMOUS_USER_ID = -1
 
+AUTH_PROFILE_MODULE = 'accounts.Profile'
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -40,12 +50,25 @@ INSTALLED_APPS = [
     'mabna',
     'show',
     'api',
+    'accounts',
     'main',
+    'django.contrib.sites',
     'finance',
     'task',
     'data',
-    'account',
+    'userena',
+    'guardian',
+    'easy_thumbnails',
+    # 'account',
+    # 'accounts',
 ]
+USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
+                                      'USERENA_REDIRECT_ON_SIGNOUT',
+                                      '/accounts/signin')
+# USERENA_SIGNIN_REDIRECT_URL = getattr(settings,
+#                                       'USERENA_SIGNIN_REDIRECT_URL',
+#                                       '/program')
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,6 +81,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'xtrader.urls'
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'shakhes.xtrader@gmail.com'
+EMAIL_HOST_PASSWORD = 'shakhes8789'
+EMAIL_USE_TLS = True
 
 TEMPLATES = [
     {
@@ -78,18 +107,17 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = 'xtrader.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR+'/database', 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR + '/database', 'db.sqlite3'),
     }
 }
 USE_TZ = True
-TIME_ZONE ='Iran'
+TIME_ZONE = 'Iran'
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -108,19 +136,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-
+LANGUAGE_CODE = 'fa-ir'
 
 USE_I18N = True
 
 USE_L10N = True
 
-
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -131,3 +160,13 @@ STATICFILES_DIRS = (
 )
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
+ANGUAGE_CODE = 'fa-ir'
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
+from django.utils.translation import ugettext_lazy as _
+LANGUAGES = (
+    ('en', _('English')),
+    ('fa', _('Farsi')),
+)

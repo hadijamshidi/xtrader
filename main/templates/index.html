@@ -50,15 +50,20 @@
                                         <img style="width:100%" src="/media/pictures/1.jpg">
                                     </div>
                                     <div class="ui segment" dir="rtl" style="text-align:right;width:60%">
-                                        <form class="ui form" method='post' action='{% url 'account:login' %}'
+                                        <form class="ui form" method='post'
+                                              action='{% url 'accounts:userena_signin' %}'
                                               enctype='multipart/form-data'>
                                             {% csrf_token %}
                                             {{ form.as_p }}
                                             <input type="submit" class="ui button" value="ورود"/>
-                                            <a class="ui button" href="{% url "account:register" %}"> ثبت نام </a>
+                                            <a class="ui button"
+                                               href="{% url "accounts:userena_signup" %}"
+                                            > ثبت نام </a>
                                         </form>
                                         <br>
-                                        <p><a class="link" href="{% url "account:password_reset" %}">رمز خود را فراموش
+                                        <p><a class="link"
+                                              href="{% url "accounts:userena_password_reset" %}"
+                                        >رمز خود را فراموش
                                             کرده اید؟</a>
                                         </p>
                                     </div>

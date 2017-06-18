@@ -67,18 +67,22 @@
             {% if user.is_authenticated %}
                 {% if username %}
                     <div class="left item" style="cursor: default"><h4><a
-                            href="{% url "account:dashboard" %}">{{ username }}</a> خوش آمدی </h4></div>
-                    <a class="item" href=/account/logout>
+                            href="{% url "accounts:userena_profile_detail" %}">{{ username }}</a> خوش آمدی </h4></div>
+                    <a class="item"
+{#                       href="{% url "accounts:userena_signout" %}"#}
+                    >
                         <h4>خروج</h4></a>
                 {% else %}
                     <a class="left item"
-                       href="{% url "account:logout" %}">
+                       href="{% url "accounts:userena_signout" %}"
+                    >
                         <h4>خروج</h4>
                     </a>
                 {% endif %}
             {% else %}
                 <a class="left item"
-                   href="{% url "account:login" %}">
+                   href="{% url "accounts:userena_signin" %}"
+                >
                     <h4>ورود</h4>
                 </a>
             {% endif %}

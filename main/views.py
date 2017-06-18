@@ -2,7 +2,7 @@ import json
 
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render
-from account.forms import UserLoginForm
+# from account.forms import UserLoginForm
 from api.models import Stock as Symbol
 from finance import data_handling as dh
 from main import indicator
@@ -121,7 +121,9 @@ def display(request):
 
 def index(request):
     # bot.send_details(request, 'index ')
-    return render(request, 'index.html', {'username': request.user.username, 'form': UserLoginForm})
+    return render(request, 'index.html',
+                  {'username': 1, 'form': 1}
+                  )
 #
 #
 # def calculate_indicators(request):

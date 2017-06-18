@@ -228,7 +228,7 @@ class AuthenticationForm(forms.Form):
         super(AuthenticationForm, self).__init__(*args, **kwargs)
         # Dirty hack, somehow the label doesn't get translated without declaring
         # it again here.
-        self.fields['remember_me'].label = _('مرا به خاطر بسپار %(days)s') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])}
+        self.fields['remember_me'].label = _('مرا به خاطر بسپار برای %(days)s') % {'days': _('یک ماه')}
         if userena_settings.USERENA_WITHOUT_USERNAMES:
             self.fields['identification'] = identification_field_factory(_("ایمیل"),
                                                                          _("ایمیل خود را وارد کنید"))

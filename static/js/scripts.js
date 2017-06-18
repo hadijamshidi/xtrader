@@ -375,6 +375,7 @@ function load_data(url) {
         draw_chart();
         // TODO: load strategy
         load_strategy_names();
+        document.getElementById('search').children[0].children[0].value = '';
         waiting('default');
         // console.log('default');
     });
@@ -785,8 +786,8 @@ function check_strategies_number() {
         });
         var txt = document.createTextNode('اسکن بازار');
         scan_button.appendChild(txt);
-        // document.getElementById('button_place').appendChild(document.createTextNode('  '));
-        // document.getElementById('button_place').appendChild(scan_button);
+        document.getElementById('button_place').appendChild(document.createTextNode('  '));
+        document.getElementById('button_place').appendChild(scan_button);
 
         // creating delete button
         var delete_all_button = document.createElement('button');
@@ -1062,7 +1063,7 @@ function save_filters(pointer) {
     pick_portfolio('none');
     waiting('wait');
     var filters = Object.keys(chosen_strategies);
-    var strategy = {'name': 'my_strategy', 'filters': filters, 'symbol_ids': portfo};
+    var strategy = {'name': user_current_strategy, 'filters': filters, 'symbol_ids': portfo};
     // console.log('save ajax');
     if (!isStrategySaved) {
         $.ajax({
@@ -1075,14 +1076,12 @@ function save_filters(pointer) {
             async: false,
             error: function () {
                 waiting('default');
-                alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.')
+                alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
                 // alert('Sorry, while saving your strategy something went wrong.');
             },
             success: function () {
                 isStrategySaved = true;
                 waiting(pointer);
-                // console.log('saved!');
-                // console.log('save ajax done');
             }
         });
     } else {
@@ -1092,6 +1091,12 @@ function save_filters(pointer) {
 }
 function pick_portfolio(stat) {
     document.getElementById('portfolio place').style.display = stat;
+    // switch (state){
+    //     case 'block':
+    //         break;
+    //     case 'none':
+    //         break;
+    // }
 }
 function add_stock(result) {
     // console.log(result);
@@ -1102,6 +1107,7 @@ function add_stock(result) {
         but.setAttribute('class', 'ui button');
         but.setAttribute('title', 'حذف نماد');
         but.setAttribute('name', result.symbol_id);
+        console.log(result);
         portfo.push(result.symbol_id);
         but.addEventListener('click', function () {
             portfo.splice(portfo.indexOf(this.getAttribute('name')), 1);
@@ -1113,9 +1119,7 @@ function add_stock(result) {
     }
 }
 function load_strategy_names() {
-    // console.log('load strategy');
     delete_all(['indicators'], false);
-    // console.log('loading strategy');
     $.ajax({
         type: 'POST',
         url: "/finance/get_strategy_names",
@@ -1125,11 +1129,14 @@ function load_strategy_names() {
         success: function (result) {
             var strategy_names = JSON.parse(result);
             if (strategy_names.length > 0) {
-                // console.log('applying strategy: ' + strategy_names[0]);
+                user_strategy_names = strategy_names;
+                user_current_strategy = strategy_names[0];
                 load_strategy(strategy_names[0]);
             } else {
-                // console.log('no strategy saved!');
+                user_current_strategy = 'جدید';
+                user_strategy_names = ['جدید'];
             }
+            insert_strategys_names();
         }
     });
 }
@@ -1151,11 +1158,12 @@ function load_strategy(name) {
                 // waiting('wait');
             });
             // waiting('wait');
+            document.getElementById('stocks place').innerHTML = '';
             strategy['symbol_ids'].forEach(function (stock) {
                 add_stock(stock);
             });
             isStrategySaved = true;
-            // waiting('default');
+            user_current_strategy = name;
         }
     });
     waiting('default');
@@ -1166,7 +1174,7 @@ function scan() {
         type: 'GET',
         url: "/finance/scan_market",
         data:{
-            name: 'my_strategy',
+            name: user_current_strategy,
         },
         error: function () {
             waiting('default');
@@ -2293,6 +2301,7 @@ $(document).ready(function () {
                 }
                 // window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_id);
             } else {
+                document.getElementById('portfolio search id').innerHTML = '';
                 add_stock(result);
             }
             // console.log(this);

@@ -1,13 +1,12 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from api.models import MarketWatch
 from . import jalali
 import time
 
 
 def to_timestamp(date, mode):
-    if mode == 'farabi':
-        return fix_date_farabi(date)
-    if mode == 'mabna':
-        return fix_date_mabna(date)
+    if mode == 'farabi': return fix_date_farabi(date)
+    if mode == 'mabna': return fix_date_mabna(date)
 
 
 def fix_date_mabna(date):
@@ -41,3 +40,34 @@ def fix_date_farabi(date):
     utc_date = datetime(year=year, month=month, day=day, hour=utc_hour, minute=utc_min, second=second).timetuple()
     timestamp = time.mktime(utc_date)
     return 1000 * timestamp
+
+
+class Check:
+    now = datetime.now()
+
+    def day(self):
+        return self.now.weekday() not in [3, 4]
+
+    def time(self):
+        market_time = True
+        state = 'at market'
+        if self.now < self.now.replace(hour=8, minute=30):
+            market_time = False
+            state = 'before market'
+        if self.now > self.now.replace(hour=12, minute=30):
+            market_time = False
+            state = 'after market'
+        return {'market_time': market_time, 'state': state}
+
+    def last_market(self):
+        return self.strdate() if self.day() else self.find_the_last_day()
+
+    def find_the_last_day(self):
+        for delta in range(10):
+            sample = self.now - timedelta(delta)
+            if MarketWatch.objects.filter(LastTradeDate=self.strdate(sample)).exists():
+                return self.strdate(sample)
+        return None
+
+    def strdate(self, sample=True):
+        return str(self.now)[:10] if sample else str(sample)[:10]

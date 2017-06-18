@@ -18,7 +18,7 @@ def update_history_with_farabixo(num=0):
 def get_updated_stocks_symbol_ids(num=0, update_market_watch=True):
     if update_market_watch:
         data.call_threads_for_marketWatch()
-    symbols = MarketWatch.objects.filter(LastTradeDate=str(datetime.today())[:10]).values('SymbolId')
+    symbols = MarketWatch.objects.filter(LastTradeDate=dates.Check().last_market()).values('SymbolId')
     # TODO: check time better
     # if not symbols.exists():
     #     symbols = MarketWatch.objects.filter(LastTradeDate=str(datetime.today()-timedelta(1))[:10]).values('SymbolId')

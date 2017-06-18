@@ -23,7 +23,7 @@
 {% endblock headContent %}
 
 {% block bodyAttr %}
-     style="font-fami"
+    style="font-fami"
 {% endblock bodyAttr %}
 {#{% block menuAttrBlock %}#}
 {#{% endblock menuAttrBlock %}#}
@@ -40,17 +40,18 @@
         </div>
     </div>
 
-{% if False %}
-<div class="modal" id="message">
-    <div class="ui inverted message" style="z-index:30" dir="rtl">
-        <i class="close icon" style="float:left;color:white" onclick="document.getElementById('message').remove()"></i>
-        <div class="header">
-        Welcome back!
+    {% if False %}
+        <div class="modal" id="message">
+            <div class="ui inverted message" style="z-index:30" dir="rtl">
+                <i class="close icon" style="float:left;color:white"
+                   onclick="document.getElementById('message').remove()"></i>
+                <div class="header">
+                    Welcome back!
+                </div>
+                <p>This is a special notification which you can dismiss if you're bored with it.</p>
+            </div>
         </div>
-      <p>This is a special notification which you can dismiss if you're bored with it.</p>
-    </div>
-</div>
-{% endif %}
+    {% endif %}
     <div class="ui container" style="width: 90%">
         <div id="container1">
             <div id="container" style=" min-width: 310px;min-height: 600px"></div>
@@ -212,8 +213,8 @@
                                     <p>ارسال سفارش :</p>
                                     <div style="max-height: 200px;overflow:auto">
                                         <div id="sending order" class="ui relaxed divided list">
-                                        <p>قیمت: <input type="number" name="price"></p>
-                                        <p>حجم: <input type="number" name="volume"></p>
+                                            <p>قیمت: <input type="number" name="price"></p>
+                                            <p>حجم: <input type="number" name="volume"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -232,10 +233,9 @@
                                     </div>
                                 </div>
                             </div>
-                             
+
                         </div>
                     </div>
-
 
 
                     <div class="ui segment" id="config_trade" style="display:none;" dir="rtl">
@@ -371,7 +371,16 @@
                     </div>
                     <div class="ui yellow segment" id="strategy place" dir="rtl" style="display: none">
                         <div class="ui top right attached label">
-                            <h3>استراتژی من:</h3>
+                            <h5>استراتژی:
+                                <select id="strategys_name_place" onchange="load_another_strategy(this.value)">
+                                </select>
+                                <button class="mini ui compact icon button" title="اضافه کردن استراتژی" onclick="add_new_strategy()">
+                                    <i class="plus icon"></i>
+                                </button>
+                            <!--    <button class="mini ui compact icon button" title="تغیر نام استراتژی">
+                                    <i class="edit icon"></i>
+                                </button> -->
+                            </h5>
                         </div>
                         <div class="ui form" align="right">
                             <div class="grouped fields" id="strategies">
@@ -388,9 +397,11 @@
                                 <div class="ui container">
                                     <div class="ui horizontal segments">
                                         <div class="ui segment" dir="rtl" style="text-align:right">
-                                            <div id="portfolio search" class="ui fluid category search" style="z-index:10;">
+                                            <div id="portfolio search" class="ui fluid category search"
+                                                 style="z-index:10;">
                                                 <div class="ui icon input" style="width:50%; margin-left: 25%;">
-                                                    <input class="prompt" type="search" placeholder="اضافه کردن نماد" dir="rtl">
+                                                    <input class="prompt" id="portfolio search id" placeholder="اضافه کردن نماد"
+                                                           dir="rtl">
                                                     <i class="search icon"></i>
                                                 </div>
                                                 <div class="results" style="width:50%; margin-left: 25%;"></div>
@@ -398,7 +409,9 @@
                                         </div>
                                         <div class="ui segment" dir="rtl" style="text-align:right">
                                             <br>
-                                            <div style="float:left" class="ui button" onclick="save_filters('default')">ذخیره استراتژی</div>
+                                            <div style="float:left" class="ui button" onclick="save_filters('default')">
+                                                ذخیره استراتژی
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -410,7 +423,7 @@
                         </div>
                     </div>
 
-                    <div class="ui yellow segment"  id='filters scan place' dir="rtl" style="display: none;">
+                    <div class="ui yellow segment" id='filters scan place' dir="rtl" style="display: none;">
                     </div>
 
                     <div class="ui yellow segment" style="display: none;" dir="rtl" id="scan place">

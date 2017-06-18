@@ -9,9 +9,11 @@ mabna/__pycache__/*
 show/__pycache__/*
 api/__pycache__/*
 */__pycache__/*
+*/migrations/*
 mabna/migrations/*
 show/migrations/*
 api/migrations/*
 main/__pycache__/*
 main/migrations/*
+finance/migrations/*
 

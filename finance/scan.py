@@ -1,6 +1,6 @@
 # from task import update_history as up
 from api.models import MarketWatch, Stock
-from datetime import datetime, timedelta
+from task import dates
 from finance.models import Strategy
 from django.contrib.auth.models import User
 from . import data_handling as dh, notification as notif
@@ -35,10 +35,14 @@ def scan_market(user_name, strategy_name):
             final_dict['second'] = notif.check_second_type(second_kind_dict)
         if not bad_symbol:
             final = notif.final_check(final_dict)
-            if final[-1] != 0:
-                scan_result['buy'].append(create_dict(symbol_id)) if final[-1] == 1 else scan_result['sell'].append(
-                    create_dict(symbol_id))
+            if final[-1] == 1:
+                scan_result['buy'].append(create_dict(symbol_id))
+                if not first:
+                    scan_result['sell'].append(create_dict(symbol_id))
+            if final[-1] == -1:
+                scan_result['sell'].append(create_dict(symbol_id))
     return scan_result
+
 
 def find_strategy_filters(user_name, strategy_name):
     trader = User.objects.get_by_natural_key(username=user_name)
@@ -47,7 +51,7 @@ def find_strategy_filters(user_name, strategy_name):
 
 
 def find_symbol_ids():
-    symbol_ids = MarketWatch.objects.filter(LastTradeDate=str(datetime.today() - timedelta(1))[:10]).values('SymbolId')
+    symbol_ids = MarketWatch.objects.filter(LastTradeDate=dates.Check().last_market()).values('SymbolId')
     return [symbol_id['SymbolId'] for symbol_id in symbol_ids]
 
 

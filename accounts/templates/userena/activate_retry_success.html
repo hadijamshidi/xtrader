@@ -2,11 +2,11 @@
 {% load i18n %}
 
 
-{% block title %}{% trans "Account re-activation succeeded." %}{% endblock %}
-{% block content_title %}<h2>{% trans "Account re-activation" %}</h2>{% endblock %}
+{% block title %}حساب کاربری شما با موفقیت دوباره فعال شد{% trans "Account re-activation succeeded." %}{% endblock %}
+{% block content_title %}<h2>دوباره فعال سازی حساب کاربری {% trans "Account re-activation" %}</h2>{% endblock %}
 
 {% block content %}
-<p>{% blocktrans %}You requested a new activation of your account..{% endblocktrans %}</p>
-<p>{% blocktrans %}You have been sent an e-mail with an activation link to the supplied email.{% endblocktrans %}</p>
-<p>{% blocktrans %}We will store your signup information for {{ userena_activation_days }} days on our server. {% endblocktrans %}</p>
+<p>شما یک لینک فعال سازی جدید برای حساب کاربری خود درخواست دادید.</p>
+<p>لینک فعال سازی به ایمیل شما فرستاده شد .</p>
+<p>ما اطلاعات حساب کاربری شما را تا{{ userena_activation_days }}روز نگه داری میکنیم. </p>
 {% endblock %}

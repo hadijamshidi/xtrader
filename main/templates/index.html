@@ -36,6 +36,7 @@
         <div class="row">
             <div class="column" dir="rtl">
                 <div id="fullpage">
+                    {% if login_status %}
                     <div class="section">
                         <div class="ui segment">
                             <div class="ui top right attached label">
@@ -45,6 +46,7 @@
                             <hr/>
                             <div class="ui form" align="left">
                                 <div class="ui horizontal segments">
+
                                     <div class="ui segment" dir="rtl" style="text-align:right;width:40%">
                                         <br>
                                         <img style="width:100%" src="/media/pictures/1.jpg">
@@ -54,7 +56,7 @@
                                               action='{% url 'accounts:userena_signin' %}'
                                               enctype='multipart/form-data'>
                                             {% csrf_token %}
-                                            {{ form.as_p }}
+                                            {{ form }}
                                             <input type="submit" class="ui button" value="ورود"/>
                                             <a class="ui button"
                                                href="{% url "accounts:userena_signup" %}"
@@ -67,11 +69,11 @@
                                             کرده اید؟</a>
                                         </p>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     <div class="section">
                         <div class="ui segment">
                             <div class="ui top right attached label">

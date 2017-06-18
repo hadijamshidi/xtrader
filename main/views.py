@@ -2,7 +2,7 @@ import json
 
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render
-# from account.forms import UserLoginForm
+from accounts.forms import AuthenticationForm
 from api.models import Stock as Symbol
 from finance import data_handling as dh
 from main import indicator
@@ -120,9 +120,12 @@ def display(request):
 
 
 def index(request):
+    # if request.user:
+    #     True
+    login_status = True if not request.user.username else False
     # bot.send_details(request, 'index ')
     return render(request, 'index.html',
-                  {'username': 1, 'form': 1}
+                  {'form': AuthenticationForm,'login_status':login_status }
                   )
 #
 #

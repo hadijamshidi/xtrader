@@ -2,7 +2,10 @@
 from __future__ import unicode_literals
 
 from userena.forms import (SignupForm, SignupFormOnlyEmail,
-                           ChangeEmailForm, EditProfileForm,identification_field_factory)
+                           ChangeEmailForm,identification_field_factory)
+
+from collections import OrderedDict
+
 
 from django import forms
 from django.contrib.auth import get_user_model
@@ -249,3 +252,41 @@ class AuthenticationForm(forms.Form):
                 raise forms.ValidationError(_("فرم زیر را کامل کنید ، به حروف کوچک و بزرگ حساس است "))
         return self.cleaned_data
 
+class EditProfileForm(forms.ModelForm):
+    """ Base form used for fields that are always required """
+    first_name = forms.CharField(label=_('نام '),
+                                 max_length=30,
+                                 required=False)
+    last_name = forms.CharField(label=_('نام خانوادگی '),
+                                max_length=30,
+                                required=False)
+    date_of_birth = forms.DateField(label=_('تاریخ تولد'),
+                                required=False)
+
+    def __init__(self, *args, **kw):
+        super(EditProfileForm, self).__init__(*args, **kw)
+        # Put the first and last name at the top
+        try:  # in Django < 1.7
+            new_order = self.fields.keyOrder[:-2]
+            new_order.insert(0, 'first_name')
+            new_order.insert(1, 'last_name')
+            self.fields.keyOrder = new_order
+        except AttributeError:  # in Django > 1.7
+            new_order = [('first_name', self.fields['first_name']),
+                         ('last_name', self.fields['last_name'])]
+            new_order.extend(list(self.fields.items())[:-2])
+            self.fields = OrderedDict(new_order)
+
+    class Meta:
+        model = get_profile_model()
+        exclude = ['user']
+
+    def save(self, force_insert=False, force_update=False, commit=True):
+        profile = super(EditProfileForm, self).save(commit=commit)
+        # Save first and last name
+        user = profile.user
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+
+        return profile

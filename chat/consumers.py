@@ -5,7 +5,9 @@ import json
 @channel_session
 def ws_connect(message):
     # prefix, label = message['path'].strip('/').split('chat/')
-    label = 'test'
+    label = 'IRO7RZIP0005'
+    data = json.loads(message['text'])
+    label = data['symbolID'][:-1]
     print(message)
     # room = Room.objects.get(label=label)
     # print(room.label)
@@ -34,13 +36,15 @@ def ws_disconnect(message):
 def ws_send(message):
     Group('chat-test').send({'text':{'m':15}})
 
-def hadi():
+def hadi(label = 'test'):
+    import time
 
-    label = 'test6'
     room = Room.objects.get(label=label)
     # data = json.loads(message['text'])
     # m = room.messages.create(handle='handle', message='yes')
-    m = {'handle': 'handle', 'message': 'self.message', 'timestamp': 'self.formatted_timestamp'}
-    Group('chat-'+label).send({'text':json.dumps(m) })
+    for i in range(5):
+        m = {'handle': 'handle', 'message': 'self.message', 'timestamp': 'self.formatted_timestamp'}
+        Group('chat-'+label).send({'text':json.dumps(m) })
+
+        time.sleep(1)
                                    # json.dumps(m.as_dict())})
-# from chat.consumers import hadi as h

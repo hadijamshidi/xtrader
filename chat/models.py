@@ -2,10 +2,12 @@ from django.db import models
 # from pytz import timezone
 # Create your models here.
 from datetime import datetime
+from api.models import MarketWatch
 
 class Room(models.Model):
     name = models.TextField()
     label = models.SlugField(unique=True)
+
 
     def __unicode__(self):
         return self.label

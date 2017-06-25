@@ -38,3 +38,13 @@ def scan_market(request):
     strategy_name = request.GET['name']
     scan_result = scan.scan_market(request.user, strategy_name)
     return JsonResponse(json.dumps(scan_result), safe=False)
+
+
+
+def update_indicators(request):
+    if request.method == 'POST':
+        data = json.loads(request.POST['param'])
+        result = data_handling.give_update_indicators(data)
+        return JsonResponse(result, safe=False)
+    else:
+        return JsonResponse('only post', safe=False)

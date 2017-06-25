@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^get_strategy_names', views.get_strategy_names, name='get strategy names'),
     url(r'^load_strategy', views.load_strategy, name='load strategy'),
     url(r'^scan_market', views.scan_market, name='scan market'),
+    url(r'^update-indicators', views.update_indicators, name='update_indicators'),
 
 ]

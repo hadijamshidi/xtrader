@@ -224,7 +224,6 @@ function quick_check(str) {
 
 var user_strategy_names;
 var user_current_strategy;
-var user_strategy_witch_list = [];
 function add_new_strategy() {
     var new_name = prompt('برای استراتژی جدید خود یک نام انتخاب کنید', 'جدید ' + (user_strategy_names.length + 1)),
         strategys_name_place = document.getElementById('strategys_name_place'),
@@ -252,25 +251,52 @@ function insert_strategys_names() {
             text_node = document.createTextNode(new_name);
         new_option.appendChild(text_node);
         strategys_name_place.appendChild(new_option);
-        // strategys_name_place.value = new_name;
     });
 }
 
 
 function load_another_strategy(new_name) {
     delete_all(['symbol_ids', 'indicators', 'back test', 'scan', 'filters'], false);
-    console.log(new_name);
     load_strategy(new_name);
-    // document.getElementById('stocks place').innerHTML = '';
-    // portfo = [];
-    // console.log('portfo');
-    // console.log(portfo);
-    // console.log('watch list');
-    // console.log(user_strategy_witch_list);
-    //
-    // user_strategy_witch_list.forEach(function (stock) {
-    //     console.log('new stock to add:');
-    //     console.log(stock);
-    //     add_stock(stock);
-    // });
+}
+
+function hadi () {
+    setInterval(function () {
+    console.log('working');
+    var chart = $('#container').highcharts(),
+        series = chart.get('main');
+    var y = Math.round((Math.random() - 0.5) * 15),
+        l = series.data.length,
+        d = series.data[l - 1].x,
+        o = series.data[l - 1].open,
+        h = series.data[l - 1].high,
+        L = series.data[l - 1].low,
+        c = series.data[l - 1].close + y;
+    d = [d, o, Math.max(h, c), Math.min(L, c), c];
+    series.data[l - 1].remove();
+    series.addPoint(d, false, true);
+    chart.redraw();
+    chart.yAxis[0].removePlotLine('plot-line-1');
+    chart.yAxis[0].addPlotLine({
+        value: c,
+        color: 'yellow',
+        dashStyle: 'DashDot',
+        width: 2,
+        id: 'plot-line-1'
+    });
+    update_indicators({'close': c, 'open': o, 'low': L, 'high': h});
+    }, 2000);
+// });
+}
+
+
+function find_first_id(strategy){
+    var ids = [];
+    Object.keys(strategy['indicators']).forEach(function(indicator){
+        Object.keys(strategy['indicators'][indicator]['outputs']).forEach(function(output){
+            ids.push(strategy['indicators'][indicator]['outputs'][output]['id']);
+        });
+    });
+    console.log(ids);
+    return Math.min.apply(null,ids)
 }

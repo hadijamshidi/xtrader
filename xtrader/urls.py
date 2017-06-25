@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^mabna/', include('mabna.urls')),
     url(r'^api/', include('api.urls')),
     url(r'^finance/', include('finance.urls')),
+    url(r'^following/', include('following.urls')),
 
 ]
 if settings.DEBUG:

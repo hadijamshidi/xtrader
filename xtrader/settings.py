@@ -56,11 +56,13 @@ INSTALLED_APPS = [
     'finance',
     'task',
     'data',
+
+    # userena:
     'userena',
     'guardian',
     'easy_thumbnails',
-    # 'account',
-    # 'accounts',
+
+    'following',
 ]
 USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
                                       'USERENA_REDIRECT_ON_SIGNOUT',
@@ -166,6 +168,7 @@ LOCALE_PATHS = (
 )
 
 from django.utils.translation import ugettext_lazy as _
+
 LANGUAGES = (
     ('en', _('English')),
     ('fa', _('Farsi')),

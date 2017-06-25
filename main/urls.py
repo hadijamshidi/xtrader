@@ -22,7 +22,6 @@ urlpatterns = [
     url(r'^get-data/name=(?P<name>\w+)/', views.get_data, name='get_data'),
     url(r'^indicators-api', views.indicators_api, name='indicatoss_api'),
 
-
     # TODO: handle this lines later
     url(r'^$', views.index, name='index'),
     url(r'^backtest', views.display, name='display'),

@@ -37,6 +37,9 @@ class Indicator:
 
     def load_db(self, tail=None):
         db = redis.load_history(self.SymbolId)
+        if tail:
+            for p in ['high', 'low', 'close', 'open']:
+                db[p][-1] = tail['price'][p]
         df = pd.DataFrame(db)
         # measurement_name = self.name
         # TODO: replace client

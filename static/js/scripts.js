@@ -2217,8 +2217,8 @@ function del(start, finish, str) {
 function update_indicators(c) {
     Object.keys(chosen_strategies).forEach(function (strategy) {
         strategy = JSON.parse(chosen_strategies[strategy]);
-        var start = strategy['id'],
-            finish = strategy['id_finish'],
+        var start = find_first_id(strategy),
+            // finish = strategy['id_finish'],
             chart;
         if (document.getElementById('div' + start)) {
             chart = $('#div' + start).highcharts();
@@ -2230,7 +2230,7 @@ function update_indicators(c) {
             params['symbol_id'] = strategy['symbol_id'];
             $.ajax({
                 type: 'POST',
-                url: "/update-indicators",
+                url: "finance/update-indicators",
                 data: {
                     param: JSON.stringify({'params': params, 'price': c}),
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -2245,9 +2245,11 @@ function update_indicators(c) {
                     });
                     result = JSON.parse(result);
                     ids.forEach(function (i) {
-                        var series = chart.get('' + i),
-                            l = series.data.length,
-                            d = series.data[l - 1].x;
+                        console.log(i);
+                        var series = chart.get('' + i);
+                        var l = series.data.length;
+                            // d = series.data[l - 1].x;
+
                         series.data[l - 1].remove();
                         series.addPoint(JSON.parse(result[i])[0], false, true);
                         chart.redraw({'animation': {'duration': 0}});

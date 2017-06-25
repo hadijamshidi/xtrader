@@ -355,27 +355,31 @@ def give_result_backtest(name, res, config):
     result = bt.testresult(price, res, config)
     return json.dumps(result)
 
-# def give_update_indicators(data):
-#     price = data['price']
-#     data = data['params']
-#     draw = {'function_name': data['name']}
-#     length = 5
-#     if 'params' in data:
-#         params = data['params']
-#         for param in params:
-#             draw[param] = float(params[param])
-#             length = np.max([length, np.abs(float(params[param]))])
-#     length = 10 * (int(length) + 2)
-#     tail = {'price': price, 'length': length}
-#     mt = Indicator(name=data['stock_name'], tail=tail)
-#     indicator_draw_org = mt.indicator_calculator(**draw)
-#     outputs = data['outputs']
-#     indicators = {}
-#     for output in outputs:
-#         indicators[outputs[output]['id']] = indicator.add_time(
-#             pd.DataFrame(indicator_draw_org[output].tail(1))).to_json(
-#             orient='values')
-#     return json.dumps(indicators)
+
+def give_update_indicators(data):
+    price = data['price']
+    data = data['params']
+    draw = {'function_name': data['name']}
+    length = 5
+    if 'params' in data:
+        params = data['params']
+        for param in params:
+            draw[param] = float(params[param])
+            length = np.max([length, np.abs(float(params[param]))])
+    length = 10 * (int(length) + 2)
+    tail = {'price': price, 'length': length}
+    mt = Indicator(name=data['symbol_id'], tail=tail)
+    # mt = Indicator(name=data['symbol_id'])
+    indicator_draw_org = mt.indicator_calculator(**draw)
+    outputs = data['outputs']
+    indicators = {}
+    for output in outputs:
+        indicators[outputs[output]['id']] = indicator.add_time(
+            pd.DataFrame(indicator_draw_org[output].tail(1))).to_json(
+            orient='values')
+    print(indicators)
+    return json.dumps(indicators)
+
 #
 #
 # def amir(name):

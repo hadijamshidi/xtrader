@@ -65,9 +65,9 @@
 {#                <h4>تماس با ما</h4>#}
 {#            </a>#}
             {% if user.is_authenticated %}
-                {% if username %}
+                {% if user.username %}
                     <div class="left item" style="cursor: default"><h4><a
-                            href="{% url "accounts:userena_profile_detail" %}">{{ username }}</a> خوش آمدی </h4></div>
+{#                            href="{% url "accounts:userena_profile_detail"  user.username %}">{{ user.username }}</a> خوش آمدی </h4></div>#}
                     <a class="item"
                        href="{% url "accounts:userena_signout" %}"
                     >

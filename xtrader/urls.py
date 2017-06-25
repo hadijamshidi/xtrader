@@ -18,11 +18,11 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
+    url(r'^chat/', include('chat.urls')),
     url(r'^', include('main.urls', namespace='main')),
-    # url(r'^account/', include('account.urls', namespace="account")),
-
     url(r'^admin/', admin.site.urls),
     url(r'^show/', include('show.urls')),
     url(r'^mabna/', include('mabna.urls')),

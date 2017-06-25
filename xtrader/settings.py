@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-
+import asgi_redis
 import os
 from django.conf import settings
 
@@ -30,7 +30,12 @@ SECRET_KEY = '*xc_x16#(&vv@-3^-d#i#$92_=e&nopq200q(@p97^nvv0m(-b'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-USERENA_SIGNIN_REDIRECT_URL = '/accounts/%(username)s/'
+USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
+                                      'USERENA_REDIRECT_ON_SIGNOUT',
+                                      '/accounts/signin')
+USERENA_SIGNIN_REDIRECT_URL = getattr(settings,
+                                      'USERENA_SIGNIN_REDIRECT_URL',
+                                      '/backtest')
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 ANONYMOUS_USER_ID = -1
@@ -51,25 +56,29 @@ INSTALLED_APPS = [
     'show',
     'api',
     'accounts',
+    'chat',
     'main',
     'django.contrib.sites',
     'finance',
     'task',
     'data',
-
-    # userena:
     'userena',
     'guardian',
     'easy_thumbnails',
+    'channels',
 
-    'following',
+    # 'account',
+    # 'accounts',
 ]
-USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
-                                      'USERENA_REDIRECT_ON_SIGNOUT',
-                                      '/accounts/signin')
-# USERENA_SIGNIN_REDIRECT_URL = getattr(settings,
-#                                       'USERENA_SIGNIN_REDIRECT_URL',
-#                                       '/program')
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379')],
+        },
+        "ROUTING": "chat.routing.channel_routing",
+    },
+}
 SITE_ID = 1
 
 MIDDLEWARE = [
@@ -168,7 +177,6 @@ LOCALE_PATHS = (
 )
 
 from django.utils.translation import ugettext_lazy as _
-
 LANGUAGES = (
     ('en', _('English')),
     ('fa', _('Farsi')),

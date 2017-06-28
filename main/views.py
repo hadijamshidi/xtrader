@@ -1,5 +1,5 @@
 import json
-
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render
 from accounts.forms import AuthenticationForm
@@ -59,7 +59,7 @@ def get_data(request, name):
     from data import redis
     import pandas as pd
     data_dict = redis.load_history(name)
-    df = pd.DataFrame(data=data_dict,index=data_dict['date'])
+    df = pd.DataFrame(data=data_dict, index=data_dict['date'])
     df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
     stock = Symbol.objects.get(symbol_id=name)
     stock_information = dict(
@@ -103,12 +103,13 @@ def indicators_api(request):
         return JsonResponse(json.dumps({'api': 'null'}), safe=False)
 
 
-# @login_required(login_url='/account/login/')
+@login_required(login_url='accounts:userena_signin')
 def display(request):
     # if not request.user.username == 'aidin':
     #     bot.send_message(request.user.username + ' goes to finance page!')
     # return render(request, 'applyTheme.html', {'username': request.user.username,'bool1':True,'bool2':True})
-    return render(request, 'applyTheme.html', {'SymbolId': 'IRO1IKCO0001'})
+    return render(request, 'applyTheme.html', {'SymbolId': 'IRO1IKCO0001', 'username': request.user.username})
+
 
 # @login_required(login_url='/account/login/')
 # def display_item(request, stock_name):
@@ -125,8 +126,10 @@ def index(request):
     login_status = True if not request.user.username else False
     # bot.send_details(request, 'index ')
     return render(request, 'index.html',
-                  {'form': AuthenticationForm,'login_status':login_status }
+                  {'form': AuthenticationForm, 'login_status': login_status}
                   )
+
+
 #
 #
 # def calculate_indicators(request):
@@ -168,11 +171,14 @@ def back_test(request):
         return JsonResponse(result, safe=False)
     else:
         return Http404('this is not a Post!')
+
+
 #
 #
 def about_us(request):
     # bot.send_details(request, 'about us')
     return render(request, 'aboutus.html', {'username': request.user.username})
+
 #
 #
 # def test(request):

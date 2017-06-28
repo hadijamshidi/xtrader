@@ -4,34 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-{#    <script>#}
-{#        (function (i, s, o, g, r, a, m) {#}
-{#            i['GoogleAnalyticsObject'] = r;#}
-{#            i[r] = i[r] || function () {#}
-{#                    (i[r].q = i[r].q || []).push(arguments)#}
-{#                }, i[r].l = 1 * new Date();#}
-{#            a = s.createElement(o),#}
-{#                m = s.getElementsByTagName(o)[0];#}
-{#            a.async = 1;#}
-{#            a.src = g;#}
-{#            m.parentNode.insertBefore(a, m)#}
-{#        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');#}
-{##}
-{#        ga('create', 'UA-87937025-1', 'auto');#}
-{#        ga('send', 'pageview');#}
-{#    </script>#}
-
-    {#    <script type="text/javascript" src="{% static 'highcharts/js/.js' %}"></script>#}
-    {#    <script type="text/javascript" src="{% static 'highstock/js/highstock.js' %}"></script>#}
-    {#    <script type="text/javascript" src="{% static 'highstock/js/modules/exporting.js' %}"></script>#}
-    {#    script type="text/javascript" src="{% static 'semantic/dist/semantic.js' %}"></script>#}
-    {#    <script type="text/javascript" src="{% static 'semantic/dist/components/accordion.js' %}"></script>#}
-    {#    <link rel="stylesheet" type="text/css" href="{% static 'semantic/dist/semantic.min.css' %}"/>#}
-    {#    <link rel="stylesheet" type="text/css" href="{% static 'semantic/dist/components/accordion.css' %}"/>#}
-    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>#}
-    {#    <script src="http://semantic-ui.com/dist/semantic.min.js"></script>#}
-    {#    <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>#}
-    {#    <link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>#}
 
 
     <link rel="stylesheet" type="text/css"
@@ -64,30 +36,26 @@
 {#            <a class="item" id="contact_us" href={% url 'contact:contact_us' %}>#}
 {#                <h4>تماس با ما</h4>#}
 {#            </a>#}
+            <a class="item" id="contact_us">
+            </a>
             {% if user.is_authenticated %}
-                {% if user.username %}
+                {% if username %}
                     <div class="left item" style="cursor: default"><h4><a
-{#                            href="{% url "accounts:userena_profile_detail"  user.username %}">{{ user.username }}</a> خوش آمدی </h4></div>#}
+                            href="{% url "accounts:userena_profile_detail" user.username %}">{{ username }}</a> خوش آمدی
+                    </h4>
+                    </div>
                     <a class="item"
-                       href="{% url "accounts:userena_signout" %}"
-                    >
-                        <h4>خروج</h4></a>
-                {% else %}
-                    <a class="left item"
-                       href="{% url "accounts:userena_signout" %}"
-                    >
+                       href="{% url "accounts:userena_signout" %}">
                         <h4>خروج</h4>
                     </a>
                 {% endif %}
             {% else %}
                 <a class="left item"
-                   href="{% url "accounts:userena_signin" %}"
-                >
+                   href="{% url "accounts:userena_signin" %}">
                     <h4>ورود</h4>
                 </a>
             {% endif %}
         </div>
-
     </div>
 
     <div id="content">
@@ -100,37 +68,41 @@
         <div class="ui inverted footer" align="center">
 
             <table dir="rtl" style="text-align:center" class="ui fixed inverted table">
-              <thead>
+                <thead>
                 <tr>
                     <th style="width:30%">معرفی Xtrader</th>
                     <th style="width:30%">ارتباط با ما</th>
                     <th style="width:30%">شبکه ها اجتماعی</th>
                 </tr>
-              </thead>
-              <tbody>
+                </thead>
+                <tbody>
                 <tr>
-                  <td>XTrader، یک دیده بان اتوماتیک بازار است، که با قابلیت­ها بی­ نظیر خود علاوه بر صرفه جویی در زمان، عملکرد و سودآوری معامله گران را نیز بهبود می ­بخشد.
-                  </td>
-                  <td>
-                      <div>تلفن:<p dir="ltr">021-2241 9418</p></div>
-                      <div>ایمیل: info@xtrader.ir</div>
-                      <div>آدرس: تهران، دانشگاه شهید بهشتی، مرکز رشد فناوری،
-                      شتابدهنده فارابی
-                  </div>
-                </td>
-                  <td>
-                      <div>کانال تلگرام: <a href="http://www.t.me/xtrader_market_watch" dir="ltr">@xtrader_market_watch</a></div>
-                      <div>اینستاگرام: <a href="http://www.instagram.com/xtrader_market_watch" dir="ltr">@xtrader_market_watch</a></div>
-                </td>
+                    <td>XTrader، یک دیده بان اتوماتیک بازار است، که با قابلیت­ها بی­ نظیر خود علاوه بر صرفه جویی در
+                        زمان، عملکرد و سودآوری معامله گران را نیز بهبود می ­بخشد.
+                    </td>
+                    <td>
+                        <div>تلفن:<p dir="ltr">021-2241 9418</p></div>
+                        <div>ایمیل: info@xtrader.ir</div>
+                        <div>آدرس: تهران، دانشگاه شهید بهشتی، مرکز رشد فناوری،
+                            شتابدهنده فارابی
+                        </div>
+                    </td>
+                    <td>
+                        <div>کانال تلگرام: <a href="http://www.t.me/xtrader_market_watch" dir="ltr">@xtrader_market_watch</a>
+                        </div>
+                        <div>اینستاگرام: <a href="http://www.instagram.com/xtrader_market_watch" dir="ltr">@xtrader_market_watch</a>
+                        </div>
+                    </td>
                 </tr>
-              </tbody>
+                </tbody>
             </table>
         </div>
+
     </div>
 
 </div>
 <script type="text/javascript">
-    $( "*" ).not("i").css( "font-family", "IranSanc" );
+    $("*").not("i").css("font-family", "IranSanc");
 </script>
 </body>
 

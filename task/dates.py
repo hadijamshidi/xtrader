@@ -60,7 +60,10 @@ class Check:
         return {'market_time': market_time, 'state': state}
 
     def last_market(self):
-        return self.strdate() if self.day() else self.find_the_last_day()
+        last_day = MarketWatch.objects.order_by('-LastTradeDate')[:1].first()
+        last_day = str(last_day.LastTradeDate)
+        return last_day
+        # return self.strdate() if self.day() else self.find_the_last_day()
 
     def find_the_last_day(self):
         for delta in range(10):

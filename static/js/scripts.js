@@ -755,10 +755,10 @@ function check_strategies_number() {
             }
         });
         save_button.addEventListener('click', function () {
-            pick_portfolio('block');
-            // save_filters('default');
+            // pick_portfolio('block');
+            save_filters('default');
         });
-        var txt = document.createTextNode('تشکیل هات لیست');
+        var txt = document.createTextNode('‌ذخیره استراتژی');
         save_button.appendChild(txt);
         document.getElementById('button_place').appendChild(document.createTextNode('  '));
         document.getElementById('button_place').appendChild(save_button);

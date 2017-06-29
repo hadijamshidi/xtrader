@@ -33,7 +33,7 @@ def load_history(name):
     needed_keys = ['date', 'open', 'high', 'low', 'close', 'volume']
     data_dict = dict()
     for key in needed_keys:
-        data_dict[key] = r.hget(name=name, key=key)
+        data_dict[key] = hget(name=name, key=key)
     return data_dict
 
 

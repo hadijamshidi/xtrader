@@ -92,11 +92,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'xtrader.urls'
-EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'shakhes.xtrader@gmail.com'
-EMAIL_HOST_PASSWORD = 'shakhes8789'
+EMAIL_HOST_USER = 'info.xtrader@gmail.com'
+EMAIL_HOST_PASSWORD = 'xtradermarketwatch159753159753'
 EMAIL_USE_TLS = True
 
 TEMPLATES = [

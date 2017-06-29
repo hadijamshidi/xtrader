@@ -41,7 +41,7 @@
             {% if user.is_authenticated %}
                 {% if username %}
                     <div class="left item" style="cursor: default"><h4><a
-                            href="{% url "accounts:userena_profile_detail" user.username %}">{{ username }}</a> خوش آمدی
+                            href="{# {% url "accounts:userena_profile_detail" user.username %}#}">{{ username }}</a> خوش آمدی
                     </h4>
                     </div>
                     <a class="item"

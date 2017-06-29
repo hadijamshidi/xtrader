@@ -126,7 +126,7 @@ def index(request):
     login_status = True if not request.user.username else False
     # bot.send_details(request, 'index ')
     return render(request, 'index.html',
-                  {'form': AuthenticationForm, 'login_status': login_status}
+                  {'form': AuthenticationForm, 'login_status': login_status, 'username': request.user.username}
                   )
 
 

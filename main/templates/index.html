@@ -52,24 +52,36 @@
                                         <img style="width:100%" src="/media/pictures/1.jpg">
                                     </div>
                                     <div class="ui segment" dir="rtl" style="text-align:right;width:60%">
-                                        <form class="ui form" method='post'
-                                              action='{% url 'accounts:userena_signin' %}'
-                                              enctype='multipart/form-data'>
+                                        <form action="{% url "accounts:userena_signin" %}" method="post">
                                             {% csrf_token %}
-                                            {{ form }}
+                                            <fieldset>
+                                                <legend>ورود</legend>
+                                                {{ form.non_field_errors }}
+                                                {% for field in form %}
+                                                    {{ field.errors }}
+                                                    <!--{% comment %} Displaying checkboxes differently {% endcomment %}-->
+                                                    {% if field.name == 'remember_me' %}
+                                                        <p class="checkbox">
+                                                            <label for="id_{{ field.name }}">{{ field }} {{ field.label }}</label>
+                                                        </p>
+                                                    {% else %}
+                                                        <p>
+                                                            {{ field.label_tag }}
+                                                            {{ field }}
+                                                        </p>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </fieldset>
                                             <br>
-                                            <br>
-                                            <input type="submit" class="ui button" value="ورود"/>
+                                            <input class="ui button" type="submit" value="ورود"/>
                                             <a class="ui button"
                                                href="{% url "accounts:userena_signup" %}"
                                             > ثبت نام </a>
+                                            <br>
+                                            <p class="forgot-password"><a class="link" href="{% url "accounts:userena_password_reset" %}">رمز خود را فراموش
+                                                کردید ؟</a></p>
+                                            {% if next %}<input type="hidden" name="next" value="{{ next }}"/>{% endif %}
                                         </form>
-                                        <br>
-                                        <p><a class="link"
-                                              href="{% url "accounts:userena_password_reset" %}"
-                                        >رمز خود را فراموش
-                                            کرده اید؟</a>
-                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -287,6 +299,10 @@
 {#            });#}
 {##}
 {#        });#}
+        $( "form" ).attr("class", "ui form" );
+        $( "input" ).not(":submit").css( "background-color", "#555" );
+        $( "input" ).not(":submit").css( "color", "white" );
+        $( "input:submit" ).attr("class", "ui button" );
     </script>
 
 {% endblock bodyContent %}

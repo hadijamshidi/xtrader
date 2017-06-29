@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from api.models import MarketWatch
 from . import jalali
 import time
+from data import redis
 
 
 def to_timestamp(date, mode):
@@ -42,6 +43,10 @@ def fix_date_farabi(date):
     return 1000 * timestamp
 
 
+def to_str(date):
+    return str(date)[:10]
+
+
 class Check:
     now = datetime.now()
 
@@ -60,8 +65,8 @@ class Check:
         return {'market_time': market_time, 'state': state}
 
     def last_market(self):
-        last_day = MarketWatch.objects.order_by('-LastTradeDate')[:1].first()
-        last_day = str(last_day.LastTradeDate)
+        last_day = MarketWatch.objects.order_by('-LastTradeDate').first()
+        last_day = to_str(last_day.LastTradeDate)
         return last_day
         # return self.strdate() if self.day() else self.find_the_last_day()
 
@@ -72,5 +77,19 @@ class Check:
                 return self.strdate(sample)
         return None
 
-    def strdate(self, sample=True):
-        return str(self.now)[:10] if sample else str(sample)[:10]
+    def strdate(self):
+        return str(self.now)[:10]
+
+    def is_history_updated(self):
+        last_market = MarketWatch.objects.order_by('-LastTradeDate').first()
+        SymbolId = last_market.SymbolId
+        last_market_date = to_str(last_market.LastTradeDate)
+        last_historical_date = redis.hget(SymbolId, 'date')[-1]
+        last_historical_date *= .001
+        # print('date: {}'.format(last_market_date))
+        # print('last_historical_date: {}'.format(last_historical_date))
+        last_historical_date = datetime.utcfromtimestamp(last_historical_date)
+        last_historical_date = to_str(last_historical_date)
+        # print('last_historical_date: {}'.format(last_historical_date))
+        # print('now: {}'.format(to_str(datetime.now())))
+        return last_historical_date == last_market_date

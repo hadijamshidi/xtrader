@@ -1,17 +1,18 @@
 from api.models import MarketWatch
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from data import redis, data
 import requests as r
 from task import dates
+from xtrader.localsetting import farabi_login_data
 
 
 # from task.update_history import update_history as h
 # use farabixo
 
 
-def update_history_with_farabixo(num=0):
-    updated_stocks = get_updated_stocks_symbol_ids(num)
-    update_stocks_with_farabixo(updated_stocks, num)
+def update_history_with_farabixo(num=0, update_market_watch=True):
+    updated_stocks = get_updated_stocks_symbol_ids(num, update_market_watch=update_market_watch)
+    update_stocks_with_farabixo(updated_stocks, num) if not dates.Check().is_history_updated() else print('updated')
     return 'finish'
 
 
@@ -34,12 +35,8 @@ def get_updated_stocks_symbol_ids(num=0, update_market_watch=True):
 
 
 def login_farabi():
-    login_data = {
-        'UserName': 'farabi_hadi',
-        'Password': 'h159753159753H'
-    }
     user = r.session()
-    user.post('http://api.farabixo.com/api/account/repo/login', data=login_data)
+    user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
     return user
 
 
@@ -75,7 +72,7 @@ def update_stocks_with_farabixo(symbol_ids, num):
 def update_history(symbol_id, today_data, index):
     for key in today_data:
         try:
-            history = eval(redis.hget(name=symbol_id, key=key))
+            history = redis.hget(name=symbol_id, key=key)
             history.append(today_data[key])
             try:
                 redis.hset(name=symbol_id, key=key, value=history)
@@ -83,45 +80,3 @@ def update_history(symbol_id, today_data, index):
                 print('problem at set data redis for symbolId: {} and index: {}'.format(symbol_id, index))
         except Exception:
             print('problem at loading from redis for symbolId: {} and index: {}'.format(symbol_id, index))
-
-# def update_history_with_mabna():
-#     updated_stocks = get_updated_stocks()
-#     update_stocks(updated_stocks)
-#     return 'finish'
-#
-#
-# def get_updated_stocks():
-#     data.call_threads_for_marketWatch()
-#     symbols = MarketWatch.objects.filter(LastTradeDate=str(datetime.today())[:10]).values('SymbolId')
-#     symbols_dict = []
-#     for symbol in symbols:
-#         SymbolId = symbol['SymbolId']
-#         mabna_id = Stock.objects.filter(symbol_id=SymbolId).first().mabna_id
-#         symbol_dict = {'mabna_id': mabna_id, 'SymbolId': SymbolId}
-#         symbols_dict.append(symbol_dict)
-#     return symbols_dict
-#
-#
-# def update_stocks(symbols_dict, step=50):
-#     historical_data_keys = dict(
-#         date='date_time',
-#         close='close_price',
-#         low='low_price',
-#         high='high_price',
-#         open='open_price',
-#         volume='volume',
-#     )
-#     for symbol_dict in symbols_dict:
-#         data = get_updated_data(symbol_dict['mabna_id'])
-#         for key in historical_data_keys:
-#             SymbolId = symbol_dict['SymbolId']
-#             last = eval(redis.hget(SymbolId, key))
-#             last.append(data[historical_data_keys[key]])
-#             redis.hset(SymbolId, key, last)
-#
-#
-# def get_updated_data(mabna_id):
-#     url = '/exchange/trades?instrument.id={}&_sort=-date_time&_count=1'.format(mabna_id)
-#     output = r.get('http://66.70.160.142/mabna/api', params={'url': url}).text
-#     data = json.loads(output)['data'][0]
-#     return data

@@ -40,7 +40,6 @@ def scan_market(request):
     return JsonResponse(json.dumps(scan_result), safe=False)
 
 
-
 def update_indicators(request):
     if request.method == 'POST':
         data = json.loads(request.POST['param'])

@@ -194,7 +194,7 @@ def activate(request, activation_key,
     """
     try:
         if (not UserenaSignup.objects.check_expired_activation(activation_key)
-            or not userena_settings.USERENA_ACTIVATION_RETRY):
+                or not userena_settings.USERENA_ACTIVATION_RETRY):
             user = UserenaSignup.objects.activate_user(activation_key)
             if user:
                 # Sign the user in.
@@ -209,8 +209,9 @@ def activate(request, activation_key,
                 if success_url:
                     redirect_to = success_url % {'username': user.username}
                 else:
-                    redirect_to = reverse('accounts:userena_profile_detail',
-                                          kwargs={'username': user.username})
+                    # redirect_to = reverse('accounts:userena_profile_detail',
+                    #                       kwargs={'username': user.username})
+                    redirect_to = reverse('main:display')
                 return redirect(redirect_to)
             else:
                 if not extra_context: extra_context = dict()

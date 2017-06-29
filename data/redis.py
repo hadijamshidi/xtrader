@@ -18,7 +18,7 @@ def hset(name, key, value):
 
 
 def hget(name, key):
-    return r.hget(name=name, key=key).decode()
+    return eval(r.hget(name=name, key=key).decode())
 
 
 def delete(names):
@@ -33,9 +33,7 @@ def load_history(name):
     needed_keys = ['date', 'open', 'high', 'low', 'close', 'volume']
     data_dict = dict()
     for key in needed_keys:
-        data_dict[key] = eval(r.hget(name=name, key=key))
-    # date = [dates.to_timestamp(day, mode='mabna') for day in data_dict['date']]
-    # data_dict['date'] = date
+        data_dict[key] = r.hget(name=name, key=key)
     return data_dict
 
 

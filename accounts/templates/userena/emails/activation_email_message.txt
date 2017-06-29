@@ -1,14 +1,13 @@
 {% load i18n %}{% autoescape off %}
-{% if not without_usernames %}{% blocktrans with user.username as username %}Dear {{ username }},{% endblocktrans %}
+{% if not without_usernames %}{% blocktrans with user.username as username %}{{ username }} عزیز,{% endblocktrans %}
 {% endif %}
-{% blocktrans with site.name as site %}Thank you for signing up at {{ site }}.{% endblocktrans %}
+{% blocktrans with site.name as site %} ممنون بابت ثبت نام در {{ site }}.{% endblocktrans %}
 
-{% trans "To activate your account you should click on the link below:" %}
+برای فعال کردن حساب خود روی لینک زیر کلیک کنید:
+{{ protocol }}://{{ site.domain }}{% url 'accounts:userena_activate' activation_key %}
 
-{{ protocol }}://{{ site.domain }}{% url 'userena_activate' activation_key %}
+{% trans "به سایت ما خوش آمدید" %}
 
-{% trans "Thanks for using our site!" %}
-
-{% trans "Sincerely" %},
+{% trans "ارادتمند شما" %},
 {{ site.name }}
 {% endautoescape %}

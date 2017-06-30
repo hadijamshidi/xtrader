@@ -105,10 +105,11 @@ def get_historical_data_stock(stock, index, step=100):
             for day in history:
                 if 'date_time' in day:
                     try:
+                        prices = [day['close_price'], day['low_price'], day['high_price'], day['open_price']]
                         historical_data['date'].insert(0, dates.to_timestamp(date=day['date_time'], mode='mabna'))
                         historical_data['close'].insert(0, day['close_price'])
-                        historical_data['low'].insert(0, day['low_price'])
-                        historical_data['high'].insert(0, day['high_price'])
+                        historical_data['low'].insert(0, min(prices))
+                        historical_data['high'].insert(0, max(prices))
                         historical_data['open'].insert(0, day['open_price'])
                         historical_data['volume'].insert(0, day['volume'])
                     except Exception:
@@ -124,7 +125,6 @@ def find_bad_historical_data():
     incorrect_keys = []
     for keys in redis.keys():
         close_price = redis.hget(keys, 'close')
-        close_price = json.loads(close_price)
         if len(close_price) < 30:
             incorrect_keys.append(keys)
     return incorrect_keys
@@ -133,12 +133,10 @@ def find_bad_historical_data():
 def read_historical_data_from_server_db():
     history = r.get('http://66.70.160.142/api/history/').text
     history_data = json.loads(history)
-    # print(history)
     redis.flushall()
     for data in history_data:
         for symbol_id in data:
             for key in data[symbol_id]:
-                # print(symbol_id,key)
                 redis.hset(symbol_id, key, data[symbol_id][key])
 
 

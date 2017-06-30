@@ -90,7 +90,7 @@ def get_historical_data_stock(stock, index, step=100):
                                                                                              step, i)
         print('trying to get data from {} and {} days ago'.format(i, i + step))
         try:
-            output = r.get('http://66.70.160.142:8000/mabna/api', params={'url': url}).text
+            output = r.get('http://66.70.160.142/mabna/api', params={'url': url}).text
         except Exception:
             print('problem at sending request either on server or mabna')
             condition = False

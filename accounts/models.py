@@ -15,4 +15,4 @@ class Profile(UserenaBaseProfile):
                          unique=True,
                          verbose_name=_('user'),
                          related_name='my_profile')
-    date_of_birth = DateField(blank=True, null=True)
+    # date_of_birth = DateField(blank=True, null=True)

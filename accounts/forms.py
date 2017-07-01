@@ -2,10 +2,9 @@
 from __future__ import unicode_literals
 
 from userena.forms import (SignupForm, SignupFormOnlyEmail,
-                           ChangeEmailForm,identification_field_factory)
+                           identification_field_factory)
 
 from collections import OrderedDict
-
 
 from django import forms
 from django.contrib.auth import get_user_model
@@ -47,7 +46,7 @@ class SignupFormExtra(SignupForm):
 
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
-                                label=_("رمز عبور "), error_messages={'required':'assd'})
+                                label=_("رمز عبور "), error_messages={'required': 'assd'})
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
                                 label=_("تکرار رمز "))
@@ -108,8 +107,11 @@ class SignupFormExtra(SignupForm):
         except get_user_model().DoesNotExist:
             pass
         else:
-            if userena_settings.USERENA_ACTIVATION_REQUIRED and UserenaSignup.objects.filter(user__username__iexact=self.cleaned_data['username']).exclude(activation_key=userena_settings.USERENA_ACTIVATED):
-                raise forms.ValidationError(_('This username is already taken but not confirmed. Please check your email for verification steps.'))
+            if userena_settings.USERENA_ACTIVATION_REQUIRED and UserenaSignup.objects.filter(
+                    user__username__iexact=self.cleaned_data['username']).exclude(
+                    activation_key=userena_settings.USERENA_ACTIVATED):
+                raise forms.ValidationError(_(
+                    'This username is already taken but not confirmed. Please check your email for verification steps.'))
             raise forms.ValidationError(_('This username is already taken.'))
         if self.cleaned_data['username'].lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
             raise forms.ValidationError(_('This username is not allowed.'))
@@ -123,6 +125,7 @@ class SignupFormExtra(SignupForm):
                 activation_key=userena_settings.USERENA_ACTIVATED):
                 raise forms.ValidationError(_(
                     'این ایمیل پیش تر در سیستم ثبت شده ولی فعال نگردیده است. لطفا ایمیل خود را برای فعال سازی چک نمایید'))
+            raise forms.ValidationError(_('این ایمیل قبلا یکبار مورد استفاده قرار گرفته است '))
         return self.cleaned_data['email']
 
     def clean(self):
@@ -224,7 +227,8 @@ class AuthenticationForm(forms.Form):
                                widget=forms.PasswordInput(attrs=attrs_dict, render_value=False))
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(),
                                      required=False,
-                                     label=_('مرا به خاطر بسپار %(days)s') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])})
+                                     label=_('مرا به خاطر بسپار %(days)s') % {
+                                         'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])})
 
     def __init__(self, *args, **kwargs):
         """ A custom init because we need to change the label if no usernames is used """
@@ -252,6 +256,7 @@ class AuthenticationForm(forms.Form):
                 raise forms.ValidationError(_("فرم زیر را کامل کنید ، به حروف کوچک و بزرگ حساس است "))
         return self.cleaned_data
 
+
 class EditProfileForm(forms.ModelForm):
     """ Base form used for fields that are always required """
     first_name = forms.CharField(label=_('نام '),
@@ -259,8 +264,6 @@ class EditProfileForm(forms.ModelForm):
                                  required=False)
     last_name = forms.CharField(label=_('نام خانوادگی '),
                                 max_length=30,
-                                required=False)
-    date_of_birth = forms.DateField(label=_('تاریخ تولد'),
                                 required=False)
 
     def __init__(self, *args, **kw):
@@ -279,7 +282,7 @@ class EditProfileForm(forms.ModelForm):
 
     class Meta:
         model = get_profile_model()
-        exclude = ['user']
+        exclude = ['user', 'privacy', 'mugshot']
 
     def save(self, force_insert=False, force_update=False, commit=True):
         profile = super(EditProfileForm, self).save(commit=commit)
@@ -290,3 +293,30 @@ class EditProfileForm(forms.ModelForm):
         user.save()
 
         return profile
+
+
+class ChangeEmailForm(forms.Form):
+    email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,maxlength=75)),
+                           label=_("New email"))
+
+    def __init__(self, user, *args, **kwargs):
+        """
+        The current ``user`` is needed for initialisation of this form so
+        that we can check if the email address is still free and not always
+        returning ``True`` for this query because it's the users own e-mail
+        address.
+        """
+        super(ChangeEmailForm, self).__init__(*args, **kwargs)
+        if not isinstance(user, get_user_model()):
+            raise TypeError("user must be an instance of %s" % get_user_model().__name__)
+        else:
+            self.user = user
+
+    def clean_email(self):
+        """ Validate that the email is not already registered with another user """
+        if self.cleaned_data['email'].lower() == self.user.email:
+            raise forms.ValidationError(_('شما با این ایمیل شناخته میشوید'))
+        if get_user_model().objects.filter(email__iexact=self.cleaned_data['email']).exclude(
+                email__iexact=self.user.email):
+            raise forms.ValidationError(_('این ایمیل در حال حاضر وجود دارد . لطفا ایمیل جدیدی را وارد کنید'))
+        return self.cleaned_data['email']

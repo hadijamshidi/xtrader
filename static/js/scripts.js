@@ -2315,6 +2315,7 @@ $(document).ready(function () {
                 };
                 // translate GitHub API response to work with search
                 $.each(serverResponse.items, function (index, item) {
+                    // console.log(item);
                     var
                         category = item.category || 'Unknown',
                         maxResults = 8
@@ -2333,7 +2334,7 @@ $(document).ready(function () {
                     response.results[category].results.push({
                         title: item.symbol_name,
                         description: item.name,
-                        price: item.kind,
+                        // price: item.kind,
                         eng_name: item.eng_name,
                         symbol_id: item.symbol_id,
                     });
@@ -2382,8 +2383,5 @@ function show_news(result) {
     document.getElementById('news_div').style.display = 'block';
 }
 function order(type) {
-    // console.log('fuck');
-    // var modal = $('#order');
-    // modal.attr('sytle','display:block'); 
     document.getElementById('order').setAttribute('sytle', 'display:block');
 }

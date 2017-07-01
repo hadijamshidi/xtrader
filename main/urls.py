@@ -18,6 +18,7 @@ from . import views
 
 urlpatterns = [
     # url(r'^item/name=(?P<name>\w+)/', views.item_detail, name='item_details'),
+    url(r'^.well-known/acme-challenge/ODxZzdF8g1qVVcaBy7TTYI9PwVWD_65sFjIlPpDq2Oo', views.ssl,),
     url(r'^symbol-search/q=(?P<query>\w+)', views.symbol_search, name='symbol_search'),
     url(r'^get-data/name=(?P<name>\w+)/', views.get_data, name='get_data'),
     url(r'^indicators-api', views.indicators_api, name='indicatoss_api'),

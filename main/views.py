@@ -37,6 +37,10 @@ from main import indicator
 #                    'username': request.user.username})
 #
 #
+def ssl(request):
+    return HttpResponse('ODxZzdF8g1qVVcaBy7TTYI9PwVWD_65sFjIlPpDq2Oo.k6aH7_MEwQSb7bHkMzEABjDvdGgv8H5p7iYRvDVGzNE')
+
+
 def symbol_search(request, query):
     symbols = Symbol.objects.filter(mabna_short_name__istartswith=query) \
               | Symbol.objects.filter(mabna_english_name__icontains=query) \
@@ -48,6 +52,7 @@ def symbol_search(request, query):
     mydict = dict(
         items=results,
     )
+    print(mydict['items'][0])
     return HttpResponse(json.dumps(mydict, ensure_ascii=False).encode("utf8"),
                         content_type="application/json; charset=utf-8")
 

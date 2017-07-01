@@ -38,7 +38,7 @@ from main import indicator
 #
 #
 def ssl(request):
-    return HttpResponse('_4__Dydo_r-Odxp9vmfg6O0yztz4wubxg1pI_hjN61w.roFR2cIPsmsvrAbcUKyEWeWbhw-5q0XtVPqbbDoFZzs')
+    return HttpResponse('ODxZzdF8g1qVVcaBy7TTYI9PwVWD_65sFjIlPpDq2Oo.k6aH7_MEwQSb7bHkMzEABjDvdGgv8H5p7iYRvDVGzNE')
 
 
 def symbol_search(request, query):

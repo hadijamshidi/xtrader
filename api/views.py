@@ -27,7 +27,10 @@ def history(request):
         symbol_history_dict = {}
         symbol_history_dict[symbol_id] = {}
         for key in ['date', 'close', 'open', 'high', 'low', 'volume']:
-            symbol_history_dict[symbol_id][key] = redis.hget(name=symbol_id, key=key)
+            try:
+                symbol_history_dict[symbol_id][key] = redis.hget(name=symbol_id, key=key)
+            except Exception:
+                pass
         histories.append(symbol_history_dict)
     return HttpResponse(json.dumps(histories))
 

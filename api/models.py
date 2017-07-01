@@ -20,9 +20,10 @@ class Stock(models.Model):
             eng_name=self.mabna_english_name,
             # eng_name=self.symbol_id,
             kind='kind',
-            category='سهام',
-            symbol_name=self.mabna_short_name, name=self.mabna_name,
-            description= self.mabna_name,
+            category='اوراق بهادار',
+            symbol_name=self.mabna_short_name,
+            name=self.mabna_name,
+            description=self.mabna_name,
             title=self.mabna_short_name,
         )
 

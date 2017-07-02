@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 import talib
-
+from finance import backtest as bt
 from data import redis
 
 columns = ['<TIME>', '<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']
@@ -66,7 +66,7 @@ class Indicator:
         # conversion line period
         cl = float(kwargs['conversionLineperiod'])
         # base line
-        bl = float(kwargs['BaseLineperiod'])
+        bl = int(kwargs['BaseLineperiod'])
         # Sen span B
         ssB = float(kwargs['LagingB'])
 

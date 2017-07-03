@@ -14,6 +14,7 @@ def give_result_more(data, mt=None, get_json=True):
     indicators = {'main': {}, 'minor': {}}
 
     main = {'function_name': data['indicators']['main']['name']}
+    main = add_apply_to(main, 'main', data)
     if 'params' in data['indicators']['main']:
         params = data['indicators']['main']['params']
         for param in params:
@@ -30,8 +31,7 @@ def give_result_more(data, mt=None, get_json=True):
             orient='values')
 
     minor = {'function_name': data['indicators']['minor']['name']}
-    if data['indicators']['minor']['apply_to'] != 'default':
-        minor['price'] = data['indicators']['minor']['apply_to']
+    minor = add_apply_to(minor, 'minor', data)
     if 'params' in data['indicators']['minor']:
         params = data['indicators']['minor']['params']
         for param in params:
@@ -64,7 +64,7 @@ def give_result_special(data, mt=None, get_json=True):
         mt = Indicator(name=data['symbol_id'])
     valid = int(data['valid'])
     special = {'function_name': data['indicators']['special']['name']}
-    # ascending['price'] = data['apply_to']
+    special = add_apply_to(special, 'special', data)
     if 'params' in data['indicators']['special']:
         params = data['indicators']['special']['params']
         for param in params:
@@ -98,7 +98,7 @@ def give_result_ascending(data, mt=None, get_json=True):
     days = int(data['days'])
     valid = int(data['valid'])
     ascending = {'function_name': data['indicators']['ascending']['name']}
-    # ascending['price'] = data['apply_to']
+    ascending = add_apply_to(ascending, 'ascending', data)
     if 'params' in data['indicators']['ascending']:
         params = data['indicators']['ascending']['params']
         for param in params:
@@ -128,6 +128,7 @@ def give_result_draw(data, mt=None, get_json=True):
     if mt is None:
         mt = Indicator(name=data['symbol_id'])
     draw = {'function_name': data['indicators']['draw']['name']}
+    draw = add_apply_to(draw, 'draw', data)
     if 'params' in data['indicators']['draw']:
         params = data['indicators']['draw']['params']
         for param in params:
@@ -209,7 +210,7 @@ def give_result_cross(data, mt=None, get_json=True):
     indicators = {'shorter': {}, 'longer': {}}
 
     shorter = {'function_name': data['indicators']['shorter']['name']}
-    # shorter['price'] = data['shorter']['apply_to']
+    shorter = add_apply_to(shorter, 'shorter', data)
     if 'params' in data['indicators']['shorter']:
         params = data['indicators']['shorter']['params']
         for param in params:
@@ -227,6 +228,7 @@ def give_result_cross(data, mt=None, get_json=True):
             orient='values')
 
     longer = {'function_name': data['indicators']['longer']['name']}
+    longer = add_apply_to(longer, 'longer', data)
     if 'params' in data['indicators']['longer']:
         params = data['indicators']['longer']['params']
         for param in params:
@@ -259,7 +261,7 @@ def give_result_advance_cross(data, mt=None, get_json=True):
     indicators = {'buying shorter': {}, 'buying longer': {}, 'selling shorter': {}, 'selling longer': {}}
 
     selling_shorter = {'function_name': data['indicators']['selling shorter']['name']}
-    # shorter['price'] = data['shorter']['apply_to']
+    selling_shorter = add_apply_to(selling_shorter, 'selling shorter', data)
     if 'params' in data['indicators']['selling shorter']:
         params = data['indicators']['selling shorter']['params']
         for param in params:
@@ -277,6 +279,7 @@ def give_result_advance_cross(data, mt=None, get_json=True):
             orient='values')
 
     selling_longer = {'function_name': data['indicators']['selling longer']['name']}
+    selling_longer = add_apply_to(selling_longer, 'selling longer', data)
     if 'params' in data['indicators']['selling longer']:
         params = data['indicators']['selling longer']['params']
         for param in params:
@@ -295,6 +298,7 @@ def give_result_advance_cross(data, mt=None, get_json=True):
     selling_cross = bt.cross(indicator_selling_shorter, indicator_selling_longer).replace([1], [0])
 
     buying_shorter = {'function_name': data['indicators']['buying shorter']['name']}
+    buying_shorter = add_apply_to(buying_shorter, 'buying shorter', data)
     if 'params' in data['indicators']['buying shorter']:
         params = data['indicators']['buying shorter']['params']
         for param in params:
@@ -312,6 +316,7 @@ def give_result_advance_cross(data, mt=None, get_json=True):
             orient='values')
 
     buying_longer = {'function_name': data['indicators']['buying longer']['name']}
+    buying_longer = add_apply_to(buying_longer, 'buying longer', data)
     if 'params' in data['indicators']['buying longer']:
         params = data['indicators']['buying longer']['params']
         for param in params:
@@ -360,6 +365,7 @@ def give_update_indicators(data):
     price = data['price']
     data = data['params']
     draw = {'function_name': data['name']}
+    draw = add_apply_to(draw, 'draw', data)
     length = 5
     if 'params' in data:
         params = data['params']
@@ -380,15 +386,8 @@ def give_update_indicators(data):
     print(indicators)
     return json.dumps(indicators)
 
-#
-#
-# def amir(name):
-#     print(name)
-#     data = {"entities": ["نماد " + name]}
-#     data_json = json.dumps(data)
-#     headers = {'Content-type': 'application/json',
-#                "Authorization": "Token 291e2d3a45317cf72f4b10928eb6c6df41c228cf"}
-#
-#     response = requests.post("https://khabareman.com/api/telegram_search/", data=data_json, headers=headers)
-#     # response.json()
-#     return response.json()
+
+def add_apply_to(indicator_dic, indicator_name, data):
+    if data['indicators'][indicator_name]['apply_to'] != 'default':
+        indicator_dic['price'] = data['indicators'][indicator_name]['apply_to']
+    return indicator_dic

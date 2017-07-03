@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*xc_x16#(&vv@-3^-d#i#$92_=e&nopq200q(@p97^nvv0m(-b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
@@ -181,3 +181,7 @@ LANGUAGES = (
     ('en', _('English')),
     ('fa', _('Farsi')),
 )
+try:
+    from .localsetting import *
+except ImportError:
+    pass

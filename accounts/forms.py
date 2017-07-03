@@ -320,3 +320,12 @@ class ChangeEmailForm(forms.Form):
                 email__iexact=self.user.email):
             raise forms.ValidationError(_('این ایمیل در حال حاضر وجود دارد . لطفا ایمیل جدیدی را وارد کنید'))
         return self.cleaned_data['email']
+    def save(self):
+        """
+        Save method calls :func:`user.change_email()` method which sends out an
+        email with an verification key to verify and with it enable this new
+        email address.
+
+        """
+        return self.user.userena_signup.change_email(self.cleaned_data['email'])
+

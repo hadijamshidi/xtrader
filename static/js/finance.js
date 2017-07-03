@@ -148,8 +148,8 @@ var info = {
  */
 function filter_market(query) {
     $.ajax({
-        type: 'POST',
-        url: "/filtse/",
+        type: 'GET',
+        url: "/finance/market_watch",
         data: {
             'query': query,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -160,7 +160,7 @@ function filter_market(query) {
         success: function (result) {
             var result = JSON.parse(result);
             show_filters_result(result['result']);
-            console.log(result['result']);
+            // console.log(result['result']);
         }
     });
 

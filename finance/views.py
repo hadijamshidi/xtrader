@@ -47,3 +47,9 @@ def update_indicators(request):
         return JsonResponse(result, safe=False)
     else:
         return JsonResponse('only post', safe=False)
+
+
+def market_watch(request):
+    query = request.GET['query']
+    print(query)
+    return HttpResponse('')

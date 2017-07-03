@@ -1644,6 +1644,7 @@ function add_method(data) {
                 strategy['indicators'][idx]['output']['name'] = output;
                 strategy['indicators'][idx]['output']['type'] = indicators_cross[nsi]['outputs'][output];
             }
+            strategy['indicators'][idx]['apply_to'] = document.getElementById(idx + '_apply').value;
             strategy['indicators'][idx]['outputs'] = {};
             Object.keys(indicators_cross[nsi]['outputs']).forEach(function (output) {
                 strategy['indicators'][idx]['outputs'][output] = {};
@@ -1691,9 +1692,9 @@ function check_strategy(strategy) {
         case 'ascending':
             strategy['days'] = document.getElementById('days_' + kind).value;
             break;
-        case 'more':
-            strategy['indicators']['minor']['apply_to'] = document.getElementById('minor_apply').value;
-            break;
+        // case 'more':
+        //     strategy['indicators']['minor']['apply_to'] = document.getElementById('minor_apply').value;
+        //     break;
     }
     return strategy
 }

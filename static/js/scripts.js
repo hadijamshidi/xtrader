@@ -51,46 +51,6 @@ $(function () {
         colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
             '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
         chart: {
-            // //test
-            // events: {
-            //     load: function () {
-
-            //         // set up the updating of the chart each second
-            //         var series = this.series[0];
-            //         setInterval(function () {
-            //             // var x = (new Date()).getTime(), // current time
-            //             var chart = $('#container').highcharts(),
-            //                 y = Math.round((Math.random()-0.5)*10),
-            //                 l = series.data.length,
-            //                 d = series.data[l-1].x,
-            //                 o = series.data[l-1].open,
-            //                 h = series.data[l-1].high,
-            //                 L = series.data[l-1].low,
-            //                 c = series.data[l-1].close+y;
-            //      //       console.log(d);
-            //             d = [d,o,Math.max(h,c),Math.min(L,c),c];
-            //             series.data[l-1].remove();
-            //             series.addPoint(d, false, true);
-            //             chart.redraw();
-            //             // var chart = this.series.chart.yAxis[0];
-            //             chart.yAxis[0].removePlotLine('plot-line-1');
-            //             chart.yAxis[0].addPlotLine({
-            //                 value: c,
-            //               // color: '#FF0000',
-            //                color: 'yellow',
-            //                 dashStyle: 'DashDot',
-            //                 width: 2,
-            //                 // label: {
-            //                 //     text: 'Current Price'
-            //                 // },
-            //                 id: 'plot-line-1'
-            //             });
-
-
-            //         }, 1000);
-            //     }
-            // },
-            // ///
             backgroundColor: {
                 linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
                 stops: [
@@ -165,20 +125,6 @@ $(function () {
             '<td style="text-align: right"> <b>{point.y} </b></td></tr>',
             footerFormat: '</table>',
             valueDecimals: 2,
-            // formatter: function () {
-            //         // console.log(s);
-            //     return '<b></b><br/>' +
-            //         Highcharts.dateFormat('%e - %b - %Y',
-            //             new Date(this.x))
-            //         + ' date, ' + this.y + ' Kg.' + '<tr><td style="color: '+this.color+' ">'+this.series.name+': </td>' +
-            //         '<td style="text-align: right"> <b>'+this.y+' </b></td></tr>';
-            // },
-            // +'<tr><td style="color: {series.color}">{series.name}: </td>' +
-            //            '<td style="text-align: right"> <b>{point.y} </b></td></tr>',
-
-            // valuePrefix: '$',
-            // valueSuffix: ' ریال ',
-
 
             backgroundColor: 'rgba(0, 0, 0, 0.85)',
             style: {
@@ -441,34 +387,6 @@ function draw_chart() {
                             break;
                     }
                 },
-                load: function () {
-                    // set up the updating of the chart each second
-                    // setInterval(function () {
-                    //     var chart = $('#container').highcharts(),
-                    //         series = chart.get('main');
-                    //     //     // console.log(series);
-                    //     // var y = Math.round((Math.random()-0.5)*5),
-                    //     //     l = series.data.length,
-                    //     //     d = series.data[l-1].x,
-                    //     //     o = series.data[l-1].open,
-                    //     //     h = series.data[l-1].high,
-                    //     //     L = series.data[l-1].low,
-                    //     //     c = series.data[l-1].close + y;
-                    //     // d = [d,o,Math.max(h,c),Math.min(L,c),c];
-                    //     // series.data[l-1].remove();
-                    //     // series.addPoint(d, false, true);
-                    //     // chart.redraw();
-                    //     chart.yAxis[0].removePlotLine('plot-line-1');
-                    //     chart.yAxis[0].addPlotLine({
-                    //         value: c,
-                    //         color: 'yellow',
-                    //         dashStyle: 'DashDot',
-                    //         width: 2,
-                    //         id: 'plot-line-1'
-                    //     });
-                    // update_indicators({'close':c,'open':o,'low':L,'high':h});
-                    // }, 2000);
-                }
             },
         },
         rangeSelector: {
@@ -490,29 +408,6 @@ function draw_chart() {
 
         }],
 
-        // amir
-        plotOptions: {
-            series: {
-                lineWidth: 1,
-                point: {
-                    events: {
-                        'click': function (e) {
-                            switch (this.series.name) {
-                                case name:
-                                    // console.log(name);
-                                    break;
-                                case 'line':
-
-                                    break;
-                                default:
-                                    // console.log('default');
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-        },
         series: [{
             type: 'candlestick',
             name: name,
@@ -521,167 +416,9 @@ function draw_chart() {
             dataGrouping: {
                 units: groupingUnits
             }
-        }/*,{
-         type: 'flags',
-         name: 'Months News',
-         data: [{
-         x: ohlc[ohlc.length-30][0],
-         title: 'News'
-         }],
-         shape: 'squarepin',
-         }*/],
+        }
+        ],
     });
-    //noinspection JSDuplicatedDeclaration
-    // $('#container').highcharts('StockChart', {
-    //     chart: {
-    //         //test
-    //         events: {
-    //             click: function (e) {
-    //                 switch (this.series.name) {
-    //                     case name:
-    //                         console.log(name);
-    //                         break;
-    //                     default:
-    //                         if (drawing_tool['status']) {
-    //                             var chart = $('#container').highcharts();
-    //                             console.log(drawing_tool);
-    //                             switch (drawing_tool['tool']['name']) {
-    //                                 case 'line':
-    //                                     var series = chart.get('line');
-    //                                     if (series) {
-    //                                         series.remove();
-    //                                     }
-    //                                     switch (drawing_tool['num_of_points']) {
-    //                                         case 0:
-    //                                             drawing_tool['tool']['params']['point1'] = [e.xAxis[0].value, e.yAxis[0].value];
-    //                                             drawing_tool['num_of_points'] += 1;
-    //                                             break;
-    //                                         case 1:
-    //                                             drawing_tool['tool']['params']['point2'] = [e.xAxis[0].value, e.yAxis[0].value];
-    //                                             chart.addSeries({
-    //                                                 data: [drawing_tool['tool']['params']['point1'], drawing_tool['tool']['params']['point2']],
-    //                                                 color: 'yellow',
-    //                                                 id: 'line',
-    //                                                 name: 'line'
-    //                                             });
-    //                                             drawing_tool['num_of_points'] += 1;
-    //                                             // drawing_tool['status'] = 0;
-    //                                             break;
-    //                                         case 2:
-    //                                             console.log('here');
-    //                                             var new_point = [e.xAxis[0].value, e.yAxis[0].value],
-    //                                                 point1 = drawing_tool['tool']['params']['point1'],
-    //                                                 point2 = drawing_tool['tool']['params']['point2'];
-    //                                             if (check_distance(point1, new_point) < check_distance(point2, new_point)) {
-    //                                                 drawing_tool['tool']['params']['point1'] = new_point;
-    //                                             } else {
-    //                                                 drawing_tool['tool']['params']['point2'] = new_point;
-    //                                             }
-    //                                             chart.addSeries({
-    //                                                 data: [drawing_tool['tool']['params']['point1'], drawing_tool['tool']['params']['point2']],
-    //                                                 color: 'yellow',
-    //                                                 id: 'line',
-    //                                                 name: 'line'
-    //                                             });
-    //                                             // drawing_tool['status'] = 0;
-    //                                             break;
-    //                                     }
-    //                                     break;
-    //                             }
-    //                         }
-    //                         break;
-    //                 }
-    //             },
-    //             load: function () {
-    //                 // set up the updating of the chart each second
-    //                 // setInterval(function () {
-    //                 //     var chart = $('#container').highcharts(),
-    //                 //         series = chart.get('main');
-    //                 //     //     // console.log(series);
-    //                 //     // var y = Math.round((Math.random()-0.5)*5),
-    //                 //     //     l = series.data.length,
-    //                 //     //     d = series.data[l-1].x,
-    //                 //     //     o = series.data[l-1].open,
-    //                 //     //     h = series.data[l-1].high,
-    //                 //     //     L = series.data[l-1].low,
-    //                 //     //     c = series.data[l-1].close + y;
-    //                 //     // d = [d,o,Math.max(h,c),Math.min(L,c),c];
-    //                 //     // series.data[l-1].remove();
-    //                 //     // series.addPoint(d, false, true);
-    //                 //     // chart.redraw();
-    //                 //     chart.yAxis[0].removePlotLine('plot-line-1');
-    //                 //     chart.yAxis[0].addPlotLine({
-    //                 //         value: c,
-    //                 //         color: 'yellow',
-    //                 //         dashStyle: 'DashDot',
-    //                 //         width: 2,
-    //                 //         id: 'plot-line-1'
-    //                 //     });
-    //                 // update_indicators({'close':c,'open':o,'low':L,'high':h});
-    //                 // }, 2000);
-    //             }
-    //         },
-    //     },
-    //     rangeSelector: {
-    //         selected: 1
-    //     },
-    //     plotOptions: {
-    //         series: {
-    //             animation: false
-    //         }
-    //     },
-    //     title: {
-    //         text: name + ' Historical'
-    //     },
-    //     legend: {
-    //         enabled: true
-    //     },
-    //     yAxis: [{
-    //         opposite: false
-    //
-    //     }],
-    //
-    //     // amir
-    //     plotOptions: {
-    //         series: {
-    //             lineWidth: 1,
-    //             point: {
-    //                 events: {
-    //                     'click': function (e) {
-    //                         switch (this.series.name) {
-    //                             case name:
-    //                                 console.log(name);
-    //                                 break;
-    //                             case 'line':
-    //
-    //                                 break;
-    //                             default:
-    //                                 console.log('default');
-    //                                 break;
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     },
-    //     series: [{
-    //         type: 'candlestick',
-    //         name: name,
-    //         data: ohlc,
-    //         id: 'main',
-    //         dataGrouping: {
-    //             units: groupingUnits
-    //         }
-    //     }/*,{
-    //      type: 'flags',
-    //      name: 'Months News',
-    //      data: [{
-    //      x: ohlc[ohlc.length-30][0],
-    //      title: 'News'
-    //      }],
-    //      shape: 'squarepin',
-    //      }*/],
-    // });
 }
 function check_distance(point1, point2) {
     if (point1.length == point2.length) {
@@ -706,9 +443,9 @@ function check_strategies_number() {
             document.getElementById(button_id).remove();
         }
     });
-    document.getElementById('strategy place').setAttribute('style', 'display:none');
+    // document.getElementById('strategy place').setAttribute('style', 'display:none');
     if (stra_num > 0) {
-        document.getElementById('strategy place').setAttribute('style', 'display:block');
+        // document.getElementById('strategy place').setAttribute('style', 'display:block');
         // creating backtest button
         var back_test_button = document.createElement('button');
         back_test_button.setAttribute('id', 'back_test_button');
@@ -728,7 +465,8 @@ function check_strategies_number() {
             }
         });
         back_test_button.addEventListener('click', function () {
-            get_settings();
+            // get_settings();
+            apply();
         });
         var txt = document.createTextNode('بک تست');
         back_test_button.appendChild(txt);
@@ -843,6 +581,7 @@ function delete_all(targets, save) {
                 }
                 check_strategies_number();
                 if (save) {
+                    // console.log(save);
                     // console.log('saved null filters');
                     isStrategySaved = false;
                     save_filters('default');
@@ -1065,6 +804,7 @@ function save_filters(pointer) {
     var filters = Object.keys(chosen_strategies);
     var strategy = {'name': user_current_strategy, 'filters': filters, 'symbol_ids': portfo};
     // console.log('save ajax');
+    // console.log(isStrategySaved);
     if (!isStrategySaved) {
         $.ajax({
             type: 'POST',
@@ -1079,9 +819,15 @@ function save_filters(pointer) {
                 alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
                 // alert('Sorry, while saving your strategy something went wrong.');
             },
-            success: function () {
+            success: function (result) {
                 isStrategySaved = true;
                 waiting(pointer);
+                // console.log(result);
+                if (result == 'delete') {
+                    var opt = document.getElementById("strategy name: " + user_current_strategy);
+                    opt.parentNode.removeChild(opt);
+                    var name_place = document.getElementById('strategys_name_place');
+                }
             }
         });
     } else {
@@ -1107,7 +853,7 @@ function add_stock(result) {
         but.setAttribute('class', 'ui button');
         but.setAttribute('title', 'حذف نماد');
         but.setAttribute('name', result.symbol_id);
-        console.log(result);
+        // console.log(result);
         portfo.push(result.symbol_id);
         but.addEventListener('click', function () {
             portfo.splice(portfo.indexOf(this.getAttribute('name')), 1);
@@ -1131,7 +877,7 @@ function load_strategy_names() {
             if (strategy_names.length > 0) {
                 user_strategy_names = strategy_names;
                 user_current_strategy = strategy_names[0];
-                load_strategy(strategy_names[0]);
+                load_strategy({'name':strategy_names[0]});
             } else {
                 user_current_strategy = 'جدید';
                 user_strategy_names = ['جدید'];
@@ -1140,12 +886,14 @@ function load_strategy_names() {
         }
     });
 }
-function load_strategy(name) {
+function load_strategy(data) {
+    var name = data['name'];
     waiting('wait');
+    // console.log('loading: ' + name);
     $.ajax({
         type: 'GET',
         url: "/finance/load_strategy",
-        data:{
+        data: {
             name: name,
         },
         success: function (strategy) {
@@ -1164,7 +912,13 @@ function load_strategy(name) {
             });
             isStrategySaved = true;
             user_current_strategy = name;
+        },
+        error: function () {
+            var opt = document.getElementById("strategy name: " + name);
+            opt.parentNode.removeChild(opt);
+            load_strategy({'name':document.getElementById('strategys_name_place').value});
         }
+
     });
     waiting('default');
 }
@@ -1173,7 +927,7 @@ function scan() {
     $.ajax({
         type: 'GET',
         url: "/finance/scan_market",
-        data:{
+        data: {
             name: user_current_strategy,
         },
         error: function () {
@@ -1233,9 +987,9 @@ function show_scan_result(result) {
     });
 
 }
-function get_settings() {
-    apply();
-}
+// function get_settings() {
+//     apply();
+// }
 function appendRow(vals) {
     var tbl = document.getElementById('table'), // table reference
         row = tbl.insertRow(tbl.rows.length),      // append table row
@@ -2246,10 +2000,10 @@ function update_indicators(c) {
                     });
                     result = JSON.parse(result);
                     ids.forEach(function (i) {
-                        console.log(i);
+                        // console.log(i);
                         var series = chart.get('' + i);
                         var l = series.data.length;
-                            // d = series.data[l - 1].x;
+                        // d = series.data[l - 1].x;
 
                         series.data[l - 1].remove();
                         series.addPoint(JSON.parse(result[i])[0], false, true);

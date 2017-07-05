@@ -33,25 +33,11 @@
         <div id="search" class="ui fluid category search" style="z-index:10 ">
             <div class="ui icon input" style="width:50%; margin-left: 25%;">
                 <input class="prompt" type="search" placeholder="جستجو نماد" dir="rtl">
-                {#            color: #f1f2ef;#}
                 <i class="search icon"></i>
             </div>
             <div class="results" style="width:50%; margin-left: 25%;"></div>
         </div>
     </div>
-
-    {% if False %}
-        <div class="modal" id="message">
-            <div class="ui inverted message" style="z-index:30" dir="rtl">
-                <i class="close icon" style="float:left;color:white"
-                   onclick="document.getElementById('message').remove()"></i>
-                <div class="header">
-                    Welcome back!
-                </div>
-                <p>This is a special notification which you can dismiss if you're bored with it.</p>
-            </div>
-        </div>
-    {% endif %}
     <div class="ui container" style="width: 90%">
         <div id="container1">
             <div id="container" style=" min-width: 310px;min-height: 600px"></div>
@@ -226,7 +212,7 @@
                             </option>
                         </select>
 با اعمال روی:
-                        <select id="special _apply">
+                        <select id="special_apply">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -458,7 +444,7 @@
                             add
                         </button>
                     </div>
-                    <div class="ui yellow segment" id="strategy place" dir="rtl" style="display: none">
+                    <div class="ui yellow segment" id="strategy place" dir="rtl" style="display: block">
                         <div class="ui top right attached label">
                             <h5>استراتژی:
                                 <select id="strategys_name_place" onchange="load_another_strategy(this.value)">

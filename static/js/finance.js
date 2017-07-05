@@ -230,11 +230,15 @@ function add_new_strategy() {
         new_option = document.createElement('option'),
         text_node = document.createTextNode(new_name);
     if (check_new_name(new_name)) {
+        save_filters('default');
         new_option.appendChild(text_node);
+        new_option.setAttribute('id', "strategy name: " +new_name);
         strategys_name_place.appendChild(new_option);
         strategys_name_place.value = new_name;
         user_current_strategy = new_name;
-        delete_all(['symbol_ids', 'indicators', 'back test', 'scan', 'filters'], true);
+        isStrategySaved = false;
+        // save_filters('default');
+        delete_all(['symbol_ids', 'indicators', 'back test', 'filters'], false);
     }
 }
 
@@ -250,19 +254,20 @@ function insert_strategys_names() {
         var new_option = document.createElement('option'),
             text_node = document.createTextNode(new_name);
         new_option.appendChild(text_node);
+        new_option.setAttribute('id', 'strategy name: ' + new_name);
         strategys_name_place.appendChild(new_option);
     });
 }
 
 
 function load_another_strategy(new_name) {
-    delete_all(['symbol_ids', 'indicators', 'back test', 'scan', 'filters'], false);
-    load_strategy(new_name);
+    delete_all(['symbol_ids', 'indicators', 'back test', 'filters'], false);
+    load_strategy({'name':new_name});
 }
 
 function hadi () {
     setInterval(function () {
-    console.log('working');
+    // console.log('working');
     var chart = $('#container').highcharts(),
         series = chart.get('main');
     var y = Math.round((Math.random() - 0.5) * 15),
@@ -297,6 +302,6 @@ function find_first_id(strategy){
             ids.push(strategy['indicators'][indicator]['outputs'][output]['id']);
         });
     });
-    console.log(ids);
+    // console.log(ids);
     return Math.min.apply(null,ids)
 }

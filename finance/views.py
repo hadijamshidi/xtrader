@@ -19,8 +19,8 @@ def calculate_indicators(request):
 
 def save_strategy(request):
     data = json.loads(request.POST['param'])
-    strategy.add_strategy_to_db(data, request.user)
-    return JsonResponse('', safe=False)
+    result = strategy.add_strategy_to_db(data, request.user)
+    return HttpResponse(result)
 
 
 def get_strategy_names(request):

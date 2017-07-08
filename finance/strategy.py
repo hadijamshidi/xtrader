@@ -12,6 +12,11 @@ def add_strategy_to_db(data, user_name):
     )
     st = Strategy.objects.filter(trader=strategy['trader'], name=strategy['name'])
     st.update(**strategy) if st.exists() else st.create(**strategy)
+    result = 'save'
+    if strategy['filters'] == '[]':
+        st.delete()
+        result = 'delete'
+    return result
 
 
 def load_strategy_names(user_name):
@@ -21,7 +26,7 @@ def load_strategy_names(user_name):
     return names
 
 
-def load_strategy_from_db(user_name,strategy_name):
+def load_strategy_from_db(user_name, strategy_name):
     trader = User.objects.get_by_natural_key(username=user_name)
     strategy = Strategy.objects.get(trader=trader, name=strategy_name)
     filters, symbol_ids = strategy.filters, strategy.watch_list

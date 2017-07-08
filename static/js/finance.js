@@ -146,95 +146,28 @@ var info = {
 
  }
  */
-function filter_market(query) {
-    $.ajax({
-        type: 'GET',
-        url: "/finance/market_watch",
-        data: {
-            'query': query,
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-        },
-        error: function () {
-            alert('فیلترها اشتباه نگارشی دارند!\n لطفا مجددا اقدام کنید.');
-        },
-        success: function (result) {
-            var result = JSON.parse(result);
-            show_filters_result(result['result']);
-            // console.log(result['result']);
-        }
-    });
-
-}
-var eng_to_per = {
-    'pc': 'قیمت پایانی',
-    'po': 'قیمت آغازین',
-    'ph': 'بیشترین قیمت',
-    'eng_name': 'نام انگلیسی',
-    'per_name': 'نام شرکت',
-    'symbol_name': 'نام نماد',
-    'vol': 'حجم معاملات',
-};
-function show_filters_result(result) {
-    var columns = ['symbol_name', 'per_name', 'pc', 'po', 'ph', 'vol'];
-    var place = document.getElementById("filters scan place");
-    place.innerHTML = '';
-
-    // new code
-    // creating table tag and attrs:
-    var table = document.createElement("TABLE");
-    table.setAttribute("id", "table");
-    table.setAttribute("style", "text-align:right");
-    table.setAttribute("class", "ui selectable inverted celled  table");
-    place.appendChild(table);
-
-    //creating tr for th tags:
-    var tr = document.createElement('TR');
-    columns.forEach(function (col) {
-        var th = document.createElement('TH');
-        th.appendChild(document.createTextNode(eng_to_per[col]));
-        tr.appendChild(th);
-    });
-    table.appendChild(tr);
-
-    // creating tr for td tags:
-    // var div = document.createElement('table');
-    // div.setAttribute('style', 'height: 400px; overflow: auto');
-    var div = table;
-    result.forEach(function (stock) {
-        var tr = document.createElement('TR');
-        columns.forEach(function (key) {
-            var td = document.createElement('TD');
-            td.appendChild(document.createTextNode(quick_check(stock[key])));
-            tr.appendChild(td);
-        });
-        div.appendChild(tr);
-    });
-    place.appendChild(div);
-    place.appendChild(document.createElement('br'));
-    place.style.display = 'block';
-}
-function quick_check(str) {
-    if (!isNaN(str)) {
-        return numberSeparator(str);
-    } else {
-        return str
-    }
-}
 
 
 var user_strategy_names;
 var user_current_strategy;
 function add_new_strategy() {
-    var new_name = prompt('برای استراتژی جدید خود یک نام انتخاب کنید', 'جدید ' + (user_strategy_names.length + 1)),
-        strategys_name_place = document.getElementById('strategys_name_place'),
-        new_option = document.createElement('option'),
-        text_node = document.createTextNode(new_name);
+    var new_name = prompt('برای استراتژی جدید خود یک نام انتخاب کنید', 'جدید ' + (user_strategy_names.length + 1));
+        // strategys_name_place = document.getElementById('strategys_name_place'),
+        // new_option = document.createElement('option'),
+        // text_node = document.createTextNode(new_name);
     if (check_new_name(new_name)) {
+        save_filters('default');
+/*
         new_option.appendChild(text_node);
+        new_option.setAttribute('id', "strategy name: " + new_name);
         strategys_name_place.appendChild(new_option);
         strategys_name_place.value = new_name;
+*/
+        create_name_option({'new_name': new_name});
         user_current_strategy = new_name;
-        delete_all(['symbol_ids', 'indicators', 'back test', 'scan', 'filters'], true);
+        isStrategySaved = false;
+        // save_filters('default');
+        delete_all(['symbol_ids', 'indicators', 'back test', 'filters'], false);
     }
 }
 
@@ -247,56 +180,108 @@ function insert_strategys_names() {
     var strategys_name_place = document.getElementById('strategys_name_place');
     strategys_name_place.innerHTML = '';
     user_strategy_names.forEach(function (new_name) {
-        var new_option = document.createElement('option'),
-            text_node = document.createTextNode(new_name);
-        new_option.appendChild(text_node);
-        strategys_name_place.appendChild(new_option);
+        create_name_option({'new_name': new_name});
+        // var new_option = document.createElement('option'),
+        //     text_node = document.createTextNode(new_name);
+        // new_option.appendChild(text_node);
+        // new_option.setAttribute('id', 'strategy name: ' + new_name);
+        // strategys_name_place.appendChild(new_option);
     });
 }
 
 
 function load_another_strategy(new_name) {
-    delete_all(['symbol_ids', 'indicators', 'back test', 'scan', 'filters'], false);
-    load_strategy(new_name);
-}
-
-function hadi () {
-    setInterval(function () {
-    console.log('working');
-    var chart = $('#container').highcharts(),
-        series = chart.get('main');
-    var y = Math.round((Math.random() - 0.5) * 15),
-        l = series.data.length,
-        d = series.data[l - 1].x,
-        o = series.data[l - 1].open,
-        h = series.data[l - 1].high,
-        L = series.data[l - 1].low,
-        c = series.data[l - 1].close + y;
-    d = [d, o, Math.max(h, c), Math.min(L, c), c];
-    series.data[l - 1].remove();
-    series.addPoint(d, false, true);
-    chart.redraw();
-    chart.yAxis[0].removePlotLine('plot-line-1');
-    chart.yAxis[0].addPlotLine({
-        value: c,
-        color: 'yellow',
-        dashStyle: 'DashDot',
-        width: 2,
-        id: 'plot-line-1'
-    });
-    update_indicators({'close': c, 'open': o, 'low': L, 'high': h});
-    }, 2000);
-// });
+    delete_all(['symbol_ids', 'indicators', 'back test', 'filters'], false);
+    load_strategy({'name': new_name});
+    // set_strategy_name({'name': new_name});
 }
 
 
-function find_first_id(strategy){
+
+function find_first_id(strategy) {
     var ids = [];
-    Object.keys(strategy['indicators']).forEach(function(indicator){
-        Object.keys(strategy['indicators'][indicator]['outputs']).forEach(function(output){
+    Object.keys(strategy['indicators']).forEach(function (indicator) {
+        Object.keys(strategy['indicators'][indicator]['outputs']).forEach(function (output) {
             ids.push(strategy['indicators'][indicator]['outputs'][output]['id']);
         });
     });
-    console.log(ids);
-    return Math.min.apply(null,ids)
+    // console.log(ids);
+    return Math.min.apply(null, ids)
+}
+
+function load_alternative_strategy(data) {
+    /*
+     function tasks:
+     1. loading another strategy if the current one deleted.
+     2. if alternative strategy does not exist pick a default name and create empty strategy.
+     input: place and the purpose of calling function.
+     */
+    var strategys_name_place = document.getElementById('strategys_name_place');
+    var names = strategys_name_place.childNodes;
+    if (names[0]) {
+        load_another_strategy(names[0].value);
+        // strategys_name_place.value = names[0].value;
+    } else {
+        create_name_option({'new_name': 'جدید'});
+    }
+}
+
+function delete_strategy(data) {
+    var strategy_name = data['name'],
+        opt = document.getElementById("strategy name: " + strategy_name);
+    opt.parentNode.removeChild(opt);
+    load_alternative_strategy({});
+    // var name_place = document.getElementById('strategys_name_place');
+
+}
+
+function create_name_option(data) {
+    /*
+     task: create another option in select tag strategy names
+     */
+    var strategys_name_place = document.getElementById('strategys_name_place'),
+        new_option = document.createElement('option'),
+        new_name = data['new_name'],
+        text_node = document.createTextNode(new_name);
+    new_option.appendChild(text_node);
+    new_option.setAttribute('id', 'strategy name: ' + new_name);
+    strategys_name_place.appendChild(new_option);
+    strategys_name_place.value = new_name;
+
+}
+
+function set_strategy_name(data){
+    var strategys_name_place = document.getElementById('strategys_name_place'),
+        name = data['name'];
+    strategys_name_place.value = name;
+    user_current_strategy = name;
+}
+
+function hadi() {
+    setInterval(function () {
+        // console.log('working');
+        var chart = $('#container').highcharts(),
+            series = chart.get('main');
+        var y = Math.round((Math.random() - 0.5) * 15),
+            l = series.data.length,
+            d = series.data[l - 1].x,
+            o = series.data[l - 1].open,
+            h = series.data[l - 1].high,
+            L = series.data[l - 1].low,
+            c = series.data[l - 1].close + y;
+        d = [d, o, Math.max(h, c), Math.min(L, c), c];
+        series.data[l - 1].remove();
+        series.addPoint(d, false, true);
+        chart.redraw();
+        chart.yAxis[0].removePlotLine('plot-line-1');
+        chart.yAxis[0].addPlotLine({
+            value: c,
+            color: 'yellow',
+            dashStyle: 'DashDot',
+            width: 2,
+            id: 'plot-line-1'
+        });
+        update_indicators({'close': c, 'open': o, 'low': L, 'high': h});
+    }, 2000);
+// });
 }

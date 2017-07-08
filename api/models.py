@@ -2,6 +2,7 @@ from django.db import models
 # from datetime import datetime
 from django.utils import timezone
 
+
 # Create your models here.
 class Stock(models.Model):
     symbol_id = models.CharField(max_length=80, unique=True)
@@ -131,6 +132,21 @@ class MarketWatch(models.Model):
     def to_dict(self):
         obj_dict = {'SymbolId': self.SymbolId}
         return obj_dict
+
+    def dict(self, keys, date):
+        d = {}
+        # print('lastTrade: {}, date: {}'.format(type(self.LastTradeDate), type(date)))
+        if str(self.LastTradeDate) == date:
+            # print('yes')
+            for key in keys:
+                try:
+                    d[key] = float(self.__getattribute__(key))
+                except Exception:
+                    d[key] = self.__getattribute__(key)
+            return d
+        else:
+            # print('shit')
+            return 'wrong symbol'
 
 
 class Status(models.Model):

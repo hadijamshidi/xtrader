@@ -824,9 +824,10 @@ function save_filters(pointer) {
                 waiting(pointer);
                 // console.log(result);
                 if (result == 'delete') {
-                    var opt = document.getElementById("strategy name: " + user_current_strategy);
-                    opt.parentNode.removeChild(opt);
-                    var name_place = document.getElementById('strategys_name_place');
+                    delete_strategy({'name':user_current_strategy});
+                    // var opt = document.getElementById("strategy name: " + user_current_strategy);
+                    // opt.parentNode.removeChild(opt);
+                    // var name_place = document.getElementById('strategys_name_place');
                 }
             }
         });
@@ -877,6 +878,7 @@ function load_strategy_names() {
             if (strategy_names.length > 0) {
                 user_strategy_names = strategy_names;
                 user_current_strategy = strategy_names[0];
+                // load_alternative_strategy({});
                 load_strategy({'name':strategy_names[0]});
             } else {
                 user_current_strategy = 'جدید';
@@ -911,12 +913,16 @@ function load_strategy(data) {
                 add_stock(stock);
             });
             isStrategySaved = true;
-            user_current_strategy = name;
+            set_strategy_name({'name': name});
+            // user_current_strategy = name;
         },
         error: function () {
-            var opt = document.getElementById("strategy name: " + name);
-            opt.parentNode.removeChild(opt);
-            load_strategy({'name':document.getElementById('strategys_name_place').value});
+            delete_strategy({'name':name});
+            load_alternative_strategy({});
+            // create_name_option({'new_name':name});
+            // var opt = document.getElementById("strategy name: " + name);
+            // opt.parentNode.removeChild(opt);
+            // load_strategy({'name':document.getElementById('strategys_name_place').value});
         }
 
     });

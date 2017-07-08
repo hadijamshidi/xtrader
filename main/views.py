@@ -52,7 +52,6 @@ def symbol_search(request, query):
     mydict = dict(
         items=results,
     )
-    print(mydict['items'][0])
     return HttpResponse(json.dumps(mydict, ensure_ascii=False).encode("utf8"),
                         content_type="application/json; charset=utf-8")
 

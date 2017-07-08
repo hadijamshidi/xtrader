@@ -1,7 +1,8 @@
 from finance import data_handling
 from django.http import HttpResponse, JsonResponse
 import json
-from . import strategy, scan
+from . import strategy, scan, marketwatch
+from task.dates import Check
 # Create your views here.
 
 import inspect
@@ -51,5 +52,5 @@ def update_indicators(request):
 
 def market_watch(request):
     query = request.GET['query']
-    print(query)
-    return HttpResponse('')
+    result = marketwatch.query(query)
+    return HttpResponse(json.dumps(result))

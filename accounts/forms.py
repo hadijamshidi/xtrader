@@ -35,21 +35,29 @@ class SignupFormExtra(SignupForm):
 
 
     """
-    username = forms.RegexField(regex=USERNAME_RE,
+    first_name = forms.CharField(label=_(u'نام '),
+                                 max_length=30,
+                                 required=False)
+    last_name = forms.CharField(label=_(u'نام خانوادگی '),
                                 max_length=30,
-                                widget=forms.TextInput(attrs=attrs_dict),
-                                label=_("نام کاربری "),
-                                )
-
+                                required=False)
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=75)),
                              label=_("ایمیل "))
 
+    cellPhone = forms.CharField(label=_(u'تلفن همراه '),
+                                max_length=30,
+                                required=False)
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
                                 label=_("رمز عبور "), error_messages={'required': 'assd'})
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
                                 label=_("تکرار رمز "))
+    username = forms.RegexField(regex=USERNAME_RE,
+                                max_length=30,
+                                widget=forms.TextInput(attrs=attrs_dict),
+                                label=_("نام کاربری "),
+                                )
 
     def __init__(self, *args, **kw):
         """
@@ -58,13 +66,8 @@ class SignupFormExtra(SignupForm):
         form instead at the end.
 
         """
-        super(SignupFormExtra, self).__init__(*args, **kw)
-        # Put the first and last name at the top
-        # new_order = self.fields.keyOrder[:-2]
-        # new_order.insert(0, 'first_name')
-        # new_order.insert(1, 'last_name')
-        # self.fields.keyOrder = new_order
 
+        super(SignupFormExtra, self).__init__(*args, **kw)
     def save(self):
         """
         Override the save method to save the first and last name to the user
@@ -87,9 +90,11 @@ class SignupFormExtra(SignupForm):
         # See: https://github.com/bread-and-pepper/django-userena/blob/master/userena/managers.py#L65
         # user_profile = new_user.get_profile()
 
-
+        new_user.first_name = self.cleaned_data['first_name']
+        new_user.last_name = self.cleaned_data['last_name']
         new_user.save()
         p = new_user.my_profile
+        p.cellPhone = self.cleaned_data['cellPhone']
         p.save()
         new_user.userena_signup.send_activation_email()
         return new_user

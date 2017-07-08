@@ -22,7 +22,7 @@ from userena import settings as userena_settings
 from guardian.decorators import permission_required_or_403
 
 import warnings
-
+import collections
 
 class ExtraContextTemplateView(TemplateView):
     """ Add extra context to a simple template view """
@@ -117,6 +117,23 @@ def signup(request, signup_form=SignupFormExtra,
         signup_form = SignupFormOnlyEmail
 
     form = signup_form()
+    # form.fields\
+        # n = collections.OrderedDict
+    # print(form.__dict__())
+    # form.fields.keyOrder = [
+    #
+    #     'username',
+    #     'cellPhone',
+    #     'email',
+    #     'first_name',
+    #     'last_name',
+    #     'password1',
+    #     'password2',
+    #
+    # ]
+
+    for field in form:
+        print(field)
 
     if request.method == 'POST':
         form = signup_form(request.POST, request.FILES)
@@ -145,6 +162,23 @@ def signup(request, signup_form=SignupFormExtra,
             return redirect(redirect_to)
 
     if not extra_context: extra_context = dict()
+    myorder =[
+        'first_name',
+        'last_name',
+        'username',
+        'cellPhone',
+        'email',
+        'password1',
+        'password2',
+
+    ]
+
+    from collections import OrderedDict
+
+    newform = OrderedDict()
+    for k in myorder:
+        newform[k] = form[k]
+    form.fields = newform
     extra_context['form'] = form
     return ExtraContextTemplateView.as_view(template_name=template_name,
                                             extra_context=extra_context)(request)

@@ -16,3 +16,5 @@ class Profile(UserenaBaseProfile):
                          verbose_name=_('user'),
                          related_name='my_profile')
     # date_of_birth = DateField(blank=True, null=True)
+    # firts_name=
+    cellPhone = models.CharField(max_length=11, verbose_name='شماره تلفن ',null=True,blank=True)

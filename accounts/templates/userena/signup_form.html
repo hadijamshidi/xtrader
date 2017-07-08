@@ -9,7 +9,8 @@
   <fieldset>
     <legend>ثبت نام</legend>
     {{ form.non_field_errors }}
-    {% for field in form %}
+  {{ form }}
+{#    {% for field in form %}#}
     {{ field.errors }}
     {% if field.name == 'tos' %}
     <p class="checkbox">
@@ -21,7 +22,7 @@
     {{ field }}
     </p>
     {% endif %}
-    {% endfor %}
+{#    {% endfor %}#}
   </fieldset>
   <input type="submit" value="{% trans "ثبت نام"%}" />
 </form>

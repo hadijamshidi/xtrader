@@ -2,7 +2,7 @@
  * Created by hadi on 7/5/17.
  */
 function filter_market(query) {
-    query = 'LastTradePrice > 1500';
+    query = document.getElementById('filters_script').value;
     $.ajax({
         type: 'GET',
         url: "/finance/market_watch",

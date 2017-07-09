@@ -135,9 +135,7 @@ class MarketWatch(models.Model):
 
     def dict(self, keys, date):
         d = {}
-        # print('lastTrade: {}, date: {}'.format(type(self.LastTradeDate), type(date)))
         if str(self.LastTradeDate) == date:
-            # print('yes')
             for key in keys:
                 try:
                     d[key] = float(self.__getattribute__(key))
@@ -145,7 +143,6 @@ class MarketWatch(models.Model):
                     d[key] = self.__getattribute__(key)
             return d
         else:
-            # print('shit')
             return 'wrong symbol'
 
 

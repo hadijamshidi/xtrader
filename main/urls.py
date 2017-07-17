@@ -25,6 +25,8 @@ urlpatterns = [
 
     # TODO: handle this lines later
     url(r'^$', views.index, name='index'),
+    url(r'^landing', views.landing, name='index'),
+
     url(r'^backtest', views.display, name='display'),
     # TODO: finish
 

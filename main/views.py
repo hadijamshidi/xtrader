@@ -133,6 +133,14 @@ def index(request):
                   {'form': AuthenticationForm, 'login_status': login_status, 'username': request.user.username}
                   )
 
+def landing(request):
+    # if request.user:
+    #     True
+    login_status = True if not request.user.username else False
+    # bot.send_details(request, 'index ')
+    return render(request, 'landing.html',
+                  {'form': AuthenticationForm, 'login_status': login_status, 'username': request.user.username}
+                  )
 
 #
 #

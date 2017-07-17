@@ -256,9 +256,28 @@ class AuthenticationForm(forms.Form):
         password = self.cleaned_data.get('password')
 
         if identification and password:
+            # from
             user = authenticate(identification=identification, password=password)
-            if user is None:
-                raise forms.ValidationError(_("فرم زیر را کامل کنید ، به حروف کوچک و بزرگ حساس است "))
+            from django.contrib.auth.models import User
+            from django.db.models import Q
+            user_qs = User.objects.filter(Q(username=identification) | Q(email=identification))
+            if user_qs.count() == 0:
+                if '@' in identification:
+                    raise forms.ValidationError(_("نام کاربری وارد شده وجود ندارد!" ))
+                    # raise ValidationError("کاربری با ایمیل " + username + " وجود ندارد!")
+                else:
+                    raise forms.ValidationError(_("نام کاربری وارد شده وجود ندارد!"))
+            if not user:
+                raise forms.ValidationError(_("گذرواژه اشتباه است!"))
+                # raise ValidationError("گذرواژه اشتباه است!")
+            if not user.check_password(password):
+                raise forms.ValidationError(_("گذرواژه اشتباه است!"))
+                # raise ValidationError("گذرواژه اشتباه است!")
+            if not user.is_active:
+                raise forms.ValidationError(_("اشتراک کاربر " + identification + " غیر فعال شده است."))
+                # raise ValidationError("اشتراک کاربر " + username + " غیر فعال شده است.")
+            # if user is None:
+            #     raise forms.ValidationError(_("فرم زیر را کامل کنید ، به حروف کوچک و بزرگ حساس است "))
         return self.cleaned_data
 
 

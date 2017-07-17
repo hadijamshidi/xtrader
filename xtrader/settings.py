@@ -28,7 +28,6 @@ SECRET_KEY = '*xc_x16#(&vv@-3^-d#i#$92_=e&nopq200q(@p97^nvv0m(-b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
 ALLOWED_HOSTS = ['*']
 USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
                                       'USERENA_REDIRECT_ON_SIGNOUT',
@@ -66,6 +65,7 @@ INSTALLED_APPS = [
     'guardian',
     'easy_thumbnails',
     'channels',
+
 
     # 'account',
     # 'accounts',

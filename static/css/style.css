@@ -104,8 +104,9 @@ html, body {
     width: 100%;
     padding: 0;
     font: 1em IRANSans;
-    color: #58627c;
+    color: #333;
 }
+
 #particle {
     background: #05648b;
     background: linear-gradient(#05648b 0%, #1a1c41 100%);
@@ -115,21 +116,19 @@ html, body {
     bottom: 0;
     left: 0;
     z-index: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 
 #login__wrapper {
-    position: relative;
     background: #fff;
     border-radius: 0.5em;
-    float: right;
-    margin: 0 auto;
-    right: 0;
-    left: 20em;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
     text-align: right;
-    width: 20em;
+    width: 22em;
+    height : 18em;
+    padding: 2em;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 
 
 }
@@ -138,12 +137,18 @@ html, body {
     border: none;
 }
 
-/*#field__parent input {*/
-	/*align-items: center;*/
-	/*background: white;*/
-	/*border: none;*/
-	/*border-bottom: 1px solid #eaeaea ;*/
-/*}*/
+#field__parent input {
+    position: relative;
+    margin: 0 auto;
+    left: 0;
+    margin-right: 2em;
+    background:  white;
+    border: none;
+    border-bottom: 1px solid #eaeaea;
+    width: 20em;
+    height: 2em;
+    margin-bottom: 1em;
+}
 
 
 #field__parent input:-webkit-autofill {
@@ -152,8 +157,55 @@ html, body {
 
 #field__parent input:focus {
     outline: none;
+    border-bottom: 1px solid #4a90e2;
+}
+
+.sign-in__btn {
+    background: #21ce99;
+    padding: 0.3em 2em;
+    font: 1.2em IRANSans;
+    font-weight: 400;
+    color: white;
+    display: block;
+    float: right;
+    margin: -1em 1.5em 0 0;
+    border: none;
+    border-radius: 5px;
+}
+
+.sign-in__btn:hover {
+    cursor: pointer;
 }
 
 .xyz {
 	border : 3px solid red;
+}
+
+.sign-up__link {
+    display: none;
+    border: 2px solid #333;
+}
+
+.forgot-password__link {
+    font-size: 0.8em;
+    position: relative;
+    display: inline-block;
+    margin: 1em 2.2em 0 0;
+}
+
+#error__username {
+    color: #f76060;
+    display: none;
+    position: absolute;
+    width:12em;
+    right: 8.4em;
+}
+
+#error__password {
+    color: #f76060;
+    display: none;
+    position: absolute;
+    width:12em;
+    right: 7.6em;
+    top: 6.5em;
 }

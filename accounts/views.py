@@ -943,3 +943,98 @@ def profile_list(request, page=1, template_name='userena/profile_list.html',
                                    template_name=template_name,
                                    extra_context=extra_context,
                                    **kwargs)(request)
+@secure_required
+def signupsample(request, signup_form=SignupFormExtra,
+           template_name='signupsample.html', success_url=None,
+           extra_context=None):
+    """
+    Signup of an account.
+
+    Signup requiring a username, email and password. After signup a user gets
+    an email with an activation link used to activate their account. After
+    successful signup redirects to ``success_url``.
+
+    :param signup_form:
+        Form that will be used to sign a user. Defaults to userena's
+        :class:`SignupForm`.
+
+    :param template_name:
+        String containing the template name that will be used to display the
+        signup form. Defaults to ``userena/signup_form.html``.
+
+    :param success_url:
+        String containing the URI which should be redirected to after a
+        successful signup. If not supplied will redirect to
+        ``userena_signup_complete`` view.
+
+    :param extra_context:
+        Dictionary containing variables which are added to the template
+        context. Defaults to a dictionary with a ``form`` key containing the
+        ``signup_form``.
+
+    **Context**
+
+    ``form``
+        Form supplied by ``signup_form``.
+
+    """
+    # If signup is disabled, return 403
+    if userena_settings.USERENA_DISABLE_SIGNUP:
+        raise PermissionDenied
+
+    # If no usernames are wanted and the default form is used, fallback to the
+    # default form that doesn't display to enter the username.
+    if userena_settings.USERENA_WITHOUT_USERNAMES and (signup_form == SignupFormExtra):
+        signup_form = SignupFormOnlyEmail
+
+    form = signup_form()
+
+    for field in form:
+        print(field)
+
+    if request.method == 'POST':
+        form = signup_form(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+
+            # Send the signup complete signal
+            userena_signals.signup_complete.send(sender=None,
+                                                 user=user)
+
+            if success_url:
+                redirect_to = success_url
+            else:
+                redirect_to = reverse('accounts:userena_signup_complete',
+                                      kwargs={'username': user.username})
+
+            # A new signed user should logout the old one.
+            if request.user.is_authenticated():
+                logout(request)
+
+            if (userena_settings.USERENA_SIGNIN_AFTER_SIGNUP and
+                    not userena_settings.USERENA_ACTIVATION_REQUIRED):
+                user = authenticate(identification=user.email, check_password=False)
+                login(request, user)
+
+            return redirect(redirect_to)
+
+    if not extra_context: extra_context = dict()
+    myorder =[
+        'first_name',
+        'last_name',
+        'username',
+        'cellPhone',
+        'email',
+        'password1',
+        'password2',
+    ]
+
+    from collections import OrderedDict
+
+    newform = OrderedDict()
+    for k in myorder:
+        newform[k] = form[k]
+    form.fields = newform
+    extra_context['form'] = form
+    return ExtraContextTemplateView.as_view(template_name=template_name,
+                                            extra_context=extra_context)(request)

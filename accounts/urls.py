@@ -16,6 +16,7 @@ def merged_dict(dict_a, dict_b):
 
 urlpatterns = [
     url(r'^landing', userena_views.landing, name='index'),
+url(r'^signupsample', userena_views.signupsample, name='index'),
     # Signup, signin and signout
     url(r'^signup/$',
         userena_views.signup,

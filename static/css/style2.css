@@ -118,15 +118,15 @@ html, body {
     z-index: 0;
 }
 
-#login__wrapper {
+#signup__wrapper {
     background: #fff;
     border-radius: 0.5em;
     margin: auto;
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
     text-align: right;
-    width: 22em;
-    height : 18em;
+    width: 30em;
+    height : 78%;
     padding: 2em;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 
@@ -140,14 +140,15 @@ html, body {
 #field__parent input {
     position: relative;
     margin: 0 auto;
-    left: 0;
-    margin-right: 2em;
+    display: block;
     background:  white;
     border: none;
     border-bottom: 1px solid #eaeaea;
-    width: 20em;
+    width: 90%;
     height: 2em;
     margin-bottom: 1em;
+    direction: ltr;
+
 }
 
 
@@ -160,7 +161,30 @@ html, body {
     border-bottom: 1px solid #4a90e2;
 }
 
-.sign-in__btn {
+#header__box {
+    height: 15%;
+    position: absolute;
+    margin: 0;
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    background: #e7ecef;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+}
+
+#header__box h1 {
+    font-size: 1.5em;
+    font-weight: 500;
+    padding: 1em 2em 0 0 ;
+}
+
+#header__box h3 {
+    font-size: 1em;
+    font-weight: 300;
+    padding: 0em 3em 0 0 ;
+}
+
+.sign-up__btn {
     background: #21ce99;
     padding: 0.3em 2em;
     font: 1.2em IRANSans;
@@ -168,41 +192,15 @@ html, body {
     color: white;
     display: block;
     float: right;
-    margin: -1em 1.5em 0 0;
+    margin: 1em 1.5em 0 0;
     border: none;
     border-radius: 5px;
 }
 
-.sign-in__btn:hover {
+.sign-up__btn:hover {
     cursor: pointer;
 }
 
-
-.sign-up__link {
-    display: none;
-    border: 2px solid #333;
-}
-
-.forgot-password__link {
-    font-size: 0.8em;
-    position: relative;
-    display: inline-block;
-    margin: 1em 2.2em 0 0;
-}
-
-#error__username {
-    color: #f76060;
-    display: none;
-    position: absolute;
-    width:12em;
-    right: 8.4em;
-}
-
-#error__password {
-    color: #f76060;
-    display: none;
-    position: absolute;
-    width:12em;
-    right: 7.6em;
-    top: 6.5em;
+#id_username {
+    direction: ltr;
 }

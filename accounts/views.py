@@ -509,6 +509,7 @@ def landing(request, auth_form=AuthenticationForm,
         'next': request.GET.get(redirect_field_name,
                                 request.POST.get(redirect_field_name)),
     })
+
     return ExtraContextTemplateView.as_view(template_name=template_name,
                                             extra_context=extra_context)(request)
 

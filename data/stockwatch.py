@@ -3,7 +3,7 @@
 		read from APIs, add to data base, updateing, and api for reading from data base
 """
 from xtrader.localsetting import farabi_login_data
-# from data.models import StockWatch
+from data.models import StockWatch
 import requests as r
 from data import backup
 import json
@@ -20,7 +20,10 @@ def createStockWatchTables(num=0):
             print('stock watch for index: {}'.format(i))
             info = stockWatchInfo(symbol_id)
             if info:
-                addStockWatchTable(info)
+                try:
+                    addStockWatchTable(info)
+                except Exception:
+                    wrong_symbol_ids.append(dict(id=symbol_id,problem='on save'))
 
 
 def stockWatchInfo(symbol_id):
@@ -58,14 +61,14 @@ def stockWatchInfo(symbol_id):
     return trades_dict
 
 
-def addStockWatchTable(table):
-    print('successful progress')
-    # StockWatch(**info).save()
+def addStockWatchTable(info):
+        StockWatch(**info).save()
+        print('successful progress')
 
 
-def check_wrong_symbols():
-    for symbol in backup.wrong_symbol_ids:
-        findSymbolID(symbol['symbol'])
+# def check_wrong_symbols():
+#     for symbol in backup.wrong_symbol_ids:
+#         findSymbolID(symbol['symbol'])
 
 
 def read_portfo():

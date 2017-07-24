@@ -1,5 +1,5 @@
-from task.dates import Check
-from api.models import MarketWatch
+from data.dates import Check
+from data.models import StockWatch as MarketWatch
 
 keys = {
     'InstrumentName': 'نماد', 'InstrumentTitle': 'نام', 'TotalNumberOfTrades': 'تعداد',

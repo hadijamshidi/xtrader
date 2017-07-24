@@ -2,7 +2,7 @@ from threading import Thread
 
 import requests as r, json
 
-from api.models import Stock, MarketWatch
+from data.models import StockWatch as MarketWatch
 
 server_url = 'http://66.70.160.142:8000/mabna/api'
 
@@ -17,11 +17,6 @@ def call_threads_for_marketWatch():
     MarketWatch.objects.all().delete()
     stocks = Stock.objects.all()
     return get_market_watch_data(stocks=stocks, user=user)
-    # for i in range(0, 600, step):
-    #     discription = 'thread for {} until {}'.format(i, i + step)
-    #     t = Thread(target=get_market_watch_data, name=discription,
-    #                args=(stocks[i:i + step], user, i))
-    #     t.start()
 
 
 def get_market_watch_data(stocks, user):
@@ -35,7 +30,6 @@ def get_market_watch_data(stocks, user):
         except Exception:
             wrong_symbol_ids.append(dict(id=symbol_id, problem='failed to json loads'))
             continue
-        # print(trades_data)
         if symbol_id == trades_data['SymbolId']:
             trades_dict = {}
             for key in trades_data:
@@ -54,9 +48,7 @@ def get_market_watch_data(stocks, user):
                 trades_dict['zo' + str(row)] = BidAsk['BidNumber']
                 trades_dict['qo' + str(row)] = BidAsk['BidQuantity']
         else:
-            # print('different ids at {}'.format(symbol_id))
             wrong_symbol_ids.append(dict(id=symbol_id, problem='different ids'))
-            # wrong_symbol_ids.append(dict(id=symbol_id, problem='failed to json.loads'))
         try:
             MarketWatch(**trades_dict).save()
         except Exception:

@@ -1,6 +1,6 @@
 from finance import backtest as bt
-from main import indicator
-from main.indicator import Indicator
+from finance import indicator
+from finance.indicator import Indicator
 import json
 import pandas as pd
 import numpy as np
@@ -354,7 +354,8 @@ def give_result_backtest(name, res, config):
     mt = Indicator(name=name)
     price = {'function_name': 'close'}
     price = mt.indicator_calculator(**price)
-
+    for setting in ['stop loss', 'take profit']:
+        config[setting]['apply'] = mt.indicator_calculator(**{'function_name': config[setting]['apply']})
     res = pd.DataFrame(data=res)
     # result = bt.BackTest(price, res, config).back_test()
     result = bt.testresult(price, res, config)

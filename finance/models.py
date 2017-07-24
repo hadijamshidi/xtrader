@@ -21,8 +21,3 @@ class Strategy(models.Model):
         for filter in eval(self.filters):
             strategy_dict['filters'].append(eval(filter))
         return strategy_dict
-
-
-class Follower(models.Model):
-    strategy = models.ForeignKey(Strategy, related_name='Strategy')
-    follower = models.ForeignKey(User, related_name='Follower')

@@ -666,10 +666,18 @@ function apply() {
         result2[i] *= result1[i];
     }
     var config = {
-        'stop loss': document.getElementById('config_stop loss').value,
-        'take profit': document.getElementById('config_take profit').value,
+        'stop loss': {},
+        // document.getElementById('config_stop loss').value,
+        'take profit': {},
+        // document.getElementById('config_take profit').value,
         'initial deposit': document.getElementById('config_initial deposit').value,
     };
+    ['stop loss', 'take profit'].forEach(function (setting) {
+        ['value', 'apply'].forEach(function (conf) {
+            console.log(setting + conf);
+            config[setting][conf] = document.getElementById(setting + ' ' + conf).value;
+        })
+    });
     var dd = {'name': symbol_id, 'trades': JSON.stringify(result2), 'config': config};
     // console.log(dd);
     waiting('wait');
@@ -837,7 +845,7 @@ function save_filters(pointer) {
     }
 }
 function pick_portfolio(stat) {
-    document.getElementById('portfolio place').style.display = stat;
+    // document.getElementById('portfolio place').style.display = stat;
     // switch (state){
     //     case 'block':
     //         break;
@@ -908,10 +916,10 @@ function load_strategy(data) {
                 // waiting('wait');
             });
             // waiting('wait');
-            document.getElementById('stocks place').innerHTML = '';
-            strategy['symbol_ids'].forEach(function (stock) {
-                add_stock(stock);
-            });
+            // document.getElementById('stocks place').innerHTML = '';
+            // strategy['symbol_ids'].forEach(function (stock) {
+            //     add_stock(stock);
+            // });
             isStrategySaved = true;
             set_strategy_name({'name': name});
             // user_current_strategy = name;
@@ -1294,7 +1302,7 @@ function toggle(obj, div_id) {
     }
 }
 function show_div(id) {
-    var idss = ["TSE_Filters", "config_trade", "order", "draw line", "just draw", "Technical_Patterns", "cross", "ascending_main", "more_than", "special_methods", "advance_cross"];
+    var idss = ["TSE_Filters", "config_trade", "draw line", "just draw", "cross", "ascending_main", "more_than", "special_methods", "advance_cross"];
     idss.forEach(function (ids) {
         if (ids != id) {
             document.getElementById(ids).style.display = 'none';

@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 
 
-# from influxdb import DataFrameClient
-
 
 def cross(shorter, longer):
     shorter = change_df(shorter)
@@ -63,8 +61,6 @@ def set_valid_time(df, time=0):
 
 
 def shifter(df, shift_time):
-    # print('shift: ')
-    # print(shift_time)
     return pd.DataFrame(df.shift(shift_time), copy=True)
 
 
@@ -96,21 +92,15 @@ def monotono(indicator, days=2, angel=90):
     return result
 
 
-xxx = 0
-
-
 def ascending(diff, days, result, value=100):
     index = diff.index
     mono = diff
     mono = mono > 0
     for i in range(len(index)):
-        # print('m: ',mono[0][index[i]])
         stat = mono['0'][index[i]]
         if stat:
-            # print(i)
             for j in range(days):
                 stat = stat and mono['0'][index[i - j]]
-                # print(stat)
         if stat:
             result[0][index[i]] = 1
     return result
@@ -123,10 +113,8 @@ def descending(diff, days, result):
     for i in range(len(index)):
         stat = mono['0'][index[i]]
         if stat:
-            # print(i)
             for j in range(days):
                 stat = stat and mono['0'][index[i - j]]
-                # print(stat)
         if stat:
             result[0][index[i]] = -1
     return result
@@ -157,7 +145,6 @@ def special(indicators, name):
 
 def give_ichimoku_result(indicators):
     indicators = pd.DataFrame(indicators, copy=True)
-
     pass
 
 
@@ -308,7 +295,7 @@ class BackTest:
                     order_type = 'sell'
                     self.call_order_and_change(details, order_type, i)
                 if self.stopLoss != 0 and (
-                    self.asset - (1 - self.selling_commision) * self.price['0'][self.index[i]]) > self.stopLoss:
+                            self.asset - (1 - self.selling_commision) * self.price['0'][self.index[i]]) > self.stopLoss:
                     details = self.sell(i, 'stoploss')
                     order_type = 'sell'
                     self.call_order_and_change(details, order_type, i)
@@ -324,14 +311,18 @@ class BackTest:
 def testresult(price, trades, config):
     selling_commision = 0.01
     buying_commision = 0.005
-    stopLoss = float(config['stop loss'])
-    takeProfit = float(config['take profit'])
+    stopLoss = float(config['stop loss']['value'])
+    stopLossPrice = pd.DataFrame(change_df(config['stop loss']['apply']), copy=True)
+    takeProfit = float(config['take profit']['value'])
+    takeProfitPrice = pd.DataFrame(change_df(config['take profit']['apply']), copy=True)
     capital = int(config['initial deposit'])
     price = pd.DataFrame(change_df(price), copy=True)
     trades = pd.DataFrame(change_df(trades), copy=True)
     index = price.index
     # print(index)
     index = [str(i) for i in np.asarray(index)]
+    takeProfitPrice.index = index
+    stopLossPrice.index = index
     price.index = index
     trades.index = index
     result = {}
@@ -391,9 +382,10 @@ def testresult(price, trades, config):
             position = 0
             asset = 0
         if position == 1:
-            if ((1 - selling_commision) * price['0'][index[i]] - asset) > takeProfit and result[trade_num - 1]['buy'][
-                'date'] != str(i) and takeProfit != 0:
-                asset = 100 * (((1 - selling_commision) * price['0'][index[i]]) - asset) / asset
+            if takeProfit != 0 and ((1 - selling_commision) * takeProfitPrice['0'][index[i]] - asset)/asset > takeProfit and \
+                            result[trade_num - 1]['buy'][
+                                'date'] != str(i):
+                asset = 100 * (((1 - selling_commision) * takeProfitPrice['0'][index[i]]) - asset) / asset
                 asset = np.round(100 * asset) / 100
                 avg_returns = avg_returns + [asset]
                 days_in_trade = i - days_in_trade + 1
@@ -403,7 +395,7 @@ def testresult(price, trades, config):
                 result[trade_num - 1]['sell'] = {
                     "date": str(i),
                     "action": 'takeprofit',
-                    "price": str(price['0'][index[i]]),
+                    "price": str(takeProfitPrice['0'][index[i]]),
                     "return": str(asset),
                     "candles in trade": days_in_trade,
                     "capital": capital
@@ -411,11 +403,8 @@ def testresult(price, trades, config):
                 days_in_trade = 0
                 position = 0
                 asset = 0
-            if (asset - (1 - selling_commision) * price['0'][index[i]]) > stopLoss and stopLoss != 0:
-                # print('asset: ',asset,' price: ',price['0'][index[i]],' sl: ',stopLoss)
-                # print('date: ',index[i])
-                # print('diff: ',asset - price['0'][index[i]])
-                asset = 100 * (((1 - selling_commision) * price['0'][index[i]]) - asset) / asset
+            if stopLoss != 0 and (asset - (1 - selling_commision) * stopLossPrice['0'][index[i]])/asset > stopLoss and result[trade_num - 1]['buy']['date'] != str(i):
+                asset = 100 * (((1 - selling_commision) * stopLossPrice['0'][index[i]]) - asset) / asset
                 asset = np.round(100 * asset) / 100
                 avg_returns = avg_returns + [asset]
                 days_in_trade = i - days_in_trade + 1
@@ -425,7 +414,7 @@ def testresult(price, trades, config):
                 result[trade_num - 1]['sell'] = {
                     "date": str(i),
                     "action": 'stoploss',
-                    "price": str(price['0'][index[i]]),
+                    "price": str(stopLossPrice['0'][index[i]]),
                     "return": str(asset),
                     "candles in trade": days_in_trade,
                     "capital": capital
@@ -479,90 +468,10 @@ def testresult(price, trades, config):
         return 'f'
 
 
-def Trade(startegies_results):
-    # print(startegies_results)
-    names = list(startegies_results.columns.values)
-    value = len(names)
-    # print(value,-value)
-    s = startegies_results.sum(axis=1)
-    s = s.apply(lambda x: 0 if (x > -value and x < value) else x)
-    s = s.replace([value, -value], [1, -1])
-    return s
-
-
-host = 'localhost'
-port = 8086
-user = 'root'
-password = 'root'
-
-# class Database_Signal():
-#     def __init__(self, username='user'):
-#         self.username = username
-#         self.db_name = username
-#         self.measurement_name = 'backtest_'
-#         self.client = DataFrameClient(host, port, user, password, self.db_name)
-#         self.client.query('CREATE DATABASE {db_name}'.format(db_name=self.db_name))
-#         s = str(self.client.query('show measurements'))
-#         self.isActive = ['backtest_1' in s, 'backtest_2' in s]
-#         self.close_db()
-
-#     def read_db(self, col_name='*', kind=1):
-#         if self.client.query('show series').raw:
-#             name = self.measurement_name + str(kind)
-#             query_text = 'select {col_name} from {measurement_name}'.format(col_name=col_name,
-#                                                                             measurement_name=name)
-#             return self.client.query(query_text)[name]
-#         else:
-#             raise NameError('db is empty!')
-
-#     def write_to_db(self, signal_df, col_name, kind=1):
-#         import time
-#         start_time = time.time()
-#         self.isActive[kind - 1] = 1
-#         signal_df = pd.DataFrame(signal_df, copy=True)
-#         signal_df.columns = [col_name]
-#         print("--- %s seconds ---" % (time.time() - start_time))
-#         self.client.write_points(signal_df, self.measurement_name + str(kind))
-#         print("--- %s seconds ---" % (time.time() - start_time))
-
-#     def calculate_result(self):
-#         df1 = self.read_db()
-#         value = len(df1.columns)
-#         s = df1.sum(axis=1)
-#         o1 = np.where((s > value), 1, np.where(s < -value, -1, 0))
-
-#         # df2 = self.read_db(kind=2)
-#         # o2 = df2.prod(axis=1)
-#         #
-#         # print('o1:', o1)
-#         # print('o2:', o2)
-
-#         o = pd.DataFrame(o1, columns=['res'])
-#         return o
-
-#     def delete_series(self, col_name, kind=1):
-#         if self.isActive[kind - 1]:
-#             df = self.read_db(col_name='*', kind=kind).drop(col_name, axis=1)
-#             name = self.measurement_name + str(kind)
-#             query_text = "DROP MEASUREMENT {measurement_name}".format(measurement_name=name)
-#             self.client.query(query_text)
-#             self.client.write_points(df, name)
-
-#     def close_db(self):
-#         for i in range(2):
-#             if self.isActive[i]:
-#                 query_text = "DROP MEASUREMENT {measurement_name}".format(
-#                     measurement_name=self.measurement_name + str(i + 1))
-#                 self.client.query(query_text)
-#                 self.isActive[i] = False
-
-
-# if __name__ == "__main__":
-#     # import time
-#     #
-#     # start_time = time.time()
-#     n = 1000
-#     times = pd.date_range('20160101', periods=n, freq='H')
-#     df = pd.DataFrame(np.random.randint(-1, 2, n), index=times, columns=list('A'))
-#     print(df.head())
-#     print(shifter2(df, 2).head())
+# def Trade(startegies_results):
+#     names = list(startegies_results.columns.values)
+#     value = len(names)
+#     s = startegies_results.sum(axis=1)
+#     s = s.apply(lambda x: 0 if (x > -value and x < value) else x)
+#     s = s.replace([value, -value], [1, -1])
+#     return s

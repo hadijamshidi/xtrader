@@ -1,8 +1,8 @@
-from api.models import MarketWatch
+from data.models import StockWatch as MarketWatch
 from datetime import datetime, timedelta
-from data import redis, data
+from data import redis, manage_data as data
 import requests as r
-from task import dates
+from data import dates
 from xtrader.localsetting import farabi_login_data
 
 
@@ -66,10 +66,10 @@ def update_stocks_with_farabixo(symbol_ids, num):
             print('problem at creating today_data dict of SymbolId: {} and num {}'.format(symbol_id, index + num))
             continue
         today_data['date'] = dates.to_timestamp(date=today_data['date'], mode='farabi')
-        update_history(symbol_id, today_data, index + num)
+        updateHistory(symbol_id, today_data, index + num)
 
 
-def update_history(symbol_id, today_data, index):
+def updateHistory(symbol_id, today_data, index):
     for key in today_data:
         try:
             history = redis.hget(name=symbol_id, key=key)

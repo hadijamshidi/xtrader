@@ -12,8 +12,6 @@
     <script type="text/javascript">
         {% if SymbolId %}
             var symbol_id = "{{SymbolId}}";
-        {% else %}
-            var symbol_id = "IranKhodro_D_SH";
         {% endif %}
     </script>
     <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
@@ -82,8 +80,8 @@
                                     <option value="">shorter</option>
                                 </select>
                             </div>
-                            با اعمال روی:
-                        <select id="shorter_apply">
+                            {# با اعمال روی: #}
+                        <select id="shorter_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -101,8 +99,8 @@
                                     <option value="">longer</option>
                                 </select>
                             </div>
-با اعمال روی:
-                        <select id="longer_apply">
+{# با اعمال روی: #}
+                        <select id="longer_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -135,8 +133,8 @@
                                     onchange="insert_param('ascending'); /*var w = (this.value.length + 1) * 8+4 ;if(w<70){w=130;} this.style.width = w + 'px';*/">
                                 <option value="">ascending</option>
                             </select>
-با اعمال روی:
-                        <select id="ascending_apply">
+{# با اعمال روی: #}
+                        <select id="ascending_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -165,8 +163,8 @@
                         <select id="main" dir="ltr" onchange="insert_param('main')">
                             <option value="">main</option>
                         </select>
-با اعمال روی:
-                        <select id="main_apply">
+{# با اعمال روی: #}
+                        <select id="main_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -179,8 +177,8 @@
                         <select id="minor" dir="ltr" type="search" onchange="insert_param('minor')">
                             <option value="">minor</option>
                         </select>
-                        با محاسبه روی:
-                        <select id="minor_apply">
+                        {# با محاسبه روی: #}
+                        <select id="minor_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -212,8 +210,8 @@
                                 MACD(Moving Average Convergence/Divergence)
                             </option>
                         </select>
-با اعمال روی:
-                        <select id="special_apply">
+{# با اعمال روی: #}
+                        <select id="special_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -235,40 +233,6 @@
                         </div>
                     </div>
 
-
-                    <div class="ui segment" style="display: none"
-                         id="order" dir="rtl">
-                        <div id="stock_detail">
-                            <div class="ui horizontal segments">
-                                <div class="ui segment" dir="rtl" style="  text-align:right">
-                                    <p>ارسال سفارش :</p>
-                                    <div style="max-height: 200px;overflow:auto">
-                                        <div id="sending order" class="ui relaxed divided list">
-                                            <p>قیمت: <input type="number" name="price"></p>
-                                            <p>حجم: <input type="number" name="volume"></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ui segment" dir="rtl" style="  text-align:right">
-                                    <p>اطلاعات قیمت :</p>
-                                    <div style="max-height: 200px;overflow:auto">
-                                        <div id="price" class="ui relaxed divided list">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ui segment" dir="rtl" style=" text-align:right">
-                                    <p>اطلاعات تابلو امروز:</p>
-                                    <div style="max-height: 200px;overflow:auto">
-                                        <div id="tsetmc" class="ui relaxed divided list">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
                     <div class="ui segment" id="config_trade" style="display:none;" dir="rtl">
                         <input id="valid_config_trade" value="0" style="display:none">
                         <input id="config" value="config_trade" style="display:none">
@@ -276,8 +240,25 @@
                             <option value="below_chart">زیر نمودار رسم شود</option>
                             <option value="on_chart">روی نمودار قیمت رسم شود</option>
                         </select>
-                        <p> حد ضرر قیمت پایین: <input type="number" min="0" id="config_stop loss" value="0"> ریال</p>
-                        <p> حد سود قیمت پایانی: <input type="number" min="0" id="config_take profit" value="0"> ریال</p>
+                        <div> حد سود:
+                        <select id="take profit apply" style="display:none">
+                            <option value="close">پایانی</option>
+                            <option value="high">بیشترین</option>
+                            <option value="low">کمترین</option>
+                            <option value="open">اولین</option>
+                        </select>
+                            <input type="number" id="take profit value" value="0"> ریال،
+                        </div>
+                        <div> حد ضرر:
+                        <select id="stop loss apply" style="display:none">
+                            <option value="close">پایانی</option>
+                            <option value="high">بیشترین</option>
+                            <option value="low">کمترین</option>
+                            <option value="open">اولین</option>
+                        </select>
+                            <input type="number" id="stop loss value" value="0"> ریال،
+                        </div>
+                        <br>
                         <p> موجودی اولیه: <input type="number" min="0" id="config_initial deposit" value="1000000"> ریال
                         </p>
                         <!--
@@ -289,37 +270,12 @@
 
                     <div class="ui segment" id="TSE_Filters" style="display:none;" dir="rtl" type="number">
                         <textarea style="color: black;" id="filters_script" type="query" dir="ltr" placeholder="فیلتر خود را اینجا بنویسید"></textarea>
-                        <select id="config_trade_chart_place" style="display:none">
-                            <option value="below_chart">زیر نمودار رسم شود</option>
-                            <option value="on_chart">روی نمودار قیمت رسم شود</option>
-                        </select>
                         <div type="submit" class="ui button" style="float: left;"
                              onclick="filter_market(document.getElementById('filters_script').value)">اسکن بازار
                         </div>
                         <br><br>
                     </div>
 
-
-                    <div class="ui segment" style="display: none" id="Technical_Patterns">
-                        <div>
-                            Recognize
-                            <select id="candlestick"
-                                    onchange="insert_param('candlestick');">
-                                <option value="">choose indicator</option>
-                            </select>
-                            <p id="candlestick_param"></p>
-                            and valid for
-                            <input
-                                    type="number" id="valid_candlestick" value="2" style="width: 6%"> days
-                            <select id="candlestick_chart_place" style="display:none">
-                                <option value="on_chart">draw on chart</option>
-                                <option value="below_chart">draw below chart</option>
-                            </select>
-                            <button type="submit" style="float: right;" onclick="call_add('candlestick')">
-                                add
-                            </button>
-                        </div>
-                    </div>
                     <div class="ui segment" style="display: none" dir="rtl" id="advance_cross">
                         <p>قطع دادن ترکیبی اندیکاتورها: </p>
                         <div>
@@ -331,8 +287,8 @@
                                     <option value="">buying shorter</option>
                                 </select>
                             </div>
-با اعمال روی:
-                        <select id="buying shorter_apply">
+{# با اعمال روی: #}
+                        <select id="buying shorter_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -347,8 +303,8 @@
                                         onchange="insert_param('buying longer');document.getElementById('selling longer').value=this.value;insert_param('selling longer');">
                                     <option value="">buying longer</option>
                                 </select>
-با اعمال روی:
-                        <select id="buying longer_apply">
+{# با اعمال روی: #}
+                        <select id="buying longer_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -365,8 +321,8 @@
                                     <option value="">selling shorter</option>
                                 </select>
                             </div>
-با اعمال روی:
-                        <select id="selling shorter_apply">
+{# با اعمال روی: #}
+                        <select id="selling shorter_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -382,8 +338,8 @@
                                     <option value="">selling longer</option>
                                 </select>
                             </div>
-با اعمال روی:
-                        <select id="selling longer_apply">
+{# با اعمال روی: #}
+                        <select id="selling longer_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -414,8 +370,8 @@
                                 draw
                             </option>
                         </select>
-با اعمال روی:
-                        <select id="draw_apply">
+{# با اعمال روی: #}
+                        <select id="draw_apply" style="display:none">
                             <option value="default">پیش فرض</option>
                             <option value="close">close</option>
                             <option value="high">high</option>
@@ -464,43 +420,6 @@
                             <div id="button_place"></div>
                         </div>
                     </div>
-                    <div class="ui yellow segment" id="portfolio place" dir="rtl" style="display: none">
-                        <div class="ui top right attached label" dir="rtl" style="font-family:IranSanc">
-                            <h3>انتخاب سبد سهام برای دنبال کردن:</h3>
-                        </div>
-                        <div class="ui segments">
-                            <div class="ui segment" dir="rtl">
-                                <div class="ui container">
-                                    <div class="ui horizontal segments">
-                                        <div class="ui segment" dir="rtl" style="text-align:right">
-                                            <div id="portfolio search" class="ui fluid category search"
-                                                 style="z-index:10;">
-                                                <div class="ui icon input" style="width:50%; margin-left: 25%;">
-                                                    <input class="prompt" id="portfolio search id" placeholder="اضافه کردن نماد"
-                                                           dir="rtl">
-                                                    <i class="search icon"></i>
-                                                </div>
-                                                <div class="results" style="width:50%; margin-left: 25%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="ui segment" dir="rtl" style="text-align:right">
-                                            <br>
-                                            <div style="float:left" class="ui button" onclick="save_filters('default')">
-                                                ذخیره استراتژی
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui segment" dir="rtl">
-                                <div id="stocks place"></div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="ui yellow segment" id='filters scan place' dir="rtl" style="display: none;">
-                    </div>
 
                     <div class="ui yellow segment" style="display: none;" dir="rtl" id="scan place">
                         <div class="ui top right attached label">
@@ -509,7 +428,6 @@
                                 </i>
                             </h3>
                         </div>
-                        {#                            <button style="float: right" onclick="toggle(this, 'scan result')" name="hide">hide</button>#}
                         <div id="scan result" class="ui form" align="left">
                             <div class="ui horizontal segments">
                                 <div class="ui segment" dir="rtl" style="text-align:right">

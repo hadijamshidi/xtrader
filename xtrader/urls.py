@@ -21,14 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
-    url(r'^chat/', include('chat.urls')),
     url(r'^', include('main.urls', namespace='main')),
     url(r'^admin/', admin.site.urls),
-    url(r'^show/', include('show.urls')),
-    url(r'^mabna/', include('mabna.urls')),
-    url(r'^api/', include('api.urls')),
     url(r'^finance/', include('finance.urls')),
-    url(r'^following/', include('following.urls')),
+    url(r'^data/', include('data.urls')),
 
 ]
 if settings.DEBUG:

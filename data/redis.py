@@ -1,6 +1,6 @@
 import redis
 
-from task import testdate, dates
+# from data import testdate, dates
 
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 

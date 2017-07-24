@@ -1,5 +1,5 @@
 from .models import Strategy
-from api.models import Stock
+# from api.models import Stock
 from django.contrib.auth.models import User
 
 
@@ -30,10 +30,11 @@ def load_strategy_from_db(user_name, strategy_name):
     trader = User.objects.get_by_natural_key(username=user_name)
     strategy = Strategy.objects.get(trader=trader, name=strategy_name)
     filters, symbol_ids = strategy.filters, strategy.watch_list
-    watch_list_dicts_list = get_watch_list_dicts_list(symbol_ids)
+    # watch_list_dicts_list = get_watch_list_dicts_list(symbol_ids)
+    watch_list_dicts_list = []
     return {'filters': eval(filters), 'symbol_ids': watch_list_dicts_list}
 
 
-def get_watch_list_dicts_list(symbol_ids):
-    symbol_ids = eval(symbol_ids)
-    return [Stock.objects.get(symbol_id=symbol_id).as_json() for symbol_id in symbol_ids]
+# def get_watch_list_dicts_list(symbol_ids):
+#     symbol_ids = eval(symbol_ids)
+#     return [Stock.objects.get(symbol_id=symbol_id).as_json() for symbol_id in symbol_ids]

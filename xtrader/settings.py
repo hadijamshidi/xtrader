@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-import asgi_redis
+# import asgi_redis
 import os
 from django.conf import settings
 
@@ -28,6 +28,7 @@ SECRET_KEY = '*xc_x16#(&vv@-3^-d#i#$92_=e&nopq200q(@p97^nvv0m(-b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+
 ALLOWED_HOSTS = ['*']
 USERENA_REDIRECT_ON_SIGNOUT = getattr(settings,
                                       'USERENA_REDIRECT_ON_SIGNOUT',
@@ -51,34 +52,29 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mabna',
-    'show',
-    'api',
+    # 'mabna',
+    # 'show',
+    # 'api',
     'accounts',
-    'chat',
+    # 'chat',
     'main',
     'django.contrib.sites',
     'finance',
-    'task',
     'data',
     'userena',
     'guardian',
     'easy_thumbnails',
     'channels',
-
-
-    # 'account',
-    # 'accounts',
 ]
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "asgi_redis.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379')],
-        },
-        "ROUTING": "chat.routing.channel_routing",
-    },
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "asgi_redis.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379')],
+#         },
+#         "ROUTING": "chat.routing.channel_routing",
+#     },
+# }
 SITE_ID = 1
 
 MIDDLEWARE = [

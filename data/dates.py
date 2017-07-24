@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from api.models import MarketWatch
+from data.models import StockWatch as MarketWatch
 from . import jalali
 import time
 from data import redis
@@ -68,7 +68,6 @@ class Check:
         last_day = MarketWatch.objects.order_by('-LastTradeDate').first()
         last_day = to_str(last_day.LastTradeDate)
         return last_day
-        # return self.strdate() if self.day() else self.find_the_last_day()
 
     def find_the_last_day(self):
         for delta in range(10):
@@ -86,10 +85,6 @@ class Check:
         last_market_date = to_str(last_market.LastTradeDate)
         last_historical_date = redis.hget(SymbolId, 'date')[-1]
         last_historical_date *= .001
-        # print('date: {}'.format(last_market_date))
-        # print('last_historical_date: {}'.format(last_historical_date))
         last_historical_date = datetime.utcfromtimestamp(last_historical_date)
         last_historical_date = to_str(last_historical_date)
-        # print('last_historical_date: {}'.format(last_historical_date))
-        # print('now: {}'.format(to_str(datetime.now())))
         return last_historical_date == last_market_date

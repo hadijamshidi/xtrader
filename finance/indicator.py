@@ -1,5 +1,3 @@
-# TODO: handle db
-# from influxdb import DataFrameClient
 import numpy as np
 import pandas as pd
 import talib
@@ -8,13 +6,6 @@ from data import redis
 
 columns = ['<TIME>', '<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']
 fields = ['Open', 'High', 'Low', 'Close', 'Volume']
-
-# TODO: replace ...
-# host = settings.INFLUX_DB['host']
-# port = settings.INFLUX_DB['port']
-# user = settings.INFLUX_DB['user']
-# password = settings.INFLUX_DB['password']
-# db_name = settings.INFLUX_DB['db_name']
 
 
 class Indicator:
@@ -41,28 +32,12 @@ class Indicator:
             for p in ['high', 'low', 'close', 'open']:
                 db[p][-1] = tail['price'][p]
         df = pd.DataFrame(db)
-        # measurement_name = self.name
-        # TODO: replace client
-        # client = DataFrameClient(host, port, user, password, db_name)
-        # if not tail:
-        #     query_text = "Select * from {pointname}".format(pointname=measurement_name)
-        #     # df = client.query(query_text)[measurement_name]
-        # else:
-        #     query_text = "Select * from {pointname} order by time DESC LIMIT {tail}".format(pointname=measurement_name,
-                                                                                            # tail=tail)
-            # df = client.query(query_text)[measurement_name].iloc[::-1]
-        # df['<TIME>'] = df.index
         df.index = df['date']
         df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
         df.columns = ['time', 'open', 'high', 'low', 'close', 'volume']
         return df
 
     def ichimoku(self, *args, **kwargs):
-        # print('ichimoku')
-        # print('args')
-        # print(args)
-        # print('kwargs')
-        # print(kwargs)
         # conversion line period
         cl = float(kwargs['conversionLineperiod'])
         # base line
@@ -99,13 +74,7 @@ class Indicator:
         ls.index = outdf.index
         ls = pd.DataFrame(ls.shift(-bl), copy=True)
         outdf['Chikou Span'] = ls
-        # print('ls:')
-        # print(outdf.tail(10))
         outdf.columns = ['Tenkan-sen', 'Kijun-sen', 'Senkou Span A', 'Senkou Span B', 'Chikou Span']
-        # print(outdf.tail(10))
-        # outdf['Tenkan-sen'] = Tenkan
-        # print(outdf.tail(55))
-        # print(((Tenkan2+Tenkan)/2).tail(10))
         return outdf
 
     def indicator_calculator(self, function_name, symbol_name=None, tail=None, *args, **kwargs):
@@ -273,17 +242,3 @@ def read_json(json):
     df = pd.read_json(json)
     df = df.set_index(df[0]).iloc[:, 1:]
     return df
-
-
-if __name__ == "__main__":
-    # mt = Indicator(name='IranKhodro_D_SH')
-    # # d = dict(
-    # #     value=10,
-    # # )
-    # # o1 = mt.indicator_calculator('signal_line', **d)
-    # # print(o1)
-    # o2 = mt.indicator_calculator('SMA')
-    # s = talib.abstract.Function('SMA')
-    # t = list(s.output_flags.items())
-    # print(t)
-    print(get_ti_api())

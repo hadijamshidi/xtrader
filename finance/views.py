@@ -2,7 +2,7 @@ from finance import data_handling
 from django.http import HttpResponse, JsonResponse
 import json
 from . import strategy, scan, marketwatch
-from task.dates import Check
+from data.dates import Check
 # Create your views here.
 
 import inspect

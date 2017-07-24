@@ -21,7 +21,6 @@ income = {'فروش': 'Total income',
           'سود خالص': 'NetIncome'}
 Ratio = {'جاری': 'Current Ratio', 'آنی': 'Quick Ratio', 'نقد': 'Cash Ratio', 'بدهی(درصد)': 'D/A',
          'بدهی به ح ص س': 'D/E', 'گردش دارای(بار)': 'S/A',
-         'دوره گردش حساب دریافتنی (روز)': 'Accounts Receivable Turnover Ratio',
          'دوره گردش موجودی ': 'Inventory Turnover Ratio',
          'دوره گردش حساب پرداختنی (روز)': 'Accounts  Payable Turnover Ratio', 'حاشیه سود خالص (درصد)': 'Profit Margin',
          'حاشیه سود ناخالص (درصد)': 'Gross Profit Margin', 'سود عملیاتی به سود ناخالص(درصد)': 'EBIT/GrossProfit',

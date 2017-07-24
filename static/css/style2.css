@@ -103,7 +103,7 @@ html, body {
     height: 100%;
     width: 100%;
     padding: 0;
-    font: 1em IRANSans;
+    font: 16px IRANSans;
     color: #333;
 }
 
@@ -125,11 +125,11 @@ html, body {
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
     text-align: right;
-    width: 30em;
-    height : 78%;
+    width: 30%;
+    height : 80%;
     padding: 2em;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-
+    font-size: 0.8em;
 
 }
 
@@ -148,7 +148,7 @@ html, body {
     height: 2em;
     margin-bottom: 1em;
     direction: ltr;
-
+    font-family:IRANSans;
 }
 
 
@@ -203,4 +203,25 @@ html, body {
 
 #id_username {
     direction: ltr;
+}
+
+.errors__handle li{
+    display: inline-block;
+    list-style: none;
+    color: blue;
+}
+
+#bottom-links {
+    position: relative;
+    margin-top: 10%;
+    width: 110%;
+    height: 2em;
+    top: 3em;
+    left: -2em;
+    display: block;
+
+}
+#bottom-links a{
+    color: white;
+    font-size: 0.7em;
 }

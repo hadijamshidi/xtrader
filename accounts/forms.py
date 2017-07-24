@@ -58,6 +58,7 @@ class SignupFormExtra(SignupForm):
                                 widget=forms.TextInput(attrs=attrs_dict),
                                 label=_("نام کاربری "),
                                 )
+    # field_order = ['first_name', 'last_name', 'new_password2']
 
     def __init__(self, *args, **kw):
         """
@@ -136,12 +137,15 @@ class SignupFormExtra(SignupForm):
     def clean(self):
         # if not 'username':
         #     raise forms.ValidationError(_("knhvi"))
+        MIN_LENGTH=8
         """
         Validates that the values entered into the two password fields match.
         Note that an error here will end up in ``non_field_errors()`` because
         it doesn't apply to a single field.
         """
         if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
+            if len('password1') < MIN_LENGTH:
+                raise forms.ValidationError("The new password must be at least %d characters long." % MIN_LENGTH)
             if self.cleaned_data['password1'] != self.cleaned_data['password2']:
                 raise forms.ValidationError(_("گذرواژه های وارد شده یکسان نیستند"))
         return self.cleaned_data

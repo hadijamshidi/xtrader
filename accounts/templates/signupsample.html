@@ -20,32 +20,70 @@
       <h3>.حساب کاربری خود را بسازید</h3>
       </div>
       <div style="height:6em;display:block;"></div>
-    {{ form.non_field_errors }}
+    <div style="position: absolute; color: #f76060; margin-top: 70%; margin-left: 30%">
+        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+    </div>
+
 
  {% for field in form %}
-    {{ field.errors }}
+
     {% if field.name == 'tos' %}
     <p class="checkbox">
     <label for="id_{{ field.name }}">{{ field }} {{ field.label }}</label>
     </p>
-      {% elif field.name == 'first_name' or field.name == 'last_name' %}
+      {% elif field.name == 'first_name'  %}
       <p>
       <div style="margin-right:5%;">{{ field.label}}</div>
-<input class="required" id="id_username" maxlength="30" name="username" required="" type="text" style="direction:rtl">
+<input id="id_first_name" maxlength="30" name="first_name" type="text" style="direction:rtl">
 
+    </p>
+         {% elif field.name == 'last_name'  %}
+      <p>
+      <div style="margin-right:5%;">{{ field.label}}</div>
+<input id="id_last_name" maxlength="30" name="last_name" type="text" style="direction:rtl">
 
     </p>
     {% else %}
     <p>
-      <div style="margin-right:5%;">{{ field.label}}</div>
+      <p class="errors__handle" style="margin-right:5%;">{{ field.label}}<span style="color: #f76060;">{% for error in field.errors %}{{ error }}{% endfor %}</span> </p>
+{% if field.errors %}
+         {{ field }}
 
-                    {{ field }}
+    <script>
+        var d = document.getElementById("id_"+"{{ field.name }}");
+        d.innerHTML = 'yes00';
 
+        d.style.borderBottom = '1px solid red';
+{#             d.setAttribute('style.border-bottom','1px solid red');#}
+    </script>
+{#                    <div style="border-bottom: 1px solid #f76060;">{{ field }}</div>#}
+    {% else %}
+     {{ field }}
+    {% endif %}
+{% if form.non_field_errors %}
+       <script>
+        var d = document.getElementById("id_password1");
+        d.innerHTML = 'yes00';
+
+        d.style.borderBottom = '1px solid red';
+        var d1 = document.getElementById("id_password2");
+        d1.innerHTML = 'yes00';
+
+        d1.style.borderBottom = '1px solid red';
+{#             d.setAttribute('style.border-bottom','1px solid red');#}
+    </script>
+  {% endif %}
     </p>
     {% endif %}
  {% endfor %}
+
   </fieldset>
   <input class="sign-up__btn" type="submit" value="{% trans "ثبت نام"%}" />
+  <div id="bottom-links">
+      <a href="#" style="float: left; margin-left: 1em;">X-Trader</a>
+      <a href="#" style="float: right; margin-right: -19em;">راهنما</a>
+      <a href="#" style="float: right; margin-right: -15em;" >پشتیبانی</a>
+  </div>
 </form>
 {% endblock %}
     </div>

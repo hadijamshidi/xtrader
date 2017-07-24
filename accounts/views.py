@@ -117,10 +117,6 @@ def signup(request, signup_form=SignupFormExtra,
         signup_form = SignupFormOnlyEmail
 
     form = signup_form()
-
-    for field in form:
-        print(field)
-
     if request.method == 'POST':
         form = signup_form(request.POST, request.FILES)
         if form.is_valid():
@@ -165,6 +161,7 @@ def signup(request, signup_form=SignupFormExtra,
         newform[k] = form[k]
     form.fields = newform
     extra_context['form'] = form
+
     return ExtraContextTemplateView.as_view(template_name=template_name,
                                             extra_context=extra_context)(request)
 

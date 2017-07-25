@@ -5,6 +5,8 @@ from django.shortcuts import render
 from accounts.forms import AuthenticationForm
 from data.models import StockWatch as Symbol
 from finance import data_handling as dh, indicator
+
+
 # from main import indicator
 
 
@@ -47,7 +49,6 @@ def get_data(request, name):
     return JsonResponse(json.dumps(stock_information), safe=False)
 
 
-
 def indicators_api(request):
     if request.method == 'POST':
         return JsonResponse(json.dumps(indicator.get_group_api()), safe=False)
@@ -58,8 +59,6 @@ def indicators_api(request):
 @login_required(login_url='accounts:userena_signin')
 def display(request):
     return render(request, 'applyTheme.html', {'SymbolId': 'IRO1IKCO0001', 'username': request.user.username})
-
-
 
 
 def index(request):
@@ -83,3 +82,8 @@ def back_test(request):
 
 def about_us(request):
     return render(request, 'aboutus.html', {'username': request.user.username})
+
+
+def stockwatch(request, SymbolId):
+    stockWatchDict = {}
+    return render(request, 'aboutus.html', stockWatchDict)

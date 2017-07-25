@@ -7,8 +7,6 @@ from data.models import StockWatch
 import requests as r
 from data import backup
 import json
-# groups = backup.symbol_dict
-# server_url = 'http://66.70.160.142:8000/mabna/api'
 symbol_ids = backup.all_ids
 wrong_symbol_ids = []
 new_group = {}
@@ -66,30 +64,20 @@ def addStockWatchTable(info):
         print('successful progress')
 
 
-# def check_wrong_symbols():
-#     for symbol in backup.wrong_symbol_ids:
-#         findSymbolID(symbol['symbol'])
-
-
 def read_portfo():
     user = r.session()
     user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
-    # print('trying to get data for symbol: {} with id: {}'.format(symbol, symbol_id))
-    # output = user.get('http://api.farabixo.com/api/pub/GetWatchList').text
-    # data = eval(output)
-    # print(data)
     Id = 93633
     output = user.get('http://api.farabixo.com/api/pub/GetWatchListSymbol', params={'watchListId': Id}).text
-    # print(output)
     import json
     data = json.loads(output)
-    print(data)
+    # print(data)
     symbols = {}
     for i, symbol in enumerate(data):
         symbol_name = symbol['InstrumentName']
         if symbol_name not in symbols:
-            print(i, symbol_name)
+            # print(i, symbol_name)
             symbols[symbol_name] = symbol['SymbolId']
         else:
             print('namad tekrari: {}'.format(symbol_name))
-    print(symbols)
+    # print(symbols)

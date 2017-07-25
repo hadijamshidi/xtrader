@@ -20,17 +20,7 @@ function filter_market(query) {
             // console.log(result);
         }
     });
-
 }
-var eng_to_per = {
-    'pc': 'قیمت پایانی',
-    'po': 'قیمت آغازین',
-    'ph': 'بیشترین قیمت',
-    'eng_name': 'نام انگلیسی',
-    'per_name': 'نام شرکت',
-    'symbol_name': 'نام نماد',
-    'vol': 'حجم معاملات',
-};
 function show_filters_result(result) {
     var columns = [
         'InstrumentName', 'InstrumentTitle', 'TotalNumberOfTrades',
@@ -84,4 +74,57 @@ function quick_check(str) {
     //     return str
     // }
     return str
+}
+
+var filters_data = {
+    'PE': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'EPS': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROE': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROA': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'DPS': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'PE1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'EPS1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROE1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROA1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'DPS1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROA2': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'DPS2': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+};
+insertfilters(filters_data);
+
+function insertfilters(filters) {
+    var filters_div = document.getElementById('filters place'),
+        column_num = 5, tr, counter = 0;
+    Object.keys(filters).forEach(function (filter) {
+        if (counter == 0)  tr = document.createElement('tr');
+        tr = insertFilterName(tr, filter);
+
+        var select = document.createElement('select'),
+            options = Object.keys(filters[filter]);
+        tr = insertFilterOptions(tr, filters, filter, select, options);
+
+        if (counter == 4) filters_div.appendChild(tr);
+        counter = (counter + 1) % column_num;
+    });
+    filters_div.appendChild(tr);
+}
+
+function insertFilterName(tr, name) {
+    var td = document.createElement('td');
+    td.innerHTML = name + ': ';
+    tr.appendChild(td);
+    return tr
+}
+
+function insertFilterOptions(tr, filters, filter, select, options) {
+    var td = document.createElement('td');
+    options.forEach(function (opt) {
+        var option = document.createElement('option');
+        option.innerHTML = opt;
+        option.setAttribute('value', filters[filter][opt]);
+        select.appendChild(option);
+    });
+    td.appendChild(select);
+    tr.appendChild(td);
+    return tr
 }

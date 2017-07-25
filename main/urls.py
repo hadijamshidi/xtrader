@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^backtest', views.display, name='display'),
     url(r'^back-test', views.back_test, name='back_test'),
     url(r'^about-us', views.about_us, name='about_us'),
+    url(r'^stockwatch/SymbolId=(?P<SymbolId>\w+)', views.stockwatch, name='stockwatch'),
+
 ]

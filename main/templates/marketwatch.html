@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>دیده بان</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css">
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+</head>
+<body>
+    <div class="ui container">
+        <table id="filters place">
+        </table>
+    </div>
+    <button onclick="read_filters()">فیلتر بازار</button>
+</body>
+<script src="{% static 'js/marketwatch.js' %}"></script>
+</html>

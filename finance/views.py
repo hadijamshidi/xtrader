@@ -6,6 +6,7 @@ from data.dates import Check
 # Create your views here.
 
 import inspect
+from django.shortcuts import render
 
 all_functions = dict(inspect.getmembers(data_handling, inspect.isfunction))
 
@@ -51,6 +52,4 @@ def update_indicators(request):
 
 
 def market_watch(request):
-    query = request.GET['query']
-    result = marketwatch.query(query)
-    return HttpResponse(json.dumps(result))
+    return render(request, 'marketwatch.html')

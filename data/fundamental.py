@@ -82,7 +82,7 @@ def createRatioTables(num=0):
         # print(info)
 
         try:
-            Ratio(**info).save()
+            addRatioTable()
 
         except Exception:
             wrong_symbol_ids.append(dict(instrumentName=stock.InstrumentName,problem='on save'))
@@ -109,3 +109,4 @@ def RatioInfo(stock,InstrumentName):
 def addRatioTable(info):
     Ratio(**info).save()
     print('successful progress')
+# TODO write clean function for duplicate above

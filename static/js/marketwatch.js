@@ -77,18 +77,18 @@ function quick_check(str) {
 }
 
 var filters_data = {
-    'PE': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'EPS': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROE': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROA': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'DPS': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'PE1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'EPS1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROE1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROA1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'DPS1': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROA2': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'DPS2': {'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'PE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'EPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROA': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'DPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'PE1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'EPS1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROE1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROA1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'DPS1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROA2': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'DPS2': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
 };
 insertfilters(filters_data);
 
@@ -102,6 +102,8 @@ function insertfilters(filters) {
         var select = document.createElement('select'),
             options = Object.keys(filters[filter]);
         tr = insertFilterOptions(tr, filters, filter, select, options);
+        select.setAttribute('id',filter);
+        // select.addEventListener('click',add_filter(this));
 
         if (counter == 4) filters_div.appendChild(tr);
         counter = (counter + 1) % column_num;
@@ -127,4 +129,39 @@ function insertFilterOptions(tr, filters, filter, select, options) {
     td.appendChild(select);
     tr.appendChild(td);
     return tr
+}
+
+var choosen_filters = {};
+
+function read_filters(){
+    Object.keys(filters_data).forEach(function(filter){
+        var select = document.getElementById(filter);
+        if (!select.value==''){
+            console.log(filter);
+            choosen_filters[filter] = select.value;
+        }else{
+            if(choosen_filters[filter]){
+                delete choosen_filters[filter];
+            }
+        }
+    });
+    filter_market(choosen_filters);
+}
+
+function filter_market(filters) {
+    $.ajax({
+        type: 'GET',
+        url: "/",
+        data: {
+            filters: JSON.stringify(filters),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        error: function () {
+            alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
+        },
+        success: function (result) {
+            console.log(result);
+        }
+    });
+
 }

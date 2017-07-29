@@ -1,6 +1,6 @@
 from .crawl import IncomeIndex, RatioIndex, balanceIndex
 from data.models import StockWatch as ss
-from .models import Income, balanceSheet, Ratio
+from .models import Income, balanceSheet, Ratio,MarketWatch
 
 Balance_sheet = {'سرمایه گذاری کوتاه مدت': 'short_term_investments', 'دارایی': 'total_assets',
                  'حقوق صاحبان سهام': 'equity', 'حساب دریافتنی': 'net_receivables',
@@ -82,8 +82,10 @@ def createRatioTables(num=0):
     for i, stock in enumerate(ss.objects.all()):
         if i >= num:
             info = RatioInfo(stock, stock.InstrumentName)
+
             try:
-                Ratio(**info).save()
+                addRatioTable(info)
+
             except Exception:
                 wrong_symbol_ids.append(dict(instrumentName=stock.InstrumentName, problem='on save'))
 
@@ -98,9 +100,14 @@ def RatioInfo(stock, InstrumentName):
     trades_dict['InstrumentName'] = InstrumentName
     for key in trades_data:
         trades_dict[Ratio1[key]] = trades_data[key]
+    print(InstrumentName)
     return trades_dict
 
 
 def addRatioTable(info):
     Ratio(**info).save()
     print('successful progress')
+# TODO write clean function for duplicate above
+
+
+# def addMrkectwach():

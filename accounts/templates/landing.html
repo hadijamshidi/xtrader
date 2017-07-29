@@ -20,10 +20,10 @@
                     {#                {{ field.errors }}#}
                     <!--{% comment %} Displaying checkboxes differently {% endcomment %}-->
                     {% if field.name == 'remember_me' %}
-                        <p>
-                            <input type="checkbox" name="checkbox" id="checkbox_id" value="value">
+                        <p style="direction:rtl">
+                            <input type="checkbox" name="checkbox" id="checkbox_id" value="value"  style="padding-left: 10px;">
 
-                            <label for="id_{{ field.name }}"> {{ field.label }}</label>
+                            <label for="id_{{ field.name }}" >{{ field.label }} </label>
 
                         </p>
                     {% else %}

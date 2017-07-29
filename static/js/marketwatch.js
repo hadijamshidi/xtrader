@@ -76,51 +76,22 @@ function quick_check(str) {
     return str
 }
 
-
-var choosen_filters = {};
-var filter_ids = [];
-var filters_data = [
-    {
-        "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
-        "target": [
-            {'ratio_roe': 'ROE'},
-            {'ratio_roa': 'ROA'},
-            {'ratio_gross_profit_margin': 'حاشيه سود ناخالص'},
-            {'ratio_profit_margin': 'حاشيه سود خالص'}
-        ]
-    },
-    {
-        "benchmark": [20, 40, 50, 60, 80],
-        'target': [{'ratio_da': 'D/A'}]
-    },
-
-    {
-        'benchmark': [0.25, 0.5, 1, 2, 4,],
-        'target': [{'ratio_de': 'D/E'}]
-    },
-
-    {
-        'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
-        'target': [{'ratio_current_ratio': 'نسبت جاري'},
-            {'ratio_quick_ratio': 'نسبت آني'}]
-    },
-
-    {
-        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
-        'target': [{'ratio_cash_ratio': 'نسبت نقد'}]
-    },
-
-    {
-        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
-        'target': [{'ratio_cash_ratio': 'نسبت نقد'}]
-    },
-    {
-        'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
-        'target': [{'stockwatch_pe': 'P/E'}]
-    }
-];
-
+var filters_data = {
+    'PE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'EPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROA': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'DPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'PE1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'EPS1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROE1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROA1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'DPS1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'ROA2': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'DPS2': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+};
 insertfilters(filters_data);
+
 function insertfilters(filters) {
     var filters_div = document.getElementById('filters place'),
         column_num = 5, tr, counter = 0;
@@ -191,16 +162,16 @@ function read_filters() {
 function filter_market(filters) {
     $.ajax({
         type: 'GET',
-        url: "/",
+        url: "/finance/filtermarket",
         data: {
             filters: JSON.stringify(filters),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         error: function () {
-            alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
+            // alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
         },
         success: function (result) {
-            // console.log(result);
+            console.log(result);
         }
     });
 }

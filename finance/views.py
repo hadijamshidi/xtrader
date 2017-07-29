@@ -53,3 +53,21 @@ def update_indicators(request):
 
 def market_watch(request):
     return render(request, 'marketwatch.html')
+
+
+def filtermarket(request):
+    from data.models import StockWatch as ss
+    uu=ss.objects.filter(PricePerEarning__lte=5)
+    data = json.loads(request.GET['filters'])
+    # f = request.GET['filters']
+
+    # s = "Name1=Value1;Name2=Value2;Name3=Value3"
+    # dict(item.split("=") for item in s.split(";"))
+    conditions={}
+    for v,y in data.items() :
+        t=dict(item.split("=") for item in y.split(";"))
+        conditions.update(t)
+    # print(conditions)
+    rdfds=ss.objects.filter(**conditions)
+    return rdfds
+    # print(f)

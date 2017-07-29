@@ -163,5 +163,4 @@ function filter_market(filters) {
             console.log(result);
         }
     });
-
 }

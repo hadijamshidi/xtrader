@@ -1,0 +1,367 @@
+{% load staticfiles %}
+<!doctype html>
+<html dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>stock watch</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stockwatchstyle.css' %}"/>
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
+    {# <link rel="stylesheet" type="text/css" #}
+          {# href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css"> #}
+    {# // <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script> #}
+</head>
+
+<body>
+    <div id="sell-buy"></div>
+    <div class="boxes" id="costs">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">خرید</div>
+                    <div class="divTableCell">معامله</div>
+                    <div class="divTableCell">فروش</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell" id="pd1"></div>
+                    <div class="divTableCell" id="LastTradePrice"></div>
+                    <div class="divTableCell" id="po1"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">اولین</div>
+                    <div class="divTableCell">پایانی</div>
+                    <div class="divTableCell">دیروز</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell" id="FirstTradePrice"></div>
+                    <div class="divTableCell" id="ClosingPrice"></div>
+                    <div class="divTableCell" id="PreviousDayPrice"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="boxes" id="periods">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">بازه روز</div>
+                    <div class="divTableCell" id="HighestTradePrice"></div>
+                    <div class="divTableCell" id="LowestTradePrice"></div>
+
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">قیمت مجاز</div>
+                    <div class="divTableCell" id="UpperPriceThreshold"></div>
+                    <div class="divTableCell" id="LowerPriceThreshold"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">بازه سال</div>
+                    <div class="divTableCell" id="YearHighestTradePrice"></div>
+                    <div class="divTableCell" id="YearLowestTradePrice"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="boxes" id="deals">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">تعداد معاملات</div>
+                    <div class="divTableCell" id="TotalNumberOfTrades"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">حجم معاملات</div>
+                    <div class="divTableCell" id="TotalNumberOfSharesTraded"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">ارزش معاملات</div>
+                    <div class="divTableCell" id="TotalTradeValue"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">ارزش بازار</div>
+                    <div class="divTableCell" id="InstrumentMarketValue"></div>
+                </div>
+            </div>
+        </div>
+        <!-- DivTable.com -->
+    </div>
+    <div class="boxes" id="rates">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">تعداد سهام</div>
+                    <div class="divTableCell" id="NumberOfSharesOrBonds"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">حجم مبنا</div>
+                    <div class="divTableCell" id="BaseQuantity"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">سهام شناور</div>
+                    <div class="divTableCell" id="FreeFloatPercent"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">میانگین حجم ماه</div>
+                    <div class="divTableCell" id="MonthAverageVolume"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sell-buy-count">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">حجم</div>
+                    <div class="divTableCell">خرید</div>
+                    <div class="divTableCell">فروش</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">حقیقی</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">حقوقی</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">تعداد</div>
+                    <div class="divTableCell">خرید</div>
+                    <div class="divTableCell">فروش</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">مجموع</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">حقیقی</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">حقوقی</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+            </div>
+        </div>
+        <!-- DivTable.com -->
+    </div>
+    <div id="last-sell">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">آخرین معامله</div>
+                    <div class="divTableCell" id="LastTradeDate"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">وضعیت</div>
+                    <div class="divTableCell" id="InstrumentStateTitle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="eps">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">EPS</div>
+                    <div class="divTableCell" id="Eps"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">P/E</div>
+                    <div class="divTableCell" id="PricePerEarning"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">P/E گروه</div>
+                    <div class="divTableCell" id="PricePerEarningGroup"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="queue">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">تعداد</div>
+                    <div class="divTableCell">حجم</div>
+                    <div class="divTableCell">خرید</div>
+                    <div class="divTableCell">فروش</div>
+                    <div class="divTableCell">حجم</div>
+                    <div class="divTableCell">تعداد</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">1</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">2</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">3</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">4</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">5</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="chart" dir="ltr"></div>
+    <div id="portfo">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">نماد</div>
+                    <div class="divTableCell">تعداد</div>
+                    <div class="divTableCell">خالص میانگین</div>
+                    <div class="divTableCell">میانگین خرید</div>
+                    <div class="divTableCell">جمع خرید</div>
+                    <div class="divTableCell">نقطه سر به سر </div>
+                    <div class="divTableCell">قیمت لحظه ای </div>
+                    <div class="divTableCell">ارزش</div>
+                    <div class="divTableCell">سود/زیان</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                    <div class="divTableCell"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="column"></div>
+    <div id="hotlist">
+        <div class="divTable">
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">نماد</div>
+                    <div class="divTableCell">آخرین قیمت</div>
+                    <div class="divTableCell">تغییرات</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                    <div class="divTableCell">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{#     <div class="ui container" dir="rtl">
+        <div id="search" class="ui fluid category search">
+            <div class="ui icon input" style="width:50%; margin-left: 25%;">
+                <input class="prompt" type="search" placeholder="جستجو نماد">
+                <i class="search icon"></i>
+            </div>
+            <div class="results" style="width:50%; margin-left: 25%;" dir="ltr"></div>
+        </div>
+    </div>
+ #}
+</body>
+<script>
+    var SymbolId = "{{ SymbolId }}" ;
+</script>
+<script type="text/javascript" src="{% static 'js/stockwatch.js' %}"></script>
+</html>

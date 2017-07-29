@@ -76,39 +76,69 @@ function quick_check(str) {
     return str
 }
 
-var filters_data = {
-    'PE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'EPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROA': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'DPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'PE1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'EPS1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROE1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROA1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'DPS1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROA2': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'DPS2': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-};
-insertfilters(filters_data);
 
+var choosen_filters = {};
+var filter_ids = [];
+var filters_data = [
+    {
+        "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
+        "target": [
+            {'ratio_roe': 'ROE'},
+            {'ratio_roa': 'ROA'},
+            {'ratio_gross_profit_margin': 'حاشيه سود ناخالص'},
+            {'ratio_profit_margin': 'حاشيه سود خالص'}
+        ]
+    },
+    {
+        "benchmark": [20, 40, 50, 60, 80],
+        'target': [{'ratio_da': 'D/A'}]
+    },
+
+    {
+        'benchmark': [0.25, 0.5, 1, 2, 4,],
+        'target': [{'ratio_de': 'D/E'}]
+    },
+
+    {
+        'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
+        'target': [{'ratio_current_ratio': 'نسبت جاري'},
+            {'ratio_quick_ratio': 'نسبت آني'}]
+    },
+
+    {
+        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+        'target': [{'ratio_cash_ratio': 'نسبت نقد'}]
+    },
+
+    {
+        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+        'target': [{'ratio_cash_ratio': 'نسبت نقد'}]
+    },
+    {
+        'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
+        'target': [{'stockwatch_pe': 'P/E'}]
+    }
+];
+
+insertfilters(filters_data);
 function insertfilters(filters) {
     var filters_div = document.getElementById('filters place'),
         column_num = 5, tr, counter = 0;
-    Object.keys(filters).forEach(function (filter) {
-        if (counter == 0)  tr = document.createElement('tr');
-        tr = insertFilterName(tr, filter);
-
-        var select = document.createElement('select'),
-            options = Object.keys(filters[filter]);
-        tr = insertFilterOptions(tr, filters, filter, select, options);
-        select.setAttribute('id',filter);
-        // select.addEventListener('click',add_filter(this));
-
-        if (counter == 4) filters_div.appendChild(tr);
-        counter = (counter + 1) % column_num;
+    filters.forEach(function (filter) {
+        filter['target'].forEach(function (target) {
+            if (counter == 0)  tr = document.createElement('tr');
+            var name = Object.keys(target)[0];
+            tr = insertFilterName(tr, target[name]);
+            var select = document.createElement('select'),
+                options = filter['benchmark'];
+            tr = insertFilterOptions(tr, name, select, options);
+            select.setAttribute('id', name);
+            filter_ids.push(name);
+            if (counter == 4) filters_div.appendChild(tr);
+            counter = (counter + 1) % column_num;
+        });
+        filters_div.appendChild(tr);
     });
-    filters_div.appendChild(tr);
 }
 
 function insertFilterName(tr, name) {
@@ -118,34 +148,44 @@ function insertFilterName(tr, name) {
     return tr
 }
 
-function insertFilterOptions(tr, filters, filter, select, options) {
-    var td = document.createElement('td');
-    options.forEach(function (opt) {
-        var option = document.createElement('option');
-        option.innerHTML = opt;
-        option.setAttribute('value', filters[filter][opt]);
-        select.appendChild(option);
+function insertFilterOptions(tr, name, select, options) {
+    var td = document.createElement('td'),
+        operators = {'<': 'کوچکتر از ', '>': 'بزرگتر از '};
+    var option = document.createElement('option');
+    option.innerHTML = 'همه';
+    option.setAttribute('value', '');
+    select.appendChild(option);
+    Object.keys(operators).forEach(function (operator) {
+        options.forEach(function (opt) {
+            var option = document.createElement('option');
+            option.innerHTML = operators[operator] + opt;
+            option.setAttribute('value', name + operator + opt);
+            select.appendChild(option);
+        });
+        td.appendChild(select);
+        tr.appendChild(td);
     });
-    td.appendChild(select);
-    tr.appendChild(td);
     return tr
 }
 
-var choosen_filters = {};
-
-function read_filters(){
-    Object.keys(filters_data).forEach(function(filter){
+function read_filters() {
+    filter_ids.forEach(function (filter) {
         var select = document.getElementById(filter);
-        if (!select.value==''){
+        if (!select.value == '') {
             console.log(filter);
             choosen_filters[filter] = select.value;
-        }else{
-            if(choosen_filters[filter]){
+        } else {
+            if (choosen_filters[filter]) {
                 delete choosen_filters[filter];
             }
         }
     });
-    filter_market(choosen_filters);
+    var filters_list = [];
+    Object.keys(choosen_filters).forEach(function(filter){
+        filters_list.push(choosen_filters[filter]);
+    });
+    console.log(filters_list);
+    filter_market(filters_list);
 }
 
 function filter_market(filters) {
@@ -160,7 +200,7 @@ function filter_market(filters) {
             alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
         },
         success: function (result) {
-            console.log(result);
+            // console.log(result);
         }
     });
 }

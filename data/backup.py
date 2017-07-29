@@ -149,4 +149,45 @@ new_groups_ids = ['IRO1SHFS0001', 'IRO1PASN0001', 'IRO1PKLJ0001', 'IRO1BMPS0001'
                   'IRO1DAML0001', 'IRO1DPAK0001', 'IRO1DSOB0001', 'IRO1DFRB0001', 'IRO1FTIR0001', 'IRO1BOTA0001',
                   'IRO1ASAL0001', 'IRO1KHAZ0001']
 
-wrong_symbols_stockwatch = [{'problem': 'on save', 'id': 'IRO1FNAR0001'}, {'problem': 'on save', 'id': 'IRO1MELT0001'}, {'problem': 'on save', 'id': 'IRO1KSAD0001'}, {'problem': 'on save', 'id': 'IRO1TMKH0001'}, {'problem': 'on save', 'id': 'IRO1RIIR0001'}, {'problem': 'on save', 'id': 'IRO1ROZD0001'}, {'problem': 'on save', 'id': 'IRO1MSTI0001'}, {'problem': 'on save', 'id': 'IRO1DAML0001'}, {'problem': 'on save', 'id': 'IRO1INDM0001'}, {'problem': 'on save', 'id': 'IRO1KALZ0001'}, {'problem': 'on save', 'id': 'IRO1TKNO0001'}, {'problem': 'ح . ', 'id': 'IRR1KSIM0101'}, {'problem': 'on save', 'id': 'IRO1GSBE0001'}, {'problem': 'on save', 'id': 'IRO1SEIL0001'}, {'problem': 'on save', 'id': 'IRO1SISH0001'}, {'problem': 'on save', 'id': 'IRO1KHSH0001'}, {'problem': 'on save', 'id': 'IRO1BMPS0001'}]
+wrong_symbols_stockwatch = [{'problem': 'on save', 'id': 'IRO1FNAR0001'}, {'problem': 'on save', 'id': 'IRO1MELT0001'},
+                            {'problem': 'on save', 'id': 'IRO1KSAD0001'}, {'problem': 'on save', 'id': 'IRO1TMKH0001'},
+                            {'problem': 'on save', 'id': 'IRO1RIIR0001'}, {'problem': 'on save', 'id': 'IRO1ROZD0001'},
+                            {'problem': 'on save', 'id': 'IRO1MSTI0001'}, {'problem': 'on save', 'id': 'IRO1DAML0001'},
+                            {'problem': 'on save', 'id': 'IRO1INDM0001'}, {'problem': 'on save', 'id': 'IRO1KALZ0001'},
+                            {'problem': 'on save', 'id': 'IRO1TKNO0001'}, {'problem': 'ح . ', 'id': 'IRR1KSIM0101'},
+                            {'problem': 'on save', 'id': 'IRO1GSBE0001'}, {'problem': 'on save', 'id': 'IRO1SEIL0001'},
+                            {'problem': 'on save', 'id': 'IRO1SISH0001'}, {'problem': 'on save', 'id': 'IRO1KHSH0001'},
+                            {'problem': 'on save', 'id': 'IRO1BMPS0001'}]
+
+finviz = [
+    {"benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
+     "target": [
+         {'roe': 'ROE'},
+         {'roa': 'ROA'},
+         {'gross_profit_margin': 'حاشيه سود ناخالص'},
+         {'profit_margin': 'حاشيه سود خالص'}
+     ]
+     },
+    {"benchmark": [20, 40, 50, 60, 80],
+     'target': [{'d/a': 'D/A'}]},
+
+    {'benchmark': [0.25, 0.5, 1, 2, 4, ],
+     'target': [{'d/e': 'D/E'}]},
+
+    {'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
+     'target': [{'current_ratio': 'نسبت جاري'},
+                {'quick_ratio': 'نسبت آني'}]},
+
+    {'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+     'target': [{'cash_ratio': 'نسبت نقد'}]
+     },
+
+    {'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+     'target': [{'cash_ratio': 'نسبت نقد'}]
+     },
+
+    {'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
+     'target': [{'p/e': 'P/E'}]
+     }
+
+]

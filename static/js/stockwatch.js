@@ -199,8 +199,8 @@ $('.ui.search').dblclick(function () {
 
 function draw_chart(){
     $.getJSON('/get-data/'+SymbolId, function (data) {
-        close = [];
         data = JSON.parse(data);
+        var close = [],
         name = data['per_name'];
         data = JSON.parse(data['items']);
         var dataLength = data.length;

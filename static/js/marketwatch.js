@@ -77,8 +77,8 @@ function quick_check(str) {
 }
 
 var filters_data = {
-    'PE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'EPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
+    'PricePerEarning': {'همه':'', 'کمتر از 5': 'PricePerEarning__lt=5', 'بیشتر از 5': 'PricePerEarning__gt=5'},
+    'EPS': {'همه':'', 'کمتر از 5': 'EPS__lt=5', 'بیشتر از 5': 'EPS__gt=5'},
     'ROE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
     'ROA': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
     'DPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
@@ -151,13 +151,13 @@ function read_filters(){
 function filter_market(filters) {
     $.ajax({
         type: 'GET',
-        url: "/",
+        url: "/finance/filtermarket",
         data: {
             filters: JSON.stringify(filters),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         error: function () {
-            alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
+            // alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
         },
         success: function (result) {
             console.log(result);

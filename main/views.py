@@ -1,7 +1,8 @@
 import json
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponse, Http404
-from django.shortcuts import render
+from django.http import JsonResponse, HttpResponse, Http404, HttpResponseNotFound
+from django.shortcuts import render, redirect
+# from django.shortcuts import 
 from accounts.forms import AuthenticationForm
 from data.models import StockWatch as Symbol
 from finance import data_handling as dh, indicator
@@ -15,12 +16,12 @@ def ssl(request):
 
 
 def symbol_search(request, query):
-    symbols = Symbol.objects.filter(mabna_short_name__istartswith=query) \
-              | Symbol.objects.filter(mabna_english_name__icontains=query) \
+    symbols = Symbol.objects.filter(InstrumentName__istartswith=query)
+              # | Symbol.objects.filter(mabna_english_name__icontains=query) \
         # | Symbol.objects.filter(name__icontain=query)
     symbol_max_results = 8
     if symbols.count() < symbol_max_results:
-        symbols = symbols | Symbol.objects.filter(mabna_name__icontains=query)
+        symbols = symbols | Symbol.objects.filter(InstrumentName__icontains=query)
     results = [ob.as_json() for ob in symbols]
     mydict = dict(
         items=results,
@@ -29,20 +30,20 @@ def symbol_search(request, query):
                         content_type="application/json; charset=utf-8")
 
 
-def get_data(request, name):
+def get_data(request, SymbolId):
     from data import redis
     import pandas as pd
-    data_dict = redis.load_history(name)
+    data_dict = redis.load_history(SymbolId)
     df = pd.DataFrame(data=data_dict, index=data_dict['date'])
     df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
-    # stock = Symbol.objects.get(symbol_id=name)
+    stock = Symbol.objects.get(SymbolId=SymbolId)
     stock_information = dict(
         # per_name=stock.mabna_short_name,
         # measurement_name=name,
         # name=stock.mabna_name,
-        per_name='خودرو',
-        measurement_name=name,
-        name='خودرو',
+        per_name=stock.InstrumentName,
+        measurement_name=stock.SymbolId,
+        name=stock.InstrumentName,
     )
     stock_history = df.to_json(orient='values')
     stock_information['items'] = stock_history
@@ -84,6 +85,13 @@ def about_us(request):
     return render(request, 'aboutus.html', {'username': request.user.username})
 
 
-def stockwatch(request, SymbolId):
-    stockWatchDict = {}
-    return render(request, 'aboutus.html', stockWatchDict)
+def stockwatch(request,SymbolId):
+    if not SymbolId:
+        return redirect('/stockwatch/IRO1IKCO0001')
+    try:
+        from data.models import StockWatch as st
+        stockWatchDict = st.objects.get(SymbolId=SymbolId).to_dict()
+        return render(request, 'stockwatch.html', stockWatchDict)
+    except Exception:
+        return HttpResponseNotFound('<h4>صفحه مورد نظر یافت نشد</h4>')
+        

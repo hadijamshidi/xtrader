@@ -52,7 +52,6 @@ def history(request):
 
 
 def marketwatch(request):
-    # if Status.objects.get(job='server').market_watch == 'ready':
     if True:
         from api.models import MarketWatch
         query = request.GET['query']
@@ -66,9 +65,7 @@ def marketwatch(request):
         return HttpResponse('database is updating please try a min later')
 
 
-# def update_MarketWatch(request):
-#     from . import testdate
-#     if Status.objects.get(job='server').number_of_requests == 0:
-#         testdate.update_MarketWatch()
-#     else:
-#         return HttpResponse('workers are working')
+def stockwatch(request,SymbolId):
+    from data.models import StockWatch
+    sw = StockWatch.objects.get(SymbolId=SymbolId)
+    return HttpResponse(json.dumps(sw.read()))

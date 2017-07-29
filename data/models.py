@@ -117,14 +117,22 @@ class StockWatch(models.Model):
     def as_json(self):
         return dict(
             symbol_id=self.SymbolId,
-            kind='kind',
+            kind=self.InstrumentStateTitle,
             category=self.ExchangeName,
             symbol_name=self.InstrumentName,
-            name=self.InstrumentName,
+            name=self.CompanyName,
             description='description',
             title='title',
         )
-
+    def read(self):
+        data = {}
+        for key in self.__dict__:
+            if key[0]!='_':
+                try:
+                    data[key] = float(self.__getattribute__(key))
+                except Exception:
+                    data[key] = str(self.__getattribute__(key))
+        return data
 
 class balanceSheet(models.Model):
     StockWatch = models.ForeignKey(StockWatch,verbose_name='سهم ')

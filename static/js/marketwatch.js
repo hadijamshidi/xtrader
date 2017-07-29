@@ -171,7 +171,7 @@ function filter_market(filters) {
             // alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
         },
         success: function (result) {
-            console.log(result);
+            // console.log(result);
         }
     });
 }

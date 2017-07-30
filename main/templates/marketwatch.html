@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css">
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+{#    <script>var filters_data = "{{ filters }}";</script>#}
+    <script src="{% static 'js/marketwatch.js' %}"></script>
 </head>
 <body>
     <div class="ui container">
@@ -14,6 +16,6 @@
         </table>
     </div>
     <button onclick="read_filters()">فیلتر بازار</button>
+<div class="ui container" id="filters scan place" dir="rtl"></div>
 </body>
-<script src="{% static 'js/marketwatch.js' %}"></script>
 </html>

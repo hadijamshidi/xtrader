@@ -159,35 +159,56 @@ wrong_symbols_stockwatch = [{'problem': 'on save', 'id': 'IRO1FNAR0001'}, {'prob
                             {'problem': 'on save', 'id': 'IRO1SISH0001'}, {'problem': 'on save', 'id': 'IRO1KHSH0001'},
                             {'problem': 'on save', 'id': 'IRO1BMPS0001'}]
 
-finviz = [
-    {"benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
-     "target": [
-         {'roe': 'ROE'},
-         {'roa': 'ROA'},
-         {'gross_profit_margin': 'حاشيه سود ناخالص'},
-         {'profit_margin': 'حاشيه سود خالص'}
-     ]
-     },
-    {"benchmark": [20, 40, 50, 60, 80],
-     'target': [{'d/a': 'D/A'}]},
+filters = [
+    {
+        "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
+        "target": [
+            {'ratio_roe': 'ROE'},
+            {'ratio_roa': 'ROA'},
+            {'ratio_gross_profit_margin': 'حاشيه سود ناخالص'},
+            {'ratio_profit_margin': 'حاشيه سود خالص'}
+        ]
+    },
+    {
+        "benchmark": [20, 40, 50, 60, 80],
+        'target': [
+            {'ratio_da': 'D/A'}
+        ]
+    },
 
-    {'benchmark': [0.25, 0.5, 1, 2, 4, ],
-     'target': [{'d/e': 'D/E'}]},
+    {
+        'benchmark': [0.25, 0.5, 1, 2, 4,],
+        'target': [
+            {'ratio_de': 'D/E'}
+        ]
+    },
 
-    {'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
-     'target': [{'current_ratio': 'نسبت جاري'},
-                {'quick_ratio': 'نسبت آني'}]},
+    {
+        'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
+        'target': [
+            {'ratio_current_ratio': 'نسبت جاري'},
+            {'ratio_quick_ratio': 'نسبت آني'}
+        ]
+    },
 
-    {'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
-     'target': [{'cash_ratio': 'نسبت نقد'}]
-     },
+    {
+        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+        'target': [
+            {'ratio_cash_ratio': 'نسبت نقد'}
+        ]
+    },
 
-    {'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
-     'target': [{'cash_ratio': 'نسبت نقد'}]
-     },
+    {
+        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+        'target': [
+            {'ratio_cash_ratio': 'نسبت نقد'}
+        ]
+    },
 
-    {'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
-     'target': [{'p/e': 'P/E'}]
-     }
-
+    {
+        'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
+        'target': [
+            {'ratio_pe': 'P/E'}
+        ]
+    }
 ]

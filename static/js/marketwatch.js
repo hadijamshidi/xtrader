@@ -1,50 +1,32 @@
 /**
  * Created by hadi on 7/5/17.
  */
-function filter_market(query) {
-    query = document.getElementById('filters_script').value;
-    $.ajax({
-        type: 'GET',
-        url: "/finance/market_watch",
-        data: {
-            'query': query,
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-        },
-        error: function () {
-            alert('فیلترها اشتباه نگارشی دارند!\n لطفا مجددا اقدام کنید.');
-        },
-        success: function (result) {
-            // console.log(result);
-            var result = JSON.parse(result);
-            show_filters_result(result);
-            // console.log(result);
-        }
-    });
-}
 function show_filters_result(result) {
-    var columns = [
-        'InstrumentName', 'InstrumentTitle', 'TotalNumberOfTrades',
-        'TotalNumberOfSharesTraded',
-        'TotalTradeValue', 'PreviousDayPrice', 'FirstTradePrice',
-        'LastTradePrice', 'ClosingPrice',
-        'LowestTradePrice', 'HighestTradePrice', 'Eps', 'PricePerEarning'
-    ];
+    var columns = {
+        'InstrumentName': 'نماد', 'InstrumentTitle': 'نام', 'TotalNumberOfTrades': 'تعداد',
+        'TotalNumberOfSharesTraded': 'حجم', 'TotalTradeValue': 'ارزش',
+        'PreviousDayPrice': 'دیروز', 'FirstTradePrice': 'اولین',
+        'Eps': 'Eps', 'PricePerEarning': 'P/E',
+        'LastTradePrice': 'آخرین معامله', 'ReferencePriceVariationPercent': 'درصد آخرین معامله',
+        'ReferencePriceVariation': 'تغییر آخرین معامله',
+        'ClosingPrice': 'قیمت پایانی', 'ClosingPriceVariation': 'تغییر قیمت پایانی',
+        'ClosingPriceVariationPercent': 'درصد  تغییر قیمت پایانی',
+        'LowestTradePrice': 'کمترین', 'HighestTradePrice': 'بیشترین'
+    };
     var place = document.getElementById("filters scan place");
     place.innerHTML = '';
-
-    // new code
     // creating table tag and attrs:
     var table = document.createElement("TABLE");
     table.setAttribute("id", "table");
-    table.setAttribute("style", "text-align:right");
-    table.setAttribute("class", "ui selectable inverted celled  table");
+    // table.setAttribute("style", "text-align:right");
+    // table.setAttribute("class", "ui selectable inverted celled  table");
     place.appendChild(table);
 
     //creating tr for th tags:
     var tr = document.createElement('TR');
-    columns.forEach(function (col) {
+    Object.keys(columns).forEach(function (column) {
         var th = document.createElement('TH');
-        th.appendChild(document.createTextNode(result['keys'][col]));
+        th.appendChild(document.createTextNode(columns[column]));
         tr.appendChild(th);
     });
     table.appendChild(tr);
@@ -53,13 +35,23 @@ function show_filters_result(result) {
     // var div = document.createElement('table');
     // div.setAttribute('style', 'height: 400px; overflow: auto');
     var div = table;
-    console.log(result);
-    result['result'].forEach(function (stock) {
+    result.forEach(function (stock) {
         var tr = document.createElement('TR');
-        columns.forEach(function (key) {
+        var num = 0;
+        Object.keys(columns).forEach(function (column) {
             var td = document.createElement('TD');
-            td.appendChild(document.createTextNode(quick_check(stock[key])));
-            tr.appendChild(td);
+            if(num == 0){
+                var a = document.createElement('a');
+                a.appendChild(document.createTextNode(quick_check(stock[column])));
+                a.setAttribute('href','/stockwatch/'+stock['SymbolId']);
+                td.appendChild(a);
+                tr.appendChild(td);
+
+            }else{
+                td.appendChild(document.createTextNode(quick_check(stock[column])));
+                tr.appendChild(td);
+            }
+            num += 1;
         });
         div.appendChild(tr);
     });
@@ -76,21 +68,96 @@ function quick_check(str) {
     return str
 }
 
-var filters_data = {
-    'PE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'EPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROE': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROA': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'DPS': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'PE1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'EPS1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROE1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROA1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'DPS1': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'ROA2': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-    'DPS2': {'همه':'', 'کمتر از 5': 'PE__lt=5', 'بیشتر از 5': 'PE__gt=5'},
-};
-insertfilters(filters_data);
+var filters_data = [
+    {
+        "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
+        "target": [
+            {'ratio_roe': 'ROE'},
+            {'ratio_roa': 'ROA'},
+            {'ratio_gross_profit_margin': 'حاشيه سود ناخالص'},
+            {'ratio_profit_margin': 'حاشيه سود خالص'}
+        ]
+    },
+    {
+        "benchmark": [20, 40, 50, 60, 80],
+        'target': [
+            {'ratio_da': 'D/A'}
+        ]
+    },
+
+    {
+        'benchmark': [0.25, 0.5, 1, 2, 4,],
+        'target': [
+            {'ratio_de': 'D/E'}
+        ]
+    },
+
+    {
+        'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
+        'target': [
+            {'ratio_current_ratio': 'نسبت جاري'},
+            {'ratio_quick_ratio': 'نسبت آني'}
+        ]
+    },
+
+    {
+        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+        'target': [
+            {'ratio_cash_ratio': 'نسبت نقد'}
+        ]
+    },
+
+    {
+        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+        'target': [
+            {'ratio_cash_ratio': 'نسبت نقد'}
+        ]
+    },
+
+    {
+        'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
+        'target': [
+            {'stockwatch_PricePerEarning': 'P/E'},
+            {'stockwatch_PricePerEarningGroup': 'P/E گروه'},
+        ]
+    },
+    {
+        'benchmark': [-2000, -1000, 0, 200, 500, 1000, 2000],
+        'target': [
+            {'stockwatch_Eps': 'Eps'}
+        ]
+    },
+    {
+        'benchmark': [-4, -3, -2, -1, 0, 1, 2, 3, 4],
+        'target': [
+            {'stockwatch_ClosingPriceVariationPercent': 'درصد تغییر قیمت پایانی'},
+            {'stockwatch_ReferencePriceVariationPercent': 'درصد تغییر آخرین معامله'},
+        ]
+    },
+    {
+        'benchmark': [25, 50, 75],
+        'target': [
+            {'stockwatch_BuyFirmVolumePercentage': 'درصد حجم خرید حقوقی'},
+            {'stockwatch_BuyIndividualVolumePercentage': 'درصد حجم خرید حقیقی'},
+            {'stockwatch_SellFirmVolumePercentage': 'درصد حجم فروش حقوقی'},
+            {'stockwatch_SellIndividualVolumePercentage': 'درصد حجم فروش حقیقی'},
+        ]
+    },
+    {
+        'benchmark': [10, 100000, 500000, 1000000, 5000000],
+        'target': [
+            {'stockwatch_BaseQuantity': 'حجم مبنا'},
+            // {'stockwatch_BuyIndividualVolumePercentage': 'درصد حجم خرید حقیقی'},
+            // {'stockwatch_SellFirmVolumePercentage': 'درصد حجم فروش حقوقی'},
+            // {'stockwatch_SellIndividualVolumePercentage': 'درصد حجم فروش حقیقی'},
+        ]
+    },
+];
+var filter_ids = [];
+var choosen_filters = {};
+$(document).ready(function () {
+    insertfilters(filters_data);
+});
 
 function insertfilters(filters) {
     var filters_div = document.getElementById('filters place'),
@@ -121,7 +188,7 @@ function insertFilterName(tr, name) {
 
 function insertFilterOptions(tr, name, select, options) {
     var td = document.createElement('td'),
-        operators = {'<': 'کوچکتر از ', '>': 'بزرگتر از '};
+        operators = {'<': 'کمتر از ', '>': 'بیشتر از '};
     var option = document.createElement('option');
     option.innerHTML = 'همه';
     option.setAttribute('value', '');
@@ -152,10 +219,9 @@ function read_filters() {
         }
     });
     var filters_list = [];
-    Object.keys(choosen_filters).forEach(function(filter){
+    Object.keys(choosen_filters).forEach(function (filter) {
         filters_list.push(choosen_filters[filter]);
     });
-    // console.log(filters_list);
     filter_market(filters_list);
 }
 
@@ -171,7 +237,8 @@ function filter_market(filters) {
             // alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
         },
         success: function (result) {
-            // console.log(result);
+            result = JSON.parse(result);
+            show_filters_result(result);
         }
     });
 }

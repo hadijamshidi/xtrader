@@ -1,6 +1,6 @@
 from .crawl import IncomeIndex, RatioIndex, balanceIndex
-from data.models import StockWatch as ss, MarketWatch as mw
-from .models import Income, balanceSheet, Ratio,MarketWatch
+from data.models import StockWatch as ss, MarketWatch as mw, StockWatch
+from .models import Income, balanceSheet, Ratio, MarketWatch
 
 Balance_sheet = {'سرمایه گذاری کوتاه مدت': 'short_term_investments', 'دارایی': 'total_assets',
                  'حقوق صاحبان سهام': 'equity', 'حساب دریافتنی': 'net_receivables',
@@ -42,6 +42,7 @@ def IncomeInfo(stock, InstrumentName):
     trades_dict = {}
     trades_dict['StockWatch'] = stock
     trades_dict['InstrumentName'] = InstrumentName
+    trades_dict['SymbolId'] = stock.SymbolId
     for key in trades_data:
         trades_dict[incom[key]] = trades_data[key]
     return trades_dict
@@ -68,6 +69,7 @@ def BalanceInfo(stock, InstrumentName):
     trades_dict = {}
     trades_dict['StockWatch'] = stock
     trades_dict['InstrumentName'] = InstrumentName
+    trades_dict['SymbolId'] = stock.SymbolId
     for key in trades_data:
         trades_dict[Balance_sheet[key]] = trades_data[key]
     return trades_dict
@@ -98,6 +100,7 @@ def RatioInfo(stock, InstrumentName):
     trades_dict = {}
     trades_dict['StockWatch'] = stock
     trades_dict['InstrumentName'] = InstrumentName
+    trades_dict['SymbolId'] = stock.SymbolId
     for key in trades_data:
         trades_dict[Ratio1[key]] = trades_data[key]
     print(InstrumentName)
@@ -107,18 +110,59 @@ def RatioInfo(stock, InstrumentName):
 def addRatioTable(info):
     Ratio(**info).save()
     print('successful progress')
-# TODO write clean function for duplicate above
 
 
+
+def cleanduplicateRatio():
+    for row in Ratio.objects.all():
+        if Ratio.objects.filter(SymbolId=row.SymbolId).count() > 1:
+            row.delete()
+def cleanduplicatebalanceSheet():
+    for row in balanceSheet.objects.all():
+        if balanceSheet.objects.filter(SymbolId=row.SymbolId).count() > 1:
+            row.delete()
+def cleanduplicateIncome():
+    for row in Income.objects.all():
+        if Income.objects.filter(SymbolId=row.SymbolId).count() > 1:
+            row.delete()
 def createMArketWatchTables():
     SymbolIdsList = ss.objects.all().values('SymbolId')
     SymbolIds = [symbol['SymbolId'] for symbol in SymbolIdsList]
     for SymbolId in SymbolIds:
         pass
-    # print(SymbolIds)
+        # print(SymbolIds)
+
 
 def addSymbolIds():
     from data.models import Ratio
     ratios = Ratio.objects.all()
     for ratio in ratios:
         pass
+
+
+def addtoMarcketwatch():
+    for stock in ss.objects.all():
+        mstock=stock.read()
+        try:
+            mincome = Income.objects.filter(SymbolId=stock.SymbolId).first().read()
+        except Exception:
+            mincome = {}
+        try:
+            mbalanceSheet = balanceSheet.objects.filter(SymbolId=stock.SymbolId).first().read()
+        except Exception:
+            mbalanceSheet = {}
+        try:
+            mratio = Ratio.objects.filter(SymbolId=stock.SymbolId).first().read()
+        except Exception:
+            mratio = {}
+        rmincome= {'income_'+k: v  for k, v in mincome.items() if k not in ['InstrumentName','StockWatch_id','SymbolId','id']}
+        rmbalanceSheet= {'balanceSheet_'+k: v  for k, v in mbalanceSheet.items() if k not in ['InstrumentName','StockWatch_id','SymbolId','id']}
+        rmratio= {'ratio_'+k: v  for k, v in mratio.items() if k not in ['InstrumentName','StockWatch_id','SymbolId','id']}
+        rmstock = {'stockwatch_' + k: v for k, v in mstock.items()if k not in ['id']}
+        try:
+            MarketWatch(** rmstock, ** rmincome, ** rmbalanceSheet, ** rmratio).save()
+        except Exception:
+            pass
+
+
+

@@ -81,3 +81,7 @@ def read_portfo():
         else:
             print('namad tekrari: {}'.format(symbol_name))
     # print(symbols)
+def cleanduplicate():
+    for row in StockWatch.objects.all():
+        if StockWatch.objects.filter(InstrumentName=row.InstrumentName).count() > 1:
+            row.delete()

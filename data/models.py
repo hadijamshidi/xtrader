@@ -132,13 +132,17 @@ class StockWatch(models.Model):
                 try:
                     data[key] = float(self.__getattribute__(key))
                 except Exception:
-                    data[key] = str(self.__getattribute__(key))
+                    value = self.__getattribute__(key)
+                    if value == None:
+                        data[key] = 0
+                    else:
+                        data[key] = str(value)
         return data
 
 
 class balanceSheet(models.Model):
     StockWatch = models.ForeignKey(StockWatch, verbose_name='سهم ')
-    # SymbolId = models.CharField(max_length=80, null=True, blank=True)
+    SymbolId = models.CharField(max_length=80, null=True, blank=True)
     InstrumentName = models.CharField(max_length=80)
     cash = models.IntegerField(verbose_name='وجه نقد', null=True, blank=True)
     net_receivables = models.IntegerField(verbose_name='حساب های دریافتی', null=True, blank=True)
@@ -156,11 +160,22 @@ class balanceSheet(models.Model):
     retained_earnings = models.IntegerField(verbose_name='سود انباشته', null=True, blank=True)
     equity = models.IntegerField(verbose_name='حقوق صاحبان سرمایه', null=True, blank=True)
     prepayment = models.IntegerField(verbose_name='پیش پرداخت', null=True, blank=True)
-
-
+    def read(self):
+        data = {}
+        for key in self.__dict__:
+            if key[0] != '_':
+                try:
+                    data[key] = float(self.__getattribute__(key))
+                except Exception:
+                    value = self.__getattribute__(key)
+                    if value == None:
+                        data[key] = 0
+                    else:
+                        data[key] = str(value)
+        return data
 class Income(models.Model):
     StockWatch = models.ForeignKey(StockWatch, verbose_name='سهم ')
-    # SymbolId = models.CharField(max_length=80, null=True, blank=True)
+    SymbolId = models.CharField(max_length=80, null=True, blank=True)
     InstrumentName = models.CharField(max_length=80)
     total_income = models.IntegerField(verbose_name='فروش', null=True, blank=True)
     gross_profit = models.IntegerField(verbose_name='سود ناخالص', null=True, blank=True)
@@ -168,11 +183,24 @@ class Income(models.Model):
     interest_expense = models.IntegerField(verbose_name='هزینه های مالی ', null=True, blank=True)
     income_before_tax = models.IntegerField(verbose_name='سود قبل از مالیات', null=True, blank=True)
     net_income = models.IntegerField(verbose_name='سود خالص', null=True, blank=True)
+    def read(self):
+        data = {}
+        for key in self.__dict__:
+            if key[0] != '_':
+                try:
+                    data[key] = float(self.__getattribute__(key))
+                except Exception:
+                    value = self.__getattribute__(key)
+                    if value == None:
+                        data[key] = 0
+                    else:
+                        data[key] = str(value)
+        return data
 
 
 class Ratio(models.Model):
     StockWatch = models.ForeignKey(StockWatch, verbose_name='سهم ')
-    # SymbolId = models.CharField(max_length=80, null=True, blank=True)
+    SymbolId = models.CharField(max_length=80, null=True, blank=True)
     InstrumentName = models.CharField(max_length=80)
     current_ratio = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='جاری', null=True, blank=True)
     quick_ratio = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='آنی', null=True, blank=True)
@@ -196,7 +224,19 @@ class Ratio(models.Model):
                                  null=True, blank=True)
     roa = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بازده دارایی (درصد)', null=True, blank=True)
     roe = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بازده ح ص س (درصد)', null=True, blank=True)
-
+    def read(self):
+        data = {}
+        for key in self.__dict__:
+            if key[0] != '_':
+                try:
+                    data[key] = float(self.__getattribute__(key))
+                except Exception:
+                    value = self.__getattribute__(key)
+                    if value == None:
+                        data[key] = 0
+                    else:
+                        data[key] = str(value)
+        return data
 
 class MarketWatch(models.Model):
     stockwatch_SymbolId = models.CharField(max_length=80)
@@ -206,7 +246,7 @@ class MarketWatch(models.Model):
     stockwatch_InstrumentCode = models.CharField(max_length=80)
     stockwatch_InstrumentStateCode = models.CharField(max_length=50)
     stockwatch_InstrumentStateTitle = models.CharField(max_length=50)
-    stockwatch_BaseQuantity = models.BigIntegerField()
+    stockwatch_BaseQuantity = models.BigIntegerField(null=True,blank=True)
 
     stockwatch_pd1 = models.DecimalField(max_digits=7, decimal_places=1)
     stockwatch_zd1 = models.IntegerField()
@@ -348,10 +388,10 @@ class MarketWatch(models.Model):
     balanceSheet_prepayment = models.IntegerField(verbose_name='پیش پرداخت', null=True, blank=True)
 
     def __str__(self):
-        return self.SymbolId
+        return self.stockwatch_SymbolId
 
     def to_dict(self):
-        obj_dict = {'SymbolId': self.SymbolId}
+        obj_dict = {'stockwatch_SymbolId': self.stockwatch_SymbolId}
         return obj_dict
 
     def dict(self, keys, date):
@@ -368,7 +408,7 @@ class MarketWatch(models.Model):
 
     def as_json(self):
         return dict(
-            symbol_id=self.SymbolId,
+            symbol_id=self.stockwatch_SymbolId,
             kind='kind',
             category=self.ExchangeName,
             symbol_name=self.InstrumentName,
@@ -384,5 +424,9 @@ class MarketWatch(models.Model):
                 try:
                     data[key] = float(self.__getattribute__(key))
                 except Exception:
-                    data[key] = str(self.__getattribute__(key))
+                    value = self.__getattribute__(key)
+                    if value == None:
+                        data[key] = 0
+                    else:
+                        data[key] = str(value)
         return data

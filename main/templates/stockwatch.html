@@ -1,5 +1,5 @@
-{% load staticfiles %}
-<!doctype html>
+{% load static %}
+
 <html dir="rtl">
 
 <head>
@@ -10,13 +10,22 @@
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
-    {# <link rel="stylesheet" type="text/css" #}
-          {# href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css"> #}
-    {# // <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script> #}
+  <!--  <link rel="stylesheet" type="text/css"
+           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
+     -->
 </head>
-
+{% load i18n %}
 <body>
-    <div id="sell-buy"></div>
+    <div id="master__wrapper">
+    <div id="sell-buy">
+        <span id="CompanyName"></span>
+        (<span id="InstrumentName"></span>)
+        <a id="buy__btn" href="#">فروش</a>
+        <a id="sell__btn" href="#">خرید</a>
+
+
+    </div>
     <div class="boxes" id="costs">
         <div class="divTable">
             <div class="divTableBody">
@@ -121,13 +130,13 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell">حقیقی</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
+                    <div class="divTableCell" id="BuyIndividualVolume"></div>
+                    <div class="divTableCell" id="SellIndividualVolume"></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell">حقوقی</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
+                    <div class="divTableCell" id="BuyFirmVolume"></div>
+                    <div class="divTableCell" id="SellFirmVolume"></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell">تعداد</div>
@@ -141,13 +150,13 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell">حقیقی</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
+                    <div class="divTableCell" id="BuyIndividualCount"></div>
+                    <div class="divTableCell" id="SellIndividualCount"></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell">حقوقی</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
+                    <div class="divTableCell" id="BuyFirmCount"></div>
+                    <div class="divTableCell" id="SellFirmCount"></div>
                 </div>
             </div>
         </div>
@@ -167,7 +176,7 @@
             </div>
         </div>
     </div>
-    <div id="eps">
+    <div id="epsbox">
         <div class="divTable">
             <div class="divTableBody">
                 <div class="divTableRow">
@@ -197,44 +206,28 @@
                     <div class="divTableCell">تعداد</div>
                 </div>
                 <div class="divTableRow">
-                    <div class="divTableCell">1</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
+                    <div class="divTableCell" id="zd1"></div>
+                    <div class="divTableCell" id="qd1"></div>
+                    <div class="divTableCell" id="pd1q"></div>
+                    <div class="divTableCell" id="po1q"></div>
+                    <div class="divTableCell" id="qo1"></div>
+                    <div class="divTableCell" id="zo1"></div>
                 </div>
                 <div class="divTableRow">
-                    <div class="divTableCell">2</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
+                    <div class="divTableCell" id="zd2"></div>
+                    <div class="divTableCell" id="qd2"></div>
+                    <div class="divTableCell" id="pd2"></div>
+                    <div class="divTableCell" id="po2"></div>
+                    <div class="divTableCell" id="qo2"></div>
+                    <div class="divTableCell" id="zo2"></div>
                 </div>
                 <div class="divTableRow">
-                    <div class="divTableCell">3</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">4</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">5</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
+                    <div class="divTableCell" id="zd3"></div>
+                    <div class="divTableCell" id="qd3"></div>
+                    <div class="divTableCell" id="pd3"></div>
+                    <div class="divTableCell" id="po3"></div>
+                    <div class="divTableCell" id="qo3"></div>
+                    <div class="divTableCell" id="zo3"></div>
                 </div>
             </div>
         </div>
@@ -349,7 +342,9 @@
             </div>
         </div>
     </div>
-{#     <div class="ui container" dir="rtl">
+    </div>
+
+     <div class="ui container" dir="rtl" style="display: none;">
         <div id="search" class="ui fluid category search">
             <div class="ui icon input" style="width:50%; margin-left: 25%;">
                 <input class="prompt" type="search" placeholder="جستجو نماد">
@@ -358,7 +353,7 @@
             <div class="results" style="width:50%; margin-left: 25%;" dir="ltr"></div>
         </div>
     </div>
- #}
+
 </body>
 <script>
     var SymbolId = "{{ SymbolId }}" ;

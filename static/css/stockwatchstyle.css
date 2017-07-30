@@ -2,52 +2,53 @@
 	font-family: IRANSans;
 	font-style: normal;
 	font-weight: bold;
-	/*src: url('fonts/eot/IRANSansWeb_Bold.eot');*/
-	/*src: url('fonts/eot/IRANSansWeb_Bold.eot?#iefix') format('embedded-opentype'),  !* IE6-8 *!*/
-		 /*url('fonts/woff2/IRANSansWeb_Bold.woff2') format('woff2'),  !* FF39+,Chrome36+, Opera24+*!*/
-		 /*url('fonts/woff/IRANSansWeb_Bold.woff') format('woff'),  !* FF3.6+, IE9, Chrome6+, Saf5.1+*!*/
-		 /*url('fonts/ttf/IRANSansWeb_Bold.ttf') format('truetype');*/
+	src: url('../fonts/eot/IRANSansWeb_Bold.eot');
+	src: url('../fonts/eot/IRANSansWeb_Bold.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_Bold.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_Bold.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_Bold.ttf') format('truetype');
 }
 @font-face {
 	font-family: IRANSans;
 	font-style: normal;
 	font-weight: 500;
-	/*src: url('fonts/eot/IRANSansWeb_Medium.eot');*/
-	/*src: url('fonts/eot/IRANSansWeb_Medium.eot?#iefix') format('embedded-opentype'),  !* IE6-8 *!*/
-		 /*url('fonts/woff2/IRANSansWeb_Medium.woff2') format('woff2'),  !* FF39+,Chrome36+, Opera24+*!*/
-		 /*url('fonts/woff/IRANSansWeb_Medium.woff') format('woff'),  !* FF3.6+, IE9, Chrome6+, Saf5.1+*!*/
-		 /*url('fonts/ttf/IRANSansWeb_Medium.ttf') format('truetype');*/
+	src: url('../fonts/eot/IRANSansWeb_Medium.eot');
+	src: url('../fonts/eot/IRANSansWeb_Medium.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_Medium.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_Medium.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_Medium.ttf') format('truetype');
 }
 @font-face {
 	font-family: IRANSans;
 	font-style: normal;
 	font-weight: 300;
-	/*src: url('fonts/eot/IRANSansWeb_Light.eot');*/
-	/*src: url('fonts/eot/IRANSansWeb_Light.eot?#iefix') format('embedded-opentype'),  !* IE6-8 *!*/
-		 /*url('fonts/woff2/IRANSansWeb_Light.woff2') format('woff2'),  !* FF39+,Chrome36+, Opera24+*!*/
-		 /*url('fonts/woff/IRANSansWeb_Light.woff') format('woff'),  !* FF3.6+, IE9, Chrome6+, Saf5.1+*!*/
-		 /*url('fonts/ttf/IRANSansWeb_Light.ttf') format('truetype');*/
+	src: url('../fonts/eot/IRANSansWeb_Light.eot');
+	src: url('../fonts/eot/IRANSansWeb_Light.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_Light.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_Light.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_Light.ttf') format('truetype');
 }
 @font-face {
 	font-family: IRANSans;
 	font-style: normal;
 	font-weight: 200;
-	/*src: url('fonts/eot/IRANSansWeb_UltraLight.eot');*/
-	/*src: url('fonts/eot/IRANSansWeb_UltraLight.eot?#iefix') format('embedded-opentype'),  !* IE6-8 *!*/
-		 /*url('fonts/woff2/IRANSansWeb_UltraLight.woff2') format('woff2'),  !* FF39+,Chrome36+, Opera24+*!*/
-		 /*url('fonts/woff/IRANSansWeb_UltraLight.woff') format('woff'),  !* FF3.6+, IE9, Chrome6+, Saf5.1+*!*/
-		 /*url('fonts/ttf/IRANSansWeb_UltraLight.ttf') format('truetype');*/
+	src: url('../fonts/eot/IRANSansWeb_UltraLight.eot');
+	src: url('../fonts/eot/IRANSansWeb_UltraLight.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_UltraLight.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_UltraLight.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_UltraLight.ttf') format('truetype');
 }
 @font-face {
 	font-family: IRANSans;
 	font-style: normal;
 	font-weight: normal;
-	/*src: url('fonts/eot/IRANSansWeb.eot');*/
-	/*src: url('fonts/eot/IRANSansWeb.eot?#iefix') format('embedded-opentype'),  !* IE6-8 *!*/
-		 /*url('fonts/woff2/IRANSansWeb.woff2') format('woff2'),  !* FF39+,Chrome36+, Opera24+*!*/
-		 /*url('fonts/woff/IRANSansWeb.woff') format('woff'),  !* FF3.6+, IE9, Chrome6+, Saf5.1+*!*/
-		 /*url('fonts/ttf/IRANSansWeb.ttf') format('truetype');*/
+	src: url('../fonts/eot/IRANSansWeb.eot');
+	src: url('../fonts/eot/IRANSansWeb.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb.ttf') format('truetype');
 }
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -65,7 +66,7 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
+	font-family: IRANSans;
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -73,9 +74,18 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+html{
+    background-color: #1c1f32;
+}
 body {
 	line-height: 1;
-    font-family: IRANSans;
+    font-family: "IRANSans";
     color: white;
 }
 ol, ul {
@@ -94,16 +104,60 @@ table {
 	border-spacing: 0;
 }
 
+#master__wrapper {
+    display: block;
+    position: fixed;
+    margin: 0 auto;
+    background-color:#292d48;
+    width:94%;
+    height: 94%;
+    left: 0;
+    right: 0; top:6%;
+}
+
 #sell-buy {
     display: block;
     position: fixed;
-    width: 96%;
-    height: 8%;
-    background: #333;
+    width: 93%;
+    height: 6%;
+    background: #22263d;
     margin: 0 auto;
     left: 0;
     right: 0;
-    top: 6%;
+    top: 7%;
+}
+
+#sell__btn {
+    float: left;
+    padding: 0.4rem 1.3rem;
+    background: #09cac8;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+#buy__btn {
+    float: left;
+    padding: 0.4rem 1.3rem;
+    background: #e74c3c;
+    border-radius: 4px;
+    margin-left: 3rem;
+    margin-top: 0.75rem;
+}
+
+#CompanyName {
+    display: inline-block;
+    color:white;
+    font-size: 1.5rem;
+    margin-top: 0.9rem;
+    margin-right:2rem;
+}
+
+#InstrumentName {
+    display: inline;
+    color:white;
+    font-size: 1rem;
+    margin-top: 0.9rem;
 }
 
 .boxes {
@@ -111,109 +165,134 @@ table {
     position: absolute;
     width: 30%;
     height: 12vh;
-    background: #333;
+    background: #22263d;
 
 }
 #costs {
-
-    top: 15%; right: 2%;
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
+    top: 8.5%; right: 0.5%;
     text-align: right;
+	font-family: IRANSans;
 
 }
 
 #periods {
-    top: 15%; right: 32.5%;
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
+    top: 8.5%; right: 31%;
     text-align: right;
+
 }
 
 #deals {
-    top: 28%; right: 2%;
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
+    top: 22.5%; right: 0.5%;
     text-align: right;
 }
 
 #rates {
-    top: 28%; right: 32.5%;
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
+    top: 22.5%; right: 31%;
     text-align: right;
 }
 
 #sell-buy-count {
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
     display: block;
     position: absolute;
-    width: 35%;
-    height: 25%;
-    background: #333;
-    left: 2%;
-    top: 15%;
+    width: 38%;
+    height: 26.8%;
+    background: #22263d;
+    left: 0.5%;
+    top: 8.5%;
 }
 
 #last-sell {
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
     display: block;
     position: absolute;
     width: 30%;
     height: 9%;
-    background: #333;
-    top: 41%; right: 2%;
+    background: #22263d;
+    top: 36.5%; right: 0.5%;
     text-align: right;
 }
 
-#eps {
+#epsbox {
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
     display: block;
     position: absolute;
     width: 20%;
     height: 9%;
-    background: #333;
-    top: 41%; right: 32.5%;
+    background: #22263d;
+    top: 36.5%; right: 31%;
     text-align: right;
 }
 
 #queue {
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
     display: block;
     position: absolute;
     width: 50.5%;
     height: 20%;
-    background: #333;
-    top: 51%; right: 2%;
+    background: #22263d;
+    top: 46.5%; right: 0.5%;
     text-align: right;
 }
 
 #chart {
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
     display: block;
     position: absolute;
-    width: 45%;
+    width: 48%;
     height: 30%;
-    background: #333;
-    left: 2%;
-    top: 41%;
+    background: #22263d;
+    left: 0.5%;
+    top: 36.5%;
 }
 
 #portfo {
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
     display: block;
     position: absolute;
     width: 50.5%;
     height: 27%;
-    background: #333;
-    top: 72%; right: 2%;
+    background: #22263d;
+    top: 67.5%; right: 0.5%;
     text-align: right;
 }
 
 #column {
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
     display: block;
     position: absolute;
     width: 4%;
     height: 27%;
-    background: #333;
-    top: 72%; right: 53%;
+    background: #22263d;
+    top: 67.5%; right: 51.5%;
     text-align: right;
 }
 
 #hotlist {
+    border-top: 2px solid #f3f774;
+    border-radius: 3px;
     display: block;
     position: absolute;
-    width: 40.5%;
+    width: 43.5%;
     height: 27%;
-    background: #333;
-    left: 2%;
-    top: 72%;
+    background: #22263d;
+    left: 0.5%;
+    top: 67.5%;
 }
 
 /* ****************************************************** */
@@ -221,6 +300,8 @@ table {
 .divTable{
 	display: table;
 	width: 100%;
+	height: 86%;
+	padding: 2% 0 2% 0;
 }
 .divTableRow {
 	display: table-row;
@@ -230,7 +311,7 @@ table {
 	display: table-header-group;
 }
 .divTableCell, .divTableHead {
-	border: 1px solid #999999;
+	border: none;
 	display: table-cell;
 	padding: 3px 10px;
     text-align: center;

@@ -39,6 +39,28 @@ var ids = {
     'Eps': "Eps", //eps
     'PricePerEarning': "PricePerEarning", // p/e
     'PricePerEarningGroup': "PricePerEarningGroup", // p/e group
+    'InstrumentName': "InstrumentName",
+    'CompanyName': "CompanyName",
+
+   /**************************************************************/
+    'zd1': "zd1",
+    'qd1': "qd1",
+    'pd1': "pd1q",
+    'po1': "po1q",
+    'qo1': "qo1",
+    'zo1': "zo1",
+    'zd2': "zd2",
+    'qd2': "qd2",
+    'pd2': "pd2",
+    'po2': "po2",
+    'qo2': "qo2",
+    'zo2': "zo2",
+    'zd3': "zd3",
+    'qd3': "qd3",
+    'pd3': "pd3",
+    'po3': "po3",
+    'qo3': "qo3",
+    'zo3': "zo3",
 };
 
 var price_data = {
@@ -129,13 +151,14 @@ function insert(data) {
         }
     });
 }
-
+var data;
 function update_stockwatch(){
     $.ajax({
     type: 'GET',
     url: "/data/stockwatch/"+SymbolId,
     success: function (result) {
         result = JSON.parse(result);
+        data = result;
         insert(result);
         },
     });
@@ -198,11 +221,13 @@ $('.ui.search').dblclick(function () {
 
 
 function draw_chart(){
-    $.getJSON('/get-data/'+SymbolId, function (data) {
-        data = JSON.parse(data);
-        var close = [],
-        name = data['per_name'];
-        data = JSON.parse(data['items']);
+//    $.getJSON('/get-data/'+SymbolId, function (data) {
+    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+        var close = [];
+        console.log(data);
+    //    data = JSON.parse(data);
+  //      name = data['per_name'];
+//        data = JSON.parse(data['items']);
         var dataLength = data.length;
         for (var i = 0; i < dataLength; i++) {
             close.push([
@@ -231,19 +256,19 @@ function draw_chart(){
                 enabled: false
             },
             series: [{
-                // color: {
-                //     linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
-                //     stops: [
-                //         [0, 'red'],
-                //         [0.25, 'yellow'],
-                //         [0.50, 'green'],
-                //         [0.75, 'yellow'],
-                //         [1, 'red']
-                //     ]
-                // },
-                // type: 'area',
+                color: {
+                    linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                    stops: [
+                        [0, '#f3f774'],
+                        [0.25, '#aae98e'],
+                        [0.50, '#09cac8'],
+                        [0.75, '#aae98e'],
+                        [1, '#f3f774']
+                    ]
+                },
                 name: name,
-                data: close,
+//                data: close,
+                data: data
             }]
         });
     });
@@ -266,14 +291,15 @@ function draw_chart(){
             '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
         chart: {
             backgroundColor: {
-                linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
+            color :'#fff',
+                /*linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
                 stops: [
                     [0, '#2a2a2b'],
                     [1, '#3e3e40']
                 ]
             },
             style: {
-                fontFamily: 'IranSanc'
+                fontFamily: 'IRANSans'
             },
             plotBorderColor: '#606063',
 

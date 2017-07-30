@@ -71,7 +71,7 @@ def find_bad_historical_data():
 
 
 def read_historical_data_from_server_db():
-    history = r.get('http://66.70.160.142/api/history/').text
+    history = r.get('https://xtrader.ir/api/history/').text
     history_data = json.loads(history)
     redis.flushall()
     for data in history_data:

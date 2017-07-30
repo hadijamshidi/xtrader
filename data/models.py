@@ -124,71 +124,86 @@ class StockWatch(models.Model):
             description='description',
             title='title',
         )
+
     def read(self):
         data = {}
         for key in self.__dict__:
-            if key[0]!='_':
+            if key[0] != '_':
                 try:
                     data[key] = float(self.__getattribute__(key))
                 except Exception:
                     data[key] = str(self.__getattribute__(key))
         return data
 
+
 class balanceSheet(models.Model):
-    StockWatch = models.ForeignKey(StockWatch,verbose_name='سهم ')
+    StockWatch = models.ForeignKey(StockWatch, verbose_name='سهم ')
+    # SymbolId = models.CharField(max_length=80, null=True, blank=True)
     InstrumentName = models.CharField(max_length=80)
-    cash = models.IntegerField(verbose_name='وجه نقد',null=True,blank=True)
-    net_receivables = models.IntegerField(verbose_name='حساب های دریافتی',null=True,blank=True)
-    short_term_investments = models.IntegerField(verbose_name='سرمایه های کوتاه مدت',null=True,blank=True)
-    total_current_assets = models.IntegerField(verbose_name='دارایی های جاری ',null=True,blank=True)
-    inventory= models.IntegerField(verbose_name='موجودی کالا',null=True,blank=True)
-    long_term_investments = models.IntegerField(verbose_name='سرمایه گذاری بلند مدت',null=True,blank=True)
-    property_plant_and_equipment= models.IntegerField(verbose_name='دادای های ثابت',null=True,blank=True)
-    intangible_assets = models.IntegerField(verbose_name='دارایی های نامشهود',null=True,blank=True)
-    total_assets = models.IntegerField(verbose_name='دارایی ',null=True,blank=True)
-    accounts_payable = models.IntegerField(verbose_name='حساب های پرداختنی',null=True,blank=True)
-    total_current_liabilities = models.IntegerField(verbose_name='بدهی جاری ',null=True,blank=True)
-    total_liabilities = models.IntegerField(verbose_name='بدهی',null=True,blank=True)
-    capital= models.IntegerField(verbose_name='سرمایه',null=True,blank=True)
-    retained_earnings = models.IntegerField(verbose_name='سود انباشته',null=True,blank=True)
-    equity = models.IntegerField(verbose_name='حقوق صاحبان سرمایه',null=True,blank=True)
-    prepayment = models.IntegerField(verbose_name='پیش پرداخت',null=True,blank=True)
+    cash = models.IntegerField(verbose_name='وجه نقد', null=True, blank=True)
+    net_receivables = models.IntegerField(verbose_name='حساب های دریافتی', null=True, blank=True)
+    short_term_investments = models.IntegerField(verbose_name='سرمایه های کوتاه مدت', null=True, blank=True)
+    total_current_assets = models.IntegerField(verbose_name='دارایی های جاری ', null=True, blank=True)
+    inventory = models.IntegerField(verbose_name='موجودی کالا', null=True, blank=True)
+    long_term_investments = models.IntegerField(verbose_name='سرمایه گذاری بلند مدت', null=True, blank=True)
+    property_plant_and_equipment = models.IntegerField(verbose_name='دادای های ثابت', null=True, blank=True)
+    intangible_assets = models.IntegerField(verbose_name='دارایی های نامشهود', null=True, blank=True)
+    total_assets = models.IntegerField(verbose_name='دارایی ', null=True, blank=True)
+    accounts_payable = models.IntegerField(verbose_name='حساب های پرداختنی', null=True, blank=True)
+    total_current_liabilities = models.IntegerField(verbose_name='بدهی جاری ', null=True, blank=True)
+    total_liabilities = models.IntegerField(verbose_name='بدهی', null=True, blank=True)
+    capital = models.IntegerField(verbose_name='سرمایه', null=True, blank=True)
+    retained_earnings = models.IntegerField(verbose_name='سود انباشته', null=True, blank=True)
+    equity = models.IntegerField(verbose_name='حقوق صاحبان سرمایه', null=True, blank=True)
+    prepayment = models.IntegerField(verbose_name='پیش پرداخت', null=True, blank=True)
+
+
 class Income(models.Model):
-    StockWatch = models.ForeignKey(StockWatch,verbose_name='سهم ')
+    StockWatch = models.ForeignKey(StockWatch, verbose_name='سهم ')
+    # SymbolId = models.CharField(max_length=80, null=True, blank=True)
     InstrumentName = models.CharField(max_length=80)
-    total_income = models.IntegerField(verbose_name='فروش',null=True,blank=True)
-    gross_profit = models.IntegerField(verbose_name='سود ناخالص',null=True,blank=True)
-    operating_income_or_loss = models.IntegerField(verbose_name='سود عملیاتی',null=True,blank=True)
-    interest_expense = models.IntegerField(verbose_name='هزینه های مالی ',null=True,blank=True)
-    income_before_tax = models.IntegerField(verbose_name='سود قبل از مالیات',null=True,blank=True)
-    net_income = models.IntegerField(verbose_name='سود خالص',null=True,blank=True)
+    total_income = models.IntegerField(verbose_name='فروش', null=True, blank=True)
+    gross_profit = models.IntegerField(verbose_name='سود ناخالص', null=True, blank=True)
+    operating_income_or_loss = models.IntegerField(verbose_name='سود عملیاتی', null=True, blank=True)
+    interest_expense = models.IntegerField(verbose_name='هزینه های مالی ', null=True, blank=True)
+    income_before_tax = models.IntegerField(verbose_name='سود قبل از مالیات', null=True, blank=True)
+    net_income = models.IntegerField(verbose_name='سود خالص', null=True, blank=True)
+
 
 class Ratio(models.Model):
-    StockWatch = models.ForeignKey(StockWatch,verbose_name='سهم ')
+    StockWatch = models.ForeignKey(StockWatch, verbose_name='سهم ')
+    # SymbolId = models.CharField(max_length=80, null=True, blank=True)
     InstrumentName = models.CharField(max_length=80)
-    current_ratio = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='جاری',null=True,blank=True)
-    quick_ratio = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='آنی',null=True,blank=True)
-    cash_ratio = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='نقد',null=True,blank=True)
-    da = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='بدهی (درصد)',null=True,blank=True)
-    de = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='بدهی به ح ص س',null=True,blank=True)
-    sa = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='گردش دارای (بار)',null=True,blank=True)
-    accounts_receivable_turnover_ratio =models.IntegerField(verbose_name='دوره گردش دریافتنی (روز)',null=True,blank=True)
-    accounts_payable_turnover_ratio=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='حاشیه سود خالص (درصد)',null=True,blank=True)
-    inventory_turnover_ratio = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='دوره گردش موحودی ',null=True,blank=True)
-    profit_margin = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='حاشیه سود خالص (درصد)',null=True,blank=True)
-    gross_profit_margin = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='حاشیه سود ناخالص (درصد)',null=True,blank=True)
-    ebit_gross_profit = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='سود عملیاتی به سود ناخالص (درصد)',null=True,blank=True)
-    r_ebit =models.DecimalField(max_digits=5, decimal_places=2,verbose_name='هزینه بهره به سود عملیاتی (درصد)',null=True,blank=True)
-    roa = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='بازده دارایی (درصد)',null=True,blank=True)
-    roe = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='بازده ح ص س (درصد)',null=True,blank=True)
+    current_ratio = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='جاری', null=True, blank=True)
+    quick_ratio = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='آنی', null=True, blank=True)
+    cash_ratio = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='نقد', null=True, blank=True)
+    da = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بدهی (درصد)', null=True, blank=True)
+    de = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بدهی به ح ص س', null=True, blank=True)
+    sa = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='گردش دارای (بار)', null=True, blank=True)
+    accounts_receivable_turnover_ratio = models.IntegerField(verbose_name='دوره گردش دریافتنی (روز)', null=True,
+                                                             blank=True)
+    accounts_payable_turnover_ratio = models.DecimalField(max_digits=5, decimal_places=2,
+                                                          verbose_name='حاشیه سود خالص (درصد)', null=True, blank=True)
+    inventory_turnover_ratio = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='دوره گردش موحودی ',
+                                                   null=True, blank=True)
+    profit_margin = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='حاشیه سود خالص (درصد)', null=True,
+                                        blank=True)
+    gross_profit_margin = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='حاشیه سود ناخالص (درصد)',
+                                              null=True, blank=True)
+    ebit_gross_profit = models.DecimalField(max_digits=5, decimal_places=2,
+                                            verbose_name='سود عملیاتی به سود ناخالص (درصد)', null=True, blank=True)
+    r_ebit = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='هزینه بهره به سود عملیاتی (درصد)',
+                                 null=True, blank=True)
+    roa = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بازده دارایی (درصد)', null=True, blank=True)
+    roe = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بازده ح ص س (درصد)', null=True, blank=True)
 
 
 class MarketWatch(models.Model):
-    SymbolId = models.CharField(max_length=80)
+    stockwatch_SymbolId = models.CharField(max_length=80)
 
-    InstrumentName = models.CharField(max_length=80)
+    stockwatch_InstrumentName = models.CharField(max_length=80)
     stockwatch_InstrumentTitle = models.CharField(max_length=80)
-    stockwatch_Instru=models.CharField(max_length=80)
+    stockwatch_InstrumentCode = models.CharField(max_length=80)
     stockwatch_InstrumentStateCode = models.CharField(max_length=50)
     stockwatch_InstrumentStateTitle = models.CharField(max_length=50)
     stockwatch_BaseQuantity = models.BigIntegerField()
@@ -276,46 +291,61 @@ class MarketWatch(models.Model):
     stockwatch_InstrumentMarketValue = models.BigIntegerField()
     stockwatch_NumberOfSharesOrBonds = models.BigIntegerField()
 
+    ratio_current_ratio = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='جاری', null=True,
+                                              blank=True)
+    ratio_quick_ratio = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='آنی', null=True, blank=True)
+    ratio_cash_ratio = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='نقد', null=True, blank=True)
+    ratio_da = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بدهی (درصد)', null=True, blank=True)
+    ratio_de = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بدهی به ح ص س', null=True, blank=True)
+    ratio_sa = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='گردش دارای (بار)', null=True,
+                                   blank=True)
+    ratio_accounts_receivable_turnover_ratio = models.IntegerField(verbose_name='دوره گردش دریافتنی (روز)', null=True,
+                                                                   blank=True)
+    ratio_accounts_payable_turnover_ratio = models.DecimalField(max_digits=5, decimal_places=2,
+                                                                verbose_name='حاشیه سود خالص (درصد)', null=True,
+                                                                blank=True)
+    ratio_inventory_turnover_ratio = models.DecimalField(max_digits=5, decimal_places=2,
+                                                         verbose_name='دوره گردش موحودی ', null=True, blank=True)
+    ratio_profit_margin = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='حاشیه سود خالص (درصد)',
+                                              null=True, blank=True)
+    ratio_gross_profit_margin = models.DecimalField(max_digits=5, decimal_places=2,
+                                                    verbose_name='حاشیه سود ناخالص (درصد)', null=True, blank=True)
+    ratio_ebit_gross_profit = models.DecimalField(max_digits=5, decimal_places=2,
+                                                  verbose_name='سود عملیاتی به سود ناخالص (درصد)', null=True,
+                                                  blank=True)
+    ratio_r_ebit = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='هزینه بهره به سود عملیاتی (درصد)',
+                                       null=True, blank=True)
+    ratio_roa = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بازده دارایی (درصد)', null=True,
+                                    blank=True)
+    ratio_roe = models.DecimalField(max_digits=5, decimal_places=2, verbose_name='بازده ح ص س (درصد)', null=True,
+                                    blank=True)
 
-    ratio_current_ratio = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='جاری',null=True,blank=True)
-    ratio_quick_ratio = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='آنی',null=True,blank=True)
-    ratio_cash_ratio = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='نقد',null=True,blank=True)
-    ratio_da = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='بدهی (درصد)',null=True,blank=True)
-    ratio_de = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='بدهی به ح ص س',null=True,blank=True)
-    ratio_sa = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='گردش دارای (بار)',null=True,blank=True)
-    ratio_accounts_receivable_turnover_ratio =models.IntegerField(verbose_name='دوره گردش دریافتنی (روز)',null=True,blank=True)
-    ratio_accounts_payable_turnover_ratio=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='حاشیه سود خالص (درصد)',null=True,blank=True)
-    ratio_inventory_turnover_ratio = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='دوره گردش موحودی ',null=True,blank=True)
-    ratio_profit_margin = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='حاشیه سود خالص (درصد)',null=True,blank=True)
-    ratio_gross_profit_margin = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='حاشیه سود ناخالص (درصد)',null=True,blank=True)
-    ratio_ebit_gross_profit = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='سود عملیاتی به سود ناخالص (درصد)',null=True,blank=True)
-    ratio_r_ebit =models.DecimalField(max_digits=5, decimal_places=2,verbose_name='هزینه بهره به سود عملیاتی (درصد)',null=True,blank=True)
-    ratio_roa = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='بازده دارایی (درصد)',null=True,blank=True)
-    ratio_roe = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='بازده ح ص س (درصد)',null=True,blank=True)
+    income_total_income = models.IntegerField(verbose_name='فروش', null=True, blank=True)
+    income_gross_profit = models.IntegerField(verbose_name='سود ناخالص', null=True, blank=True)
+    income_operating_income_or_loss = models.IntegerField(verbose_name='سود عملیاتی', null=True, blank=True)
+    income_interest_expense = models.IntegerField(verbose_name='هزینه های مالی ', null=True, blank=True)
+    income_income_before_tax = models.IntegerField(verbose_name='سود قبل از مالیات', null=True, blank=True)
+    income_net_income = models.IntegerField(verbose_name='سود خالص', null=True, blank=True)
 
-    income_total_income = models.IntegerField(verbose_name='فروش',null=True,blank=True)
-    income_gross_profit = models.IntegerField(verbose_name='سود ناخالص',null=True,blank=True)
-    income_operating_income_or_loss = models.IntegerField(verbose_name='سود عملیاتی',null=True,blank=True)
-    income_interest_expense = models.IntegerField(verbose_name='هزینه های مالی ',null=True,blank=True)
-    income_income_before_tax = models.IntegerField(verbose_name='سود قبل از مالیات',null=True,blank=True)
-    income_net_income = models.IntegerField(verbose_name='سود خالص',null=True,blank=True)
-
-    balanceSheet_cash = models.IntegerField(verbose_name='وجه نقد',null=True,blank=True)
-    balanceSheet_net_receivables = models.IntegerField(verbose_name='حساب های دریافتی',null=True,blank=True)
-    balanceSheet_short_term_investments = models.IntegerField(verbose_name='سرمایه های کوتاه مدت',null=True,blank=True)
-    balanceSheet_total_current_assets = models.IntegerField(verbose_name='دارایی های جاری ',null=True,blank=True)
-    balanceSheet_inventory= models.IntegerField(verbose_name='موجودی کالا',null=True,blank=True)
-    balanceSheet_long_term_investments = models.IntegerField(verbose_name='سرمایه گذاری بلند مدت',null=True,blank=True)
-    balanceSheet_property_plant_and_equipment= models.IntegerField(verbose_name='دادای های ثابت',null=True,blank=True)
-    balanceSheet_intangible_assets = models.IntegerField(verbose_name='دارایی های نامشهود',null=True,blank=True)
-    balanceSheet_total_assets = models.IntegerField(verbose_name='دارایی ',null=True,blank=True)
-    balanceSheet_accounts_payable = models.IntegerField(verbose_name='حساب های پرداختنی',null=True,blank=True)
-    balanceSheet_total_current_liabilities = models.IntegerField(verbose_name='بدهی جاری ',null=True,blank=True)
-    balanceSheet_total_liabilities = models.IntegerField(verbose_name='بدهی',null=True,blank=True)
-    balanceSheet_capital= models.IntegerField(verbose_name='سرمایه',null=True,blank=True)
-    balanceSheet_retained_earnings = models.IntegerField(verbose_name='سود انباشته',null=True,blank=True)
-    balanceSheet_equity = models.IntegerField(verbose_name='حقوق صاحبان سرمایه',null=True,blank=True)
-    balanceSheet_prepayment = models.IntegerField(verbose_name='پیش پرداخت',null=True,blank=True)
+    balanceSheet_cash = models.IntegerField(verbose_name='وجه نقد', null=True, blank=True)
+    balanceSheet_net_receivables = models.IntegerField(verbose_name='حساب های دریافتی', null=True, blank=True)
+    balanceSheet_short_term_investments = models.IntegerField(verbose_name='سرمایه های کوتاه مدت', null=True,
+                                                              blank=True)
+    balanceSheet_total_current_assets = models.IntegerField(verbose_name='دارایی های جاری ', null=True, blank=True)
+    balanceSheet_inventory = models.IntegerField(verbose_name='موجودی کالا', null=True, blank=True)
+    balanceSheet_long_term_investments = models.IntegerField(verbose_name='سرمایه گذاری بلند مدت', null=True,
+                                                             blank=True)
+    balanceSheet_property_plant_and_equipment = models.IntegerField(verbose_name='دادای های ثابت', null=True,
+                                                                    blank=True)
+    balanceSheet_intangible_assets = models.IntegerField(verbose_name='دارایی های نامشهود', null=True, blank=True)
+    balanceSheet_total_assets = models.IntegerField(verbose_name='دارایی ', null=True, blank=True)
+    balanceSheet_accounts_payable = models.IntegerField(verbose_name='حساب های پرداختنی', null=True, blank=True)
+    balanceSheet_total_current_liabilities = models.IntegerField(verbose_name='بدهی جاری ', null=True, blank=True)
+    balanceSheet_total_liabilities = models.IntegerField(verbose_name='بدهی', null=True, blank=True)
+    balanceSheet_capital = models.IntegerField(verbose_name='سرمایه', null=True, blank=True)
+    balanceSheet_retained_earnings = models.IntegerField(verbose_name='سود انباشته', null=True, blank=True)
+    balanceSheet_equity = models.IntegerField(verbose_name='حقوق صاحبان سرمایه', null=True, blank=True)
+    balanceSheet_prepayment = models.IntegerField(verbose_name='پیش پرداخت', null=True, blank=True)
 
     def __str__(self):
         return self.SymbolId

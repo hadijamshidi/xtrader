@@ -1,5 +1,5 @@
 from .crawl import IncomeIndex, RatioIndex, balanceIndex
-from data.models import StockWatch as ss
+from data.models import StockWatch as ss, MarketWatch as mw
 from .models import Income, balanceSheet, Ratio,MarketWatch
 
 Balance_sheet = {'سرمایه گذاری کوتاه مدت': 'short_term_investments', 'دارایی': 'total_assets',
@@ -110,4 +110,15 @@ def addRatioTable(info):
 # TODO write clean function for duplicate above
 
 
-# def addMrkectwach():
+def createMArketWatchTables():
+    SymbolIdsList = ss.objects.all().values('SymbolId')
+    SymbolIds = [symbol['SymbolId'] for symbol in SymbolIdsList]
+    for SymbolId in SymbolIds:
+        pass
+    # print(SymbolIds)
+
+def addSymbolIds():
+    from data.models import Ratio
+    ratios = Ratio.objects.all()
+    for ratio in ratios:
+        pass

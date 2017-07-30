@@ -155,7 +155,7 @@ function read_filters() {
     Object.keys(choosen_filters).forEach(function(filter){
         filters_list.push(choosen_filters[filter]);
     });
-    console.log(filters_list);
+    // console.log(filters_list);
     filter_market(filters_list);
 }
 

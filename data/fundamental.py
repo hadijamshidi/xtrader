@@ -28,6 +28,7 @@ wrong_symbol_ids = []
 def createIncomTables(num=0):
     for i, stock in enumerate(ss.objects.all()):
         if i >= num:
+            print(i)
             try:
                 info = IncomeInfo(stock, stock.InstrumentName)
                 # print(info)
@@ -56,6 +57,7 @@ def addIncomeTable(info):
 def createBalanceTables(num=0):
     for i, stock in enumerate(ss.objects.all()):
         if i >= num:
+            print(i)
             try:
                 info = BalanceInfo(stock, stock.InstrumentName)
             except Exception:
@@ -83,6 +85,7 @@ def addbalanceTable(info):
 def createRatioTables(num=0):
     for i, stock in enumerate(ss.objects.all()):
         if i >= num:
+            print(i)
             info = RatioInfo(stock, stock.InstrumentName)
 
             try:
@@ -125,19 +128,6 @@ def cleanduplicateIncome():
     for row in Income.objects.all():
         if Income.objects.filter(SymbolId=row.SymbolId).count() > 1:
             row.delete()
-def createMArketWatchTables():
-    SymbolIdsList = ss.objects.all().values('SymbolId')
-    SymbolIds = [symbol['SymbolId'] for symbol in SymbolIdsList]
-    for SymbolId in SymbolIds:
-        pass
-        # print(SymbolIds)
-
-
-def addSymbolIds():
-    from data.models import Ratio
-    ratios = Ratio.objects.all()
-    for ratio in ratios:
-        pass
 
 
 def addtoMarcketwatch():
@@ -164,5 +154,14 @@ def addtoMarcketwatch():
         except Exception:
             pass
 
-
-
+def fullgetdata():
+    from .stockwatch import createStockWatchTables,cleanduplicate
+    createStockWatchTables()
+    cleanduplicate()
+    createRatioTables()
+    cleanduplicateRatio()
+    createBalanceTables()
+    cleanduplicatebalanceSheet()
+    createRatioTables()
+    cleanduplicateRatio()
+    addtoMarcketwatch()

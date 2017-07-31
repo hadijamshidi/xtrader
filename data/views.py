@@ -67,5 +67,11 @@ def marketwatch(request):
 
 def stockwatch(request,SymbolId):
     from data.models import StockWatch
-    sw = StockWatch.objects.get(SymbolId=SymbolId)
-    return HttpResponse(json.dumps(sw.read()))
+    from data import stockwatch
+    stock_data = stockwatch.stockWatchInfo(SymbolId)
+    stock = StockWatch.objects.get(SymbolId=SymbolId)
+    for key in stock_data:
+        stock.__setattr__(key, stock_data[key])
+    stock.save()
+    # sw = StockWatch.objects.get(SymbolId=SymbolId)
+    return HttpResponse(json.dumps(stock.read()))

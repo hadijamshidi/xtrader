@@ -83,5 +83,5 @@ def read_portfo():
     # print(symbols)
 def cleanduplicate():
     for row in StockWatch.objects.all():
-        if StockWatch.objects.filter(InstrumentName=row.InstrumentName).count() > 1:
+        if StockWatch.objects.filter(SymbolId=row.SymbolId).count() > 1:
             row.delete()

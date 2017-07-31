@@ -1,23 +1,23 @@
-{% load static %}
+{% extends "base.html" %}
+{% load staticfiles %}
 
-<html dir="rtl">
+{% block title %}stock watch{% endblock %}
 
-<head>
+{% block headContent %}
     <meta charset="UTF-8">
-    <title>stock watch</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/stockwatchstyle.css' %}"/>
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
-  <!--  <link rel="stylesheet" type="text/css"
-           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css">
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
-     -->
-</head>
+    <script>
+        var SymbolId = "{{ SymbolId }}" ;
+    </script>
+    <script type="text/javascript" src="{% static 'js/stockwatch.js' %}"></script>
+{% endblock headContent %}
+
 {% load i18n %}
-<body>
-    <div id="master__wrapper">
+{% block bodyContent %}
     <div id="sell-buy">
         <span id="CompanyName"></span>
         (<span id="InstrumentName"></span>)
@@ -145,8 +145,9 @@
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell">مجموع</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
+                    <div class="divTableCell" id="TotalBuy"></div>
+                    <div class="divTableCell" id="TotalSell"></div>
+
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell">حقیقی</div>
@@ -181,15 +182,15 @@
             <div class="divTableBody">
                 <div class="divTableRow">
                     <div class="divTableCell">EPS</div>
-                    <div class="divTableCell" id="Eps"></div>
+                    <div class="divTableCell" id="Eps" dir="ltr"></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell">P/E</div>
-                    <div class="divTableCell" id="PricePerEarning"></div>
+                    <div class="divTableCell" id="PricePerEarning" dir="ltr"></div>
                 </div>
                 <div class="divTableRow">
                     <div class="divTableCell">P/E گروه</div>
-                    <div class="divTableCell" id="PricePerEarningGroup"></div>
+                    <div class="divTableCell" id="PricePerEarningGroup" dir="ltr"></div>
                 </div>
             </div>
         </div>
@@ -342,7 +343,6 @@
             </div>
         </div>
     </div>
-    </div>
 
      <div class="ui container" dir="rtl" style="display: none;">
         <div id="search" class="ui fluid category search">
@@ -354,9 +354,4 @@
         </div>
     </div>
 
-</body>
-<script>
-    var SymbolId = "{{ SymbolId }}" ;
-</script>
-<script type="text/javascript" src="{% static 'js/stockwatch.js' %}"></script>
-</html>
+{% endblock bodyContent %}

@@ -192,6 +192,9 @@ var filter_ids = [];
 var choosen_filters = {};
 $(document).ready(function () {
     insertfilters(filters_data);
+    $( "select" ).change(function(){
+        read_filters();
+    });
 });
 
 function insertfilters(filters) {
@@ -204,6 +207,7 @@ function insertfilters(filters) {
             tr = insertFilterName(tr, target[name]);
             var select = document.createElement('select'),
                 options = filter['benchmark'];
+            select.addE
             tr = insertFilterOptions(tr, name, select, options);
             select.setAttribute('id', name);
             filter_ids.push(name);
@@ -240,7 +244,6 @@ function insertFilterOptions(tr, name, select, options) {
     });
     return tr
 }
-
 function read_filters() {
     filter_ids.forEach(function (filter) {
         var select = document.getElementById(filter);

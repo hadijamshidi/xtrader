@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+    <title>001-web</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-25.1823528%" y1="122.199681%" x2="133.722774%" y2="-31.918576%" id="linearGradient-1">
+            <stop stop-color="#00CA9D" offset="0%"></stop>
+            <stop stop-color="#39D6A1" offset="22.4467682%"></stop>
+            <stop stop-color="#AEEFAA" offset="68.6742666%"></stop>
+            <stop stop-color="#FBFFC1" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Stock" transform="translate(-39.000000, -871.000000)" fill-rule="nonzero" fill="url(#linearGradient-1)">
+            <g id="Group-25" transform="translate(27.000000, 808.000000)">
+                <g id="Group-27" transform="translate(0.000000, 49.000000)">
+                    <g id="001-web" transform="translate(12.000000, 14.000000)">
+                        <path d="M9.9941073,0 C4.47486489,0 0,4.47486489 0,9.9941073 C0,15.5133497 4.47486489,19.9882146 9.9941073,19.9882146 C15.5133497,19.9882146 19.9882146,15.5133497 19.9882146,9.9941073 C19.9882146,4.47486489 15.5133497,0 9.9941073,0 Z M11.2433511,14.991161 C11.2433511,15.6807567 10.6836638,16.2404047 9.9941073,16.2404047 C9.30455085,16.2404047 8.74486354,15.6807174 8.74486354,14.991161 L8.74486354,8.74482424 C8.74486354,8.05522848 9.30455085,7.49558048 9.9941073,7.49558048 C10.6836638,7.49558048 11.2433511,8.05526778 11.2433511,8.74482424 L11.2433511,14.991161 Z M9.9941073,6.26630449 C9.30451154,6.26630449 8.74486354,5.70661719 8.74486354,5.01706073 C8.74486354,4.32750428 9.30455085,3.76781697 9.9941073,3.76781697 C10.6836638,3.76781697 11.2433511,4.32750428 11.2433511,5.01706073 C11.2433511,5.70661719 10.6837031,6.26630449 9.9941073,6.26630449 Z" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

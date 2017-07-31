@@ -1,0 +1,90 @@
+html{
+    background-color: #1c1f32;
+}
+#master__wrapper {
+    display: block;
+    position: fixed;
+    margin: 0 auto;
+    background-color:#292d48;
+    width:94%;
+    height: 94%;
+    left: 0;
+    right: 0; top:8%;
+}
+#username-block {
+    background-color:#292d48;
+    border-radius: 3px;
+    position: absolute;
+    width: 10%;
+    height: 5vh;
+    top: 2.5%;
+    right: 3%;
+}
+
+#user-pic {
+    position:relative;
+    top: 0.3rem;
+    right: 0.5rem;
+    float: right;
+    border-radius: 50%;
+}
+
+#username-text {
+    position:relative;
+    top: 0.9rem;
+    left: 1.5rem;
+    float: left;
+}
+
+.main-btns {
+    background-color:#292d48;
+    border-radius: 3px;
+    width: 5vh;
+    height: 5vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 0.2rem;
+    margin-bottom: 0.2rem;
+    cursor: pointer;
+
+}
+
+#top-btns {
+    position: absolute;
+    list-style : none;
+    top: 2.5%;
+    left: 12.5%;
+}
+
+#top-btns li {
+    float: right;
+}
+
+#left-btns {
+    position: absolute;
+    list-style : none;
+    bottom: 2.5%;
+    left: 0.5%;
+}
+
+#home-btn {
+    background-image: url(/media/icons/home.svg)
+}
+#search-btn{
+    background-image: url(/media/icons/search.svg)
+}
+#marketwatch-btn{
+    background-image: url(/media/icons/stockwatch.svg)
+}
+#backtest-btn{
+    background-image: url(/media/icons/backtest.svg)
+}
+#setting-btn{
+    background-image: url(/media/icons/setting.svg)
+}
+#info-btn{
+    background-image: url(/media/icons/info.svg)
+}
+#logout-btn{
+    background-image: url(/media/icons/logout.svg)
+}

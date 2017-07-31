@@ -88,10 +88,11 @@ def about_us(request):
 def stockwatch(request,SymbolId):
     if not SymbolId:
         return redirect('/stockwatch/IRO1IKCO0001')
-    try:
-        from data.models import StockWatch as st
-        stockWatchDict = st.objects.get(SymbolId=SymbolId).to_dict()
-        return render(request, 'stockwatch.html', stockWatchDict)
-    except Exception:
-        return HttpResponseNotFound('<h4>صفحه مورد نظر یافت نشد</h4>')
+#    try:
+    from data.models import StockWatch as st
+    stockWatchDict = st.objects.get(SymbolId=SymbolId).to_dict()
+    print(stockWatchDict)
+    return render(request, 'stockwatch.html', stockWatchDict)
+  #  except Exception:
+ #       return HttpResponseNotFound('<h4>صفحه مورد نظر یافت نشد</h4>')
         

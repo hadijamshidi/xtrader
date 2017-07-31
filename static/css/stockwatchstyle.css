@@ -80,9 +80,6 @@ a {
     color: white;
 }
 
-html{
-    background-color: #1c1f32;
-}
 body {
 	line-height: 1;
     font-family: "IRANSans";
@@ -104,16 +101,7 @@ table {
 	border-spacing: 0;
 }
 
-#master__wrapper {
-    display: block;
-    position: fixed;
-    margin: 0 auto;
-    background-color:#292d48;
-    width:94%;
-    height: 94%;
-    left: 0;
-    right: 0; top:6%;
-}
+
 
 #sell-buy {
     display: block;
@@ -124,7 +112,7 @@ table {
     margin: 0 auto;
     left: 0;
     right: 0;
-    top: 7%;
+    top: 9%;
 }
 
 #sell__btn {
@@ -169,7 +157,7 @@ table {
 
 }
 #costs {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     top: 8.5%; right: 0.5%;
     text-align: right;
@@ -178,7 +166,7 @@ table {
 }
 
 #periods {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     top: 8.5%; right: 31%;
     text-align: right;
@@ -186,21 +174,21 @@ table {
 }
 
 #deals {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     top: 22.5%; right: 0.5%;
     text-align: right;
 }
 
 #rates {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     top: 22.5%; right: 31%;
     text-align: right;
 }
 
 #sell-buy-count {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     display: block;
     position: absolute;
@@ -212,7 +200,7 @@ table {
 }
 
 #last-sell {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     display: block;
     position: absolute;
@@ -224,7 +212,7 @@ table {
 }
 
 #epsbox {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     display: block;
     position: absolute;
@@ -236,7 +224,7 @@ table {
 }
 
 #queue {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     display: block;
     position: absolute;
@@ -248,7 +236,7 @@ table {
 }
 
 #chart {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     display: block;
     position: absolute;
@@ -260,7 +248,7 @@ table {
 }
 
 #portfo {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     display: block;
     position: absolute;
@@ -272,7 +260,7 @@ table {
 }
 
 #column {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     display: block;
     position: absolute;
@@ -284,7 +272,7 @@ table {
 }
 
 #hotlist {
-    border-top: 2px solid #f3f774;
+    border-right: 2px solid #00ca9d;
     border-radius: 3px;
     display: block;
     position: absolute;

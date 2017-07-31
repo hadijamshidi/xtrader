@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^', include('main.urls', namespace='main')),
     url(r'^admin/', admin.site.urls),
-    url(r'^finance/', include('finance.urls')),
+    url(r'^finance/', include('finance.urls', namespace='finance')),
     url(r'^data/', include('data.urls')),
 
 ]

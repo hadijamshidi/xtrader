@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^back-test', views.back_test, name='back_test'),
     url(r'^about-us', views.about_us, name='about_us'),
     url(r'^$', views.index, name='index'),
+    url(r'^stockwatch/(?:(?P<SymbolId>\w+)/)?$',  views.stockwatch, name='stockwatch'),
+
 ]

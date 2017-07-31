@@ -13,7 +13,7 @@ from data.dates import Check
 
 import inspect
 from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 all_functions = dict(inspect.getmembers(data_handling, inspect.isfunction))
 
 
@@ -105,3 +105,11 @@ def index(request):
     return render(request, 'index.html',
                   {'form': AuthenticationForm, 'login_status': login_status, 'username': request.user.username}
                   )
+def stockwatch(request,SymbolId):
+    if not SymbolId:
+        return redirect('/stockwatch/IRO1IKCO0001')
+#    try:
+    from data.models import StockWatch as st
+    stockWatchDict = st.objects.get(SymbolId=SymbolId).to_dict()
+    print(stockWatchDict)
+    return render(request, 'stockwatch.html', stockWatchDict)

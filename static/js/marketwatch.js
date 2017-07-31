@@ -266,7 +266,7 @@ function read_filters() {
 function filter_market(filters) {
     $.ajax({
         type: 'GET',
-        url: "/finance/filtermarket",
+        url: "/filtermarket",
         data: {
             filters: JSON.stringify(filters),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()

@@ -87,7 +87,6 @@ def createRatioTables(num=0):
         if i >= num:
             print(i)
             info = RatioInfo(stock, stock.InstrumentName)
-
             try:
                 addRatioTable(info)
 

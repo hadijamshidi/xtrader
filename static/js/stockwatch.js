@@ -362,10 +362,11 @@ function draw_chart() {
                 // headerFormat: '<small>{point.key}</small><br><table>',
                 // pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
                 // '<td style="text-align: right"> <b>{point.y} </b></td></tr>',
+                // footerFormat: '</table>',
 
                 headerFormat: '',
                 pointFormat: '<td style="text-align: right"> <b>{point.y}</b></td></tr>',
-                footerFormat: '</table>',
+                // footerFormat: '</table>',
                 valueDecimals: 0,
 
                 backgroundColor: 'rgba(0, 0, 0, 0.85)',

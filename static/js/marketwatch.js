@@ -3,15 +3,19 @@
  */
 function show_filters_result(result) {
     var columns = {
-        'InstrumentName': 'نماد', 'InstrumentTitle': 'نام', 'TotalNumberOfTrades': 'تعداد',
-        'TotalNumberOfSharesTraded': 'حجم', 'TotalTradeValue': 'ارزش',
-        'PreviousDayPrice': 'دیروز', 'FirstTradePrice': 'اولین',
-        'Eps': 'Eps', 'PricePerEarning': 'P/E',
-        'LastTradePrice': 'آخرین معامله', 'ReferencePriceVariationPercent': 'درصد آخرین معامله',
-        'ReferencePriceVariation': 'تغییر آخرین معامله',
-        'ClosingPrice': 'قیمت پایانی', 'ClosingPriceVariation': 'تغییر قیمت پایانی',
-        'ClosingPriceVariationPercent': 'درصد  تغییر قیمت پایانی',
-        'LowestTradePrice': 'کمترین', 'HighestTradePrice': 'بیشترین'
+        'stockwatch_InstrumentName': 'نماد', 'stockwatch_InstrumentTitle': 'نام',
+        'stockwatch_TotalNumberOfTrades': 'تعداد',
+        'stockwatch_TotalNumberOfSharesTraded': 'حجم', 'stockwatch_TotalTradeValue': 'ارزش',
+        'stockwatch_PreviousDayPrice': 'دیروز', 'stockwatch_FirstTradePrice': 'اولین',
+        // 'stockwatch_Eps': 'Eps',
+        // 'stockwatch_PricePerEarning': 'P/E',
+        'stockwatch_LastTradePrice': 'آخرین معامله', 'stockwatch_ReferencePriceVariationPercent': 'درصد آخرین معامله',
+        'stockwatch_ReferencePriceVariation': 'تغییر آخرین معامله',
+        'stockwatch_ClosingPrice': 'قیمت پایانی', 'stockwatch_ClosingPriceVariation': 'تغییر قیمت پایانی',
+        'stockwatch_ClosingPriceVariationPercent': 'درصد  تغییر قیمت پایانی',
+        'stockwatch_LowestTradePrice': 'کمترین', 'stockwatch_HighestTradePrice': 'بیشترین',
+        'ratio_roa':'roa',
+        'ratio_roe':'roe',
     };
     var place = document.getElementById("filters scan place");
     place.innerHTML = '';
@@ -43,7 +47,7 @@ function show_filters_result(result) {
             if(num == 0){
                 var a = document.createElement('a');
                 a.appendChild(document.createTextNode(quick_check(stock[column])));
-                a.setAttribute('href','/stockwatch/'+stock['SymbolId']);
+                a.setAttribute('href','/stockwatch/'+stock['stockwatch_SymbolId']);
                 td.appendChild(a);
                 tr.appendChild(td);
 
@@ -114,19 +118,19 @@ var filters_data = [
         ]
     },
 
-    {
-        'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
-        'target': [
-            {'stockwatch_PricePerEarning': 'P/E'},
-            {'stockwatch_PricePerEarningGroup': 'P/E گروه'},
-        ]
-    },
-    {
-        'benchmark': [-2000, -1000, 0, 200, 500, 1000, 2000],
-        'target': [
-            {'stockwatch_Eps': 'Eps'}
-        ]
-    },
+    // {
+    //     'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
+    //     'target': [
+    //         {'stockwatch_PricePerEarning': 'P/E'},
+    //         {'stockwatch_PricePerEarningGroup': 'P/E گروه'},
+    //     ]
+    // },
+    // {
+    //     'benchmark': [-2000, -1000, 0, 200, 500, 1000, 2000],
+    //     'target': [
+    //         {'stockwatch_Eps': 'Eps'}
+    //     ]
+    // },
     {
         'benchmark': [-4, -3, -2, -1, 0, 1, 2, 3, 4],
         'target': [

@@ -52,35 +52,16 @@ def update_indicators(request):
 
 
 def market_watch(request):
-    from data.backup import filters
-    return render(request, 'marketwatch.html', {'filters': repr(filters)})
+    return render(request, 'marketwatch.html')
 
 
-# def filtermarket(request):
-#     from data.models import StockWatch as ss
-#     uu=ss.objects.filter(PricePerEarning__lte=5)
-#     data = json.loads(request.GET['filters'])
-#     # f = request.GET['filters']
-#
-#     # s = "Name1=Value1;Name2=Value2;Name3=Value3"
-#     # dict(item.split("=") for item in s.split(";"))
-#     conditions={}
-#     for v,y in data.items() :
-#         t=dict(item.split("=") for item in y.split(";"))
-#         conditions.update(t)
-#     # print(conditions)
-#     rdfds=ss.objects.filter(**conditions)
-#     return rdfds
-#     # print(f)
 
 def filtermarket(request):
     filters = json.loads(request.GET['filters'])
-    filters = [f.replace('stockwatch_', '') for f in filters]
     query = ' and '.join(filters) if len(filters) != 0 else '1=1'
-    # from data.models import MarketWatch
-    # results = MarketWatch.objects.raw('select * from data_MarketWatch WHERE {}'.format(query))
-    from data.models import StockWatch as sw
-    results = sw.objects.raw('select * from data_stockwatch WHERE {}'.format(query))
-
+    from data.models import MarketWatch
+    results = MarketWatch.objects.raw('select * from data_MarketWatch WHERE {}'.format(query))
+    if len(filters) == 0:
+        results = MarketWatch.objects.all()
     results = [r.read() for r in results]
     return HttpResponse(json.dumps(results))

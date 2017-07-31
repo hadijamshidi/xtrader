@@ -4,9 +4,11 @@
 """
 from xtrader.localsetting import farabi_login_data
 from data.models import StockWatch
+from data.crawl import epss
 import requests as r
 from data import backup
 import json
+
 symbol_ids = backup.all_ids
 wrong_symbol_ids = []
 new_group = {}
@@ -21,7 +23,7 @@ def createStockWatchTables(num=0):
                 try:
                     addStockWatchTable(info)
                 except Exception:
-                    wrong_symbol_ids.append(dict(id=symbol_id,problem='on save'))
+                    wrong_symbol_ids.append(dict(id=symbol_id, problem='on save'))
 
 
 def stockWatchInfo(symbol_id):
@@ -34,7 +36,7 @@ def stockWatchInfo(symbol_id):
     except Exception:
         wrong_symbol_ids.append(dict(id=symbol_id, problem='failed to json loads', data=output))
         return False
-    if trades_data['InstrumentTitle'][:4]!= 'ح . ':
+    if trades_data['InstrumentTitle'][:4] != 'ح . ':
         trades_dict = {}
         for key in trades_data:
             if key not in ['BidAsk', 'LastTradeDate']:
@@ -56,12 +58,18 @@ def stockWatchInfo(symbol_id):
     else:
         wrong_symbol_ids.append(dict(id=symbol_id, problem='ح . '))
         return False
+    try:
+        Eps = epss(trades_dict['InstrumentName'])
+        trades_dict['Eps'] = Eps
+        if Eps != 0: trades_dict['PricePerEarning'] = trades_dict['ClosingPrice']/Eps
+    except Exception:
+        wrong_symbol_ids.append(dict(id=symbol_id, problem='no Eps'))
     return trades_dict
 
 
 def addStockWatchTable(info):
-        StockWatch(**info).save()
-        print('successful progress')
+    StockWatch(**info).save()
+    print('successful progress')
 
 
 def read_portfo():
@@ -71,17 +79,29 @@ def read_portfo():
     output = user.get('http://api.farabixo.com/api/pub/GetWatchListSymbol', params={'watchListId': Id}).text
     import json
     data = json.loads(output)
-    # print(data)
     symbols = {}
     for i, symbol in enumerate(data):
         symbol_name = symbol['InstrumentName']
         if symbol_name not in symbols:
-            # print(i, symbol_name)
             symbols[symbol_name] = symbol['SymbolId']
         else:
             print('namad tekrari: {}'.format(symbol_name))
-    # print(symbols)
+
+
 def cleanduplicate():
     for row in StockWatch.objects.all():
         if StockWatch.objects.filter(SymbolId=row.SymbolId).count() > 1:
             row.delete()
+
+
+def update_eps():
+    stocks = StockWatch.objects.all()
+    from data.crawl import epss
+    for stock in stocks:
+        InstrumentName = stock.InstrumentName
+        try:
+            stock.Eps = epss(InstrumentName)
+            stock.save()
+            print(InstrumentName, epss(InstrumentName))
+        except Exception:
+            print('failed {}'.format(InstrumentName))

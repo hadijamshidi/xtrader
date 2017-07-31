@@ -65,7 +65,7 @@ def marketwatch(request):
         return HttpResponse('database is updating please try a min later')
 
 
-def stockwatch(request,SymbolId):
+def stockwatch(request, SymbolId):
     from data.models import StockWatch
     from data import stockwatch
     stock_data = stockwatch.stockWatchInfo(SymbolId)

@@ -34,7 +34,7 @@ window.Date = JDate;
 
 $(function () {
     isStrategySaved = false;
-    load_data('/get-data/name=' + symbol_name);
+    load_data('/data/get-data/name=' + symbol_name);
     Highcharts.setOptions({
         lang: {
             months: ['فروردين', 'ارديبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
@@ -1213,7 +1213,7 @@ function show_scan_result(result) {
                 item.addEventListener('click', function () {
                     delete_all(['indicators'],false);
                     symbol_name = symbol_url;
-                    load_data('/get-data/name=' + symbol_name);
+                    load_data('/data/get-data/name=' + symbol_name);
                 });
 
                 var content = document.createElement('div');
@@ -2295,7 +2295,7 @@ $(document).ready(function () {
         onSelect: function (result) {
             var value = result;
             symbol_name = value.eng_name;
-            load_data('/get-data/name=' + symbol_name);
+            load_data('/data/get-data/name=' + symbol_name);
             // window.history.pushState('page2', 'Title', '/finance/' + symbol_name);
         },
 

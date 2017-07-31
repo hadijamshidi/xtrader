@@ -10,5 +10,9 @@ urlpatterns = [
     url(r'^update-indicators', views.update_indicators, name='update_indicators'),
     url(r'^marketwatch', views.market_watch, name='marketwatch'),
     url(r'^filtermarket', views.filtermarket, name='filtermarket'),
-
+    url(r'^indicators-api', views.indicators_api, name='indicatoss_api'),
+    url(r'^backtest', views.display, name='display'),
+    url(r'^back-test', views.back_test, name='back_test'),
+    url(r'^about-us', views.about_us, name='about_us'),
+    url(r'^$', views.index, name='index'),
 ]

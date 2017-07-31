@@ -253,7 +253,7 @@ function numberSeparator(n) {
  */
 
 function draw_chart() {
-    $.getJSON('/get-data/' + SymbolId, function (data) {
+    $.getJSON('/data/get-data/' + SymbolId, function (data) {
         // $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
         data = JSON.parse(data);
         var close = [],

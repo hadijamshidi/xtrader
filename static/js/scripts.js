@@ -33,7 +33,7 @@ window.Date = JDate;
 
 $(function () {
     isStrategySaved = false;
-    load_data('/get-data/' + symbol_id);
+    load_data('/data/get-data/' + symbol_id);
     Highcharts.setOptions({
         lang: {
             months: ['فروردين', 'ارديبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'],
@@ -977,7 +977,7 @@ function show_scan_result(result) {
                 item.addEventListener('click', function () {
                     delete_all(['indicators'], false);
                     symbol_id = symbol_url;
-                    load_data('/get-data/' + symbol_id);
+                    load_data('/data/get-data/' + symbol_id);
                 });
 
                 var content = document.createElement('div');
@@ -2066,7 +2066,7 @@ $(document).ready(function () {
                 // console.log(value);
                 symbol_id = value.symbol_id;
                 var backtest_state = document.getElementById('table_place').style.display;
-                load_data('/get-data/' + symbol_id);
+                load_data('/data/get-data/' + symbol_id);
                 if (backtest_state == 'block') {
                     delete_all(['back test']);
                 }
@@ -2118,7 +2118,7 @@ $(document).ready(function () {
                 });
                 return response;
             },
-            url: '/symbol-search/q={query}'
+            url: '/data/symbol-search/q={query}'
         }
     });
 

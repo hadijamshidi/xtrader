@@ -3,10 +3,10 @@ from data import views
 
 urlpatterns = [
     url(r'^mabna/$', views.mabnaAPI, name='mabna api'),
-    url(r'^stock/$', views.stock),
     url(r'^history/$', views.history),
-    url(r'^marketwatch/$', views.marketwatch),
     url(r'^stockwatch/(?P<SymbolId>\w+)/$', views.stockwatch),
+    url(r'^symbol-search/q=(?P<query>\w+)', views.symbol_search, name='symbol_search'),
+    url(r'^get-data/(?P<SymbolId>\w+)/', views.get_data, name='get_data'),
     # SymbolId
     # url(r'^start/$', views.update_MarketWatch),
 ]

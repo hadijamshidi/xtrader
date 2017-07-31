@@ -3,15 +3,14 @@
 from django.http import HttpResponse
 from xtrader import localsetting as local
 import requests
-
-
 import json
 from datetime import datetime
 from django.http import HttpResponse
 from data import redis
-
-
-
+from django.shortcuts import render, redirect
+from django.http import HttpResponse,HttpResponseNotFound
+from .models import StockWatch as Symbol
+from django.http import JsonResponse
 
 def mabnaAPI(request):
     if local.client['job'] == 'dev':
@@ -23,16 +22,6 @@ def mabnaAPI(request):
         r = requests.get(local.client['url'] + request.GET['url'], headers=local.client['auth'])
     return HttpResponse(r)
 
-
-def stock(request):
-    stocks = Stock.objects.all()
-    stocks_list = []
-    for stock in stocks:
-        stocks_list.append({'id': stock.id, 'symbol_id': stock.symbol_id, 'mabna_id': stock.mabna_id,
-                            'mabna_name': stock.mabna_name, 'mabna_english_name': stock.mabna_english_name,
-                            'mabna_short_name': stock.mabna_short_name, 'mabna_kind': stock.mabna_kind})
-        print(stocks_list)
-    return HttpResponse(json.dumps(stocks_list))
 
 
 def history(request):
@@ -51,18 +40,7 @@ def history(request):
     return HttpResponse(json.dumps(histories))
 
 
-def marketwatch(request):
-    if True:
-        from api.models import MarketWatch
-        query = request.GET['query']
-        results = MarketWatch.objects.filter(LastTradeDate=str(datetime.today())[:10]).raw(
-            'select * from api_marketwatch where {}'.format(query))
-        final_result = []
-        for result in results:
-            final_result.append(result.to_dict())
-        return HttpResponse(json.dumps(final_result))
-    else:
-        return HttpResponse('database is updating please try a min later')
+
 
 
 def stockwatch(request, SymbolId):
@@ -76,3 +54,37 @@ def stockwatch(request, SymbolId):
     stock = StockWatch.objects.get(SymbolId=SymbolId)
     # sw = StockWatch.objects.get(SymbolId=SymbolId)
     return HttpResponse(json.dumps(stock.read()))
+
+
+def symbol_search(request, query):
+    symbols = Symbol.objects.filter(InstrumentName__istartswith=query)
+              # | Symbol.objects.filter(mabna_english_name__icontains=query) \
+        # | Symbol.objects.filter(name__icontain=query)
+    symbol_max_results = 8
+    if symbols.count() < symbol_max_results:
+        symbols = symbols | Symbol.objects.filter(InstrumentName__icontains=query)
+    results = [ob.as_json() for ob in symbols]
+    mydict = dict(
+        items=results,
+    )
+    return HttpResponse(json.dumps(mydict, ensure_ascii=False).encode("utf8"),
+                        content_type="application/json; charset=utf-8")
+
+def get_data(request, SymbolId):
+    from data import redis
+    import pandas as pd
+    data_dict = redis.load_history(SymbolId)
+    df = pd.DataFrame(data=data_dict, index=data_dict['date'])
+    df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
+    stock = Symbol.objects.get(SymbolId=SymbolId)
+    stock_information = dict(
+        # per_name=stock.mabna_short_name,
+        # measurement_name=name,
+        # name=stock.mabna_name,
+        per_name=stock.InstrumentName,
+        measurement_name=stock.SymbolId,
+        name=stock.InstrumentName,
+    )
+    stock_history = df.to_json(orient='values')
+    stock_information['items'] = stock_history
+    return JsonResponse(json.dumps(stock_information), safe=False)

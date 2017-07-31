@@ -2,6 +2,12 @@ from finance import data_handling
 from django.http import HttpResponse, JsonResponse
 import json
 from . import strategy, scan, marketwatch
+from finance import data_handling as dh, indicator
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponse, Http404, HttpResponseNotFound
+from accounts.forms import AuthenticationForm
+
+
 from data.dates import Check
 # Create your views here.
 
@@ -65,3 +71,37 @@ def filtermarket(request):
         results = MarketWatch.objects.all()
     results = [r.read() for r in results]
     return HttpResponse(json.dumps(results))
+
+
+
+def indicators_api(request):
+    if request.method == 'POST':
+        return JsonResponse(json.dumps(indicator.get_group_api()), safe=False)
+    else:
+        return JsonResponse(json.dumps({'api': 'null'}), safe=False)
+def back_test(request):
+    if request.method == 'POST':
+        data = json.loads(request.POST['param'])
+        name = data['name']
+        res = json.loads(data['trades'])
+        print(data['config'])
+        result = dh.give_result_backtest(name, res, data['config'])
+        return JsonResponse(result, safe=False)
+    else:
+        return Http404('this is not a Post!')
+
+
+@login_required(login_url='accounts:userena_signin')
+def display(request):
+    return render(request, 'applyTheme.html', {'SymbolId': 'IRO1IKCO0001', 'username': request.user.username})
+
+
+def about_us(request):
+    return render(request, 'aboutus.html', {'username': request.user.username})
+
+
+def index(request):
+    login_status = True if not request.user.username else False
+    return render(request, 'index.html',
+                  {'form': AuthenticationForm, 'login_status': login_status, 'username': request.user.username}
+                  )

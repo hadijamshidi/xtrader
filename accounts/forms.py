@@ -144,10 +144,15 @@ class SignupFormExtra(SignupForm):
         it doesn't apply to a single field.
         """
         if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
+            from django.contrib.auth.password_validation import CommonPasswordValidator as cpv
+            if cpv().validate(password=self.cleaned_data['password1']):
+                raise forms.ValidationError(_("این گذرواژه عبور بسیار رایج است"))
             if len('password1') < MIN_LENGTH:
                 raise forms.ValidationError("The new password must be at least %d characters long." % MIN_LENGTH)
             if self.cleaned_data['password1'] != self.cleaned_data['password2']:
                 raise forms.ValidationError(_("گذرواژه های وارد شده یکسان نیستند"))
+
+
         return self.cleaned_data
 
 

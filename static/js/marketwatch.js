@@ -64,12 +64,43 @@ function show_filters_result(result) {
     place.style.display = 'block';
 }
 function quick_check(str) {
-    // if (!isNaN(str)) {
-    //     return numberSeparator(str);
-    // } else {
-    //     return str
-    // }
-    return str
+    if (!isNaN(str)) {
+        str = String(str);
+        var str1 = '',
+            str2 = '',
+            l = str.length;
+        for (var i = 0; i < l; i++) {
+            if(str.substring(i,i+1) == '.'){
+                str2 = str.substring(i+1,l);
+                str2 = '.' + str2;
+                break
+            }else{
+                str1 += str.substring(i, i+1);
+            }
+        }
+        return numberSeparator(str1) + str2;
+    } else {
+        return str
+    }
+}
+function numberSeparator(n) {
+    n = String(n);
+    var m = [],
+        ll = n.length;
+    for (var i = 0; i < ll; i++) {
+        m.push(n.substring(i, i + 1));
+    }
+    m.reverse();
+    var i = 0,
+        n = '';
+    m.forEach(function (digit) {
+        i++;
+        n = digit + n;
+        if (i % 3 == 0 & i != ll) {
+            n = ',' + n;
+        }
+    });
+    return n
 }
 
 var filters_data = [

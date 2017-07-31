@@ -77,7 +77,6 @@ def read_portfo():
     user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
     Id = 93633
     output = user.get('http://api.farabixo.com/api/pub/GetWatchListSymbol', params={'watchListId': Id}).text
-    import json
     data = json.loads(output)
     symbols = {}
     for i, symbol in enumerate(data):

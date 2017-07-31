@@ -114,15 +114,18 @@ def addRatioTable(info):
     print('successful progress')
 
 
-
 def cleanduplicateRatio():
     for row in Ratio.objects.all():
         if Ratio.objects.filter(SymbolId=row.SymbolId).count() > 1:
             row.delete()
+
+
 def cleanduplicatebalanceSheet():
     for row in balanceSheet.objects.all():
         if balanceSheet.objects.filter(SymbolId=row.SymbolId).count() > 1:
             row.delete()
+
+
 def cleanduplicateIncome():
     for row in Income.objects.all():
         if Income.objects.filter(SymbolId=row.SymbolId).count() > 1:
@@ -131,7 +134,7 @@ def cleanduplicateIncome():
 
 def addtoMarcketwatch():
     for stock in ss.objects.all():
-        mstock=stock.read()
+        mstock = stock.read()
         try:
             mincome = Income.objects.filter(SymbolId=stock.SymbolId).first().read()
         except Exception:
@@ -144,17 +147,21 @@ def addtoMarcketwatch():
             mratio = Ratio.objects.filter(SymbolId=stock.SymbolId).first().read()
         except Exception:
             mratio = {}
-        rmincome= {'income_'+k: v  for k, v in mincome.items() if k not in ['InstrumentName','StockWatch_id','SymbolId','id']}
-        rmbalanceSheet= {'balanceSheet_'+k: v  for k, v in mbalanceSheet.items() if k not in ['InstrumentName','StockWatch_id','SymbolId','id']}
-        rmratio= {'ratio_'+k: v  for k, v in mratio.items() if k not in ['InstrumentName','StockWatch_id','SymbolId','id']}
-        rmstock = {'stockwatch_' + k: v for k, v in mstock.items()if k not in ['id']}
+        rmincome = {'income_' + k: v for k, v in mincome.items() if
+                    k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
+        rmbalanceSheet = {'balanceSheet_' + k: v for k, v in mbalanceSheet.items() if
+                          k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
+        rmratio = {'ratio_' + k: v for k, v in mratio.items() if
+                   k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
+        rmstock = {'stockwatch_' + k: v for k, v in mstock.items() if k not in ['id']}
         try:
-            MarketWatch(** rmstock, ** rmincome, ** rmbalanceSheet, ** rmratio).save()
+            MarketWatch(**rmstock, **rmincome, **rmbalanceSheet, **rmratio).save()
         except Exception:
             pass
 
+
 def fullgetdata():
-    from .stockwatch import createStockWatchTables,cleanduplicate
+    from .stockwatch import createStockWatchTables, cleanduplicate
     createStockWatchTables()
     cleanduplicate()
     createRatioTables()

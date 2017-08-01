@@ -88,3 +88,6 @@ html{
 #logout-btn{
     background-image: url(/media/icons/logout.svg)
 }
+.divTableRow-odd{
+    background: red;
+}

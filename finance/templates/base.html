@@ -5,7 +5,7 @@
     <title>{% block title %}{% endblock %}</title>
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
-
+    <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
     {% block headContent %}
     {% endblock headContent %}
 </head>
@@ -15,10 +15,10 @@
         <img id="user-pic" height="35px" width="35px" src="/media/pictures/hadi.jpeg" title="I'm Founder :D"/>
     </div>
     <ul id="top-btns">
-        <li class="main-btns" id="home-btn"></li>
+        <a href="{% url 'finance:stockwatch' %}"><li class="main-btns" id="home-btn"></li></a>
         <li class="main-btns" id="search-btn"></li>
         <a href="{% url 'finance:marketwatch' %}"><li class="main-btns" id="marketwatch-btn"></li></a>
-        <li class="main-btns" id="backtest-btn"></li>
+        <a href="{% url 'finance:backtest' %}"><li class="main-btns" id="backtest-btn"></li></a>
     </ul>
     <ul id="left-btns">
         <li class="main-btns" id="setting-btn"></li>

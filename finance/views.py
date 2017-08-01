@@ -84,7 +84,6 @@ def back_test(request):
         data = json.loads(request.POST['param'])
         name = data['name']
         res = json.loads(data['trades'])
-        print(data['config'])
         result = dh.give_result_backtest(name, res, data['config'])
         return JsonResponse(result, safe=False)
     else:
@@ -108,8 +107,7 @@ def index(request):
 def stockwatch(request,SymbolId):
     if not SymbolId:
         return redirect('/stockwatch/IRO1IKCO0001')
-#    try:
     from data.models import StockWatch as st
-    stockWatchDict = st.objects.get(SymbolId=SymbolId).to_dict()
-    print(stockWatchDict)
+    stock = st.objects.get(SymbolId=SymbolId)
+    stockWatchDict = {'SymbolId': stock.SymbolId, 'title':stock.InstrumentName}
     return render(request, 'stockwatch.html', stockWatchDict)

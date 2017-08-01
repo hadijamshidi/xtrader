@@ -63,7 +63,6 @@ var ids = {
     'po3': "po3",
     'qo3': "qo3",
     'zo3': "zo3",
-
 };
 
 var price_data = {
@@ -172,33 +171,6 @@ function update_stockwatch() {
 
 window.ODate = Date;
 window.Date = JDate;
-function quick_check(str) {
-     if (!isNaN(str)) {
-         return numberSeparator(str);
-     } else {
-         return str
-     }
-    return str
-}
-function numberSeparator(n) {
-    n = String(n);
-    var m = [],
-        ll = n.length;
-    for (var i = 0; i < ll; i++) {
-        m.push(n.substring(i, i + 1));
-    }
-    m.reverse();
-    var i = 0,
-        n = '';
-    m.forEach(function (digit) {
-        i++;
-        n = digit + n;
-        if (i % 3 == 0 & i != ll) {
-            n = ',' + n;
-        }
-    });
-    return n
-}
 
 /*
  // $('input.prompt').attr('style', 'background-color: #333;color:white;text-align: center;font-family:IranSanc');

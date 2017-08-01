@@ -8,9 +8,10 @@ from datetime import datetime
 from django.http import HttpResponse
 from data import redis
 from django.shortcuts import render, redirect
-from django.http import HttpResponse,HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound
 from .models import StockWatch as Symbol
 from django.http import JsonResponse
+
 
 def mabnaAPI(request):
     if local.client['job'] == 'dev':
@@ -21,7 +22,6 @@ def mabnaAPI(request):
     if local.client['job'] == 'server':
         r = requests.get(local.client['url'] + request.GET['url'], headers=local.client['auth'])
     return HttpResponse(r)
-
 
 
 def history(request):
@@ -40,26 +40,15 @@ def history(request):
     return HttpResponse(json.dumps(histories))
 
 
-
-
-
 def stockwatch(request, SymbolId):
-    from data.models import StockWatch
-    from data import stockwatch
-    stock_data = stockwatch.stockWatchInfo(SymbolId)
-    stock = StockWatch.objects.get(SymbolId=SymbolId)
-    # for key in stock_data:
-    #     stock.__setattr__(key, stock_data[key])
-    # stock.save()
-    # stock = StockWatch.objects.get(SymbolId=SymbolId)
-    # sw = StockWatch.objects.get(SymbolId=SymbolId)
+    stock = Symbol.objects.get(SymbolId=SymbolId)
     return HttpResponse(json.dumps(stock.read()))
 
 
 def symbol_search(request, query):
     symbols = Symbol.objects.filter(InstrumentName__istartswith=query)
-              # | Symbol.objects.filter(mabna_english_name__icontains=query) \
-        # | Symbol.objects.filter(name__icontain=query)
+    # | Symbol.objects.filter(mabna_english_name__icontains=query) \
+    # | Symbol.objects.filter(name__icontain=query)
     symbol_max_results = 8
     if symbols.count() < symbol_max_results:
         symbols = symbols | Symbol.objects.filter(InstrumentName__icontains=query)
@@ -69,6 +58,7 @@ def symbol_search(request, query):
     )
     return HttpResponse(json.dumps(mydict, ensure_ascii=False).encode("utf8"),
                         content_type="application/json; charset=utf-8")
+
 
 def get_data(request, SymbolId):
     from data import redis

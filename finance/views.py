@@ -18,7 +18,7 @@ all_functions = dict(inspect.getmembers(data_handling, inspect.isfunction))
 
 
 def calculate_indicators(request):
-    data = json.loads(request.POST['param'])
+    data = json.loads(request.GET['param'])
     kind = data['kind'].lower()
     function = all_functions['give_result_' + kind]
     result = function(data)
@@ -26,7 +26,7 @@ def calculate_indicators(request):
 
 
 def save_strategy(request):
-    data = json.loads(request.POST['param'])
+    data = json.loads(request.GET['param'])
     result = strategy.add_strategy_to_db(data, request.user)
     return HttpResponse(result)
 
@@ -49,12 +49,12 @@ def scan_market(request):
 
 
 def update_indicators(request):
-    if request.method == 'POST':
-        data = json.loads(request.POST['param'])
+    if request.method == 'GET':
+        data = json.loads(request.GET['param'])
         result = data_handling.give_update_indicators(data)
         return JsonResponse(result, safe=False)
     else:
-        return JsonResponse('only post', safe=False)
+        return JsonResponse('only GET', safe=False)
 
 
 def market_watch(request):
@@ -75,19 +75,19 @@ def filtermarket(request):
 
 
 def indicators_api(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         return JsonResponse(json.dumps(indicator.get_group_api()), safe=False)
     else:
         return JsonResponse(json.dumps({'api': 'null'}), safe=False)
 def back_test(request):
-    if request.method == 'POST':
-        data = json.loads(request.POST['param'])
+    if request.method == 'GET':
+        data = json.loads(request.GET['param'])
         name = data['name']
         res = json.loads(data['trades'])
         result = dh.give_result_backtest(name, res, data['config'])
         return JsonResponse(result, safe=False)
     else:
-        return Http404('this is not a Post!')
+        return Http404('this is not a GET!')
 
 
 @login_required(login_url='accounts:userena_signin')

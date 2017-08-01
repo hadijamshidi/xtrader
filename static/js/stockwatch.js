@@ -2,9 +2,7 @@
  * Created by hadi on 7/25/17.
  */
 var ids = {
-    'pd1': "pd1", //خرید
     'LastTradePrice': "LastTradePrice", //معامله
-    'po1': "po1", //فروش
     'FirstTradePrice': "FirstTradePrice",  //اولین
     'ClosingPrice': "ClosingPrice", //پایانی
     'PreviousDayPrice': "PreviousDayPrice", //دیروز
@@ -162,11 +160,10 @@ function update_stockwatch() {
         url: "/data/stockwatch/" + SymbolId,
         success: function (result) {
             result = JSON.parse(result);
-            // data = result;
+            result['InstrumentName'] = '('+result['InstrumentName']+')';
             insert(result);
         },
     });
-
 }
 
 window.ODate = Date;
@@ -238,7 +235,6 @@ function draw_chart() {
                 Math.ceil(data[i][4]), // close
             ]);
         }
-        console.log(close);
         Highcharts.stockChart('chart', {
             rangeSelector: {
                 enabled: false,

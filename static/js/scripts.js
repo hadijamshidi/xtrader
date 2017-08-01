@@ -5,11 +5,11 @@ var indicators;
 var output = '';
 // TODO: reading indicators
 $.ajax({
-    type: 'POST',
+    type: 'GET',
     url: "/indicators-api",
-    data: {
-        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-    },
+    // data: {
+    //     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+    // },
     success: function (result) {
         indicators = JSON.parse(result);
         insert_indicators();
@@ -124,7 +124,7 @@ $(function () {
             pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
             '<td style="text-align: right"> <b>{point.y} </b></td></tr>',
             footerFormat: '</table>',
-            valueDecimals: 2,
+            valueDecimals: 0,
 
             backgroundColor: 'rgba(0, 0, 0, 0.85)',
             style: {
@@ -683,11 +683,10 @@ function apply() {
     waiting('wait');
 
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: "/back-test",
         data: {
             param: JSON.stringify(dd),
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         error: function () {
             waiting('default');
@@ -815,8 +814,8 @@ function save_filters(pointer) {
     // console.log(isStrategySaved);
     if (!isStrategySaved) {
         $.ajax({
-            type: 'POST',
-            url: "/finance/save_strategy",
+            type: 'GET',
+            url: "/save_strategy",
             data: {
                 param: JSON.stringify(strategy),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -875,12 +874,13 @@ function add_stock(result) {
 }
 function load_strategy_names() {
     delete_all(['indicators'], false);
+    console.log('here');
     $.ajax({
-        type: 'POST',
-        url: "/finance/get_strategy_names",
-        data: {
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-        },
+        type: 'GET',
+        url: "/get_strategy_names",
+        // data: {
+        //     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        // },
         success: function (result) {
             var strategy_names = JSON.parse(result);
             if (strategy_names.length > 0) {
@@ -902,7 +902,7 @@ function load_strategy(data) {
     // console.log('loading: ' + name);
     $.ajax({
         type: 'GET',
-        url: "/finance/load_strategy",
+        url: "/load_strategy",
         data: {
             name: name,
         },
@@ -940,7 +940,7 @@ function scan() {
     waiting('wait');
     $.ajax({
         type: 'GET',
-        url: "/finance/scan_market",
+        url: "/scan_market",
         data: {
             name: user_current_strategy,
         },
@@ -1470,8 +1470,8 @@ function calculate_indicators(strategy, saving_status) {
     var strg = jQuery.extend(true, {}, strategy);
     waiting('wait');
     $.ajax({
-        type: 'POST',
-        url: "/finance/calculate_filter",
+        type: 'GET',
+        url: "/calculate_filter",
         data: {
             param: JSON.stringify(strategy),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -1998,7 +1998,7 @@ function update_indicators(c) {
             var params = strategy['indicators'][type];
             params['symbol_id'] = strategy['symbol_id'];
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: "finance/update-indicators",
                 data: {
                     param: JSON.stringify({'params': params, 'price': c}),

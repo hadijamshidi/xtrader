@@ -15,8 +15,8 @@ function show_filters_result(result) {
         'stockwatch_ClosingPrice': 'قیمت پایانی', 'stockwatch_ClosingPriceVariation': 'تغییر قیمت پایانی',
         'stockwatch_ClosingPriceVariationPercent': 'درصد  تغییر قیمت پایانی',
         'stockwatch_LowestTradePrice': 'کمترین', 'stockwatch_HighestTradePrice': 'بیشترین',
-        'ratio_roa':'roa',
-        'ratio_roe':'roe',
+        'ratio_roa': 'roa',
+        'ratio_roe': 'roe',
     };
     var place = document.getElementById("filters scan place");
     place.innerHTML = '';
@@ -44,21 +44,21 @@ function show_filters_result(result) {
     result.forEach(function (stock) {
         stock['num'] = num2;
         var tr = document.createElement('div');
-        tr.setAttribute('class','divTableRow');
-        if(num2 % 2 == 0) tr.setAttribute('style','background:#4d5068');
+        tr.setAttribute('class', 'divTableRow');
+        if (num2 % 2 == 0) tr.setAttribute('style', 'background:#4d5068');
         num2 += 1;
         var num = 0;
         Object.keys(columns).forEach(function (column) {
             var td = document.createElement('div');
-            td.setAttribute('class','divTableCell');
-            if(num == 1){
+            td.setAttribute('class', 'divTableCell');
+            if (num == 1) {
                 var a = document.createElement('a');
                 a.appendChild(document.createTextNode(quick_check(stock[column])));
-                a.setAttribute('href','/stockwatch/'+stock['stockwatch_SymbolId']);
+                a.setAttribute('href', '/stockwatch/' + stock['stockwatch_SymbolId']);
                 td.appendChild(a);
                 tr.appendChild(td);
 
-            }else{
+            } else {
                 td.appendChild(document.createTextNode(quick_check(stock[column])));
                 tr.appendChild(td);
             }
@@ -118,17 +118,17 @@ var filters_data = [
     },
 
     {
-         'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
-         'target': [
-             {'stockwatch_PricePerEarning': 'P/E'},
-             {'stockwatch_PricePerEarningGroup': 'P/E گروه'},
-         ]
+        'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
+        'target': [
+            {'stockwatch_PricePerEarning': 'P/E'},
+            {'stockwatch_PricePerEarningGroup': 'P/E گروه'},
+        ]
     },
     {
-         'benchmark': [-2000, -1000, 0, 200, 500, 1000, 2000],
-         'target': [
-             {'stockwatch_Eps': 'Eps'}
-         ]
+        'benchmark': [-2000, -1000, 0, 200, 500, 1000, 2000],
+        'target': [
+            {'stockwatch_Eps': 'Eps'}
+        ]
     },
     {
         'benchmark': [-4, -3, -2, -1, 0, 1, 2, 3, 4],
@@ -161,7 +161,7 @@ var choosen_filters = {};
 $(document).ready(function () {
     insertfilters(filters_data);
     read_filters();
-    $( "select" ).change(function(){
+    $("select").change(function () {
         read_filters();
     });
 });
@@ -217,7 +217,6 @@ function read_filters() {
     filter_ids.forEach(function (filter) {
         var select = document.getElementById(filter);
         if (!select.value == '') {
-            console.log(filter);
             choosen_filters[filter] = select.value;
         } else {
             if (choosen_filters[filter]) {

@@ -19,11 +19,11 @@ def createStockWatchTables(num=0):
         if i >= num:
             print('stock watch for index: {}'.format(i))
             info = stockWatchInfo(symbol_id)
-            # if info:
-                # try:
-            addStockWatchTable(info)
-                # except Exception:
-                #     wrong_symbol_ids.append(dict(id=symbol_id, problem='on save'))
+            if info:
+                try:
+                    addStockWatchTable(info)
+                except Exception:
+                    wrong_symbol_ids.append(dict(id=symbol_id, problem='on save'))
 
 
 def stockWatchInfo(symbol_id):

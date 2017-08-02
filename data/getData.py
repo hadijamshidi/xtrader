@@ -3,13 +3,14 @@ from data import redis, dates
 
 server_url = 'http://66.70.160.142:8000/mabna/api'
 
+
 # read historical price data:
-def create_historical_table(num=0):
-    stocks = Stock.objects.all()[num:]
-    for index, stock in enumerate(stocks):
-        data = get_historical_data_stock(stock, index + num)
-        for key in data:
-            redis.hset(stock.symbol_id, key, data[key])
+# def create_historical_table(num=0):
+#     stocks = Stock.objects.all()[num:]
+#     for index, stock in enumerate(stocks):
+#         data = get_historical_data_stock(stock, index + num)
+#         for key in data:
+#             redis.hset(stock.symbol_id, key, data[key])
 
 
 def get_historical_data_stock(stock, index, step=100):
@@ -77,5 +78,3 @@ def read_historical_data_from_server_db():
         for symbol_id in data:
             for key in data[symbol_id]:
                 redis.hset(symbol_id, key, data[symbol_id][key])
-
-

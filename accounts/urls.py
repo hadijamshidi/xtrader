@@ -15,15 +15,21 @@ def merged_dict(dict_a, dict_b):
 
 
 urlpatterns = [
-    url(r'^landing', userena_views.landing, name='index'),
-    url(r'^signupsample', userena_views.signupsample, name='index'),
-    # Signup, signin and signout
     url(r'^signup/$',
-        userena_views.signup,
+        userena_views.signupsample,
         name='userena_signup'),
     url(r'^signin/$',
-        userena_views.signin,
+        userena_views.landing,
         name='userena_signin'),
+    # url(r'^landing', userena_views.landing, name='index'),
+    # url(r'^signupsample', userena_views.signupsample, name='index'),
+    # Signup, signin and signout
+    # url(r'^signup/$',
+    #     userena_views.signup,
+    #     name='userena_signup'),
+    # url(r'^signin/$',
+    #     userena_views.signin,
+    #     name='userena_signin'),
     url(r'^signout/$',
         userena_views.signout,
         name='userena_signout'),

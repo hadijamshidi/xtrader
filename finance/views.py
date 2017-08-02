@@ -101,7 +101,7 @@ def about_us(request):
 
 def index(request):
     login_status = True if not request.user.username else False
-    return render(request, 'index.html',
+    return render(request, 'newindex.html',
                   {'form': AuthenticationForm, 'login_status': login_status, 'username': request.user.username}
                   )
 def stockwatch(request,SymbolId):

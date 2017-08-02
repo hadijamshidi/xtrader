@@ -1,0 +1,418 @@
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: bold;
+	src: url('../fonts/eot/IRANSansWeb_Bold.eot');
+	src: url('../fonts/eot/IRANSansWeb_Bold.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_Bold.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_Bold.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_Bold.ttf') format('truetype');
+}
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: 500;
+	src: url('../fonts/eot/IRANSansWeb_Medium.eot');
+	src: url('../fonts/eot/IRANSansWeb_Medium.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_Medium.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_Medium.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_Medium.ttf') format('truetype');
+}
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: 300;
+	src: url('../fonts/eot/IRANSansWeb_Light.eot');
+	src: url('../fonts/eot/IRANSansWeb_Light.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_Light.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_Light.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_Light.ttf') format('truetype');
+}
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: 200;
+	src: url('../fonts/eot/IRANSansWeb_UltraLight.eot');
+	src: url('../fonts/eot/IRANSansWeb_UltraLight.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_UltraLight.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_UltraLight.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_UltraLight.ttf') format('truetype');
+}
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: normal;
+	src: url('../fonts/eot/IRANSansWeb.eot');
+	src: url('../fonts/eot/IRANSansWeb.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb.ttf') format('truetype');
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    font: 1em IRANSans;
+    color: #58627c;
+}
+
+.fullpage {
+    height: 100%;
+    width: 100%;
+}
+
+section {
+    overflow-y: hidden;
+}
+
+#particle {
+    background: #05648b;
+    background: linear-gradient(#05648b 0%, #1a1c41 100%);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    height: 100%;
+}
+
+#overlay {
+    top: 2em;
+    left: 0;
+    right: 0;
+    position: absolute;
+    max-width: 50em;
+    margin: 0 auto;
+    color: white;
+    text-align: center;
+    font: 1em IRANSans;
+}
+
+#overlay h1 {
+    font-size: 1.75em;
+    line-height: 2em;
+}
+
+#overlay h2 {
+    font-weight: 300;
+}
+
+#btn_wrapper {
+    position: relative;
+    top: 3em;
+}
+
+#btn_wrapper h3 {
+    display: inline-block;
+    width: 9em;
+    line-height: 2.5em;
+    color: white;
+    margin: 1em;
+}
+
+#sign_in {
+    background: #e1a000;
+    border-radius: 2em;
+}
+
+#sign_up {
+    background: #02c39a;
+    border-radius: 2em;
+}
+
+#what_we_do {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 6em;
+    margin: 0 auto;
+    margin-bottom: 1em;
+    font-size: 0.9em;
+    font-weight: 100;
+}
+
+#parallax_container {
+    display: block;
+    position: absolute;
+    max-width: 78em;
+    height: 55%;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    background-image: url(/media/img/overview_img.png);
+}
+
+#online_strategy {
+    background-color: #e6eff3;
+    color: #58627c;
+}
+
+#online_strategy h1 {
+    line-height: 4em;
+    margin-top: 0;
+    font-weight: 400;
+    font-size: 2em;
+    text-align: center;
+}
+
+#boxes_parent {
+    width: 80%;
+    display: flex;
+    margin: 0 auto;
+}
+
+.options_box {
+    width: 30%;
+    height: auto;
+    text-align: center;
+    margin: 2em;
+    justify-content: center;
+}
+
+#waves {
+    display: block;
+    background-image: url(/media/img/waves.svg);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 26em;
+    bottom: 0;
+}
+
+#what_we_do2 {
+    background: white;
+    color: #58627c;
+    overflow-x: hidden;
+}
+
+#what_we_do2 h1 {
+    display: block;
+    font-size: 2em;
+    padding: 4em 4em 0 0;
+}
+
+#what_we_do2 p {
+    display: flex;
+    font-size: 0.9em;
+    width: 27em;
+    padding: 3em 8.6em 0 0;
+}
+
+#what_we_do2 a {
+    color: #58627c;
+    display: inline-block;
+    width: 9em;
+    line-height: 2.5em;
+    border: 1px solid #36d0af;
+    border-radius: 2em;
+    text-align: center;
+    margin: 3em 24em
+}
+
+#our_capabilities {
+    color: #58627c;
+}
+
+#our_capabilities h1, h2 {
+    text-align: center;
+}
+
+#our_capabilities h1 {
+    font-size: 2em;
+}
+
+#our_capabilities h2 {
+    font-weight: 300;
+}
+
+#our_capabilities h3 {
+    font-weight: 400;
+}
+
+#our_capabilities p {
+    margin: 0.5em 0em 2em 0em;
+    font-size: 0.8em;
+}
+
+#rightside_box {
+    top: 5em;
+    right: 20%;
+    position: relative;
+    width: 17em;
+}
+
+#leftside_box {
+    top: -26.5em;
+    right: calc(100% - 37%);
+    position: relative;
+    width: 17em;
+}
+
+#additional_info {
+    position: relative;
+    text-align: center;
+}
+
+#additional_info h1 {
+    font-size: 2em;
+}
+
+#additional_info h2 {
+    font-weight: 400;
+}
+
+#info_wrapper {
+    width: 31em;
+    margin: 6em 8em 0 0;
+}
+
+#info_wrapper p {
+
+    margin-top: 3em;
+    font-size: 0.8em;
+}
+
+#guide {
+    text-align: right;
+    color: white;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    height: 20em;
+    width: 100%;
+    background: linear-gradient(to right, #27b5a5 0%, #5fd865 100%);
+}
+
+#choose_acc {
+    display: flex;
+}
+
+#choose_acc h1, h2 {
+    text-align: center;
+}
+
+#choose_acc h1 {
+    padding-top: 2em;
+    font-size: 2em;
+}
+
+#packages_parent {
+    display: flex;
+    width: 50em;
+    margin: 3em auto;
+    justify-content: center;
+}
+
+.plist {
+    width: 18em;
+    height: 25em;
+    text-align: center;
+    justify-content: center;
+    border: 1px solid #e8edfa;
+    border-radius: 0.6em;
+}
+
+.plist h3 {
+    font-size: 1.1em;
+    font-weight: bold;
+    line-height: 2em;
+    margin-top: 1em;
+}
+
+.plist li::before {
+    content: "• ";
+    color: #6dc66a;
+}
+
+#p2 {
+    box-shadow: 0px 0px 40px 6px rgba(179, 179, 179, 0.55);
+}
+
+#footer {
+    display: flex;
+    background: #071c32;
+    position: relative;
+}
+
+#footer_section_wrapper {
+    float: left;
+    display: flex;
+
+}
+
+#footerend {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 3em;
+    background: #07182b;
+    line-height: 3em;
+}
+
+#footerend ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#footerend li {
+    float: left;
+}

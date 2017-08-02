@@ -52,12 +52,30 @@ $(function () {
             '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
         chart: {
             backgroundColor: {
-                linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
-                stops: [
-                    [0, '#2a2a2b'],
-                    [1, '#3e3e40']
-                ]
+                color: '#fff',
+                /*linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
+                 stops: [
+                 [0, '#2a2a2b'],
+                 [1, '#3e3e40']
+                 ]
+                 },*/
+                style: {
+                    fontFamily: 'IRANSans'
+                },
+                plotBorderColor: '#606063',
+
+                // zooming:
+                // zoomType: 'x',
+                // panning: true,
+                // panKey: 'shift'
             },
+            // backgroundColor: {
+            //     linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
+            //     stops: [
+            //         [0, '#2a2a2b'],
+            //         [1, '#3e3e40']
+            //     ]
+            // },
             style: {
                 fontFamily: 'IranSanc'
             },
@@ -122,7 +140,7 @@ $(function () {
             useHTML: true,
             headerFormat: '<small>{point.key}</small><br><table>',
             pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
-            '<td style="text-align: right"> <b>{point.y} </b></td></tr>',
+            '<td style="text-align: right"> <b style="color: {series.color}">{point.y} </b></td></tr>',
             footerFormat: '</table>',
             valueDecimals: 0,
 

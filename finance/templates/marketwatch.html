@@ -4,14 +4,18 @@
 
 {% block headContent %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/stockwatchstyle.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/marketwatchstyle.css' %}"/>
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/marketwatch.js' %}"></script>
 {% endblock headContent %}
 
 {% load i18n %}
 {% block bodyContent %}
-    <table id="filters place" dir="ltr">
-    </table>
+    <div id="nav-bar"></div>
+    <div id="filters-parrent">
+        <div id="filters-place" dir="rtl"></div>
+    </div>
+
     <!--<div class="divTable" id="filters place" dir="ltr">
         <div class="divTableBody">-->
     <div class="divTable">

@@ -73,14 +73,29 @@ function show_filters_result(result) {
 
 var filters_data = [
     {
-        "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
-        "target": [
-            {'ratio_roe': 'ROE'},
-            {'ratio_roa': 'ROA'},
-            {'ratio_gross_profit_margin': 'حاشيه سود ناخالص'},
-            {'ratio_profit_margin': 'حاشيه سود خالص'}
+    /****************************************************1*************************************************************/
+        'benchmark': [25, 50, 75],
+        'target': [
+
+            {'stockwatch_BuyIndividualVolumePercentage': 'درصد حجم خرید حقیقی'}
+
         ]
     },
+    /****************************************************2*************************************************************/
+    {
+        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+        'target': [
+            {'ratio_cash_ratio': 'نسبت نقد'}
+        ]
+    },
+    /****************************************************3*************************************************************/
+    {
+        "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
+        "target": [
+            {'ratio_roe': 'ROE'}
+        ]
+    },
+    /****************************************************4*************************************************************/
     {
         "benchmark": [20, 40, 50, 60, 80],
         'target': [
@@ -88,73 +103,127 @@ var filters_data = [
         ]
     },
 
-    {
+    /****************************************************5*************************************************************/
+                {
+        'benchmark': [25, 50, 75],
+        'target': [
+
+            {'stockwatch_SellIndividualVolumePercentage': 'درصد حجم فروش حقیقی'}
+        ]
+    },
+    /****************************************************6*************************************************************/
+     {
+        'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
+        'target': [
+            {'ratio_quick_ratio': 'نسبت آني'}
+        ]
+    },
+
+    /****************************************************7*************************************************************/
+        {
+        "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
+        "target": [
+            {'ratio_roa': 'ROA'}
+        ]
+    },
+
+    /****************************************************8*************************************************************/
+
+         {
         'benchmark': [0.25, 0.5, 1, 2, 4,],
         'target': [
             {'ratio_de': 'D/E'}
         ]
     },
-
-    {
-        'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
-        'target': [
-            {'ratio_current_ratio': 'نسبت جاري'},
-            {'ratio_quick_ratio': 'نسبت آني'}
-        ]
-    },
-
-    {
-        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
-        'target': [
-            {'ratio_cash_ratio': 'نسبت نقد'}
-        ]
-    },
-
-    {
-        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
-        'target': [
-            {'ratio_cash_ratio': 'نسبت نقد'}
-        ]
-    },
-
-    {
-        'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
-        'target': [
-            {'stockwatch_PricePerEarning': 'P/E'},
-            {'stockwatch_PricePerEarningGroup': 'P/E گروه'},
-        ]
-    },
-    {
-        'benchmark': [-2000, -1000, 0, 200, 500, 1000, 2000],
-        'target': [
-            {'stockwatch_Eps': 'Eps'}
-        ]
-    },
-    {
-        'benchmark': [-4, -3, -2, -1, 0, 1, 2, 3, 4],
-        'target': [
-            {'stockwatch_ClosingPriceVariationPercent': 'درصد تغییر قیمت پایانی'},
-            {'stockwatch_ReferencePriceVariationPercent': 'درصد تغییر آخرین معامله'},
-        ]
-    },
+    /****************************************************9*************************************************************/
     {
         'benchmark': [25, 50, 75],
         'target': [
-            {'stockwatch_BuyFirmVolumePercentage': 'درصد حجم خرید حقوقی'},
-            {'stockwatch_BuyIndividualVolumePercentage': 'درصد حجم خرید حقیقی'},
-            {'stockwatch_SellFirmVolumePercentage': 'درصد حجم فروش حقوقی'},
-            {'stockwatch_SellIndividualVolumePercentage': 'درصد حجم فروش حقیقی'},
+            {'stockwatch_BuyFirmVolumePercentage': 'درصد حجم خرید حقوقی'}
         ]
     },
+    /****************************************************10*************************************************************/
     {
+        'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
+        'target': [
+            {'ratio_current_ratio': 'نسبت جاري'}
+        ]
+    },
+    /****************************************************11*************************************************************/
+        {
+        "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
+        "target": [
+            {'ratio_profit_margin': 'حاشيه سود خالص'}
+        ]
+    },
+    /****************************************************12*************************************************************/
+    {
+        'benchmark': [-2000, -1000, 0, 200, 500, 1000, 2000],
+        'target': [
+            {'stockwatch_Eps': 'EPS'}
+        ]
+    },
+
+    /****************************************************13*************************************************************/
+    {
+        'benchmark': [25, 50, 75],
+        'target': [
+            {'stockwatch_SellFirmVolumePercentage': 'درصد حجم فروش حقوقی'}
+        ]
+    },
+    /****************************************************14*************************************************************/
+    {
+        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+        'target': [
+            {'ratio_cash_ratio': 'نسبت نقد'}
+        ]
+    },
+    /****************************************************15*************************************************************/
+    {
+        "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
+        "target": [
+            {'ratio_gross_profit_margin': 'حاشيه سود ناخالص'}
+        ]
+    },
+    /****************************************************16*************************************************************/
+    {
+        'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
+        'target': [
+            {'stockwatch_PricePerEarning': 'P/E'}
+        ]
+    },
+
+    /****************************************************17*************************************************************/
+    {
+        'benchmark': [-4, -3, -2, -1, 0, 1, 2, 3, 4],
+        'target': [
+            {'stockwatch_ClosingPriceVariationPercent': 'درصد تغییر قیمت پایانی'}
+        ]
+    },
+
+    /****************************************************18*************************************************************/
+
+        {
         'benchmark': [10, 100000, 500000, 1000000, 5000000],
         'target': [
             {'stockwatch_BaseQuantity': 'حجم مبنا'},
-            // {'stockwatch_BuyIndividualVolumePercentage': 'درصد حجم خرید حقیقی'},
-            // {'stockwatch_SellFirmVolumePercentage': 'درصد حجم فروش حقوقی'},
-            // {'stockwatch_SellIndividualVolumePercentage': 'درصد حجم فروش حقیقی'},
         ]
     },
+    /****************************************************19*************************************************************/
+        {
+        'benchmark': [-4, -3, -2, -1, 0, 1, 2, 3, 4],
+        'target': [
+            {'stockwatch_ReferencePriceVariationPercent': 'درصد تغییر آخرین معامله'}
+        ]
+    },
+    /****************************************************20*************************************************************/
+         {
+        'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
+        'target': [
+            {'stockwatch_PricePerEarningGroup': 'P/E گروه'}
+        ]
+    },
+
 ];
 var filter_ids = [];
 var choosen_filters = {};
@@ -167,8 +236,8 @@ $(document).ready(function () {
 });
 
 function insertfilters(filters) {
-    var filters_div = document.getElementById('filters place'),
-        column_num = 5, tr, counter = 0;
+    var filters_div = document.getElementById('filters-place'),
+        column_num = 4, tr, counter = 0;
     filters.forEach(function (filter) {
         filter['target'].forEach(function (target) {
             if (counter == 0)  tr = document.createElement('tr');
@@ -176,7 +245,7 @@ function insertfilters(filters) {
             tr = insertFilterName(tr, target[name]);
             var select = document.createElement('select'),
                 options = filter['benchmark'];
-            select.addE
+            select.setAttribute('class','filter-selectors');
             tr = insertFilterOptions(tr, name, select, options);
             select.setAttribute('id', name);
             filter_ids.push(name);
@@ -189,7 +258,8 @@ function insertfilters(filters) {
 
 function insertFilterName(tr, name) {
     var td = document.createElement('td');
-    td.innerHTML = name + ': ';
+    td.setAttribute('class','filter-name');
+    td.innerHTML = name;
     tr.appendChild(td);
     return tr
 }

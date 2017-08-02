@@ -1,0 +1,48 @@
+#filters-parrent{
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    top: 15%;
+    background: #1c1f32;
+    margin: 0 auto;
+    left: 0; right: 0;
+    width:99%;
+    border-radius: 0.2rem;
+    border: 1px solid #323651;
+    padding: 1rem 0;
+
+}
+#filters-place{
+    display:inline;
+    text-align: center;
+    margin: 0 auto;
+    left: 0; right: 0;
+    width:180%;
+}
+
+.filter-name{
+    padding-right:0.5rem;
+    width: 12rem;
+}
+
+select {
+    font-family: IRANSans;
+    color: white;
+    direction: rtl;
+    width: 12rem;
+    height: 2.5rem;
+    background-color: #4d5068;
+    border-radius: 0.2rem;
+    border: 1px solid #5c5f77;
+    margin: 0.3rem 0;
+    }
+
+select:after {
+    content:"▼";
+    padding: 12px 8px;
+    position: absolute; right: 10px; top: 0;
+    z-index: 1;
+    text-align: center;
+    width: 10%;
+    height: 100%;
+}

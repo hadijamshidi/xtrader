@@ -15,22 +15,24 @@ function show_filters_result(result) {
         'stockwatch_ClosingPrice': 'قیمت پایانی', 'stockwatch_ClosingPriceVariation': 'تغییر قیمت پایانی',
         'stockwatch_ClosingPriceVariationPercent': 'درصد  تغییر قیمت پایانی',
         'stockwatch_LowestTradePrice': 'کمترین', 'stockwatch_HighestTradePrice': 'بیشترین',
-        'ratio_roa': 'roa',
-        'ratio_roe': 'roe',
+//        'ratio_roa': 'roa',
+//        'ratio_roe': 'roe',
     };
     var place = document.getElementById("filters scan place");
     place.innerHTML = '';
     // creating table tag and attrs:
-    var table = document.createElement("TABLE");
+    var table = document.createElement("div");
     table.setAttribute("id", "table");
     // table.setAttribute("style", "text-align:right");
     // table.setAttribute("class", "ui selectable inverted celled  table");
     place.appendChild(table);
 
     //creating tr for th tags:
-    var tr = document.createElement('TR');
+    var tr = document.createElement('div');
+        tr.setAttribute('class', 'divTableRow main-nav');
     Object.keys(columns).forEach(function (column) {
-        var th = document.createElement('TH');
+        var th = document.createElement('div');
+        th.setAttribute('class', 'divTableCell');
         th.appendChild(document.createTextNode(columns[column]));
         tr.appendChild(th);
     });
@@ -45,7 +47,7 @@ function show_filters_result(result) {
         stock['num'] = num2;
         var tr = document.createElement('div');
         tr.setAttribute('class', 'divTableRow');
-        if (num2 % 2 == 0) tr.setAttribute('style', 'background:#4d5068');
+        if (num2 % 2 == 1) tr.setAttribute('style', 'background:#4d5068');
         num2 += 1;
         var num = 0;
         Object.keys(columns).forEach(function (column) {
@@ -318,3 +320,16 @@ function filter_market(filters) {
         }
     });
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+var  mn = $(".main-nav");
+    mns = "main-nav-scrolled";
+    hdr = $('header').height();
+
+$(window).scroll(function() {
+  if( $(this).scrollTop() > hdr ) {
+    mn.addClass(mns);
+  } else {
+    mn.removeClass(mns);
+  }
+});

@@ -2,7 +2,7 @@
     display: inline-block;
     text-align: center;
     position: relative;
-    top: 15%;
+    top: 13%;
     background: #1c1f32;
     margin: 0 auto;
     left: 0; right: 0;
@@ -45,4 +45,40 @@ select:after {
     text-align: center;
     width: 10%;
     height: 100%;
+}
+
+.divTableBody{
+    background: #1c1f32;
+    width:99%;
+    margin: 0 auto;
+    overflow-x: scroll !important;
+    position:relative;
+    margin-top: 6%;
+/*
+    height: 300px;
+    max-height: 300px;
+*/
+    }
+
+.divTableCell {
+
+    height:3rem;
+    padding: 0.8rem 0.8rem;
+}
+
+
+
+.main-nav-scrolled {
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+.main-nav,
+.main {
+  position: relative;
+}
+header {
+  height: 300px;
+  padding-top: 50px;
+  background: #f07057;
 }

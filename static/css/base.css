@@ -2,6 +2,10 @@ html{
     background-color: #1c1f32;
     font-family: IRANSans;
 }
+
+body{
+height:100%
+}
 #master__wrapper {
     display: block;
     position: fixed;

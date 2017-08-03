@@ -5,6 +5,6 @@ from .models import *
 admin.site.register(StockWatch)
 admin.site.register(Ratio)
 admin.site.register(Income)
-admin.site.register(balanceSheet)
+admin.site.register(BalanceSheet)
 admin.site.register(MarketWatch)
 

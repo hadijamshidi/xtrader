@@ -1,8 +1,7 @@
-from datetime import datetime, timedelta
-from data.models import StockWatch as MarketWatch
-from . import jalali
+from data.models import StockWatch
+from data import redis, jalali
+from datetime import datetime
 import time
-from data import redis
 
 
 def to_timestamp(date, mode):
@@ -65,22 +64,22 @@ class Check:
         return {'market_time': market_time, 'state': state}
 
     def last_market(self):
-        last_day = MarketWatch.objects.order_by('-LastTradeDate').first()
+        last_day = StockWatch.objects.order_by('-LastTradeDate').first()
         last_day = to_str(last_day.LastTradeDate)
         return last_day
 
     def find_the_last_day(self):
         for delta in range(10):
-            sample = self.now - timedelta(delta)
-            if MarketWatch.objects.filter(LastTradeDate=self.strdate(sample)).exists():
-                return self.strdate(sample)
+            # sample = self.now - timedelta(delta)
+            if StockWatch.objects.filter(LastTradeDate=self.strdate()).exists():
+                return self.strdate()
         return None
 
     def strdate(self):
         return str(self.now)[:10]
 
     def is_history_updated(self):
-        last_market = MarketWatch.objects.order_by('-LastTradeDate').first()
+        last_market = StockWatch.objects.order_by('-LastTradeDate').first()
         SymbolId = last_market.SymbolId
         last_market_date = to_str(last_market.LastTradeDate)
         last_historical_date = redis.hget(SymbolId, 'date')[-1]

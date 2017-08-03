@@ -12,7 +12,7 @@
 <body>
 <div id="username-block">
     <a id="username-text" href="#">هادی جمشیدی</a>
-    <img id="user-pic" height="35px" width="35px" src="/media/pictures/hadi.jpeg" title="I'm Founder :D"/>
+    <img id="user-pic" height="35px" width="35px" src="/media/pictures/hadi.jpeg" title="I'm Professional"/>
 </div>
 <ul id="top-btns">
     <a href="{% url 'finance:stockwatch' %}">
@@ -27,9 +27,15 @@
     </a>
 </ul>
 <ul id="left-btns">
-    <li class="main-btns" id="setting-btn"></li>
-    <li class="main-btns" id="info-btn"></li>
-    <li class="main-btns" id="logout-btn"></li>
+    <a href="#">
+        <li class="main-btns" id="setting-btn"></li>
+    </a>
+    <a href="#">
+        <li class="main-btns" id="info-btn"></li>
+    </a>
+    <a href="{% url 'accounts:userena_signout' %}">
+        <li class="main-btns" id="logout-btn"></li>
+    </a>
 </ul>
 <div id="master__wrapper" style="height:100%; overflow-y:auto" dir="rtl">
     {% block bodyContent %}

@@ -7,13 +7,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse, Http404, HttpResponseNotFound
 from accounts.forms import AuthenticationForm
 
-
 from data.dates import Check
 # Create your views here.
 
 import inspect
 from django.shortcuts import render
 from django.shortcuts import render, redirect
+
 all_functions = dict(inspect.getmembers(data_handling, inspect.isfunction))
 
 
@@ -57,9 +57,9 @@ def update_indicators(request):
         return JsonResponse('only GET', safe=False)
 
 
+@login_required(login_url='accounts:userena_signin')
 def market_watch(request):
     return render(request, 'marketwatch.html')
-
 
 
 def filtermarket(request):
@@ -73,12 +73,13 @@ def filtermarket(request):
     return HttpResponse(json.dumps(results))
 
 
-
 def indicators_api(request):
     if request.method == 'GET':
         return JsonResponse(json.dumps(indicator.get_group_api()), safe=False)
     else:
         return JsonResponse(json.dumps({'api': 'null'}), safe=False)
+
+
 def back_test(request):
     if request.method == 'GET':
         data = json.loads(request.GET['param'])
@@ -104,10 +105,13 @@ def index(request):
     return render(request, 'newindex.html',
                   {'form': AuthenticationForm, 'login_status': login_status, 'username': request.user.username}
                   )
-def stockwatch(request,SymbolId):
+
+
+@login_required(login_url='accounts:userena_signin')
+def stockwatch(request, SymbolId):
     if not SymbolId:
         return redirect('/stockwatch/IRO1IKCO0001')
     from data.models import StockWatch as st
     stock = st.objects.get(SymbolId=SymbolId)
-    stockWatchDict = {'SymbolId': stock.SymbolId, 'title':stock.InstrumentName}
+    stockWatchDict = {'SymbolId': stock.SymbolId, 'title': stock.InstrumentName}
     return render(request, 'stockwatch.html', stockWatchDict)

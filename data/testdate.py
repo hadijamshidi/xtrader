@@ -1,5 +1,5 @@
-from datetime import datetime
-from data import manage_data as data
+# from datetime import datetime
+# from data import manage_data as data
 
 
 # def update_MarketWatch():

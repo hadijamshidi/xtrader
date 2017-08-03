@@ -43,7 +43,7 @@ def IncomeIndex(symbol='خودرو'):
     return crawler(url=url, data=data)
 
 
-def RatioIndex(symbol='خودرو', year=1395):
+def RatioIndex(symbol='خودرو'):
     data = {'symbolpara': symbol}
     url = 'http://www.fipiran.com/Symbol/RatioType1210Year'
     return crawler(url=url, data=data)

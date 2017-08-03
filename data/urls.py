@@ -7,6 +7,4 @@ urlpatterns = [
     url(r'^stockwatch/(?P<SymbolId>\w+)/$', views.stockwatch),
     url(r'^symbol-search/q=(?P<query>\w+)', views.symbol_search, name='symbol_search'),
     url(r'^get-data/(?P<SymbolId>\w+)/', views.get_data, name='get_data'),
-    # SymbolId
-    # url(r'^start/$', views.update_MarketWatch),
 ]

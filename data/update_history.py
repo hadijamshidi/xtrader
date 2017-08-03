@@ -1,13 +1,8 @@
-from data.models import StockWatch as MarketWatch
-from datetime import datetime, timedelta
+from data.models import StockWatch
 from data import redis, manage_data as data
 import requests as r
 from data import dates
 from xtrader.localsetting import farabi_login_data
-
-
-# from task.update_history import update_history as h
-# use farabixo
 
 
 def update_history_with_farabixo(num=0, update_market_watch=True):
@@ -18,11 +13,8 @@ def update_history_with_farabixo(num=0, update_market_watch=True):
 
 def get_updated_stocks_symbol_ids(num=0, update_market_watch=True):
     if update_market_watch:
-        data.call_threads_for_marketWatch()
-    symbols = MarketWatch.objects.filter(LastTradeDate=dates.Check().last_market()).values('SymbolId')
-    # TODO: check time better
-    # if not symbols.exists():
-    #     symbols = MarketWatch.objects.filter(LastTradeDate=str(datetime.today()-timedelta(1))[:10]).values('SymbolId')
+        data.update_StockWatch()
+    symbols = StockWatch.objects.filter(LastTradeDate=dates.Check().last_market()).values('SymbolId')
     keys = redis.keys()
     keys = [key.decode() for key in keys]
     symbol_ids = []
@@ -49,7 +41,6 @@ def update_stocks_with_farabixo(symbol_ids, num):
         except Exception:
             print('problem at sending request of SymbolId: {} and num {}'.format(symbol_id, index + num))
             continue
-
         historical_data_keys = dict(
             date='LastTradeDate',
             close='ClosingPrice',

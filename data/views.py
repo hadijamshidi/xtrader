@@ -1,14 +1,9 @@
-# from django.shortcuts import render
-# Create your views here.
-from django.http import HttpResponse
 from xtrader import localsetting as local
 import requests
 import json
-from datetime import datetime
-from django.http import HttpResponse
 from data import redis
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound
+# from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from .models import StockWatch as Symbol
 from django.http import JsonResponse
 
@@ -68,9 +63,6 @@ def get_data(request, SymbolId):
     df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
     stock = Symbol.objects.get(SymbolId=SymbolId)
     stock_information = dict(
-        # per_name=stock.mabna_short_name,
-        # measurement_name=name,
-        # name=stock.mabna_name,
         per_name=stock.InstrumentName,
         measurement_name=stock.SymbolId,
         name=stock.InstrumentName,

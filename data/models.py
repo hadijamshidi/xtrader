@@ -140,7 +140,7 @@ class StockWatch(models.Model):
         return data
 
 
-class balanceSheet(models.Model):
+class BalanceSheet(models.Model):
     StockWatch = models.ForeignKey(StockWatch, verbose_name='سهم ')
     SymbolId = models.CharField(max_length=80, null=True, blank=True)
     InstrumentName = models.CharField(max_length=80)

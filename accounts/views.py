@@ -22,7 +22,7 @@ from userena import settings as userena_settings
 from guardian.decorators import permission_required_or_403
 
 import warnings
-import collections
+
 
 class ExtraContextTemplateView(TemplateView):
     """ Add extra context to a simple template view """
@@ -144,7 +144,7 @@ def signup(request, signup_form=SignupFormExtra,
             return redirect(redirect_to)
 
     if not extra_context: extra_context = dict()
-    myorder =[
+    myorder = [
         'first_name',
         'last_name',
         'username',
@@ -210,7 +210,7 @@ def activate(request, activation_key,
     """
     try:
         if (not UserenaSignup.objects.check_expired_activation(activation_key)
-                or not userena_settings.USERENA_ACTIVATION_RETRY):
+            or not userena_settings.USERENA_ACTIVATION_RETRY):
             user = UserenaSignup.objects.activate_user(activation_key)
             if user:
                 # Sign the user in.
@@ -416,10 +416,11 @@ def disabled_account(request, username, template_name, extra_context=None):
     return ExtraContextTemplateView.as_view(template_name=template_name,
                                             extra_context=extra_context)(request)
 
+
 def landing(request, auth_form=AuthenticationForm,
-           template_name='landing.html',
-           redirect_field_name=REDIRECT_FIELD_NAME,
-           redirect_signin_function=signin_redirect, extra_context=None):
+            template_name='landing.html',
+            redirect_field_name=REDIRECT_FIELD_NAME,
+            redirect_signin_function=signin_redirect, extra_context=None):
     """
     Signin using email or username with password.
 
@@ -461,7 +462,8 @@ def landing(request, auth_form=AuthenticationForm,
 
     """
     form = auth_form()
-
+    username = request.user.username
+    if username: return redirect('/stockwatch/IRO1IKCO0001')
     if request.method == 'POST':
         form = auth_form(request.POST, request.FILES)
         if form.is_valid():
@@ -486,30 +488,36 @@ def landing(request, auth_form=AuthenticationForm,
                 # Whereto now?
                 redirect_to = redirect_signin_function(
                     request.GET.get(redirect_field_name,
-                                    request.POST.get(redirect_field_name)), user)
+                                    '/stockwatch/'), user)
                 return HttpResponseRedirect(redirect_to)
+                # redirect_to = redirect_signin_function(
+                #     request.GET.get(redirect_field_name,
+                #                     request.POST.get(redirect_field_name)), user)
+                # return HttpResponseRedirect(redirect_to)
+                # return HttpResponseRedirect('/stockwatch/')
             else:
                 return redirect(reverse('accounts:userena_disabled',
                                         kwargs={'username': user.username}))
 
     if not extra_context: extra_context = dict()
     errors = {}
-    if '<ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>نام کاربری وارد شده وجود ندارد!</li></ul></li></ul>' == str(form.errors):
+    if '<ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>نام کاربری وارد شده وجود ندارد!</li></ul></li></ul>' == str(
+            form.errors):
         errors['type'] = 'username'
-    elif '<ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>گذرواژه اشتباه است!</li></ul></li></ul>' == str(form.errors):
+    elif '<ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>گذرواژه اشتباه است!</li></ul></li></ul>' == str(
+            form.errors):
         errors['type'] = 'pass'
 
     # form
     extra_context.update({
         'form': form,
-        'errors':errors,
+        'errors': errors,
         'next': request.GET.get(redirect_field_name,
                                 request.POST.get(redirect_field_name)),
     })
 
     return ExtraContextTemplateView.as_view(template_name=template_name,
                                             extra_context=extra_context)(request)
-
 
 
 @secure_required
@@ -940,10 +948,12 @@ def profile_list(request, page=1, template_name='userena/profile_list.html',
                                    template_name=template_name,
                                    extra_context=extra_context,
                                    **kwargs)(request)
+
+
 @secure_required
 def signupsample(request, signup_form=SignupFormExtra,
-           template_name='signupsample.html', success_url=None,
-           extra_context=None):
+                 template_name='signupsample.html', success_url=None,
+                 extra_context=None):
     """
     Signup of an account.
 
@@ -1016,7 +1026,7 @@ def signupsample(request, signup_form=SignupFormExtra,
             return redirect(redirect_to)
 
     if not extra_context: extra_context = dict()
-    myorder =[
+    myorder = [
         'first_name',
         'last_name',
         'username',

@@ -121,8 +121,6 @@ def stockwatch(request, SymbolId):
 def get_user(request):
     username = request.user.username
     user = User.objects.get_by_natural_key(username=username)
-    firstname = user.first_name
-    lastname = user.last_name
-    name = firstname + ' ' + lastname
+    name = user.get_full_name()
     url = '/media/pictures/hadi.jpeg' if username == 'hadi' else 'https://www.awicons.com/free-icons/download/application-icons/dragon-soft-icons-by-artua.com/png/512/User.png'
     return {'name': name, 'img_url': url}

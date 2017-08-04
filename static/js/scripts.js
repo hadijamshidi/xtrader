@@ -3,19 +3,19 @@
  */
 var indicators;
 var output = '';
+
 // TODO: reading indicators
 $.ajax({
     type: 'GET',
     url: "/indicators-api",
-    // data: {
-    //     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-    // },
     success: function (result) {
         indicators = JSON.parse(result);
         insert_indicators();
     }
 });
+var isScaned = false;
 var isStrategySaved;
+var isBacktested = false;
 var drawing_tool = {'tool': {'name': 'line', 'params': {}}, 'status': 0, 'num_of_points': 0};
 var per_name;
 var portfo = [];
@@ -287,6 +287,7 @@ $(function () {
 });
 function load_data(url) {
     waiting('wait');
+    isBacktested = false;
     $.getJSON(url, function (data) {
         // window.history.pushState('page2', 'Title', '/backtest/stock=' + symbol_id);
         // console.log(data);
@@ -453,7 +454,8 @@ function check_distance(point1, point2) {
     }
 }
 function check_strategies_number() {
-
+    var good_mouse_color = '#00ca9d',
+        bad_mouse_color = '#E35C67';
     var stra_num = $('#strategies > div').length;
     var buttons = ['back_test_button', 'delete_all_button', 'save_button', 'scan_button'];
     buttons.forEach(function (button_id) {
@@ -461,17 +463,18 @@ function check_strategies_number() {
             document.getElementById(button_id).remove();
         }
     });
-    // document.getElementById('strategy place').setAttribute('style', 'display:none');
+    document.getElementById('results').style.display = 'none';
     if (stra_num > 0) {
-        // document.getElementById('strategy place').setAttribute('style', 'display:block');
-        // creating backtest button
-        var back_test_button = document.createElement('button');
+        document.getElementById('results').style.display = 'block';
+        var button_place = document.getElementById('button_place');
+
+        var back_test_button = document.createElement('a');
         back_test_button.setAttribute('id', 'back_test_button');
-        back_test_button.setAttribute('class', 'ui button');
+        back_test_button.setAttribute('class', 'item');
         back_test_button.addEventListener('mouseover', function () {
             for (var i = 0; i < num_of_charts; i++) {
                 if (document.getElementById('' + i)) {
-                    document.getElementById('' + i).style.color = 'yellow';
+                    document.getElementById('' + i).style.color = good_mouse_color;
                 }
             }
         });
@@ -483,22 +486,21 @@ function check_strategies_number() {
             }
         });
         back_test_button.addEventListener('click', function () {
-            // get_settings();
-            apply();
+            toggle(this);
         });
         var txt = document.createTextNode('بک تست');
         back_test_button.appendChild(txt);
-        document.getElementById('button_place').appendChild(back_test_button);
+        button_place.appendChild(back_test_button);
 
 
         // creating save button
-        var save_button = document.createElement('button');
+        var save_button = document.createElement('a');
         save_button.setAttribute('id', 'save_button');
-        save_button.setAttribute('class', 'ui button');
+        save_button.setAttribute('class', 'item');
         save_button.addEventListener('mouseover', function () {
             for (var i = 0; i < num_of_charts; i++) {
                 if (document.getElementById('' + i)) {
-                    document.getElementById('' + i).style.color = 'yellow';
+                    document.getElementById('' + i).style.color = good_mouse_color;
                 }
             }
             // document.getElementById('strategies').style.color = 'red';
@@ -512,21 +514,22 @@ function check_strategies_number() {
         });
         save_button.addEventListener('click', function () {
             // pick_portfolio('block');
-            save_filters('default');
+            // toggle(this);
+            // save_filters('default');
         });
         var txt = document.createTextNode('‌ذخیره استراتژی');
         save_button.appendChild(txt);
-        document.getElementById('button_place').appendChild(document.createTextNode('  '));
-        document.getElementById('button_place').appendChild(save_button);
+        // button_place.appendChild(document.createTextNode('  '));
+        // button_place.appendChild(save_button);
 
         // creating scan button
-        var scan_button = document.createElement('button');
+        var scan_button = document.createElement('a');
         scan_button.setAttribute('id', 'scan_button');
-        scan_button.setAttribute('class', 'ui button');
+        scan_button.setAttribute('class', 'item');
         scan_button.addEventListener('mouseover', function () {
             for (var i = 0; i < num_of_charts; i++) {
                 if (document.getElementById('' + i)) {
-                    document.getElementById('' + i).style.color = 'yellow';
+                    document.getElementById('' + i).style.color = good_mouse_color;
                 }
             }
         });
@@ -538,22 +541,22 @@ function check_strategies_number() {
             }
         });
         scan_button.addEventListener('click', function () {
-            scan();
+            toggle(this);
         });
         var txt = document.createTextNode('اسکن بازار');
         scan_button.appendChild(txt);
-        document.getElementById('button_place').appendChild(document.createTextNode('  '));
-        document.getElementById('button_place').appendChild(scan_button);
+        button_place.appendChild(document.createTextNode('  '));
+        button_place.appendChild(scan_button);
 
         // creating delete button
-        var delete_all_button = document.createElement('button');
+        var delete_all_button = document.createElement('a');
         delete_all_button.setAttribute('id', 'delete_all_button');
-        delete_all_button.setAttribute('class', 'ui button');
-        delete_all_button.setAttribute('style', 'float:left');
+        delete_all_button.setAttribute('class', 'left negative item');
+        // delete_all_button.setAttribute('style', 'float:left');
         delete_all_button.addEventListener('mouseover', function () {
             for (var i = 0; i < num_of_charts; i++) {
                 if (document.getElementById('' + i)) {
-                    document.getElementById('' + i).style.color = 'black';
+                    document.getElementById('' + i).style.color = bad_mouse_color;
                 }
             }
         });
@@ -569,12 +572,12 @@ function check_strategies_number() {
         });
         var txt = document.createTextNode('پاک کردن همه');
         delete_all_button.appendChild(txt);
-        document.getElementById('button_place').appendChild(document.createTextNode('  '));
-        document.getElementById('button_place').appendChild(delete_all_button);
+        button_place.appendChild(document.createTextNode('  '));
+        button_place.appendChild(delete_all_button);
     }
 }
 function show_market() {
-    var div = document.getElementById('scan place');
+    var div = document.getElementById('scan-place');
     div.setAttribute('style', 'display: block');
 }
 function delete_all(targets, save) {
@@ -620,7 +623,7 @@ function delete_all(targets, save) {
                 document.getElementById("table_place").setAttribute('style', 'display:none');
                 break;
             case 'scan':
-                var div = document.getElementById('scan place');
+                var div = document.getElementById('scan-place');
                 div.setAttribute('style', 'display: none');
                 save_filters('default');
                 isStrategySaved = false;
@@ -692,7 +695,6 @@ function apply() {
     };
     ['stop loss', 'take profit'].forEach(function (setting) {
         ['value', 'apply'].forEach(function (conf) {
-            console.log(setting + conf);
             config[setting][conf] = document.getElementById(setting + ' ' + conf).value;
         })
     });
@@ -718,6 +720,7 @@ function apply() {
                 alert('این فیلترها هیچ اشتراکی با هم ندارند.');
                 waiting('default');
             } else {
+                isBacktested = true;
                 apply2(res);
             }
         }
@@ -732,35 +735,42 @@ function apply2(backtest) {
     document.getElementById('table_place').innerHTML = '';
     if (num_of_trades != 0) {
         add_table();
+        var row_num = 0;
         for (var i = num_of_trades; i > 0; i -= 1) {
             if (Object.keys(res["" + i]).length == 2) {
-                tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["sell"]["date"]][0], translate(res["" + i]["sell"]['action']), dohlcv[res["" + i]["sell"]["date"]][4], 'NaN', res["" + i]["sell"]["candles in trade"], res["" + i]["sell"]["return"], res["" + i]["sell"]["capital"]];
+                tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["sell"]["date"]][0], translate(res["" + i]["sell"]['action']), quick_check(dohlcv[res["" + i]["sell"]["date"]][4]), 'NaN', res["" + i]["sell"]["candles in trade"], res["" + i]["sell"]["return"], res["" + i]["sell"]["capital"]];
                 if (res["" + i]["sell"]['action'] != 'Not Sold Yet') {
                     sell_b.unshift([dohlcv[res["" + i]["sell"]["date"]][0], dohlcv[res["" + i]["sell"]["date"]][2]]);
                 }
-                appendRow(tbl);
+                appendRow(tbl, row_num);
+                row_num += 1;
             } else {
                 // console.log('no sold yet');
                 tbl = [num_of_trades - i + 1, dohlcv[dohlcv.length - 1][0], res["" + i]["sell"]['action'], 'NaN', 'NaN', 'NaN', "NaN", "NaN"];
-                appendRow(tbl);
+                appendRow(tbl, row_num);
+                row_num += 1;
             }
             if (i == 1) {
-                tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["buy"]["date"]][0], translate(res["" + i]["buy"]['action']), dohlcv[res["" + i]["buy"]["date"]][4], translate(res["" + i]["buy"]["waiting candles"]), 'NaN', 'NaN', translate('Initial Deposit: ') + numberSeparator(res["" + i]["buy"]["initaial deposit"])];
+                tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["buy"]["date"]][0], translate(res["" + i]["buy"]['action']), quick_check(dohlcv[res["" + i]["buy"]["date"]][4]), translate(res["" + i]["buy"]["waiting candles"]), 'NaN', 'NaN', translate('Initial Deposit: ') + numberSeparator(res["" + i]["buy"]["initaial deposit"])];
                 buy_b.unshift([dohlcv[res["" + i]["buy"]["date"]][0], dohlcv[res["" + i]["buy"]["date"]][2]]);
-                appendRow(tbl);
+                appendRow(tbl, row_num);
+                row_num += 1;
             } else {
-                tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["buy"]["date"]][0], translate(res["" + i]["buy"]['action']), dohlcv[res["" + i]["buy"]["date"]][4], res["" + i]["buy"]["waiting candles"], 'NaN', 'NaN', 'NaN'];
+                tbl = [num_of_trades - i + 1, dohlcv[res["" + i]["buy"]["date"]][0], translate(res["" + i]["buy"]['action']), quick_check(dohlcv[res["" + i]["buy"]["date"]][4]), res["" + i]["buy"]["waiting candles"], 'NaN', 'NaN', 'NaN'];
                 buy_b.unshift([dohlcv[res["" + i]["buy"]["date"]][0], dohlcv[res["" + i]["buy"]["date"]][2]]);
-                appendRow(tbl);
+                appendRow(tbl, row_num);
+                row_num += 1;
             }
         }
         var avg = backtest['summery']['average'];
         tbl = ['', '', '', translate('Average'), avg['waiting candles'], avg['candles in trade'], avg['profits'], "NaN"];
-        appendRow(tbl);
+        appendRow(tbl, row_num);
+        row_num += 1;
 
         var std = backtest['summery']['std'];
         tbl = ['', '', '', translate('Standard Deviation'), std['waiting candles'], std['candles in trade'], String(std['profits']) + '%', "NaN"];
-        appendRow(tbl);
+        appendRow(tbl, row_num);
+        row_num += 1;
 
 
         var chart = $('#container').highcharts();
@@ -849,7 +859,7 @@ function save_filters(pointer) {
                 waiting(pointer);
                 // console.log(result);
                 if (result == 'delete') {
-                    delete_strategy({'name':user_current_strategy});
+                    // delete_strategy({'name': user_current_strategy});
                     // var opt = document.getElementById("strategy name: " + user_current_strategy);
                     // opt.parentNode.removeChild(opt);
                     // var name_place = document.getElementById('strategys_name_place');
@@ -892,7 +902,6 @@ function add_stock(result) {
 }
 function load_strategy_names() {
     delete_all(['indicators'], false);
-    console.log('here');
     $.ajax({
         type: 'GET',
         url: "/get_strategy_names",
@@ -905,12 +914,12 @@ function load_strategy_names() {
                 user_strategy_names = strategy_names;
                 user_current_strategy = strategy_names[0];
                 // load_alternative_strategy({});
-                load_strategy({'name':strategy_names[0]});
+                load_strategy({'name': strategy_names[0]});
             } else {
                 user_current_strategy = 'جدید';
                 user_strategy_names = ['جدید'];
             }
-            insert_strategys_names();
+            // insert_strategys_names();
         }
     });
 }
@@ -939,11 +948,11 @@ function load_strategy(data) {
             //     add_stock(stock);
             // });
             isStrategySaved = true;
-            set_strategy_name({'name': name});
+            // set_strategy_name({'name': name});
             // user_current_strategy = name;
         },
         error: function () {
-            delete_strategy({'name':name});
+            delete_strategy({'name': name});
             load_alternative_strategy({});
             // create_name_option({'new_name':name});
             // var opt = document.getElementById("strategy name: " + name);
@@ -955,32 +964,118 @@ function load_strategy(data) {
     waiting('default');
 }
 function scan() {
-    waiting('wait');
-    $.ajax({
-        type: 'GET',
-        url: "/scan_market",
-        data: {
-            name: user_current_strategy,
-        },
-        error: function () {
-            waiting('default');
-            alert('متاسفانه مشکلی پیش آمد.');
-            // alert('Sorry something went wrong.');
-        },
-        beforeSend: function () {
-            if (!isStrategySaved) {
-                save_filters('wait');
-            }
-        },
-        success: function (result) {
-            result = JSON.parse(result);
-            show_scan_result(result);
-            show_market();
-            waiting('default');
+    console.log('scan called: ' + isScaned);
+    if (!isScaned) {
+        isScaned = true;
+        // waiting('wait');
+        // $.ajax({
+        //     type: 'GET',
+        //     url: "/scan_market",
+        //     data: {
+        //         name: user_current_strategy,
+        //     },
+        //     error: function () {
+        //         waiting('default');
+        //         alert('متاسفانه مشکلی پیش آمد.');
+        //         // alert('Sorry something went wrong.');
+        //     },
+        //     beforeSend: function () {
+        //         if (!isStrategySaved) {
+        //             save_filters('wait');
+        //         }
+        //     },
+        //     success: function (result) {
+        //         // console.log(result);
+        //         result = JSON.parse(result);
+        //         show_scan_result(result);
+        //         show_market();
+        //         waiting('default');
+        //         isScaned = true;
+        //     }
+        // });
+        var result = '{"buy": [{"name": "\u062f\u0627\u0631\u0648\u0633\u0627\u0632\u064a \u0643\u0627\u0633\u067e\u064a\u0646 \u062a\u0627\u0645\u064a\u0646         ", "title": "title", "symbol_id": "IRO3KSPZ0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u062f\u0627\u0631\u0648\u0633\u0627\u0632\u064a \u0643\u0627\u0633\u067e\u064a\u0646 \u062a\u0627\u0645\u064a\u0646         ", "symbol_name": "\u06a9\u0627\u0633\u067e\u06cc\u0646"}, {"name": "\u0634\u064a\u0631 \u067e\u0627\u0633\u062a\u0648\u0631\u064a\u0632\u0647 \u067e\u06af\u0627\u0647 \u0641\u0627\u0631\u0633", "title": "title", "symbol_id": "IRO3GFRZ0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0634\u064a\u0631 \u067e\u0627\u0633\u062a\u0648\u0631\u064a\u0632\u0647 \u067e\u06af\u0627\u0647 \u0641\u0627\u0631\u0633", "symbol_name": "\u063a\u0641\u0627\u0631\u0633"}, {"name": "\u067e\u0634\u0645\u200c\u0634\u064a\u0634\u0647\u200c\u0627\u064a\u0631\u0627\u0646\u200c               ", "title": "title", "symbol_id": "IRO1PSIR0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u067e\u0634\u0645\u200c\u0634\u064a\u0634\u0647\u200c\u0627\u064a\u0631\u0627\u0646\u200c               ", "symbol_name": "\u06a9\u067e\u0634\u06cc\u0631"}, {"name": "\u0641\u0631\u0627\u0648\u0631\u062f\u0647\u200c \u0647\u0627\u064a\u200c \u0646\u0633\u0648\u0632\u0627\u064a\u0631\u0627\u0646\u200c      ", "title": "title", "symbol_id": "IRO1NASI0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0641\u0631\u0627\u0648\u0631\u062f\u0647\u200c \u0647\u0627\u064a\u200c \u0646\u0633\u0648\u0632\u0627\u064a\u0631\u0627\u0646\u200c      ", "symbol_name": "\u06a9\u0641\u0631\u0627"}, {"name": "\u062a\u0648\u0644\u064a\u062f\u064a\u200c\u0645\u0647\u0631\u0627\u0645\u200c                 ", "title": "title", "symbol_id": "IRO1MRAM0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u062a\u0648\u0644\u064a\u062f\u064a\u200c\u0645\u0647\u0631\u0627\u0645\u200c                 ", "symbol_name": "\u063a\u0645\u0647\u0631\u0627"}, {"name": "\u0633\u0631\u0645\u0627\u064a\u0647\u200c \u06af\u0630\u0627\u0631\u064a\u200c \u0622\u062a\u064a\u0647\u200c \u062f\u0645\u0627\u0648\u0646\u062f   ", "title": "title", "symbol_id": "IRO1ATDM0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0633\u0631\u0645\u0627\u064a\u0647\u200c \u06af\u0630\u0627\u0631\u064a\u200c \u0622\u062a\u064a\u0647\u200c \u062f\u0645\u0627\u0648\u0646\u062f   ", "symbol_name": "\u0648\u0627\u062a\u06cc"}, {"name": "\u062a\u0648\u0644\u064a\u062f \u0633\u0645\u0648\u0645\u200c \u0639\u0644\u0641\u200c \u0643\u0634\u200c          ", "title": "title", "symbol_id": "IRO7TSAP0001", "category": "\u067e\u0627\u06cc\u0647 \u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u062a\u0648\u0644\u064a\u062f \u0633\u0645\u0648\u0645\u200c \u0639\u0644\u0641\u200c \u0643\u0634\u200c          ", "symbol_name": "\u0634\u0633\u0645"}, {"name": "\u0634\u0647\u062f \u0627\u064a\u0631\u0627\u0646\u200c                    ", "title": "title", "symbol_id": "IRO1SHAD0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0634\u0647\u062f \u0627\u064a\u0631\u0627\u0646\u200c                    ", "symbol_name": "\u063a\u0634\u0647\u062f"}, {"name": "\u0639\u0645\u0631\u0627\u0646\u200c\u0648\u062a\u0648\u0633\u0639\u0647\u200c\u0641\u0627\u0631\u0633\u200c            ", "title": "title", "symbol_id": "IRO1OFRS0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0639\u0645\u0631\u0627\u0646\u200c\u0648\u062a\u0648\u0633\u0639\u0647\u200c\u0641\u0627\u0631\u0633\u200c            ", "symbol_name": "\u062b\u0641\u0627\u0631\u0633"}, {"name": "\u0633\u0627\u064a\u067e\u0627\u0622\u0630\u064a\u0646\u200c                    ", "title": "title", "symbol_id": "IRO1AZIN0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0633\u0627\u064a\u067e\u0627\u0622\u0630\u064a\u0646\u200c                    ", "symbol_name": "\u062e\u0627\u0630\u06cc\u0646"}, {"name": "\u0641\u0631\u0622\u0648\u0631\u062f\u0647\u200c\u0647\u0627\u064a\u200c\u063a\u062f\u0627\u064a\u064a\u200c\u0648\u0642\u0646\u062f\u067e\u064a\u0631\u0627\u0646\u0634\u0647\u0631", "title": "title", "symbol_id": "IRO1GPSH0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0641\u0631\u0622\u0648\u0631\u062f\u0647\u200c\u0647\u0627\u064a\u200c\u063a\u062f\u0627\u064a\u064a\u200c\u0648\u0642\u0646\u062f\u067e\u064a\u0631\u0627\u0646\u0634\u0647\u0631", "symbol_name": "\u0642\u067e\u06cc\u0631\u0627"}, {"name": "\u06af\u0633\u062a\u0631\u0634 \u0635\u0646\u0627\u064a\u0639 \u067e\u064a\u0627\u0645              ", "title": "title", "symbol_id": "IRO7PYAP0001", "category": "\u067e\u0627\u06cc\u0647 \u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u06af\u0633\u062a\u0631\u0634 \u0635\u0646\u0627\u064a\u0639 \u067e\u064a\u0627\u0645              ", "symbol_name": "\u0644\u067e\u06cc\u0627\u0645"}, {"name": "\u06af\u0627\u0632\u0644\u0648\u0644\u0647\u200c                      ", "title": "title", "symbol_id": "IRO7GAZP0001", "category": "\u067e\u0627\u06cc\u0647 \u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u06af\u0627\u0632\u0644\u0648\u0644\u0647\u200c                      ", "symbol_name": "\u067e\u0644\u0648\u0644\u0647"}, {"name": "\u0635\u0646\u0627\u064a\u0639\u200c \u0643\u0627\u0634\u064a\u200c \u0648 \u0633\u0631\u0627\u0645\u064a\u0643\u200c \u0633\u064a\u0646\u0627   ", "title": "title", "symbol_id": "IRO1SINA0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0635\u0646\u0627\u064a\u0639\u200c \u0643\u0627\u0634\u064a\u200c \u0648 \u0633\u0631\u0627\u0645\u064a\u0643\u200c \u0633\u064a\u0646\u0627   ", "symbol_name": "\u06a9\u0633\u0627\u0648\u0647"}, {"name": "\u0642\u0646\u062f \u0634\u064a\u0631\u0648\u0627\u0646 \u0642\u0648\u0686\u0627\u0646 \u0648 \u0628\u062c\u0646\u0648\u0631\u062f     ", "title": "title", "symbol_id": "IRO3GHSZ0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0642\u0646\u062f \u0634\u064a\u0631\u0648\u0627\u0646 \u0642\u0648\u0686\u0627\u0646 \u0648 \u0628\u062c\u0646\u0648\u0631\u062f     ", "symbol_name": "\u0642\u0634\u06cc\u0631"}, {"name": "\u0633\u064a\u0645\u0627\u0646\u200c \u0642\u0627\u0626\u0646\u200c                  ", "title": "title", "symbol_id": "IRO1SGEN0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0633\u064a\u0645\u0627\u0646\u200c \u0642\u0627\u0626\u0646\u200c                  ", "symbol_name": "\u0633\u0642\u0627\u06cc\u0646"}, {"name": "\u0634\u064a\u0634\u0647\u200c \u0648 \u06af\u0627\u0632                   ", "title": "title", "symbol_id": "IRO1SGAZ0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0634\u064a\u0634\u0647\u200c \u0648 \u06af\u0627\u0632                   ", "symbol_name": "\u06a9\u06af\u0627\u0632"}, {"name": "\u0632\u063a\u0627\u0644 \u0633\u0646\u06af \u067e\u0631\u0648\u062f\u0647 \u0637\u0628\u0633", "title": "title", "symbol_id": "IRO3TBSZ0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0632\u063a\u0627\u0644 \u0633\u0646\u06af \u067e\u0631\u0648\u062f\u0647 \u0637\u0628\u0633", "symbol_name": "\u06a9\u067e\u0631\u0648\u0631"}, {"name": "\u0633\u064a\u0645\u0627\u0646 \u0641\u0627\u0631\u0633 \u0646\u0648                 ", "title": "title", "symbol_id": "IRO1SFNO0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0633\u064a\u0645\u0627\u0646 \u0641\u0627\u0631\u0633 \u0646\u0648                 ", "symbol_name": "\u0633\u0641\u0627\u0646\u0648"}, {"name": "\u0622\u0628\u0633\u0627\u0644\u200c                        ", "title": "title", "symbol_id": "IRO1ASAL0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0622\u0628\u0633\u0627\u0644\u200c                        ", "symbol_name": "\u0644\u0627\u0628\u0633\u0627"}, {"name": "\u0643\u0627\u0634\u064a\u200c \u067e\u0627\u0631\u0633\u200c                   ", "title": "title", "symbol_id": "IRO1KPRS0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0643\u0627\u0634\u064a\u200c \u067e\u0627\u0631\u0633\u200c                   ", "symbol_name": "\u06a9\u067e\u0627\u0631\u0633"}, {"name": "\u0643\u0634\u062a \u0648 \u062f\u0627\u0645 \u06af\u0644\u062f\u0634\u062a \u0646\u0645\u0648\u0646\u0647 \u0627\u0635\u0641\u0647\u0627\u0646", "title": "title", "symbol_id": "IRO3GDSZ0001", "category": "\u0639\u0645\u0648\u0645\u06cc", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0643\u0634\u062a \u0648 \u062f\u0627\u0645 \u06af\u0644\u062f\u0634\u062a \u0646\u0645\u0648\u0646\u0647 \u0627\u0635\u0641\u0647\u0627\u0646", "symbol_name": "\u0632\u06af\u0644\u062f\u0634\u062a"}], "sell": [{"name": "\u067e\u062e\u0634 \u0627\u0644\u0628\u0631\u0632                     ", "title": "title", "symbol_id": "IRO3PKSH0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u067e\u062e\u0634 \u0627\u0644\u0628\u0631\u0632                     ", "symbol_name": "\u067e\u062e\u0634"}, {"name": "\u0634\u0631\u0643\u062a \u067e\u062a\u0631\u0648\u0634\u064a\u0645\u064a \u062e\u0631\u0627\u0633\u0627\u0646          ", "title": "title", "symbol_id": "IRO3PSKZ0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0634\u0631\u0643\u062a \u067e\u062a\u0631\u0648\u0634\u064a\u0645\u064a \u062e\u0631\u0627\u0633\u0627\u0646          ", "symbol_name": "\u062e\u0631\u0627\u0633\u0627\u0646"}, {"name": "\u0635\u0646\u0627\u064a\u0639 \u067e\u062a\u0631\u0648\u0634\u064a\u0645\u064a \u062e\u0644\u064a\u062c \u0641\u0627\u0631\u0633      ", "title": "title", "symbol_id": "IRO1PKLJ0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0635\u0646\u0627\u064a\u0639 \u067e\u062a\u0631\u0648\u0634\u064a\u0645\u064a \u062e\u0644\u064a\u062c \u0641\u0627\u0631\u0633      ", "symbol_name": "\u0641\u0627\u0631\u0633"}, {"name": "\u0635\u0646\u0627\u064a\u0639 \u067e\u062a\u0631\u0648\u0634\u064a\u0645\u064a \u0643\u0631\u0645\u0627\u0646\u0634\u0627\u0647       ", "title": "title", "symbol_id": "IRO1PKER0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0635\u0646\u0627\u064a\u0639 \u067e\u062a\u0631\u0648\u0634\u064a\u0645\u064a \u0643\u0631\u0645\u0627\u0646\u0634\u0627\u0647       ", "symbol_name": "\u06a9\u0631\u0645\u0627\u0634\u0627"}, {"name": "\u0643\u0646\u062a\u0631\u0644\u200c\u062e\u0648\u0631\u062f\u06af\u064a\u200c\u062a\u0643\u064a\u0646\u200c\u0643\u0648          ", "title": "title", "symbol_id": "IRO1TKIN0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0643\u0646\u062a\u0631\u0644\u200c\u062e\u0648\u0631\u062f\u06af\u064a\u200c\u062a\u0643\u064a\u0646\u200c\u0643\u0648          ", "symbol_name": "\u0631\u062a\u06a9\u0648"}, {"name": "\u0634\u0631\u0643\u062a \u0633\u0631\u0645\u0627\u064a\u0647 \u06af\u0630\u0627\u0631\u064a \u0627\u0639\u062a\u0644\u0627\u0621 \u0627\u0644\u0628\u0631\u0632", "title": "title", "symbol_id": "IRO3ETLZ0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0634\u0631\u0643\u062a \u0633\u0631\u0645\u0627\u064a\u0647 \u06af\u0630\u0627\u0631\u064a \u0627\u0639\u062a\u0644\u0627\u0621 \u0627\u0644\u0628\u0631\u0632", "symbol_name": "\u0627\u0639\u062a\u0644\u0627"}, {"name": "\u062f\u0627\u0631\u0648\u0633\u0627\u0632\u064a\u200c \u0627\u0645\u064a\u0646\u200c               ", "title": "title", "symbol_id": "IRO1AMIN0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u062f\u0627\u0631\u0648\u0633\u0627\u0632\u064a\u200c \u0627\u0645\u064a\u0646\u200c               ", "symbol_name": "\u062f\u0627\u0645\u06cc\u0646"}, {"name": "\u0645\u0644\u064a\u200c \u0633\u0631\u0628\u200c\u0648\u0631\u0648\u064a\u200c \u0627\u064a\u0631\u0627\u0646\u200c         ", "title": "title", "symbol_id": "IRO1SORB0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0645\u0644\u064a\u200c \u0633\u0631\u0628\u200c\u0648\u0631\u0648\u064a\u200c \u0627\u064a\u0631\u0627\u0646\u200c         ", "symbol_name": "\u0641\u0633\u0631\u0628"}, {"name": "\u0628\u064a\u0633\u0643\u0648\u064a\u062a\u200c \u06af\u0631\u062c\u064a\u200c                ", "title": "title", "symbol_id": "IRO1GORJ0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0628\u064a\u0633\u0643\u0648\u064a\u062a\u200c \u06af\u0631\u062c\u064a\u200c                ", "symbol_name": "\u063a\u06af\u0631\u062c\u06cc"}, {"name": "\u0628\u064a\u0646\u200c\u0627\u0644\u0645\u0644\u0644\u064a\u200c\u062a\u0648\u0633\u0639\u0647\u200c\u0633\u0627\u062e\u062a\u0645\u0627\u0646      ", "title": "title", "symbol_id": "IRO1BSTE0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0628\u064a\u0646\u200c\u0627\u0644\u0645\u0644\u0644\u064a\u200c\u062a\u0648\u0633\u0639\u0647\u200c\u0633\u0627\u062e\u062a\u0645\u0627\u0646      ", "symbol_name": "\u062b\u0627\u062e\u062a"}, {"name": "\u062a\u0627\u0645\u064a\u0646\u200c \u0645\u0627\u0633\u0647\u200c \u0631\u064a\u062e\u062a\u0647\u200c\u06af\u0631\u064a\u200c       ", "title": "title", "symbol_id": "IRO1TAMI0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u062a\u0627\u0645\u064a\u0646\u200c \u0645\u0627\u0633\u0647\u200c \u0631\u064a\u062e\u062a\u0647\u200c\u06af\u0631\u064a\u200c       ", "symbol_name": "\u06a9\u0645\u0627\u0633\u0647"}, {"name": "\u0644\u064a\u0632\u064a\u0646\u06af\u200c\u062e\u0648\u062f\u0631\u0648\u063a\u062f\u064a\u0631              ", "title": "title", "symbol_id": "IRO1LKGH0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0644\u064a\u0632\u064a\u0646\u06af\u200c\u062e\u0648\u062f\u0631\u0648\u063a\u062f\u064a\u0631              ", "symbol_name": "\u0648\u0644\u063a\u062f\u0631"}, {"name": "\u0645\u062d\u0648\u0631\u0633\u0627\u0632\u0627\u0646\u200c\u0627\u064a\u0631\u0627\u0646\u200c\u062e\u0648\u062f\u0631\u0648         ", "title": "title", "symbol_id": "IRO1MESI0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0645\u062d\u0648\u0631\u0633\u0627\u0632\u0627\u0646\u200c\u0627\u064a\u0631\u0627\u0646\u200c\u062e\u0648\u062f\u0631\u0648         ", "symbol_name": "\u062e\u0648\u0633\u0627\u0632"}, {"name": "\u062a\u0648\u0631\u064a\u0633\u062a\u064a \u0648\u0631\u0641\u0627\u0647\u064a \u0622\u0628\u0627\u062f\u06af\u0631\u0627\u0646 \u0627\u064a\u0631\u0627\u0646 ", "title": "title", "symbol_id": "IRO1ABAD0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u062a\u0648\u0631\u064a\u0633\u062a\u064a \u0648\u0631\u0641\u0627\u0647\u064a \u0622\u0628\u0627\u062f\u06af\u0631\u0627\u0646 \u0627\u064a\u0631\u0627\u0646 ", "symbol_name": "\u062b\u0627\u0628\u0627\u062f"}, {"name": "\u0633\u064a\u0645\u0627\u0646\u200c\u063a\u0631\u0628\u200c                    ", "title": "title", "symbol_id": "IRO1SGRB0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0633\u064a\u0645\u0627\u0646\u200c\u063a\u0631\u0628\u200c                    ", "symbol_name": "\u0633\u063a\u0631\u0628"}, {"name": "\u067e\u0627\u0631\u0633\u200c \u0633\u0631\u0627\u0645\u200c                   ", "title": "title", "symbol_id": "IRO1PSER0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u067e\u0627\u0631\u0633\u200c \u0633\u0631\u0627\u0645\u200c                   ", "symbol_name": "\u06a9\u0633\u0631\u0627\u0645"}, {"name": "\u0633\u0631\u0645\u0627\u064a\u0647\u200c\u06af\u0630\u0627\u0631\u064a\u200c\u0628\u0648\u0639\u0644\u064a\u200c           ", "title": "title", "symbol_id": "IRO1BALI0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0633\u0631\u0645\u0627\u064a\u0647\u200c\u06af\u0630\u0627\u0631\u064a\u200c\u0628\u0648\u0639\u0644\u064a\u200c           ", "symbol_name": "\u0648\u0628\u0648\u0639\u0644\u06cc"}, {"name": "\u062a\u0643\u0627\u062f\u0648                         ", "title": "title", "symbol_id": "IRO7TKDP0001", "category": "\u067e\u0627\u06cc\u0647 \u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u062a\u0643\u0627\u062f\u0648                         ", "symbol_name": "\u0648\u06a9\u0627\u062f\u0648"}, {"name": "\u0645\u0644\u064a\u200c \u0635\u0646\u0627\u064a\u0639\u200c \u0645\u0633\u200c \u0627\u064a\u0631\u0627\u0646\u200c\u200c       ", "title": "title", "symbol_id": "IRO1MSMI0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0645\u0644\u064a\u200c \u0635\u0646\u0627\u064a\u0639\u200c \u0645\u0633\u200c \u0627\u064a\u0631\u0627\u0646\u200c\u200c       ", "symbol_name": "\u0641\u0645\u0644\u06cc"}, {"name": "\u0634\u064a\u0634\u0647\u200c \u0647\u0645\u062f\u0627\u0646\u200c                  ", "title": "title", "symbol_id": "IRO1SHMD0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0634\u064a\u0634\u0647\u200c \u0647\u0645\u062f\u0627\u0646\u200c                  ", "symbol_name": "\u06a9\u0647\u0645\u062f\u0627"}, {"name": "\u0633\u0631\u0645\u0627\u064a\u0647 \u06af\u0630\u0627\u0631\u064a \u0645\u0633\u0643\u0646 \u0627\u0644\u0648\u0646\u062f", "title": "title", "symbol_id": "IRO3SLVZ0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0633\u0631\u0645\u0627\u064a\u0647 \u06af\u0630\u0627\u0631\u064a \u0645\u0633\u0643\u0646 \u0627\u0644\u0648\u0646\u062f", "symbol_name": "\u062b\u0627\u0644\u0648\u0646\u062f"}, {"name": "\u067e\u0627\u0644\u0627\u064a\u0634 \u0646\u0641\u062a \u0627\u0635\u0641\u0647\u0627\u0646             ", "title": "title", "symbol_id": "IRO1PNES0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u067e\u0627\u0644\u0627\u064a\u0634 \u0646\u0641\u062a \u0627\u0635\u0641\u0647\u0627\u0646             ", "symbol_name": "\u0634\u067e\u0646\u0627"}, {"name": "\u062f\u0627\u0631\u0648\u0633\u0627\u0632\u064a\u200c \u0633\u064a\u0646\u0627                ", "title": "title", "symbol_id": "IRO1DSIN0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u062f\u0627\u0631\u0648\u0633\u0627\u0632\u064a\u200c \u0633\u064a\u0646\u0627                ", "symbol_name": "\u062f\u0633\u06cc\u0646\u0627"}, {"name": "\u0633\u0631\u0645\u0627\u064a\u0647\u200c\u06af\u0630\u0627\u0631\u064a\u200c \u0645\u0633\u0643\u0646\u200c           ", "title": "title", "symbol_id": "IRO1MSKN0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0633\u0631\u0645\u0627\u064a\u0647\u200c\u06af\u0630\u0627\u0631\u064a\u200c \u0645\u0633\u0643\u0646\u200c           ", "symbol_name": "\u062b\u0645\u0633\u06a9\u0646"}, {"name": "\u06af\u0633\u062a\u0631\u0634 \u0635\u0646\u0627\u064a\u0639 \u0627\u0646\u0631\u0698\u064a \u0622\u0630\u0631\u0622\u0628", "title": "title", "symbol_id": "IRO7FNRP0001", "category": "\u067e\u0627\u06cc\u0647 \u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u06af\u0633\u062a\u0631\u0634 \u0635\u0646\u0627\u064a\u0639 \u0627\u0646\u0631\u0698\u064a \u0622\u0630\u0631\u0622\u0628", "symbol_name": "\u0641\u0646\u0631\u0698\u06cc"}, {"name": "\u067e\u0644\u0627\u0633\u0643\u0648\u0643\u0627\u0631                     ", "title": "title", "symbol_id": "IRO1PLKK0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u067e\u0644\u0627\u0633\u0643\u0648\u0643\u0627\u0631                     ", "symbol_name": "\u067e\u0644\u0627\u0633\u06a9"}, {"name": "\u0634\u064a\u0631 \u067e\u0627\u0633\u062a\u0648\u0631\u064a\u0632\u0647 \u067e\u06af\u0627\u0647 \u06af\u0644\u067e\u0627\u064a\u06af\u0627\u0646", "title": "title", "symbol_id": "IRO3PGPZ0001", "category": "\u0639\u0645\u0648\u0645\u06cc", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0634\u064a\u0631 \u067e\u0627\u0633\u062a\u0648\u0631\u064a\u0632\u0647 \u067e\u06af\u0627\u0647 \u06af\u0644\u067e\u0627\u064a\u06af\u0627\u0646", "symbol_name": "\u063a\u06af\u0644\u067e\u0627"}, {"name": "\u062f\u0627\u0631\u0648\u0633\u0627\u0632\u064a \u0633\u0628\u062d\u0627\u0646 \u0627\u0646\u0643\u0648\u0644\u0648\u0698\u064a", "title": "title", "symbol_id": "IRO3DSNZ0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u062f\u0627\u0631\u0648\u0633\u0627\u0632\u064a \u0633\u0628\u062d\u0627\u0646 \u0627\u0646\u0643\u0648\u0644\u0648\u0698\u064a", "symbol_name": "\u062f\u0633\u0627\u0646\u06a9\u0648"}, {"name": "\u0647\u0644\u062f\u064a\u0646\u06af \u0635\u0646\u0627\u064a\u0639 \u0645\u0639\u062f\u0646\u064a \u062e\u0627\u0648\u0631\u0645\u064a\u0627\u0646\u0647  ", "title": "title", "symbol_id": "IRO3KHMZ0001", "category": "\u0641\u0631\u0627\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0647\u0644\u062f\u064a\u0646\u06af \u0635\u0646\u0627\u064a\u0639 \u0645\u0639\u062f\u0646\u064a \u062e\u0627\u0648\u0631\u0645\u064a\u0627\u0646\u0647  ", "symbol_name": "\u0645\u06cc\u062f\u06a9\u0648"}, {"name": "\u0644\u064a\u0632\u064a\u0646\u06af\u200c\u0627\u064a\u0631\u0627\u0646\u200c                 ", "title": "title", "symbol_id": "IRO1LZIN0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0644\u064a\u0632\u064a\u0646\u06af\u200c\u0627\u064a\u0631\u0627\u0646\u200c                 ", "symbol_name": "\u0648\u0644\u06cc\u0632"}, {"name": "\u0644\u0639\u0627\u0628\u064a\u0631\u0627\u0646\u200c                     ", "title": "title", "symbol_id": "IRO1LEAB0001", "category": "\u0628\u0648\u0631\u0633", "kind": "\u0645\u062c\u0627\u0632", "description": "\u0644\u0639\u0627\u0628\u064a\u0631\u0627\u0646\u200c                     ", "symbol_name": "\u0634\u0644\u0639\u0627\u0628"}]}';
+        result = JSON.parse(result);
+        show_scan_result(result);
+        show_market()
+    } else {
+        show_market();
+    }
+}
+
+
+function show_scan_result(result) {
+    Object.keys(result).forEach(function (signal) {
+        var place = document.getElementById('scan result ' + signal);
+        place.innerHTML = '';
+        var table = document.createElement('table');
+        table.setAttribute('style', 'width:100%');
+        if (result[signal].length > 0) {
+            var num = 1;
+            result[signal].forEach(function (signal_symbol) {
+                var signal_symbol_name = signal_symbol['symbol_name'],
+                    description_text = signal_symbol['description'],
+                    color = '#1C1F32',
+                    symbol_url = signal_symbol['symbol_id'];
+                var item = document.createElement('tr');
+                if (num % 2 == 0) color = '#4D5068';
+                item.setAttribute('style', 'background: ' + color);
+                item.setAttribute('name', symbol_url);
+                item.addEventListener('mouseover', function () {
+                    document.getElementById('stockwatch ' + symbol_url).style.display = 'block';
+                });
+                item.addEventListener('mouseout', function () {
+                    document.getElementById('stockwatch ' + symbol_url).style.display = 'none';
+                });
+
+                var symbol_num = document.createElement('td');
+                if (signal == 'buy') symbol_num.setAttribute('style', 'color: #00CA9D');
+                else symbol_num.setAttribute('style', 'color: #E35C67');
+                symbol_num.innerHTML = num;
+                item.appendChild(symbol_num);
+                num += 1;
+
+
+                var symbol_name = document.createElement('td');
+                var a = document.createElement('a');
+                a.addEventListener('click', function () {
+                    delete_all(['indicators'], false);
+                    symbol_id = symbol_url;
+                    load_data('/data/get-data/' + symbol_id);
+                });
+                if (signal == 'buy') a.setAttribute('style', 'color: #00CA9D');
+                else a.setAttribute('style', 'color: #E35C67');
+                a.innerHTML = signal_symbol_name;
+                symbol_name.appendChild(a);
+                item.appendChild(symbol_name);
+
+                var company_name = document.createElement('td');
+                company_name.setAttribute('style', 'color: white');
+                company_name.innerHTML = description_text;
+                item.appendChild(company_name);
+
+
+                var stockwatch_link = document.createElement('td');
+                var a = document.createElement('a');
+                a.setAttribute('href', '/stockwatch/' + symbol_url);
+                a.setAttribute('id', 'stockwatch ' + symbol_url);
+                a.setAttribute('style', 'display:none');
+                a.innerHTML = '(مشاهده تابلو)';
+                stockwatch_link.appendChild(a);
+                item.appendChild(stockwatch_link);
+
+
+                table.appendChild(item);
+            });
+            place.appendChild(table);
+        } else {
+            place.innerHTML = 'هیچ نمادی یافت نشد.';
         }
     });
+
 }
-function show_scan_result(result) {
+
+
+function show_scan_result1(result) {
     Object.keys(result).forEach(function (signal) {
         var place = document.getElementById('scan result ' + signal);
         place.innerHTML = '';
@@ -1001,8 +1096,9 @@ function show_scan_result(result) {
                 var content = document.createElement('div');
                 content.setAttribute('class', 'content');
                 var a = document.createElement('a');
-                a.setAttribute('class', 'link');
-                // a.setAttribute('st', 'color: yellow');
+                a.setAttribute('class', 'symbol');
+                if (signal == 'buy') a.setAttribute('style', 'color: #00CA9D');
+                else a.setAttribute('style', 'color: #E35C67');
                 a.innerHTML = signal_symbol_name;
                 content.appendChild(a);
                 var description = document.createElement('div');
@@ -1022,10 +1118,14 @@ function show_scan_result(result) {
 // function get_settings() {
 //     apply();
 // }
-function appendRow(vals) {
+function appendRow(vals, row_num) {
     var tbl = document.getElementById('table'), // table reference
         row = tbl.insertRow(tbl.rows.length),      // append table row
+        color = '#1C1F32',
         i;
+    if (row_num % 2 == 0) color = '#4D5068';
+    // else color = 'blue';
+    row.setAttribute('style', 'background: ' + color);
     // insert table cells to the new row
     for (i = 0; i < tbl.rows[0].cells.length; i++) {
         createCell(row.insertCell(i), vals[i], 'row', i);
@@ -1041,6 +1141,9 @@ function createCell(cell, text, style, i) {
     // div.setAttribute('className', style);    // set DIV class attribute for IE (?!)
     // cell.appendChild(div);                   // append DIV to the table cell
     switch (i) {
+        case 0:
+            cell.setAttribute("style", "color: #00CA9D");
+            break;
         case 1:
             if (!isNaN(text) && text != '') {
                 var date = new Date(Number(text));
@@ -1076,13 +1179,13 @@ function createCell(cell, text, style, i) {
                 ic = document.createElement('i');
                 ic.setAttribute('style', 'float: left');
                 if (text < 0) {
-                    cell.setAttribute('style', 'background-color: red');
-                    ic.setAttribute("class", "remove icon");
-                    div.appendChild(ic);
+                    cell.setAttribute('style', 'background-color: #E35C67');
+                    // ic.setAttribute("class", "remove icon");
+                    // div.appendChild(ic);
                 } else {
-                    cell.setAttribute('style', 'background-color: green');
-                    ic.setAttribute("class", "icon checkmark");
-                    div.appendChild(ic);
+                    cell.setAttribute('style', 'background-color: #00CA9D');
+                    // ic.setAttribute("class", "icon checkmark");
+                    // div.appendChild(ic);
                 }
             }
             break;
@@ -1148,6 +1251,8 @@ function add_table() {
 
     var y = document.createElement("TR");
     y.setAttribute("id", "myTr");
+    // y.setAttribute('class','title row');
+    y.setAttribute('style', 'background: #292D48');
     document.getElementById("myTH").appendChild(y);
 
     var z = document.createElement("TH");
@@ -1306,19 +1411,57 @@ function insert_param(id) {
 
     }
 }
-function toggle(obj, div_id) {
-    var div = document.getElementById(div_id);
-    switch (obj.getAttribute('class')) {
-        case 'unhide icon':
-            obj.setAttribute('class', 'hide icon');
-            div.setAttribute('style', 'display: none');
+function toggle(obj) {
+    document.getElementById('results').style.display = 'block';
+    if (!isStrategySaved) {
+        isScaned = false;
+        isBacktested = false;
+    }
+    switch (obj.id) {
+        case 'scan_button':
+            document.getElementById('table_place').style.display = 'none';
+            if (!isScaned) {
+                scan();
+            } else {
+                show_market();
+            }
             break;
-        case 'hide icon':
-            obj.setAttribute('class', 'unhide icon');
-            div.setAttribute('style', 'display: block');
+        case 'back_test_button':
+            document.getElementById('scan-place').style.display = 'none';
+            if (!isBacktested) {
+                apply();
+            } else {
+                document.getElementById('table_place').style.display = 'block';
+            }
+            break;
+        case '':
+            document.getElementById('results').style.display = 'block';
             break;
     }
+    ['back_test', 'delete_all', 'save', 'scan'].forEach(function (button) {
+        var idx = button + '_button';
+        var div = document.getElementById(idx);
+        if (div) {
+            var inititial = 'item';
+            if (idx == 'delete_all_button') inititial = 'left negative item';
+            if (idx == obj.id) div.className = 'item active';
+            else div.className = inititial;
+        }
+    });
 }
+// function toggle(obj, div_id) {
+//     var div = document.getElementById(div_id);
+//     switch (obj.getAttribute('class')) {
+//         case 'unhide icon':
+//             obj.setAttribute('class', 'hide icon');
+//             div.setAttribute('style', 'display: none');
+//             break;
+//         case 'hide icon':
+//             obj.setAttribute('class', 'unhide icon');
+//             div.setAttribute('style', 'display: block');
+//             break;
+//     }
+// }
 function show_div(id) {
     var idss = ["TSE_Filters", "config_trade", "draw line", "just draw", "cross", "ascending_main", "more_than", "special_methods", "advance_cross"];
     idss.forEach(function (ids) {
@@ -1949,7 +2092,7 @@ function insert_strategy(data) {
     div.setAttribute('name', data['id_finish']);
     var ic = document.createElement('i');
     ic.setAttribute('class', 'icon checkmark');
-    ic.setAttribute('style', 'text-align: right; float: right;cursor:pointer;');
+    ic.setAttribute('style', 'text-align: right; float: right;cursor:pointer;margin-right:5%');
     ic.setAttribute('title', 'پاک کردن');
     ic.setAttribute('name', data['str_brief']);
     ic.addEventListener("click", function () {
@@ -1958,7 +2101,7 @@ function insert_strategy(data) {
         check_strategies_number();
     });
     ic.addEventListener("mouseover", function () {
-        this.parentElement.style.color = 'black';
+        this.parentElement.style.color = '#E35C67';
         this.setAttribute('class', 'remove icon');
     });
     ic.addEventListener("mouseout", function () {
@@ -2071,7 +2214,7 @@ window.onclick = function (event) {
     }
 };
 $(document).ready(function () {
-    $('input.prompt').attr('style', 'background-color: #333;color:white;text-align: center;font-family:IranSanc');
+    $('input.prompt').attr('style', 'background-color: #1c1f32;color:white;text-align: right;font-family:IranSanc');
     $('.ui.search').search({
         type: 'category',
         error: false,
@@ -2119,13 +2262,13 @@ $(document).ready(function () {
                     }
                     // add result to category
                     response.results[category].results.push({
-                    // symbol_id=self.SymbolId,//symbol id
-                    // kind='kind', // price
-                    // category=self.ExchangeName,
-                    // symbol_name=self.InstrumentName,//title
-                    // name=self.InstrumentName,//discription
-                    // description='description',
-                    // title='title',
+                        // symbol_id=self.SymbolId,//symbol id
+                        // kind='kind', // price
+                        // category=self.ExchangeName,
+                        // symbol_name=self.InstrumentName,//title
+                        // name=self.InstrumentName,//discription
+                        // description='description',
+                        // title='title',
                         title: item.symbol_name,
                         description: item.name,
                         price: item.kind,
@@ -2144,39 +2287,3 @@ $(document).ready(function () {
         $('.ui.search').transition('jiggle');
     });
 });
-function show_news(result) {
-    var div = document.getElementById('news');
-    div.innerHTML = '';
-    Object.keys(result).forEach(function (news) {
-        var news_div = document.createElement('div');
-        var title = document.createElement('h3');
-        title.appendChild(document.createTextNode('عنوان: ' + result[news]['title']));
-        news_div.appendChild(title);
-
-        var source = document.createElement('h4');
-        source.appendChild(document.createTextNode('منبع:' + result[news]['resource']));
-        news_div.appendChild(source);
-
-        var date = document.createElement('h4');
-        date.appendChild(document.createTextNode('تاریخ:' + result[news]['published date']));
-        news_div.appendChild(date);
-
-        var para = document.createElement('p');
-        var txt = document.createTextNode(result[news]['news']);
-        para.appendChild(txt);
-        news_div.appendChild(para);
-
-        if (result[news]['photo']) {
-            var photo = document.createElement('img');
-            photo.setAttribute('src', result[news]['photo']);
-            news_div.appendChild(photo);
-        }
-
-        div.appendChild(news_div);
-        div.appendChild(document.createElement('br'));
-    });
-    document.getElementById('news_div').style.display = 'block';
-}
-function order(type) {
-    document.getElementById('order').setAttribute('sytle', 'display:block');
-}

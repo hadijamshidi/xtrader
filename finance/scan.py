@@ -1,5 +1,5 @@
 # from task import update_history as up
-from data.models import StockWatch as MarketWatch
+from data.models import StockWatch
 from data import dates, update_history
 from finance.models import Strategy
 from django.contrib.auth.models import User
@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 
 all_functions = dict(inspect.getmembers(dh, inspect.isfunction))
+
 
 def scan_market(user_name, strategy_name):
     filters = find_strategy_filters(user_name, strategy_name)
@@ -54,7 +55,7 @@ def find_strategy_filters(user_name, strategy_name):
 
 
 def find_symbol_ids():
-    symbol_ids = MarketWatch.objects.filter(LastTradeDate=dates.Check().last_market()).values('SymbolId')
+    symbol_ids = StockWatch.objects.filter(LastTradeDate=dates.Check().last_market()).values('SymbolId')
     return [symbol_id['SymbolId'] for symbol_id in symbol_ids]
 
 
@@ -64,8 +65,7 @@ def calculate_filter_result(strategy_filter):
 
 
 def create_dict(symbol_id):
-    return Stock.objects.get(symbol_id=symbol_id).as_json()
-
+    return StockWatch.objects.get(SymbolId=symbol_id).as_json()
 
 
 # notification.py:

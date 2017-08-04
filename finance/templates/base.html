@@ -11,8 +11,8 @@
 </head>
 <body>
 <div id="username-block">
-    <a id="username-text" href="#">هادی جمشیدی</a>
-    <img id="user-pic" height="35px" width="35px" src="/media/pictures/hadi.jpeg" title="I'm Professional"/>
+    <a id="username-text" href="#">{{ name }}</a>
+    <img id="user-pic" height="35px" width="35px" src="{{ img_url }}" title="I'm Professional"/>
 </div>
 <ul id="top-btns">
     <a href="{% url 'finance:stockwatch' %}">

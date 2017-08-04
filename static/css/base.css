@@ -1,23 +1,24 @@
-html{
+html {
     background-color: #1c1f32;
     font-family: IRANSans;
 }
 
-body{
-height:100%
+body {
+    height: 100%
 }
+
 #master__wrapper {
     display: block;
     position: fixed;
     margin: 0 auto;
-    background-color:#292d48;
-    width:94%;
+    background-color: #292d48;
+    width: 94%;
     height: 94%;
     left: 0;
-    right: 0; top:8%;
+    right: 0;
+    top: 8%;
     text-align: center;
 }
-
 
 #nav-bar {
     display: block;
@@ -32,7 +33,7 @@ height:100%
 }
 
 #username-block {
-    background-color:#292d48;
+    background-color: #292d48;
     border-radius: 3px;
     position: absolute;
     width: 10%;
@@ -42,7 +43,7 @@ height:100%
 }
 
 #user-pic {
-    position:relative;
+    position: relative;
     top: 0.3rem;
     right: 0.5rem;
     float: right;
@@ -50,14 +51,14 @@ height:100%
 }
 
 #username-text {
-    position:relative;
+    position: relative;
     top: 0.9rem;
     left: 1.5rem;
     float: left;
 }
 
 .main-btns {
-    background-color:#292d48;
+    background-color: #292d48;
     border-radius: 3px;
     width: 5vh;
     height: 5vh;
@@ -71,7 +72,7 @@ height:100%
 
 #top-btns {
     position: absolute;
-    list-style : none;
+    list-style: none;
     top: 2.5%;
     left: 12.5%;
 }
@@ -82,7 +83,7 @@ height:100%
 
 #left-btns {
     position: absolute;
-    list-style : none;
+    list-style: none;
     bottom: 2.5%;
     left: 0.5%;
 }
@@ -90,24 +91,31 @@ height:100%
 #home-btn {
     background-image: url(/media/icons/home.svg)
 }
-#search-btn{
+
+#search-btn {
     background-image: url(/media/icons/search.svg)
 }
-#marketwatch-btn{
+
+#marketwatch-btn {
     background-image: url(/media/icons/stockwatch.svg)
 }
-#backtest-btn{
+
+#backtest-btn {
     background-image: url(/media/icons/backtest.svg)
 }
-#setting-btn{
+
+#setting-btn {
     background-image: url(/media/icons/setting.svg)
 }
-#info-btn{
+
+#info-btn {
     background-image: url(/media/icons/info.svg)
 }
-#logout-btn{
+
+#logout-btn {
     background-image: url(/media/icons/logout.svg)
 }
-.divTableRow-odd{
+
+.divTableRow-odd {
     background: red;
 }

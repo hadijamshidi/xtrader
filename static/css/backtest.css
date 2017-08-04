@@ -1,0 +1,85 @@
+.about{
+    display: inline;
+}
+body{
+    background-color: #1c1f32;
+}
+.ui.right.aligned.segment{
+    background: #1c1f32;
+    color: white;
+}
+.ui.positive.buttons, .ui.positive.button, .button{
+    background-color: #00ca9d;
+}
+.ui .segment{
+    background: #1c1f32;
+    /*text-align: right;*/
+    /*float: right;*/
+}
+select {
+    font-family: IRANSans;
+    color: white;
+    direction: rtl;
+    width: 12rem;
+    height: 2.5rem;
+    background-color: #4d5068;
+    border-radius: 0.2rem;
+    border: 1px solid #5c5f77;
+    margin: 0.3rem 0;
+    }
+
+select:after {
+    content:"▼";
+    padding: 12px 8px;
+    position: absolute; right: 10px; top: 0;
+    z-index: 1;
+    text-align: center;
+    width: 10%;
+    height: 100%;
+}
+option{
+    direction: ltr;
+}
+
+input {
+    font-family: IRANSans;
+    color: white;
+    text-align: center;
+    /*direction: rtl;*/
+    width: 12rem;
+    height: 2.5rem;
+    background-color: #4d5068;
+    border-radius: 0.2rem;
+    border: 1px solid #5c5f77;
+    margin: 0.3rem 0;
+    }
+.ui.tabular.menu .active.item{
+    /*background: #1c1f32;*/
+    /*!*border: none;*!*/
+    /*color: white;*/
+}
+.ui.tabular.menu .item{
+    background: #1c1f32;
+    border: none;
+    color: white;
+
+}
+
+.ui.attached.segment{
+    background: #1c1f32;
+    color: white;
+}
+
+.description{
+    display: inline;
+}
+.ui.tabular.menu .left.negative.item{
+    /*background-color: #E35C67;*/
+}
+#master__wrapper{
+    overflow-y: hidden;
+}
+
+.title.row{
+    /*background: #292D48;*/
+}

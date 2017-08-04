@@ -121,7 +121,7 @@ class StockWatch(models.Model):
             category=self.ExchangeName,
             symbol_name=self.InstrumentName,
             name=self.CompanyName,
-            description='description',
+            description=self.CompanyName,
             title='title',
         )
 

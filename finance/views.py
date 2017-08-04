@@ -13,6 +13,7 @@ from data.dates import Check
 import inspect
 from django.shortcuts import render
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 
 all_functions = dict(inspect.getmembers(data_handling, inspect.isfunction))
 
@@ -59,7 +60,7 @@ def update_indicators(request):
 
 @login_required(login_url='accounts:userena_signin')
 def market_watch(request):
-    return render(request, 'marketwatch.html')
+    return render(request, 'marketwatch.html', get_user(request))
 
 
 def filtermarket(request):
@@ -93,7 +94,7 @@ def back_test(request):
 
 @login_required(login_url='accounts:userena_signin')
 def display(request):
-    return render(request, 'applyTheme.html', {'SymbolId': 'IRO1IKCO0001', 'username': request.user.username})
+    return render(request, 'back.html', {'SymbolId': 'IRO1IKCO0001', **get_user(request=request)})
 
 
 def about_us(request):
@@ -113,5 +114,15 @@ def stockwatch(request, SymbolId):
         return redirect('/stockwatch/IRO1IKCO0001')
     from data.models import StockWatch as st
     stock = st.objects.get(SymbolId=SymbolId)
-    stockWatchDict = {'SymbolId': stock.SymbolId, 'title': stock.InstrumentName}
+    stockWatchDict = {'SymbolId': stock.SymbolId, 'title': stock.InstrumentName, **get_user(request)}
     return render(request, 'stockwatch.html', stockWatchDict)
+
+
+def get_user(request):
+    username = request.user.username
+    user = User.objects.get_by_natural_key(username=username)
+    firstname = user.first_name
+    lastname = user.last_name
+    name = firstname + ' ' + lastname
+    url = '/media/pictures/hadi.jpeg' if username == 'hadi' else 'https://www.awicons.com/free-icons/download/application-icons/dragon-soft-icons-by-artua.com/png/512/User.png'
+    return {'name': name, 'img_url': url}

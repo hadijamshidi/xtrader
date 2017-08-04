@@ -11,7 +11,7 @@ def create_historical_table(num=0):
     for index, stock in enumerate(stocks):
         data = get_historical_data_stock(stock, index + num)
         for key in data:
-            redis.hset(stock.symbol_id, key, data[key])
+            redis.hset(stock.SymbolId, key, data[key])
 
 
 def get_historical_data_stock(stock, index, step=100):
@@ -76,9 +76,11 @@ def find_bad_historical_data():
             incorrect_keys.append(keys)
     return incorrect_keys
 
+database_history = r.get('https://xtrader.ir/api/history/', verify=False).text
+
 
 def read_historical_data_from_server_db():
-    history = r.get('https://xtrader.ir/api/history/', verify=False).text
+    history = database_history
     history_data = json.loads(history)
     redis.flushall()
     for data in history_data:

@@ -5,14 +5,14 @@ from data import dates
 from xtrader.localsetting import farabi_login_data
 
 
-def update_history_with_farabixo(num=0, update_market_watch=True):
-    updated_stocks = get_updated_stocks_symbol_ids(num, update_market_watch=update_market_watch)
+def update_history_with_farabixo(num=0, update_stock_watch=True):
+    updated_stocks = get_updated_stocks_symbol_ids(num, update_stock_watch=update_stock_watch)
     update_stocks_with_farabixo(updated_stocks, num) if not dates.Check().is_history_updated() else print('updated')
     return 'finish'
 
 
-def get_updated_stocks_symbol_ids(num=0, update_market_watch=True):
-    if update_market_watch:
+def get_updated_stocks_symbol_ids(num=0, update_stock_watch=True):
+    if update_stock_watch:
         data.update_StockWatch()
     symbols = StockWatch.objects.filter(LastTradeDate=dates.Check().last_market()).values('SymbolId')
     keys = redis.keys()

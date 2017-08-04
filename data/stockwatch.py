@@ -61,7 +61,7 @@ def stockWatchInfo(symbol_id):
     try:
         Eps = epss(trades_dict['InstrumentName'])
         trades_dict['Eps'] = Eps
-        if Eps != 0: trades_dict['PricePerEarning'] = trades_dict['ClosingPrice']/Eps
+        if Eps != 0: trades_dict['PricePerEarning'] = trades_dict['ClosingPrice'] / Eps
     except Exception:
         wrong_symbol_ids.append(dict(id=symbol_id, problem='no Eps'))
     return trades_dict
@@ -104,3 +104,33 @@ def update_eps():
             print(InstrumentName, epss(InstrumentName))
         except Exception:
             print('failed {}'.format(InstrumentName))
+
+
+class Stock_Watch:
+    @staticmethod
+    def create_tables():
+        createStockWatchTables()
+
+    def update(self, num=0):
+        update_stock_watch(num)
+
+
+def update_stock_watch(num=0):
+    stocks = StockWatch.objects.all()
+    for i, stock in enumerate(stocks):
+        if i >= num:
+            symbol_id = stock.SymbolId
+            print('update stock watch for index: {}'.format(i))
+            info = stockWatchInfo(symbol_id)
+            if info:
+                try:
+                    updateStockWatchTable(stock, info)
+                except Exception:
+                    wrong_symbol_ids.append(dict(id=symbol_id, problem='on update stock watch'))
+
+
+def updateStockWatchTable(model, data):
+    for key in data:
+        model.__setattr__(key, data[key])
+    model.save()
+    print('{} updated successfully'.format(model.InstrumentName))

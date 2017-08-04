@@ -107,32 +107,49 @@ def cleanduplicateIncome():
             row.delete()
 
 
-def addtoMarcketwatch():
-    for stock in StockWatch.objects.all():
-        mstock = stock.read()
-        try:
-            mincome = Income.objects.filter(SymbolId=stock.SymbolId).first().read()
-        except Exception:
-            mincome = {}
-        try:
-            mbalanceSheet = BalanceSheet.objects.filter(SymbolId=stock.SymbolId).first().read()
-        except Exception:
-            mbalanceSheet = {}
-        try:
-            mratio = Ratio.objects.filter(SymbolId=stock.SymbolId).first().read()
-        except Exception:
-            mratio = {}
-        rmincome = {'income_' + k: v for k, v in mincome.items() if
-                    k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
-        rmbalanceSheet = {'balanceSheet_' + k: v for k, v in mbalanceSheet.items() if
-                          k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
-        rmratio = {'ratio_' + k: v for k, v in mratio.items() if
-                   k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
-        rmstock = {'stockwatch_' + k: v for k, v in mstock.items() if k not in ['id']}
-        try:
-            MarketWatch(**rmstock, **rmincome, **rmbalanceSheet, **rmratio).save()
-        except Exception:
-            pass
+def createMarcketwatchTables(num=0):
+    for i, stock in enumerate(StockWatch.objects.all()):
+        if i >= num:
+            print(i)
+            try:
+                info = marketwatchinfo(stock)
+                if info:
+                    addMaketWatchTabe(info)
+            except Exception:
+                wrong_symbol_ids.append(dict(instrumentName=stock.InstrumentName, problem='create marketwatch'))
+
+
+def marketwatchinfo(stock):
+    mstock = stock.read()
+    try:
+        mincome = Income.objects.filter(SymbolId=stock.SymbolId).first().read()
+    except Exception:
+        mincome = {}
+    try:
+        mbalanceSheet = BalanceSheet.objects.filter(SymbolId=stock.SymbolId).first().read()
+    except Exception:
+        mbalanceSheet = {}
+    try:
+        mratio = Ratio.objects.filter(SymbolId=stock.SymbolId).first().read()
+    except Exception:
+        mratio = {}
+    rmincome = {'income_' + k: v for k, v in mincome.items() if
+                k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
+    rmbalanceSheet = {'balanceSheet_' + k: v for k, v in mbalanceSheet.items() if
+                      k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
+    rmratio = {'ratio_' + k: v for k, v in mratio.items() if
+               k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
+    rmstock = {'stockwatch_' + k: v for k, v in mstock.items() if k not in ['id']}
+    try:
+        info = {**rmstock, **rmincome, **rmbalanceSheet, **rmratio}
+        return info
+        # MarketWatch(**rmstock, **rmincome, **rmbalanceSheet, **rmratio).save()
+    except Exception:
+        return False
+
+
+def addMaketWatchTabe(info):
+    MarketWatch(**info).save()
 
 
 def fullgetdata():
@@ -145,4 +162,84 @@ def fullgetdata():
     cleanduplicatebalanceSheet()
     createRatioTables()
     cleanduplicateRatio()
-    addtoMarcketwatch()
+    createStockWatchTables()
+
+
+class Fundamental:
+    @staticmethod
+    def create_tables():
+        fullgetdata()
+
+    @staticmethod
+    def update(table, num=0):
+        table = table.lower()
+        if table == 'ratio':
+            update_ratio_tables(num)
+        elif table == 'balance':
+            update_balance_tables(num)
+        elif table == 'income':
+            update_income_tables(num)
+        elif table == 'marketwatch':
+            update_market_watch_tables(num)
+        else:
+            print('wrong table')
+
+
+def update_ratio_tables(num=0):
+    for i, stock in enumerate(StockWatch.objects.all()):
+        if i >= num:
+            print('try to update index: {}'.format(i))
+            try:
+                info = RatioInfo(stock, stock.InstrumentName)
+                if info:
+                    model = Ratio.objects.get(SymbolId=stock.SymbolId)
+                    update_model(model, info)
+            except Exception:
+                wrong_symbol_ids.append(dict(instrumentName=stock.InstrumentName, problem='update ratio'))
+
+
+def update_balance_tables(num):
+    for i, stock in enumerate(StockWatch.objects.all()):
+        if i >= num:
+            print(i)
+            try:
+                info = BalanceInfo(stock, stock.InstrumentName)
+                if info:
+                    model = Income.objects.get(SymbolId=stock.SymbolId)
+                    update_model(model, info)
+            except Exception:
+                wrong_symbol_ids.append(dict(instrumentName=stock.InstrumentName, problem='fipiran balance'))
+
+
+def update_income_tables(num):
+    for i, stock in enumerate(StockWatch.objects.all()):
+        if i >= num:
+            print(i)
+            try:
+                info = IncomeInfo(stock, stock.InstrumentName)
+                if info:
+                    model = Income.objects.get(SymbolId=stock.SymbolId)
+                    update_model(model, info)
+            except Exception:
+                wrong_symbol_ids.append(dict(instrumentName=stock.InstrumentName, problem='update income table'))
+
+
+def update_market_watch_tables(num):
+    for i, stock in enumerate(StockWatch.objects.all()):
+        if i >= num:
+            print(i)
+            try:
+                info = marketwatchinfo(stock)
+                if info:
+                    model = MarketWatch.objects.get(stockwatch_SymbolId=stock.SymbolId)
+                    update_model(model, info)
+            except Exception:
+                wrong_symbol_ids.append(dict(instrumentName=stock.InstrumentName, problem='update market watch table'))
+
+
+
+def update_model(model, data):
+    for key in data:
+        model.__setattr__(key, data[key])
+    model.save()
+    print('{} updated successfully'.format(model.id))

@@ -3,22 +3,27 @@
 {% block title %}دیده بان{% endblock %}
 
 {% block headContent %}
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/stockwatchstyle.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/marketwatchstyle.css' %}"/>
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/marketwatch.js' %}"></script>
+
 {% endblock headContent %}
 
 {% load i18n %}
 {% block bodyContent %}
-    <div id="nav-bar"></div>
-    <headr id="filters-parrent">
+
+    <div id="nav-bar">
+        <span id="marketwatch__title">دیده بان</span>
+    </div>
+    <div id="filters-parent">
         <div id="filters-place" dir="rtl"></div>
-    </headr>
+    </div>
 
     <!--<div class="divTable" id="filters place" dir="ltr">
         <div class="divTableBody">-->
-    <div class="divTable">
+    <div class="divTable" style="direction: rtl;">
         <div class="divTableBody" id="filters scan place">
         </div>
     </div>

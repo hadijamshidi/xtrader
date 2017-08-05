@@ -1,8 +1,8 @@
-#filters-parrent{
+#filters-parent{
     display: inline-block;
     text-align: center;
     position: relative;
-    top: 13%;
+    top: 2%;
     background: #1c1f32;
     margin: 0 auto;
     left: 0; right: 0;
@@ -10,6 +10,7 @@
     border-radius: 0.2rem;
     border: 1px solid #323651;
     padding: 1rem 0;
+
 
 }
 #filters-place{
@@ -37,15 +38,13 @@ select {
     margin: 0.3rem 0;
     }
 
-select:after {
-    content:"▼";
-    padding: 12px 8px;
-    position: absolute; right: 10px; top: 0;
-    z-index: 1;
-    text-align: center;
-    width: 10%;
-    height: 100%;
+select option {
+    margin: 40px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 }
+
 
 .divTableBody{
     background: #1c1f32;
@@ -53,11 +52,7 @@ select:after {
     margin: 0 auto;
     overflow-x: scroll !important;
     position:relative;
-    margin-top: 6%;
-/*
-    height: 300px;
-    max-height: 300px;
-*/
+    margin-top: 0%;
     }
 
 .divTableCell {
@@ -81,4 +76,13 @@ header {
   height: 300px;
   padding-top: 50px;
   background: #f07057;
+}
+
+#marketwatch__title{
+    display: inline-block;
+    color:white;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-right:2rem;
+    float: right;
 }

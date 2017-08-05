@@ -247,7 +247,7 @@ function insertfilters(filters) {
             tr = insertFilterName(tr, target[name]);
             var select = document.createElement('select'),
                 options = filter['benchmark'];
-            select.setAttribute('class','filter-selectors');
+            select.setAttribute('class','selectpicker');
             tr = insertFilterOptions(tr, name, select, options);
             select.setAttribute('id', name);
             filter_ids.push(name);
@@ -333,3 +333,4 @@ $(window).scroll(function() {
     mn.removeClass(mns);
   }
 });
+

@@ -13,7 +13,7 @@
     margin-top: 0.75rem;
     cursor: pointer;
     font-family: IRANSans;
-
+    color: #fff;
 }
 
 .buy__btn {
@@ -26,9 +26,8 @@
     margin-top: 0.75rem;
     cursor: pointer;
     font-family: IRANSans;
-
-
-}
+    color: #fff;
+    }
 
 #CompanyName {
     display: inline-block;
@@ -240,7 +239,7 @@
 
 .modal-content {
     position: relative;
-    background-color: ##f6f7f9;
+    background-color: #f6f7f9;
     margin: auto;
     padding: 0;
     border: 1px solid #888;
@@ -267,51 +266,91 @@
 
 /* The Close Button */
 .close {
-    color: white;
+    color: #cccfd1;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    margin-top: 1%;
+    transition: color 0.3s ease;
 }
 
 .close:hover,
 .close:focus {
-    color: #ddd;
+    color: #797a7c;
     text-decoration: none;
     cursor: pointer;
-}
+    transition: color 0.3s ease;
+    }
 
 .modal-header {
     padding: 2px 16px;
-    background-color: #ddd;
+    background-color: #f6f7f9;
     color: #f6f7f9;
-    border-bottom: 1px solid #ecf0f2;
+    border-bottom: 1px solid #eaecef;
     height:5%;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body{
+    direction:rtl;
+}
 
-.modal-body select,input{
-    height: 5%;
-    width: 30%;
+.modal-body select,
+.modal-body input,
+.modal-body button {
+    height: 6%;
+    width: 12rem;
     border-radius: 4px;
     border: none;
     font-family: IRANSans;
     border: 1px solid #ddd;
     display: inline-block;
+    margin: 1rem;
 }
 
 .modal-body select{
     background: white;
 }
 
-.modal-body h1{
+.modal-body button{
+    color: #fff;
+    background: #09cac8;
+    transition: background-color 0.3s ease;
+}
 
+.modal-body button:hover{
+    color: #fff;
+    background: #0dadab;
+    transition: background-color 0.3s ease;
+}
+
+
+
+#sellModal button{
+    color: #fff;
+    background: #e05567;
+    transition: background-color 0.3s ease;
+}
+
+#sellModal button:hover{
+    color: #fff;
+    background: #d64659;
+    transition: background-color 0.3s ease;
+}
+
+.modal-body h1{
+    font: 1.3rem IRANSans;
+    color: #333;
+    display:block;
+    position: absolute;
+    right: 1rem;
+    margin: 1rem 1rem;
 }
 
 
 .modal-body label {
     color: #111;
     display:block;
+    margin: 0 -9rem -1rem 0;
 }
 
 .modal-body .group{

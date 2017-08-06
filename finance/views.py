@@ -113,7 +113,7 @@ def stockwatch(request, SymbolId):
     if not SymbolId:
         return redirect('/stockwatch/IRO1IKCO0001')
     from data.models import StockWatch as st
-    stock = st.objects.get(SymbolId=SymbolId)
+    stock = st.objects.filter(SymbolId=SymbolId).first()
     stockWatchDict = {'SymbolId': stock.SymbolId, 'title': stock.InstrumentName, **get_user(request)}
     return render(request, 'stockwatch.html', stockWatchDict)
 
@@ -124,3 +124,7 @@ def get_user(request):
     name = user.get_full_name()
     url = '/media/pictures/hadi.jpeg' if username == 'hadi' else 'https://www.awicons.com/free-icons/download/application-icons/dragon-soft-icons-by-artua.com/png/512/User.png'
     return {'name': name, 'img_url': url}
+
+
+def farabi(request):
+    return render(request, 'farabi.html', get_user(request))

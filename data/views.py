@@ -36,7 +36,7 @@ def history(request):
 
 
 def stockwatch(request, SymbolId):
-    stock = Symbol.objects.get(SymbolId=SymbolId)
+    stock = Symbol.objects.filter(SymbolId=SymbolId).first()
     return HttpResponse(json.dumps(stock.read()))
 
 
@@ -61,7 +61,7 @@ def get_data(request, SymbolId):
     data_dict = redis.load_history(SymbolId)
     df = pd.DataFrame(data=data_dict, index=data_dict['date'])
     df = df.loc[:, ['date', 'open', 'high', 'low', 'close', 'volume']]
-    stock = Symbol.objects.get(SymbolId=SymbolId)
+    stock = Symbol.objects.filter(SymbolId=SymbolId).first()
     stock_information = dict(
         per_name=stock.InstrumentName,
         measurement_name=stock.SymbolId,

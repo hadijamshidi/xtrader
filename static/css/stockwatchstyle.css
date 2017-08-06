@@ -3,22 +3,31 @@
 
 
 
-#sell__btn {
+.sell__btn {
     float: left;
     padding: 0.4rem 1.3rem;
-    background: #09cac8;
-    border-radius: 4px;
-    margin-left: 0.5rem;
-    margin-top: 0.75rem;
-}
-
-#buy__btn {
-    float: left;
-    padding: 0.4rem 1.3rem;
+    border: none;
     background: #e74c3c;
     border-radius: 4px;
     margin-left: 3rem;
     margin-top: 0.75rem;
+    cursor: pointer;
+    font-family: IRANSans;
+
+}
+
+.buy__btn {
+    float: left;
+    padding: 0.4rem 1.3rem;
+    background: #09cac8;
+    border: none;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    margin-top: 0.75rem;
+    cursor: pointer;
+    font-family: IRANSans;
+
+
 }
 
 #CompanyName {
@@ -208,4 +217,104 @@
 }
 .divTableBody {
 	display: table-row-group;
+}
+
+
+/***************************************************************/
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.3); /* Black w/ opacity */
+    font-family: IRANSans;
+}
+
+.modal-content {
+    position: relative;
+    background-color: ##f6f7f9;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    border-radius: 4px;
+    width: 30%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+    direction: rtl;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #ddd;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #ddd;
+    color: #f6f7f9;
+    border-bottom: 1px solid #ecf0f2;
+    height:5%;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-body select,input{
+    height: 5%;
+    width: 30%;
+    border-radius: 4px;
+    border: none;
+    font-family: IRANSans;
+    border: 1px solid #ddd;
+    display: inline-block;
+}
+
+.modal-body select{
+    background: white;
+}
+
+.modal-body h1{
+
+}
+
+
+.modal-body label {
+    color: #111;
+    display:block;
+}
+
+.modal-body .group{
+    display: inline-block;
+    direction: rtl;
 }

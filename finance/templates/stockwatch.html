@@ -9,6 +9,8 @@
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
+
     <script>
         var SymbolId = "{{ SymbolId }}" ;
     </script>
@@ -17,6 +19,7 @@
 
 {% load i18n %}
 {% block bodyContent %}
+
     <div id="nav-bar">
         <span id="CompanyName"></span>
         <span id="InstrumentName"></span>
@@ -343,14 +346,8 @@
         </div>
     </div>
 
-     <div class="ui container" dir="rtl" style="display: none;">
-        <div id="search" class="ui fluid category search">
-            <div class="ui icon input" style="width:50%; margin-left: 25%;">
-                <input class="prompt" type="search" placeholder="جستجو نماد">
-                <i class="search icon"></i>
-            </div>
-            <div class="results" style="width:50%; margin-left: 25%;" dir="ltr"></div>
-        </div>
-    </div>
+
+
+
 
 {% endblock bodyContent %}

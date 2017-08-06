@@ -1,28 +1,53 @@
 {% load static %}
-<html lang="en">
+<html lang="en" >
 
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css" />
+
         <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
-        <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script> {# Remember to link jQuery min by CDN #}
+        <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
         {% block headContent %}
         {% endblock headContent %}
+            <script>
+                $(document).ready(function(){
+                    $("#search-btn").click(function(){
+                        $("#search-bar").toggle();
+                    });
+                });
+            </script>
     </head>
 
-    <body>
+    <body style="overflow-y:hidden;">
         <div id="username-block">
             <a id="username-text" href="#">{{ name }}</a>
             <img id="user-pic" src="{{ img_url }}"/>
         </div>
         <a href="#" id="notif-btn"></a>
 
+
+
+     <div class="ui container" id="search-bar" dir="rtl" style="position: relative;top:2.4%; left:0; right:0;text-align:center; display:none;">
+        <div id="search" class="ui fluid category search"  >
+            <div class="ui icon input" style="width:50%;">
+                <input class="prompt" type="search" placeholder="جستجو نماد">
+                <i class="search icon"></i>
+            </div>
+            <div class="results" style="width:50%; margin-left: 25%; display:none; z-index:1000; position:absolute" dir="ltr" ></div>
+        </div>
+    </div>
+
+
+
         <ul id="top-btns">
             <a href="{% url 'finance:stockwatch' %}">
                 <li class="main-btns" id="home-btn"></li>
             </a>
-            <li class="main-btns" id="search-btn"></li>
+                <li class="main-btns" id="search-btn"></li>
+
+
             <a href="{% url 'finance:marketwatch' %}">
                 <li class="main-btns" id="marketwatch-btn"></li>
             </a>

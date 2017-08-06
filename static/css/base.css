@@ -111,8 +111,11 @@ table {
 
 
 html {
-    background-color: #1c1f32;
+    /*background-color: #1c1f32;*/
     font-family: IRANSans;
+}
+body{
+background-color: #1c1f32;
 }
 
 
@@ -129,6 +132,7 @@ html {
     overflow-y:scroll;
     overflow-x:hidden;
     direction: ltr;
+    z-index: 0;
 }
 
 
@@ -139,6 +143,7 @@ html {
     height: 8%;
     background: #1c1f32;
     margin: 0 auto;
+    margin-bottom: 1%;
     left: 0;
     right: 0;
     top: 1%;

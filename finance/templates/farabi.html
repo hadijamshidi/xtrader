@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block headContent %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stockwatchstyle.css' %}"/>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/farabi.js' %}"></script>
+{% endblock headContent %}
+
+{% load i18n %}
+{% block bodyContent %}
+<div id="container" style="min-width: 310px; height: 90%; margin: 0 auto"></div>
+{% endblock bodyContent %}

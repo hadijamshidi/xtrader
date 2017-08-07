@@ -128,3 +128,6 @@ def get_user(request):
 
 def farabi(request):
     return render(request, 'farabi.html', get_user(request))
+
+def ssl(request):
+    return HttpResponse('_4__Dydo_r-Odxp9vmfg6O0yztz4wubxg1pI_hjN61w.roFR2cIPsmsvrAbcUKyEWeWbhw-5q0XtVPqbbDoFZzs')

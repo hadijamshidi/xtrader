@@ -9,22 +9,21 @@
 {% bootstrap_messages %}
 
 
-
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
-{#    <!-- Latest compiled and minified CSS -->#}
-{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"#}
-{#      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">#}
-{##}
-{#<!-- Optional theme -->#}
-{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"#}
-{#      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"#}
-{#      crossorigin="anonymous">#}
-{##}
-{#<!-- Latest compiled and minified JavaScript -->#}
-{#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
-{#        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
-{#        crossorigin="anonymous"></script>#}
+    {#    <!-- Latest compiled and minified CSS -->#}
+    {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"#}
+    {#      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">#}
+    {##}
+    {#<!-- Optional theme -->#}
+    {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"#}
+    {#      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"#}
+    {#      crossorigin="anonymous">#}
+    {##}
+    {#<!-- Latest compiled and minified JavaScript -->#}
+    {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"#}
+    {#        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"#}
+    {#        crossorigin="anonymous"></script>#}
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 
@@ -37,7 +36,8 @@
 
         <p id="error__username">.نام کاربری اشتباه می باشد -</p>
         <p id="error__password">.رمز عبور اشتباه است -</p>
-        <form action="" method="post" >
+
+        <form action="" method="post">
             {% csrf_token %}
             <fieldset>
 
@@ -46,15 +46,15 @@
                     {% if field.name == 'remember_me' %}
 
                     {% else %}
-                          <div class="form-group">
+                        <div class="form-group">
                             <label for="{{ field.name }}">{{ field.label }}</label>
 
 
-      <input type="text" class="form-control"
-        name="{{ field.name }}"
-        id="id_{{ field.name }}"/>
+                            <input type="{{ field.name }}" class="form-control"
+                                   name="{{ field.name }}"
+                                   id="id_{{ field.name }}"/>
 
-                          </div>
+                        </div>
                     {% endif %}
                 {% endfor %}
                 {% if errors.type == 'username' %}
@@ -69,16 +69,27 @@
                 {% endif %}
             </fieldset>
 
-                <button class="btn btn-default sign-in__btn" type="submit" style="display: inline-block" value="ورود"> ورود </button><br>
+            <button class="btn btn-default sign-in__btn" type="submit" style="display: inline-block" value="ورود">
+                ورود
+            </button>
+            <br>
             <a style="color: #4a90e2" class="ui button sign-up__link"
                href="{% url "accounts:userena_signup" %}"
             > ثبت نام </a>
             <br>
             <p class="forgot-password forgot-password__link">
-                <a style="color: #4a90e2;position: relative; right: -2.2rem;" class="link" href="{% url "accounts:userena_password_reset" %}">رمز
-خود را فراموش کردید ؟</a></p>
+                <a style="color: #4a90e2;position: relative; right: -2.2rem;" class="link"
+                   href="{% url "accounts:userena_password_reset" %}">رمز
+                    خود را فراموش کردید ؟</a></p>
             {% if next %}<input type="hidden" name="next" value="{{ next }}"/>{% endif %}
-</form>
+
+                <div id="box_add_info">
+            <a href="">راهنما</a>
+            <a href="">پشتیبانی</a>
+            <a href="" style="float: left">X-Trader</a>
+        </div>
+        </form>
+
 
     </div>
 </div>

@@ -160,9 +160,9 @@ def fullgetdata():
     cleanduplicateRatio()
     createBalanceTables()
     cleanduplicatebalanceSheet()
-    createRatioTables()
-    cleanduplicateRatio()
-    createStockWatchTables()
+    createIncomeTables()
+    cleanduplicateIncome()
+    createMarcketwatchTables()
 
 
 class Fundamental:

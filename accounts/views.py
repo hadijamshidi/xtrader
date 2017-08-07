@@ -227,7 +227,7 @@ def activate(request, activation_key,
                 else:
                     # redirect_to = reverse('accounts:userena_profile_detail',
                     #                       kwargs={'username': user.username})
-                    redirect_to = reverse('main:display')
+                    redirect_to = reverse('finance:stockwatch')
                 return redirect(redirect_to)
             else:
                 if not extra_context: extra_context = dict()

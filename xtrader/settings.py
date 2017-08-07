@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'guardian',
     'easy_thumbnails',
     'channels',
+    'bootstrap3',
 ]
 # CHANNEL_LAYERS = {
 #     "default": {

@@ -4,13 +4,7 @@
 {% block headContent %}
     {% csrf_token %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/stockwatchstyle.css' %}"/>
-{#    <link rel="stylesheet" type="text/css"#}
-{#          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css">#}
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>#}
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
-{#    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>#}
-{#    <script src="https://code.highcharts.com/highcharts-more.js"></script>#}
-{#    <link rel="stylesheet" href="//necolas.github.io/normalize.css/3.0.1/normalize.css">#}
     <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
     <script>
         var symbol_id = "{{SymbolId}}";

@@ -72,26 +72,24 @@
             <button class="btn btn-default sign-in__btn" type="submit" style="display: inline-block" value="ورود">
                 ورود
             </button>
-            <br>
-            <a style="color: #4a90e2" class="ui button sign-up__link"
-               href="{% url "accounts:userena_signup" %}"
-            > ثبت نام </a>
-            <br>
+            <br><br>
             <p class="forgot-password forgot-password__link">
                 <a style="color: #4a90e2;position: relative; right: -2.2rem;" class="link"
                    href="{% url "accounts:userena_password_reset" %}">رمز
-                    خود را فراموش کردید ؟</a></p>
+                    خود را فراموش کردید ؟</a></p> <br>
+            <p class="forgot-password forgot-password__link">
+                <a style="color: #4a90e2;position: relative; right: -2.2rem;" class="link"
+                   href="{% url "accounts:userena_signup" %}">ثبت نام نکرده اید؟</a></p>
             {% if next %}<input type="hidden" name="next" value="{{ next }}"/>{% endif %}
-
-                <div id="box_add_info">
-            <a href="">راهنما</a>
-            <a href="">پشتیبانی</a>
-            <a href="" style="float: left">X-Trader</a>
-        </div>
+            <br>
+            <div id="box_add_info">
+                <a href="" style="margin-right: -2rem;"> | راهنما</a>
+                <a href="" style="margin-right: 0.6rem;">پشتیبانی</a>
+                <a href="" style="float: left; margin-left: -2rem;">X-Trader</a>
+            </div>
         </form>
 
 
-    </div>
 </div>
 
 <script src="{% static 'js/particle.js' %}">

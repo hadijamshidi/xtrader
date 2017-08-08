@@ -1,8 +1,4 @@
 
-
-
-
-
 .sell__btn {
     float: left;
     padding: 0.4rem 1.3rem;
@@ -249,7 +245,7 @@
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
     direction: rtl;
 }
 

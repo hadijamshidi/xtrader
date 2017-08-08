@@ -129,36 +129,36 @@ html, body {
     height : 80%;
     padding: 2em;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    font-size: 0.8em;
+    font-size: 0.75em;
 
 }
 
-#field__parent {
-    border: none;
-}
 
-#field__parent input {
+.form-group input {
     position: relative;
     margin: 0 auto;
     display: block;
     background:  white;
     border: none;
     border-bottom: 1px solid #eaeaea;
-    width: 90%;
+    /*width: 90%;*/
     height: 2em;
     margin-bottom: 1em;
     direction: ltr;
     font-family:IRANSans;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 
-#field__parent input:-webkit-autofill {
+.form-group input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset;
 }
 
-#field__parent input:focus {
+.form-group input:focus {
     outline: none;
     border-bottom: 1px solid #4a90e2;
+    box-shadow: none;
 }
 
 #header__box {
@@ -186,19 +186,23 @@ html, body {
 
 .sign-up__btn {
     background: #21ce99;
-    padding: 0.3em 2em;
+    padding: 0.4rem 2em;
     font: 1.2em IRANSans;
     font-weight: 400;
     color: white;
     display: block;
     float: right;
-    margin: 1em 1.5em 0 0;
     border: none;
     border-radius: 5px;
+    transition: background-color 0.5s ease;
+
 }
 
 .sign-up__btn:hover {
+    color: white;
     cursor: pointer;
+    background: #12ba87;
+    transition: background-color 0.5s ease;
 }
 
 #id_username {
@@ -213,10 +217,10 @@ html, body {
 
 #bottom-links {
     position: relative;
-    margin-top: 10%;
-    width: 110%;
+    margin-top: 12%;
+    width: 70%;
     height: 2em;
-    top: 3em;
+    top: 2em;
     left: -2em;
     display: block;
 
@@ -225,3 +229,4 @@ html, body {
     color: white;
     font-size: 0.7em;
 }
+

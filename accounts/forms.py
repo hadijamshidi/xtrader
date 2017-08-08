@@ -118,7 +118,7 @@ class SignupFormExtra(SignupForm):
                     activation_key=userena_settings.USERENA_ACTIVATED):
                 raise forms.ValidationError(_(
                     'This username is already taken but not confirmed. Please check your email for verification steps.'))
-            raise forms.ValidationError(_('This username is already taken.'))
+            raise forms.ValidationError(_('نام کاربری قبلا ثبت شده است'))
         if self.cleaned_data['username'].lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
             raise forms.ValidationError(_('This username is not allowed.'))
         return self.cleaned_data['username']

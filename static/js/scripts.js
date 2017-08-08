@@ -2211,7 +2211,7 @@ window.onclick = function (event) {
     }
 };
 $(document).ready(function () {
-    $('input.prompt').attr('style', 'background-color: #1c1f32;color:white;text-align: right;font-family:IranSanc');
+    $('input.prompt').attr('style', 'background-color:white;text-align: right;font-family:IRANSans; border-radius:4px;height: 5vh;');
     $('.ui.search').search({
         type: 'category',
         error: false,

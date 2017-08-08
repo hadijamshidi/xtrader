@@ -24,8 +24,8 @@
 {% block bodyContent %}
     <div dir="ltr" style="height: 100%;overflow: auto;">
         <br>
-        <div>
-            <div id="search" class="ui fluid category search" style="z-index:10 ">
+        <div style="display: none;">
+            <div id="search" class="ui fluid category search" style="z-index:10; margin-bottom: 1.3em;">
                 <div class="ui icon input" style="width:50%;">
                     <input class="prompt" type="search" placeholder="جستجو نماد" dir="rtl">
                     <i class="search icon"></i>
@@ -66,15 +66,15 @@
                             <br>
                             <br>
                             <div>
-                                اندیکاتور
+                                اندیکاتور:
                                 <div class="about">
-                                    <select id="shorter" dir="ltr"
+                                    <select id="shorter" dir="ltr" class="long-select"
                                             onchange="insert_param('shorter');
                         ">
                                         <option value="">shorter</option>
                                     </select>
                                 </div>
-                                با اعمال روی:
+<p style="margin-right: 3%; display: inline-block">با اعمال روی:</p>
                                 <select id="shorter_apply">
                                     <option value="default">پیش فرض</option>
                                     <option value="close">close</option>
@@ -83,17 +83,17 @@
                                     <option value="open">open</option>
                                     <option value="volume">volume</option>
                                 </select>
-                                <p id="shorter_param" dir="ltr" style="text-align: right"></p>
+                                <p id="shorter_param" dir="ltr" style="text-align: right" ></p>
                                 {# </div> #}
-                                اندیکاتور
+                                اندیکاتور:
                                 <div class="about">
-                                    <select id="longer" dir="ltr"
+                                    <select id="longer" dir="ltr" class="long-select"
                                             onchange="insert_param('longer');
                         /*var w = (this.value.length + 1) * 8+4 ;if(w<70){w=130;} this.style.width = w + 'px';*/">
                                         <option value="">longer</option>
                                     </select>
                                 </div>
-                                با اعمال روی:
+                                <p style="margin-right: 3%; display: inline-block">با اعمال روی:</p>
                                 <select id="longer_apply">
                                     <option value="default">پیش فرض</option>
                                     <option value="close">close</option>
@@ -124,7 +124,7 @@
                             <p>تشخیص صعودی یا نزولی بودن یک اندیکاتور:</p>
                             <div>
                                 اندیکاتور
-                                <select id="ascending" dir="ltr"
+                                <select id="ascending" dir="ltr" class="long-select"
                                         onchange="insert_param('ascending'); /*var w = (this.value.length + 1) * 8+4 ;if(w<70){w=130;} this.style.width = w + 'px';*/">
                                     <option value="">ascending</option>
                                 </select>
@@ -156,7 +156,7 @@
                         <div class="ui right aligned segment" id="more_than" style="display:none;" dir="rtl">
                             <p>شرط گذاشتن برای انجام خرید و فروش با مقایسه دو اندیکاتور: </p>
                             هنگام معامله اندیکاتور
-                            <select id="main" dir="ltr" onchange="insert_param('main')">
+                            <select id="main" dir="ltr" class="long-select" onchange="insert_param('main')">
                                 <option value="">main</option>
                             </select>
                             {# با اعمال روی: #}
@@ -170,7 +170,7 @@
                             </select>
                             <p id="main_param" dir="ltr" style="text-align: right"></p>
                             از اندیکاتور
-                            <select id="minor" dir="ltr" type="search" onchange="insert_param('minor')">
+                            <select id="minor" dir="ltr" class="long-select" type="search" onchange="insert_param('minor')">
                                 <option value="">minor</option>
                             </select>
                             {# با محاسبه روی: #}
@@ -199,7 +199,7 @@
                         <div class="ui right aligned segment" style="display: none"
                              id="special_methods" dir="rtl">
                             <p>تشخیص سیگنال یک اندیکاتور با روش خاص خودش: </p>
-                            <select id="special" dir="ltr" onchange="insert_param('special');describe(this.value);">
+                            <select id="special" dir="ltr" class="long-select" onchange="insert_param('special');describe(this.value);">
                                 <option value="">
                                     special
                                 </option>

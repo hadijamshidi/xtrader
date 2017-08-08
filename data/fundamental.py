@@ -162,7 +162,7 @@ def fullgetdata():
     cleanduplicatebalanceSheet()
     createIncomeTables()
     cleanduplicateIncome()
-    createStockWatchTables()
+    createMarcketwatchTables()
 
 
 class Fundamental:

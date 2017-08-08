@@ -307,15 +307,28 @@
     background: white;
 }
 
-.modal-body button{
+#input_buy{
     color: #fff;
     background: #09cac8;
     transition: background-color 0.3s ease;
 }
 
-.modal-body button:hover{
+#input_buy:hover{
+    cursor: pointer;
     color: #fff;
     background: #0dadab;
+    transition: background-color 0.3s ease;
+}
+#input_sell{
+    color: #fff;
+    background: #e05567;
+    transition: background-color 0.3s ease;
+}
+
+#input_sell:hover{
+    cursor: pointer;
+    color: #fff;
+    background: #d64659;
     transition: background-color 0.3s ease;
 }
 

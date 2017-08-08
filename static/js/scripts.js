@@ -1039,8 +1039,8 @@ function show_scan_result(result) {
                     symbol_id = symbol_url;
                     load_data('/data/get-data/' + symbol_id);
                 });
-                if (signal == 'buy') a.setAttribute('style', 'color: #00CA9D');
-                else a.setAttribute('style', 'color: #E35C67');
+                if (signal == 'buy') a.setAttribute('style', 'color: #00CA9D; cursor:pointer;');
+                else a.setAttribute('style', 'color: #E35C67;cursor: pointer');
                 a.innerHTML = signal_symbol_name;
                 symbol_name.appendChild(a);
                 item.appendChild(symbol_name);
@@ -1055,7 +1055,7 @@ function show_scan_result(result) {
                 var a = document.createElement('a');
                 a.setAttribute('href', '/stockwatch/' + symbol_url);
                 a.setAttribute('id', 'stockwatch ' + symbol_url);
-                a.setAttribute('style', 'display:none');
+                a.setAttribute('style', 'display:none; color: #F7CA18');
                 a.innerHTML = '(مشاهده تابلو)';
                 stockwatch_link.appendChild(a);
                 item.appendChild(stockwatch_link);
@@ -1095,7 +1095,7 @@ function show_scan_result1(result) {
                 var a = document.createElement('a');
                 a.setAttribute('class', 'symbol');
                 if (signal == 'buy') a.setAttribute('style', 'color: #00CA9D');
-                else a.setAttribute('style', 'color: #E35C67');
+                else a.setAttribute('style', 'color: #E35C67;');
                 a.innerHTML = signal_symbol_name;
                 content.appendChild(a);
                 var description = document.createElement('div');
@@ -1176,7 +1176,7 @@ function createCell(cell, text, style, i) {
                 ic = document.createElement('i');
                 ic.setAttribute('style', 'float: left');
                 if (text < 0) {
-                    cell.setAttribute('style', 'background-color: #E35C67');
+                    cell.setAttribute('style', 'background-color: #E35C67 ');
                     // ic.setAttribute("class", "remove icon");
                     // div.appendChild(ic);
                 } else {

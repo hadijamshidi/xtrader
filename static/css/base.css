@@ -133,6 +133,7 @@ background-color: #1c1f32;
     overflow-x:hidden;
     direction: ltr;
     z-index: 0;
+    padding: 1em;
 }
 
 
@@ -175,7 +176,10 @@ background-color: #1c1f32;
     float: right;
     font-size: 2vh;
     margin: 7% 35% 0 0;
+    color: white;
+
 }
+
 
 #notif-btn{
     background-color:#292d48;
@@ -203,6 +207,14 @@ background-color: #1c1f32;
 
 }
 
+
+#logo-svg {
+    position: fixed;
+    top: 1.5%;
+    left: 3.25%;
+    width: 9%;
+    height: auto;
+}
 
 #top-btns {
     position: fixed;
@@ -232,7 +244,7 @@ background-color: #1c1f32;
     background-image: url(/media/icons/stockwatch.svg)
 }
 #backtest-btn{
-    background-image: url(/media/icons/backtest.svg)
+    background-image: url(/media/icons/backtest.svg);
 }
 #setting-btn{
     background-image: url(/media/icons/setting.svg)

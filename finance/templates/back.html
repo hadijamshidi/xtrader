@@ -128,7 +128,7 @@
                                         onchange="insert_param('ascending'); /*var w = (this.value.length + 1) * 8+4 ;if(w<70){w=130;} this.style.width = w + 'px';*/">
                                     <option value="">ascending</option>
                                 </select>
-                                با اعمال روی:
+<p style="margin-right: 3%; display: inline-block">با اعمال روی:</p>
                                 <select id="ascending_apply">
                                     <option value="default">پیش فرض</option>
                                     <option value="close">close</option>
@@ -277,7 +277,7 @@
                             <div>
                                 در هنگام خرید اندیکاتور
                                 <div class="about">
-                                    <select id="buying shorter" dir="ltr"
+                                    <select id="buying shorter" dir="ltr" class="long-select"
                                             onchange="insert_param('buying shorter');document.getElementById('selling shorter').value=this.value;insert_param('selling shorter');
                         ">
                                         <option value="">buying shorter</option>
@@ -295,7 +295,7 @@
                                 <p id="buying shorter_param" dir="ltr" style="text-align: right"></p>
                                 اندیکاتور
                                 <div class="about">
-                                    <select id="buying longer" dir="ltr"
+                                    <select id="buying longer" dir="ltr" class="long-select"
                                             onchange="insert_param('buying longer');document.getElementById('selling longer').value=this.value;insert_param('selling longer');">
                                         <option value="">buying longer</option>
                                     </select>
@@ -313,7 +313,7 @@
                                 <p id="buying longer_param" dir="ltr" style="text-align: right"></p>
                                 و در هنگام فروش اندیکاتور
                                 <div class="about">
-                                    <select id="selling shorter" dir="ltr" onchange="insert_param('selling shorter');">
+                                    <select id="selling shorter" dir="ltr" class="long-select" onchange="insert_param('selling shorter');">
                                         <option value="">selling shorter</option>
                                     </select>
                                 </div>
@@ -329,7 +329,7 @@
                                 <p id="selling shorter_param" dir="ltr" style="text-align: right"></p>
                                 اندیکاتور
                                 <div class="about">
-                                    <select id="selling longer"
+                                    <select id="selling longer" class="long-select"
                                             onchange="insert_param('selling longer');" dir="ltr">
                                         <option value="">selling longer</option>
                                     </select>
@@ -362,7 +362,7 @@
                         </div>
                         <div class="ui right aligned segment" style="display: none" dir="rtl" id="just draw">
                             <p>اندیکاتورهای این قسمت تنها رسم می شوند و در بک تست و غیره در نظر گرفته نمی شود.</p>
-                            <select id="draw" onchange="insert_param('draw')" dir="ltr">
+                            <select id="draw" onchange="insert_param('draw')" class="long-select" dir="ltr">
                                 <option value="">
                                     draw
                                 </option>
@@ -383,7 +383,7 @@
                                 <option value="on_chart">روی قیمت</option>
                                 <option value="below_chart">جدید</option>
                             </select>
-                            <button type="submit" class="positive ui button" style="float: left;"
+                            <button type="submit" class="positive ui button" style="float: left; font-family: IRANSans"
                                     onclick="call_add('draw')">
                                 اضافه
                                 کردن
@@ -404,7 +404,7 @@
                         </div>
                         <br>
                         <div class="ui right aligned segment" id="strategy place" dir="rtl">
-                                <h5>استراتژی:
+                                <h5 style="font-family: IRANSans">استراتژی:
                                 </h5>
                             <div class="ui form" align="right">
                                 <div class="grouped fields" id="strategies">
@@ -451,7 +451,7 @@
         <div class="ui icon floating message" style="background-color:#00ca9d">
             <i class="notched circle loading icon"></i>
             <div class="content">
-                <div class="header">
+                <div class="header" style="font-family: IRANSans">
                     لطفا صبر کنید.
                 </div>
                 <p> Xtrader در حال محاسبه است.</p>

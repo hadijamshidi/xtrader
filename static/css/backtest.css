@@ -9,6 +9,7 @@ body{
     color: white;
 }
 .ui.positive.buttons, .ui.positive.button, .button{
+    font-family: IRANSans;
     background-color: #00ca9d;
 }
 .ui .segment{
@@ -58,11 +59,33 @@ input {
     /*!*border: none;*!*/
     /*color: white;*/
 }
+
+.ui.top.attached.menu > .item:first-child {
+    border-radius: 4px;
+}
 .ui.tabular.menu .item{
     background: #1c1f32;
     border: none;
     color: white;
+    border-radius: 4px;
+    margin: 0 0.3rem 0.1rem 0;
+    transition: background-color 0.5s ease;
+}
 
+.ui.tabular.menu .item:hover{
+    background: #00ca9d;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.5s ease;
+}
+
+#delete_all_button:hover {
+    background: #df5467;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.5s ease;
 }
 
 .ui.attached.segment{
@@ -100,3 +123,8 @@ input {
 .long-select{
     width: 33%
 }
+
+.long-select option{
+    text-align: left;
+}
+

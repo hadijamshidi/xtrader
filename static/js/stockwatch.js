@@ -138,6 +138,7 @@ var price_data = {
 };
 $(document).ready(function () {
     update_stockwatch();
+    portfo();
     draw_chart();
 });
 
@@ -515,7 +516,38 @@ function draw_chart() {
 
 
 function sendorder(order) {
-    console.log(order);
+var side = {'buy':1,'sell':2};
+var data = {
+            SymbolId : SymbolId,
+            Price: Number($('#'+order+'Modal__price').val()),
+            Quantity: Number($('#'+order+'Modal__count').val()),
+            OrderSide:side[order],
+        };
     $.ajax({
+        type : 'GET',
+        url : '/trade',
+        data : {
+        order: JSON.stringify(data),
+        },
+        success: function(result){
+            console.log(result);
+        },
+        error: function(e){
+        console.log(e);
+        },
     });
+}
+
+function portfo() {
+    $.ajax({
+        type : 'GET',
+        url : '/portfo',
+        success : function(result){
+            $('#pportfo').html(result)
+        },
+        error : function(e){
+            console.log(e)
+        }
+
+    })
 }

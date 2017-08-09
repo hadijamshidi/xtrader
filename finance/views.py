@@ -6,7 +6,8 @@ from finance import data_handling as dh, indicator
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse, Http404, HttpResponseNotFound
 from accounts.forms import AuthenticationForm
-
+import requests as r
+from xtrader.localsetting import farabi_login_data
 from data.dates import Check
 # Create your views here.
 
@@ -134,3 +135,19 @@ def farabi(request):
 
 def ssl(request):
     return HttpResponse('_4__Dydo_r-Odxp9vmfg6O0yztz4wubxg1pI_hjN61w.roFR2cIPsmsvrAbcUKyEWeWbhw-5q0XtVPqbbDoFZzs')
+
+def trade(request):
+    data = request.GET['order']
+    data = json.loads(data)
+    print (data)
+    user = r.session()
+    user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+    orderId = user.post('http://api.farabixo.com/api/pub/AddOrder', data=data)
+    return HttpResponse(orderId.text)
+
+def portfo(request):
+    user = r.session()
+    user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+    portfo = user.get('http://api.farabixo.com/api/pub/GetAssetList').text
+    portfo = json.loads(portfo)
+    return render(request, 'portfo.html', {'portfo':portfo})

@@ -18,5 +18,7 @@ urlpatterns = [
     url(r'^stockwatch/(?:(?P<SymbolId>\w+)/)?$',  views.stockwatch, name='stockwatch'),
     url(r'^farabi', views.farabi, name='farabi'),
     url(r'^.well-known/acme-challenge/_4__Dydo_r-Odxp9vmfg6O0yztz4wubxg1pI_hjN61w', views.ssl, name='ssl'),
+    url(r'^trade', views.trade, name='trade'),
+    url(r'^portfo', views.portfo, name='portfo'),
 
 ]

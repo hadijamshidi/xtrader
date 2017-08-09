@@ -3,7 +3,7 @@
  */
 function show_filters_result(result) {
     var columns = {
-        'num': 'ردیف',
+        // 'num': 'ردیف',
         'stockwatch_InstrumentName': 'نماد', 'stockwatch_InstrumentTitle': 'نام',
         'stockwatch_TotalNumberOfTrades': 'تعداد',
         'stockwatch_TotalNumberOfSharesTraded': 'حجم', 'stockwatch_TotalTradeValue': 'ارزش',
@@ -53,7 +53,7 @@ function show_filters_result(result) {
         Object.keys(columns).forEach(function (column) {
             var td = document.createElement('div');
             td.setAttribute('class', 'divTableCell');
-            if (num == 1) {
+            if (num == 0) {
                 var a = document.createElement('a');
                 a.appendChild(document.createTextNode(quick_check(stock[column])));
                 a.setAttribute('href', '/stockwatch/' + stock['stockwatch_SymbolId']);
@@ -175,9 +175,9 @@ var filters_data = [
     },
     /****************************************************14*************************************************************/
     {
-        'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
+        'benchmark': [1000000,5000000,10000000],
         'target': [
-            {'ratio_cash_ratio': 'نسبت نقد'}
+            {'stockwatch_TotalNumberOfSharesTraded': 'حجم معاملات'}
         ]
     },
     /****************************************************15*************************************************************/

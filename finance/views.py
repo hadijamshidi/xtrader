@@ -67,10 +67,12 @@ def filtermarket(request):
     filters = json.loads(request.GET['filters'])
     query = ' and '.join(filters) if len(filters) != 0 else '1=1'
     from data.models import MarketWatch
+    from data import dates as d
+    last = d.Check().last_market()
     results = MarketWatch.objects.raw('select * from data_MarketWatch WHERE {}'.format(query))
     if len(filters) == 0:
         results = MarketWatch.objects.all()
-    results = [r.read() for r in results]
+    results = [r.read() for r in results if str(r.stockwatch_LastTradeDate) == last]
     return HttpResponse(json.dumps(results))
 
 

@@ -366,3 +366,15 @@
     display: inline-block;
     direction: rtl;
 }
+#nav-bar2 {
+    display: block;
+    position: absolute;
+    width: 99%;
+    height: 8%;
+    background: #1c1f32;
+    margin: 0 auto;
+    margin-bottom: 1%;
+    left: 0;
+    right: 0;
+    top: 1%;
+}

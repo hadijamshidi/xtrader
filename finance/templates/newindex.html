@@ -15,7 +15,8 @@
     <div id="particle">
         <div id="overlay">
             <h1>X-Trader</h1>
-            <h2>آنلاین حرفه‌ای، برای معامله گران حرفه‌ای</h2>
+            <h2>یک آنلاین حرفه ای ، برای یک معامله گر حرفه ای</h2>
+            <h6>با ما حرفه ای شوید</h6>
             <div id="btn_wrapper">
                 <a href="{% url 'accounts:userena_signin' %}"><h3 id="sign_in">ورود</h3></a>
                 <a href="{% url 'accounts:userena_signup' %}"><h3 id="sign_up">ثبت‌نام</h3></a>
@@ -31,24 +32,41 @@
 
 <section class="fullpage" id="online_strategy">
 
-    <h1>یک قدم جلوتر از بازار</h1>
+    <h1>يک قدم جلوتر از بازار‌</h1>
     <div id="boxes_parent">
         <section class="options_box">
-            <i>x</i>
-            <h2>دیده بان حرفه‌ای</h2>
-            <p>فلیتر کردن بازار بر مبنا فیلتر‌ها بنیادی، اندیکاتور‌ها تکنیکال، تابلو و نسبت‌ها مالی به صورت خودکار و در
-                کمترین زمان</p>
+            <img src="/media/img/presentation.svg" alt="Market Watch" >
+            <h2>دیده بان تحلیلی</h2>
+            <p>
+                <ul>
+                    <li>فیلتر لحظه ای بازار بر مبنای:</li>
+                    <li>فیلترهای بنیادی و نسبت های مالی</li>
+                    <li>فیلترهای تکنیکال</li>
+                    <li>اطلاعات تابلو</li>
+                </ul>
+            </p>
         </section>
         <section class="options_box">
-            <i>x</i>
+            <img src="/media/img/time-passing.svg" alt="Market Watch" >
             <h2>مدیریت معاملات</h2>
-            <p>خرید و فروش سهام، مدیریت پرتفو و سیستم هشدار هوشمند ابزار‌ها حرفه‌ای XTrader برای تسهیل معاملات کاربران
-                هستند</p>
+            <p>
+                <ul>
+                    <li>خرید و فروش سهام</li>
+                    <li>مدیریت پرتفوی</li>
+                    <li>قابلیت تنظیم هشدار بر روی ابزارها</li>
+                    <li></li>
+                </ul>
+            </p>
         </section>
         <section class="options_box">
-            <i>x</i>
+            <img src="/media/img/time-is-money.svg" alt="Market Watch" >
             <h2>بک تست</h2>
-            <p>تست استراتژی تکنیکال در گذشته بصورت کاملا خودکار و سپس اسکن بازار برای یافتن سیگنال‌ها خرید و فروش</p>
+            <p>
+                <ul>
+                    <li>تست استراتژی تکنیکال بدون نیاز به کدنویسی</li>
+                    <li>اسکن استراتژی بازار برای یافتن سیگنال</li>‌
+                </ul>
+            </p>
         </section>
     </div>
 
@@ -58,16 +76,20 @@
 <section class="fullpage" id="what_we_do2" name="what_we_do2">
     <div id="tabletpic"></div>
     <h1>ما چه می‌کنیم؟</h1>
+    <img src="/media/img/about.png" align="left" style="width:60%;height:60%;">
     <p>سامانه آنلاین معاملاتی در اختیار مشتریان قرار می‌دهیم، در سامانه XTrader برای راحتی کاربران و تسهیل در امر بررسی
         روزانه سهام شرکت‌ها دیده‌بان قدرتمندی طراحی کرده‌ایم. نوآوری در ابزار‌ها، اتوماتیک بودن، سهولت در استفاده، سرعت
         و دقت از ویژگی‌ها منحصر بفرد XTrader هستند.</p>
     <a href="#">بیشتر بخوانید <i>x</i></a>
+
 </section>
 
 <section class="fullpage" id="our_capabilities">
     <h1>قابلیت‌ها X-Trader</h1>
     <h2>شاید قدرت تحلیلگر محدود باشد، اما یک آنلاین می‌تواند قدرت نامحدودی داشته باشد</h2>
-
+    <div id="middle_img" style="width:10%;height:10%;right:42%;position:absolute;margin:5em 0 0 3em">
+        <img src="/media/img/mtrader.png">
+    </div>
     <div id="rightside_box">
         <h3>دیده بان قدرتمند</h3>
         <p>بدون نیاز به دانش فیلتر نویسی و تنها با کلیک کردن می توانید فیلتر خود رابسازید، بازار را فیلتر کنید و سهم
@@ -104,30 +126,60 @@
         <p>طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی برای پُر کردن صفحه و ارائهٔ اولیهٔ شکل ظاهری و کلیِ طرح
             سفارش‌گرفته‌شده استفاده می‌کند، تا ازنظر گرافیکی نشانگر چگونگی نوع و اندازهٔ قلم و ظاهرِ متن باشد.</p>
     </div>
-    <div id="neximg"></div>
+    <div id="neximg" style="margin:3em 0 0 0">
+        <img src="/media/img/laptop.png" alt="Trader-Laptop" style="width:65%;height:65%;float:left;">
+    </div>
+    <!-- my code
+    <section id="guide">
+        <div class="container">
+            <div id="div1">
+                <h3>راهنما</h3>
+                <p>طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی برای پُر کردن صفحه و ارائهٔ و کلیِ</p>
+            </div>
+            <div id="div2">
+                <img src="/media/img/video.png" style="width:85%;height:85%;">
+            </div>
+            <div id="div3">
+                <img src="/media/img/video.png" style="width:85%;height:85%;">
+            </div>
+        </div>
+    </section>
+    -->
 
     <section id="guide">
-        <h3>راهنما</h3>
-        <p>طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی برای پُر کردن صفحه و ارائهٔ و کلیِ</p>
-        <div class="vid">
-            <div id="vid1"></div>
+
+        <div id="div1">
+            <h3>راهنما</h3>
+            <p>طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی برای پُر کردن صفحه و ارائهٔ و کلیِ</p>
+        </div>
+
+        <div id="div2">
+            <div id="vid2">
+            <img src="/media/img/video.png" style="width:35%;height:35%;">
+            </div>
+            <p>نشانگر چگونگی نوع</p>
+            <div></div>
+        </div>
+
+        <div id="div3">
+            <div id="vid2">
+                <img src="/media/img/video.png" style="width:35%;height:35%;">
+            </div>
             <p>نشانگر چگونگی نوع</p>
             <div class="vidlength"></div>
         </div>
-        <div class="vid">
-            <div id="vid2"></div>
-            <p>نشانگر چگونگی نوع</p>
-            <div class="vidlength"></div>
-        </div>
-        <div class="vid">
-            <div id="vid3"></div>
+
+        <div id="div4">
+            <div id="vid3">
+                <img src="/media/img/video.png" style="width:35%;height:35%;">
+            </div>
             <p>نشانگر چگونگی نوع</p>
             <div class="vidlength"></div>
         </div>
 
     </section>
 </section>
-
+<!-- Account
 <section class="fullpage" id="choose_acc">
     <h1>حساب کاربری خود را انتخاب کنید</h1>
     <h2>به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود.</h2>
@@ -185,11 +237,13 @@
         <a>ثبت نام</a>
 
     </div>
-</section>
+</section> -->
 
 <section id="footer">
-    <h1>X-Trader<i>x</i></h1>
-    <p>طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی برای پُر کردن صفحه و</p>
+    <div style="width:25%;height:25%;">
+        <h1 style="margin:5%">X-Trader<i>x</i></h1>
+        <p style="margin:5%">طراح گرافیک از این متن به‌عنوان عنصری از ترکیب‌بندی برای پُر کردن صفحه و</p>
+    </div>
     <div id="footer_section_wrapper">
         <div class="footersec">
             <hr/>
@@ -232,15 +286,16 @@
             </ul>
         </div>
     </div>
+</section>
+
     <div id="footerend">
-        <p>کلیه حقوق حقوق حقوق حقوق</p>
+        <p style="display:inline-block;">کلیه حقوق حقوق حقوق حقوق</p>
         <ul>
             <li>telegram</li>
-            <li>telegram</li>
-            <li>telegram</li>
+            <li>instagram</li>
+            <li>twitter</li>
         </ul>
     </div>
-</section>
 
 </body>
 

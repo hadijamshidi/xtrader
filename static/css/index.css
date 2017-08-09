@@ -256,6 +256,7 @@ section {
 }
 
 #what_we_do2 a {
+    float: left;
     color: #58627c;
     display: inline-block;
     width: 9em;
@@ -263,7 +264,7 @@ section {
     border: 1px solid #36d0af;
     border-radius: 2em;
     text-align: center;
-    margin: 3em 24em
+
 }
 
 #our_capabilities {
@@ -295,7 +296,7 @@ section {
     top: 5em;
     right: 20%;
     position: relative;
-    width: 17em;
+    width: 10em;
 }
 
 #leftside_box {
@@ -319,8 +320,10 @@ section {
 }
 
 #info_wrapper {
-    width: 31em;
-    margin: 6em 8em 0 0;
+    /*width : 45em */
+    float: right;
+    width: 18em;
+    margin:6em 10em 0 0 ;
 }
 
 #info_wrapper p {
@@ -332,8 +335,9 @@ section {
 #guide {
     text-align: right;
     color: white;
-    display: block;
-    position: absolute;
+    /* block */
+    display: flex;
+    position: relative;
     bottom: 0;
     height: 20em;
     width: 100%;
@@ -386,6 +390,7 @@ section {
 }
 
 #footer {
+    /* flex */
     display: flex;
     background: #071c32;
     position: relative;
@@ -398,8 +403,9 @@ section {
 }
 
 #footerend {
+    display: block;
     width: 100%;
-    position: absolute;
+    position: relative;
     bottom: 0;
     height: 3em;
     background: #07182b;
@@ -407,6 +413,9 @@ section {
 }
 
 #footerend ul {
+    left: 0;
+    display: inline-block;
+    position: absolute;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -414,5 +423,29 @@ section {
 }
 
 #footerend li {
+    margin-left: 1em;
     float: left;
+}
+
+
+/*=========================================*/
+#div1 {
+    width: 25%;
+    margin:3em 6em 6em 0em;
+}
+
+#div2 {
+    margin:3em 6em 6em 0em;
+}
+
+#div3 {
+    margin:3em 6em 6em 0em;
+}
+
+#div4 {
+    margin:3em 6em 6em 0em;
+}
+
+.footersec {
+    margin:0em 5em;
 }

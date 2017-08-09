@@ -512,3 +512,10 @@ function draw_chart() {
     Highcharts.setOptions(Highcharts.theme);
 
 }
+
+
+function sendorder(order) {
+    console.log(order);
+    $.ajax({
+    });
+}

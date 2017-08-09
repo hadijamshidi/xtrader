@@ -10,11 +10,8 @@
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
-
     <script>
         var SymbolId = "{{ SymbolId }}";
-
-
     </script>
     <script type="text/javascript" src="{% static 'js/stockwatch.js' %}"></script>
 {% endblock headContent %}
@@ -30,7 +27,7 @@
 
 
         <!-- The Modal -->
-        <form id="buyModal" class="modal">
+        <div id="buyModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="close">&times;</span>
@@ -51,7 +48,7 @@
 
                     <div class="group">
                         <label for="buyModal__count">قیمت</label>
-                        <input type="text" name="buyModal__count" id="buyModal__price">
+                        < type="text" name="buyModal__count" id="buyModal__price">
                     </div>
 <!--
                     <div class="group">
@@ -69,11 +66,11 @@
                     </div>
 -->
                     <div class="group">
-                    <input id="input_buy" type="submit" value="خرید">
+                    <button id="input_buy" type="submit" onclick="sendorder('buy')">خرید</button>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
 
         <form id="sellModal" class="modal">
             <div class="modal-content">

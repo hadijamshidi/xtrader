@@ -76,7 +76,7 @@ def find_bad_historical_data():
             incorrect_keys.append(keys)
     return incorrect_keys
 
-database_history = r.get('https://xtrader.ir/api/history/', verify=False).text
+database_history = r.get('https://xtrader.ir/data/history/', verify=False).text
 
 
 def read_historical_data_from_server_db():

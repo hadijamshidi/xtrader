@@ -111,8 +111,7 @@ table {
 
 
 html {
-    /*background-color: #1c1f32;*/
-    font-family: IRANSans;
+    font-size: 16px;
 }
 body{
 background-color: #1c1f32;
@@ -120,11 +119,10 @@ background-color: #1c1f32;
 
 
 #master__wrapper {
-    display: block;
     position: fixed;
     margin: 0 auto;
     background:#292d48;
-    width:94%;
+    width:93.5%;
     height: 94%;
     left: 0;
     right: 0; top:8%;

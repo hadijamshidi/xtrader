@@ -36,8 +36,11 @@ def history(request):
 
 
 def stockwatch(request, SymbolId):
-    stock = Symbol.objects.filter(SymbolId=SymbolId).first()
-    return HttpResponse(json.dumps(stock.read()))
+    # stock = Symbol.objects.filter(SymbolId=SymbolId).first()
+    # return HttpResponse(json.dumps(stock.read()))
+    from data import stockwatch as s
+    stock = s.stockWatchInfo(SymbolId, eps=True)
+    return HttpResponse(json.dumps(stock))
 
 
 def symbol_search(request, query):

@@ -1469,17 +1469,17 @@ function show_div(id) {
         }
     });
 }
-function waiting(pointer) {
-    document.body.style.cursor = pointer;
-    switch (pointer) {
-        case 'wait':
-            document.getElementById("modal").style.display = 'block';
-            break;
-        case 'default':
-            document.getElementById("modal").style.display = 'none';
-            break;
-    }
-}
+// function waiting(pointer) {
+//     document.body.style.cursor = pointer;
+//     switch (pointer) {
+//         case 'wait':
+//             document.getElementById("modal").style.display = 'block';
+//             break;
+//         case 'default':
+//             document.getElementById("modal").style.display = 'none';
+//             break;
+//     }
+// }
 function let_draw(data) {
     drawing_tool['status'] = data['status'];
     // console.log(drawing_tool);

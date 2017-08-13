@@ -1,32 +1,32 @@
+<div class="divTableRow">
+    <div class="divTableCell">نماد</div>
+    <div class="divTableCell">تعداد</div>
+    <div class="divTableCell">خالص میانگین</div>
+    <div class="divTableCell">میانگین خرید</div>
+    <div class="divTableCell">جمع خرید</div>
+    <!--
+    <div class="divTableCell">نقطه سر به سر</div>
+    <div class="divTableCell">قیمت لحظه ای</div>
+    <div class="divTableCell">ارزش</div>
+    <div class="divTableCell">سود/زیان</div>
+    -->
+</div>
 {% for stock in portfo %}
-                <div class="divTableRow">
-                    <div class="divTableCell">نماد</div>
-                    <div class="divTableCell">تعداد</div>
-                    <div class="divTableCell">خالص میانگین</div>
-                    <div class="divTableCell">میانگین خرید</div>
-                    <div class="divTableCell">جمع خرید</div>
-                    <!--
-                    <div class="divTableCell">نقطه سر به سر</div>
-                    <div class="divTableCell">قیمت لحظه ای</div>
-                    <div class="divTableCell">ارزش</div>
-                    <div class="divTableCell">سود/زیان</div>
-                    -->
-                </div>
-    <div class="divTableRow">
-        <div class="divTableCell">
-            {{ stock.InstrumentName }}
-        </div>
-        <div class="divTableCell">
-            {{ stock.RemainingQuantity }}
-        </div>
-        <div class="divTableCell">
-            {{ stock.NetPurchasesAveragePrice }}
-        </div>
-        <div class="divTableCell">
-            {{ stock.BuyAveragePrice }}
-        </div>
-        <div class="divTableCell">
-            {{ stock.BuyTotalTradeVlolume }}
-        </div>
+<div class="divTableRow">
+    <div class="divTableCell">
+        {{ stock.InstrumentName }}
     </div>
+    <div class="divTableCell">
+        {{ stock.RemainingQuantity }}
+    </div>
+    <div class="divTableCell">
+        {{ stock.NetPurchasesAveragePrice }}
+    </div>
+    <div class="divTableCell">
+        {{ stock.BuyAveragePrice }}
+    </div>
+    <div class="divTableCell">
+        {{ stock.BuyTotalTradeVlolume }}
+    </div>
+</div>
 {% endfor %}

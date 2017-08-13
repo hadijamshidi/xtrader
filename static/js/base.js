@@ -126,3 +126,15 @@ $(document).ready(function () {
         $('.ui.search').transition('jiggle');
     });
 });
+
+function waiting(pointer) {
+    document.body.style.cursor = pointer;
+    switch (pointer) {
+        case 'wait':
+            document.getElementById("modal").style.display = 'block';
+            break;
+        case 'default':
+            document.getElementById("modal").style.display = 'none';
+            break;
+    }
+}

@@ -11,7 +11,8 @@
     <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
     <script>
-        var SymbolId = "{{ SymbolId }}";
+        var SymbolId = "{{ SymbolId }}",
+        user = "{{request.user.username}}";
     </script>
     <script type="text/javascript" src="{% static 'js/stockwatch.js' %}"></script>
 {% endblock headContent %}
@@ -22,9 +23,10 @@
     <div id="nav-bar2">
         <span id="CompanyName"></span>
         <span id="InstrumentName"></span>
+        {% if request.user.username == "hadi" %}
         <button class="sell__btn" id="" onclick="trade('sell')">فروش</button>
         <button class="buy__btn" id="buyBtn" onclick="trade('buy')">خرید</button>
-
+        {% endif %}
 
         <!-- The Modal -->
         <div id="buyModal" class="modal">
@@ -332,111 +334,13 @@
     <div id="portfo">
         <div class="divTable">
             <div class="divTableBody" id="pportfo">
-<!--
-                <div class="divTableRow">
-                    <div class="divTableCell">نماد</div>
-                    <div class="divTableCell">تعداد</div>
-                    <div class="divTableCell">خالص میانگین</div>
-                    <div class="divTableCell">میانگین خرید</div>
-                    <div class="divTableCell">جمع خرید</div>
-                    <div class="divTableCell">نقطه سر به سر</div>
-                    <div class="divTableCell">قیمت لحظه ای</div>
-                    <div class="divTableCell">ارزش</div>
-                    <div class="divTableCell">سود/زیان</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                    <div class="divTableCell"></div>
-                </div>
-                -->
             </div>
         </div>
     </div>
     <div id="column"></div>
     <div id="hotlist">
         <div class="divTable">
-            <div class="divTableBody">
-                <div class="divTableRow">
-                    <div class="divTableCell">نماد</div>
-                    <div class="divTableCell">آخرین قیمت</div>
-                    <div class="divTableCell">تغییرات</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                    <div class="divTableCell">&nbsp;</div>
-                </div>
+            <div class="divTableBody" id="orders_place">
             </div>
         </div>
     </div>

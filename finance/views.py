@@ -139,15 +139,34 @@ def ssl(request):
 def trade(request):
     data = request.GET['order']
     data = json.loads(data)
-    print (data)
     user = r.session()
     user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
     orderId = user.post('http://api.farabixo.com/api/pub/AddOrder', data=data)
     return HttpResponse(orderId.text)
 
 def portfo(request):
+    portfo = []
+    if request.user.username == 'hadi':
+        user = r.session()
+        user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+        portfo = user.get('http://api.farabixo.com/api/pub/GetAssetList').text
+        portfo = json.loads(portfo)
+    return render(request, 'portfo.html', {'portfo':portfo})
+
+def orders(request):
+    orders = []
+    if request.user.username == 'hadi':
+        user = r.session()
+        user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+        orders = user.get('http://api.farabixo.com/api/pub/GetOrderList').text
+        orders = json.loads(orders)
+        for order in orders:
+            order['OrderSideId'] = 'خرید' if order['OrderSideId'] == 1 else 'فروش' 
+    return render(request, 'orders.html', {'orders':orders})
+
+
+def cancelOrder(request):
     user = r.session()
     user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
-    portfo = user.get('http://api.farabixo.com/api/pub/GetAssetList').text
-    portfo = json.loads(portfo)
-    return render(request, 'portfo.html', {'portfo':portfo})
+    output = user.post('http://api.farabixo.com/api/pub/CancelOrder', data={'OrderId':request.GET['OrderId']}).text
+    return HttpResponse(output)

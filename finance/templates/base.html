@@ -40,7 +40,7 @@
     </div>
 
 
-        <img src="/media/pictures/logo.png" id="logo-svg">
+        <img src="/media/pictures/logo.svg" id="logo-svg">
         <ul id="top-btns">
             <a href="{% url 'finance:stockwatch' %}">
                 <li class="main-btns" id="home-btn"></li>
@@ -72,6 +72,17 @@
             {% block bodyContent %}
             {% endblock bodyContent %}
         </div>
+    <div id="modal" class="modal" style="display: none;z-index:20" dir="rtl">
+        <div class="ui icon floating message" style="background-color:#00ca9d">
+            <i class="notched circle loading icon"></i>
+            <div class="content">
+                <div class="header" style="font-family: IRANSans">
+                    لطفا صبر کنید.
+                </div>
+                <p> Xtrader در حال محاسبه است.</p>
+            </div>
+        </div>
+    </div>
 
     </body>
 

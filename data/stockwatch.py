@@ -26,7 +26,7 @@ def createStockWatchTables(num=0):
                     wrong_symbol_ids.append(dict(id=symbol_id, problem='on save'))
 
 
-def stockWatchInfo(symbol_id):
+def stockWatchInfo(symbol_id, eps=True):
     user = r.session()
     user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
     print('trying to get data for symbol with id: {}'.format(symbol_id))
@@ -58,12 +58,16 @@ def stockWatchInfo(symbol_id):
     else:
         wrong_symbol_ids.append(dict(id=symbol_id, problem='ح . '))
         return False
-    try:
-        Eps = epss(trades_dict['InstrumentName'])
-        trades_dict['Eps'] = Eps
-        if Eps != 0: trades_dict['PricePerEarning'] = trades_dict['ClosingPrice'] / Eps
-    except Exception:
-        wrong_symbol_ids.append(dict(id=symbol_id, problem='no Eps'))
+    if eps:
+        try:
+            Eps = epss(trades_dict['InstrumentName'])
+            trades_dict['Eps'] = Eps
+            pe = 0 if Eps == 0 else trades_dict['ClosingPrice'] / Eps
+            pe_int = int(pe)
+            pe_digt = int((pe - pe_int)*100)/100
+            trades_dict['PricePerEarning'] = pe_int + pe_digt
+        except Exception:
+            wrong_symbol_ids.append(dict(id=symbol_id, problem='no Eps'))
     return trades_dict
 
 

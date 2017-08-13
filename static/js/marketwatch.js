@@ -304,6 +304,7 @@ function read_filters() {
 }
 
 function filter_market(filters) {
+    waiting('wait');
     $.ajax({
         type: 'GET',
         url: "/filtermarket",
@@ -313,10 +314,12 @@ function filter_market(filters) {
         },
         error: function () {
             // alert('متاسفانه هنگام دخیره کردن استراتژی شما مشکلی پیش آمده است,\n لطفا بعدا تلاش کنید.');
+            waiting('default');
         },
         success: function (result) {
             result = JSON.parse(result);
             show_filters_result(result);
+            waiting('default');
         }
     });
 }

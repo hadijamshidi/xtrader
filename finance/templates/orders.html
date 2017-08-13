@@ -1,0 +1,39 @@
+<div class="divTableRow">
+    <div class="divTableCell">مدیریت</div>
+    <div class="divTableCell">سفارش</div>
+    <div class="divTableCell">نماد</div>
+    <div class="divTableCell">تعداد</div>
+    <div class="divTableCell">قیمت</div>
+    <div class="divTableCell">وضعیت</div>
+    <!--
+    <div class="divTableCell">جمع خرید</div>
+    <div class="divTableCell">نقطه سر به سر</div>
+    <div class="divTableCell">قیمت لحظه ای</div>
+    <div class="divTableCell">ارزش</div>
+    <div class="divTableCell">سود/زیان</div>
+    -->
+</div>
+{% for order in orders %}
+<div class="divTableRow">
+    <div class="divTableCell">
+        {% if order.OrderState != 'لغو شده' %}
+            <button class="sell__btn" onclick="cancelOrder('{{ order.OrderId }}')">انصراف</button>
+        {% endif %}
+    </div>
+    <div class="divTableCell">
+        {{ order.OrderSideId }}
+    </div>
+    <a class="divTableCell" onclick="window.location='/stockwatch/'+'{{ order.SymbolId }}'">
+        {{ order.InstrumentName }}
+    </a>
+    <div class="divTableCell">
+        {{ order.Quantity }}
+    </div>
+    <div class="divTableCell">
+        {{ order.Price }}
+    </div>
+    <div class="divTableCell">
+        {{ order.OrderState }}
+    </div>
+</div>
+{% endfor %}

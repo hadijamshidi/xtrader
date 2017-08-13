@@ -39,7 +39,8 @@ var ids = {
     'PricePerEarningGroup': "PricePerEarningGroup", // p/e group
     'InstrumentName': "InstrumentName",
     'CompanyName': "CompanyName",
-
+    'TotalBuy': "TotalBuy",
+    'TotalSell': "TotalSell",
     /**************************************************************/
     'zd1': "zd1",
     'qd1': "qd1",
@@ -139,6 +140,7 @@ var price_data = {
 $(document).ready(function () {
     update_stockwatch();
     portfo();
+    orders();
     draw_chart();
 });
 
@@ -146,22 +148,48 @@ $(document).ready(function () {
 function insert(data) {
     Object.keys(ids).forEach(function (key) {
         if (document.getElementById(key)) {
-            document.getElementById(key).innerHTML = quick_check(data[ids[key]]);
+            var obj = document.getElementById(key);
+            if(!former[key]){
+                $('#'+key).attr('style','transition: background 1s');
+                obj.innerHTML = quick_check(data[ids[key]]);
+            }
+            if(former[key] && !isNaN(former[key])){
+                if(former[key] != data[ids[key]]){
+                    obj.innerHTML = quick_check(data[ids[key]]);
+                }
+                if(former[key] < data[ids[key]]) {
+                    effect(obj,'positive');
+                }
+                if(former[key] > data[ids[key]]) {
+                    effect(obj,'negative');
+                }
+            }
+            former[key] = data[ids[key]]
         }
     });
-    var value = data['BuyIndividualCount'] + data['BuyFirmCount'];
-    document.getElementById('TotalBuy').innerHTML = quick_check(value);
-    var value = data['SellIndividualCount'] + data['SellFirmCount'];
-    document.getElementById('TotalSell').innerHTML = quick_check(value);
 }
+function effect(obj,status){
+    var color = {'positive':'green','negative':'red'},
+        timer = 1;
+    // console.log(color[status]);
+    // obj.style.transition = 'color' + timer + 's';
+    obj.style.background = color[status];
+    setTimeout(function(){obj.style.background = '#22263d'}, timer*1000)
+}
+setInterval(update_stockwatch, 5000);
+var former = {};
 // var data;
 function update_stockwatch() {
+    console.log('updating');
     $.ajax({
         type: 'GET',
         url: "/data/stockwatch/" + SymbolId,
+
         success: function (result) {
             result = JSON.parse(result);
             result['InstrumentName'] = '('+result['InstrumentName']+')';
+            result['TotalBuy'] = result['BuyIndividualCount'] + result['BuyFirmCount'];
+            result['TotalSell'] = result['SellIndividualCount'] + result['SellFirmCount'];
             insert(result);
         },
     });
@@ -170,57 +198,15 @@ function update_stockwatch() {
 window.ODate = Date;
 window.Date = JDate;
 
-/*
- // $('input.prompt').attr('style', 'background-color: #333;color:white;text-align: center;font-family:IranSanc');
- $('.ui.search').search({
- type: 'category',
- error: false,
- onSelect: function (result) {
- var value = result;
- symbol_id = value.symbol_id;
- window.location = '/stockwatch/' + symbol_id;
- },
- apiSettings: {
- onResponse: function (serverResponse) {
- var response = {
- results: {}
- };
- // translate GitHub API response to work with search
- $.each(serverResponse.items, function (index, item) {
- // console.log(item);
- var
- category = item.category || 'Unknown',
- maxResults = 8
- ;
- if (index >= maxResults) {
- return false;
- }
- // create new language category
- if (response.results[category] === undefined) {
- response.results[category] = {
- name: category,
- results: []
- };
- }
- // add result to category
- response.results[category].results.push({
- title: item.symbol_name,
- description: item.name,
- price: item.kind,
- eng_name: 'eng',
- symbol_id: item.symbol_id,
- });
- });
- return response;
- },
- url: '/symbol-search/q={query}'
- }
- });
-
- $('.ui.search').dblclick(function () {
- $('.ui.search').transition('jiggle');
- });
- */
+function orders(){
+    $.ajax({
+        type: 'GET',
+        url: '/orders',
+        success: function (result){
+            $('#orders_place').html = result;
+        },
+    });
+}
 
 function draw_chart() {
     $.getJSON('/data/get-data/' + SymbolId, function (data) {
@@ -531,6 +517,9 @@ var data = {
         },
         success: function(result){
             console.log(result);
+            orders();
+            portfo();
+            document.getElementById(order + 'Modal').style.display = 'none';
         },
         error: function(e){
         console.log(e);
@@ -548,6 +537,28 @@ function portfo() {
         error : function(e){
             console.log(e)
         }
-
     })
+}
+function orders(){
+    $.ajax({
+        type: 'GET',
+        url: '/orders',
+        success: function (result){
+            $('#orders_place').html(result);
+        },
+    });
+}
+function cancelOrder(OrderId){
+    $.ajax({
+        type: 'GET',
+        url: '/cancelOrder',
+        data:{
+            OrderId: OrderId,
+        },
+        success: function(result){
+            console.log(result);
+            orders();
+        },
+    });
+
 }

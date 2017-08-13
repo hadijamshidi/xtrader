@@ -58,7 +58,21 @@
                         <input id="id_last_name" class="form-control" maxlength="30" name="last_name" type="text"
                                style="direction:rtl">
                     </div>
-
+                {% elif field.name == 'password1' %}
+                        <div class="form-group">
+                            <label for="{{ field.name }}">{{ field.label }}</label>
+                            <input id="id_password1" class="form-control" type="password" style="direction:ltr">
+                        </div>
+                {% elif field.name == 'password2' %}
+                        <div class="form-group">
+                            <label for="{{ field.name }}">{{ field.label }}</label>
+                            <input id="id_password1" class="form-control" type="password" style="direction:ltr">
+                        </div>
+                {% elif field.name == 'cellPhone' %}
+                        <div class="form-group">
+                            <label dir="rtl">تلفن همراه (اختیاری)</label>
+                            <input id="id_cellPhone" class="form-control" type="tel" style="direction:ltr">
+                        </div>
                 {% else %}
                     <p>
                     <p class="errors__handle" >{{ field.label }}<span

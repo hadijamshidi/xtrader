@@ -149,32 +149,34 @@ function insert(data) {
     Object.keys(ids).forEach(function (key) {
         if (document.getElementById(key)) {
             var obj = document.getElementById(key);
-            if(!former[key]){
-                $('#'+key).attr('style','transition: background 1s');
+            if (!former[key]) {
+                $('#' + key).attr('style', 'transition: background 1s');
                 obj.innerHTML = quick_check(data[ids[key]]);
             }
-            if(former[key] && !isNaN(former[key])){
-                if(former[key] != data[ids[key]]){
+            if (former[key] && !isNaN(former[key])) {
+                if (former[key] != data[ids[key]]) {
                     obj.innerHTML = quick_check(data[ids[key]]);
                 }
-                if(former[key] < data[ids[key]]) {
-                    effect(obj,'positive');
+                if (former[key] < data[ids[key]]) {
+                    effect(obj, 'positive');
                 }
-                if(former[key] > data[ids[key]]) {
-                    effect(obj,'negative');
+                if (former[key] > data[ids[key]]) {
+                    effect(obj, 'negative');
                 }
             }
             former[key] = data[ids[key]]
         }
     });
 }
-function effect(obj,status){
-    var color = {'positive':'green','negative':'red'},
+function effect(obj, status) {
+    var color = {'positive': 'green', 'negative': 'red'},
         timer = 1;
     // console.log(color[status]);
     // obj.style.transition = 'color' + timer + 's';
     obj.style.background = color[status];
-    setTimeout(function(){obj.style.background = '#22263d'}, timer*1000)
+    setTimeout(function () {
+        obj.style.background = '#22263d'
+    }, timer * 1000)
 }
 setInterval(update_stockwatch, 5000);
 var former = {};
@@ -187,7 +189,7 @@ function update_stockwatch() {
 
         success: function (result) {
             result = JSON.parse(result);
-            result['InstrumentName'] = '('+result['InstrumentName']+')';
+            result['InstrumentName'] = '(' + result['InstrumentName'] + ')';
             result['TotalBuy'] = result['BuyIndividualCount'] + result['BuyFirmCount'];
             result['TotalSell'] = result['SellIndividualCount'] + result['SellFirmCount'];
             insert(result);
@@ -198,11 +200,11 @@ function update_stockwatch() {
 window.ODate = Date;
 window.Date = JDate;
 
-function orders(){
+function orders() {
     $.ajax({
         type: 'GET',
         url: '/orders',
-        success: function (result){
+        success: function (result) {
             $('#orders_place').html = result;
         },
     });
@@ -502,60 +504,59 @@ function draw_chart() {
 
 
 function sendorder(order) {
-var side = {'buy':1,'sell':2};
-var data = {
-            SymbolId : SymbolId,
-            Price: Number($('#'+order+'Modal__price').val()),
-            Quantity: Number($('#'+order+'Modal__count').val()),
-            OrderSide:side[order],
-        };
+    var side = {'buy': 1, 'sell': 2};
+    var data = {
+        SymbolId: SymbolId,
+        Price: Number($('#' + order + 'Modal__price').val()),
+        Quantity: Number($('#' + order + 'Modal__count').val()),
+        OrderSide: side[order],
+    };
     $.ajax({
-        type : 'GET',
-        url : '/trade',
-        data : {
-        order: JSON.stringify(data),
+        type: 'GET',
+        url: '/trade',
+        data: {
+            order: JSON.stringify(data),
         },
-        success: function(result){
-            console.log(result);
+        success: function (result) {
             orders();
             portfo();
             document.getElementById(order + 'Modal').style.display = 'none';
         },
-        error: function(e){
-        console.log(e);
+        error: function (e) {
+            console.log(e);
         },
     });
 }
 
 function portfo() {
     $.ajax({
-        type : 'GET',
-        url : '/portfo',
-        success : function(result){
+        type: 'GET',
+        url: '/portfo',
+        success: function (result) {
             $('#pportfo').html(result)
         },
-        error : function(e){
+        error: function (e) {
             console.log(e)
         }
     })
 }
-function orders(){
+function orders() {
     $.ajax({
         type: 'GET',
         url: '/orders',
-        success: function (result){
+        success: function (result) {
             $('#orders_place').html(result);
         },
     });
 }
-function cancelOrder(OrderId){
+function cancelOrder(OrderId) {
     $.ajax({
         type: 'GET',
         url: '/cancelOrder',
-        data:{
+        data: {
             OrderId: OrderId,
         },
-        success: function(result){
+        success: function (result) {
             console.log(result);
             orders();
         },

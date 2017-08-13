@@ -120,16 +120,16 @@ background-color: #1c1f32;
 
 #t-r-elements {
     position: fixed;
-    height: 2.5rem;
-    top: 1rem;
-    right: 3rem;
+    height: 5.4vh;
+    top: 2vh;
+    right: 4vw;
 }
 #user-box {
     position: relative;
-    width: 9.5rem;
-    height: 2.5rem;
+    width: 20vh;
+    height: 5.4vh;
     border-radius: 3px;
-    line-height: 2.5rem;
+    line-height: 5.4vh;
     vertical-align: middle;
     display: inline-block;
 }
@@ -138,11 +138,11 @@ background-color: #1c1f32;
     position: absolute;
     float: right;
     border-radius: 50%;
-    right: 0.8rem;
+    right: 1.5vh;
     top:50%;
-    margin-top: -0.8rem;
-
-
+    margin-top: -2vh;
+    height: 4vh;
+    width: auto;
 }
 
 #user-box a {
@@ -150,53 +150,47 @@ background-color: #1c1f32;
     position: absolute;
     float: left;
     font-size: 1.8vh;
-    top: 0.1rem;
-    left: 0.8rem;
+    top: 0.1vh;
+    left: 0.8vh;
     color: white;
 
 }
 
-
 #notif-btn{
     border-radius: 3px;
     position: relative;
-    width: 2.5rem;
-    height: 2.5rem ;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: url(/media/icons/notification.svg);
+    width: 5.4vh;
+    height: 5.4vh;
+    background: #292d48 url(/media/icons/notification.svg) no-repeat center;
+    background-size: 2.2vh;
     display: inline-block;
     float: left;
-    right: 0.3rem;
+    right: 0.8vh;
 }
-
-.main-btns {
-    background-color:#292d48;
-    border-radius: 3px;
-    width: 5vh;
-    height: 5vh;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin-right: 0.4rem;
-    margin-bottom: 0.4rem;
-    cursor: pointer;
-
-}
-
 
 #logo-svg {
     position: fixed;
-    top: 1.5%;
-    left: 3.25%;
-    width: 9%;
+    top: 2vh;
+    left: 8vh;
+    width: 18vh;
     height: auto;
+}
+
+.main-btns {
+    background:#292d48 no-repeat center;
+    background-size: 3vh;
+    border-radius: 3px;
+    width: 5.4vh;
+    height: 5.4vh;
+    margin-right: 0.8vh;
+    cursor: pointer;
 }
 
 #top-btns {
     position: fixed;
     list-style : none;
-    top: 2.5%;
-    left: 12.5%;
+    top: 2vh;
+    left: 30vh;
 }
 
 #top-btns li {
@@ -206,8 +200,12 @@ background-color: #1c1f32;
 #left-btns {
     position: fixed;
     list-style : none;
-    bottom: 2.5%;
-    left: 0.5%;
+    bottom: 5vh;
+    left: 1vw;
+}
+
+#left-btns li {
+    margin-bottom: 0.8vh;
 }
 
 #home-btn {
@@ -236,10 +234,11 @@ background-color: #1c1f32;
     position: fixed;
     margin: 0 auto;
     background:#292d48;
-    width:93.5%;
-    height: 94%;
+    width: 92vw;
+    height: 94vh;
     left: 0;
-    right: 0; top:8%;
+    right: 0;
+    top:8%;
     text-align: center;
     overflow-y:scroll;
     overflow-x:hidden;
@@ -262,10 +261,16 @@ background-color: #1c1f32;
     top: 1%;
 }
 
+/* MY media Queries */
+
+@media only screen and (max-width: 1380px) {
+    #left-btns {
+    left: 0.9vw;
+    }
+}
 
 
 
-/****************************PopUp Segment*********************************/
 
 
 /* CSS Helper Classes */

@@ -44,6 +44,7 @@
 
 .sw__boxes > div {
     border: 1px solid #323651;
+    border-right-color: #00ca9d;
 }
 .boxes {
     display: block;

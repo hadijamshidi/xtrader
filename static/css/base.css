@@ -113,83 +113,61 @@ table {
 html {
     font-size: 16px;
 }
+
 body{
 background-color: #1c1f32;
 }
 
-
-#master__wrapper {
+#t-r-elements {
     position: fixed;
-    margin: 0 auto;
-    background:#292d48;
-    width:93.5%;
-    height: 94%;
-    left: 0;
-    right: 0; top:8%;
-    text-align: center;
-    overflow-y:scroll;
-    overflow-x:hidden;
-    direction: ltr;
-    z-index: 0;
-    padding: 1em;
+    height: 2.5rem;
+    top: 1rem;
+    right: 3rem;
 }
-
-
-#nav-bar {
-    display: block;
+#user-box {
     position: relative;
-    width: 99%;
-    height: 8%;
-    background: #1c1f32;
-    margin: 0 auto;
-    margin-bottom: 1%;
-    left: 0;
-    right: 0;
-    top: 1%;
-}
-
-#username-block {
-    background-color:#292d48;
+    width: 9.5rem;
+    height: 2.5rem;
     border-radius: 3px;
-    position: fixed;
-    width: 10%;
-    height: 5vh;
-    top: 2.5%;
-    right: 3%;
+    line-height: 2.5rem;
+    vertical-align: middle;
+    display: inline-block;
 }
 
-#user-pic {
-    position:absolute;
-    top: 0.3rem;
-    right: 0.5rem;
+#user-box img {
+    position: absolute;
     float: right;
     border-radius: 50%;
-    width: 19%;
-    height: auto;
+    right: 0.8rem;
+    top:50%;
+    margin-top: -0.8rem;
+
+
 }
 
-#username-text {
+#user-box a {
     display: inline-block;
-    position:relative;
-    float: right;
-    font-size: 2vh;
-    margin: 7% 35% 0 0;
+    position: absolute;
+    float: left;
+    font-size: 1.8vh;
+    top: 0.1rem;
+    left: 0.8rem;
     color: white;
 
 }
 
 
 #notif-btn{
-    background-color:#292d48;
     border-radius: 3px;
-    position: fixed;
-    width: 5vh;
-    height: 5vh;
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem ;
     background-repeat: no-repeat;
     background-position: center;
-    top: 2.5%;
-    right: 13.35%;
-    background-image: url(/media/icons/notification.svg)
+    background-image: url(/media/icons/notification.svg);
+    display: inline-block;
+    float: left;
+    right: 0.3rem;
 }
 
 .main-btns {
@@ -254,7 +232,44 @@ background-color: #1c1f32;
     background-image: url(/media/icons/logout.svg)
 }
 
+#master__wrapper {       /****************Have TO FIX*****************/
+    position: fixed;
+    margin: 0 auto;
+    background:#292d48;
+    width:93.5%;
+    height: 94%;
+    left: 0;
+    right: 0; top:8%;
+    text-align: center;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    direction: ltr;
+    z-index: 0;
+    padding: 1em;
+}
+
+
+#nav-bar {
+    display: block;
+    position: relative;
+    width: 99%;
+    height: 8%;
+    background: #1c1f32;
+    margin: 0 auto;
+    margin-bottom: 1%;
+    left: 0;
+    right: 0;
+    top: 1%;
+}
+
+
+
 
 /****************************PopUp Segment*********************************/
 
 
+/* CSS Helper Classes */
+
+.color-n2 {
+    background-color:#292d48;
+}

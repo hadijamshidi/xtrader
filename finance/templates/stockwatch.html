@@ -20,357 +20,357 @@
 {% load i18n %}
 {% block bodyContent %}
 
-    <div id="nav-bar2">
-        <span id="CompanyName"></span>
-        <span id="InstrumentName"></span>
-        {% if request.user.username == "hadi" %}
-        <button class="sell__btn" id="" onclick="trade('sell')">فروش</button>
-        <button class="buy__btn" id="buyBtn" onclick="trade('buy')">خرید</button>
-        {% endif %}
+        <div id="nav-bar2">
+            <span id="CompanyName"></span>
+            <span id="InstrumentName"></span>
+            {% if request.user.username == "hadi" %}
+            <button class="sell__btn" id="" onclick="trade('sell')">فروش</button>
+            <button class="buy__btn" id="buyBtn" onclick="trade('buy')">خرید</button>
+            {% endif %}
 
-        <!-- The Modal -->
-        <div id="buyModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="close">&times;</span>
+            <!-- The Modal -->
+            <div id="buyModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <h1>{{ title }}</h1>
+                        <br><br><br><br>
+                        <div class="group">
+                            <label for="buyModal__count">تعداد</label>
+                            <input type="text" name="buyModal__count" id="buyModal__count">
+                        </div>
+
+                        <div class="group">
+                            <select>
+                                <option>حساب کارگذاری</option>
+                            </select>
+                        </div>
+
+                        <div class="group">
+                            <label for="buyModal__count">قیمت</label>
+                            <input type="number" name="buyModal__count" id="buyModal__price">
+                        </div>
+    <!--
+                        <div class="group">
+                            <label for="buyModal__count">تعداد</label>
+                            <input type="text" name="buyModal__count" id="buyModal__volume">
+                        </div>
+
+                        <div class="group">
+                            <select>
+                                <option>حساب کارگذاری</option>
+                            </select>
+                        </div>
+                        <div class="group">
+                            <button>خرید</button>
+                        </div>
+    -->
+                        <div class="group">
+                        <button id="input_buy" type="submit" onclick="sendorder('buy')">خرید</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <h1>{{ title }}</h1>
-                    <br><br><br><br>
-                    <div class="group">
-                        <label for="buyModal__count">تعداد</label>
-                        <input type="text" name="buyModal__count" id="buyModal__count">
-                    </div>
+            </div>
 
-                    <div class="group">
-                        <select>
-                            <option>حساب کارگذاری</option>
-                        </select>
+            <form id="sellModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
                     </div>
+                    <div class="modal-body">
+                        <h1>{{ title }}</h1>
+                        <br><br><br><br>
+                        <div class="group">
+                            <label for="buyModal__count">تعداد</label>
+                            <input type="text" name="buyModal__count" id="sellModal__count">
+                        </div>
 
-                    <div class="group">
-                        <label for="buyModal__count">قیمت</label>
-                        <input type="number" name="buyModal__count" id="buyModal__price">
-                    </div>
-<!--
-                    <div class="group">
-                        <label for="buyModal__count">تعداد</label>
-                        <input type="text" name="buyModal__count" id="buyModal__volume">
-                    </div>
+                        <div class="group">
+                            <select>
+                                <option>حساب کارگذاری</option>
+                            </select>
+                        </div>
 
-                    <div class="group">
-                        <select>
-                            <option>حساب کارگذاری</option>
-                        </select>
+                        <div class="group">
+                            <label for="buyModal__count">قیمت</label>
+                            <input type="text" name="buyModal__count" id="sellModal__price">
+                        </div>
+    <!--
+                        <div class="group">
+                            <label for="buyModal__count">تعداد</label>
+                            <input type="text" name="buyModal__count" id="buyModal__volume">
+                        </div>
+
+                        <div class="group">
+                            <select>
+                                <option>حساب کارگذاری</option>
+                            </select>
+                        </div>
+
+                        <div class="group">
+                            <button>فروش</button>
+                        </div>
+    -->
+                        <div class="group">
+                        <button id="input_sell" type="submit" onclick="sendorder('sell')">فروش</button>
+                        </div>
                     </div>
-                    <div class="group">
-                        <button>خرید</button>
+                </div>
+            </form>
+
+
+        </div>
+        <div class="sw__boxes" dir="rtl">
+            <div class="boxes" id="costs">
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableHead">خرید</div>
+                            <div class="divTableHead">معامله</div>
+                            <div class="divTableHead">فروش</div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell" id="pd1"></div>
+                            <div class="divTableCell" id="LastTradePrice"></div>
+                            <div class="divTableCell" id="po1"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">اولین</div>
+                            <div class="divTableHead">پایانی</div>
+                            <div class="divTableHead">دیروز</div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell" id="FirstTradePrice"></div>
+                            <div class="divTableCell" id="ClosingPrice"></div>
+                            <div class="divTableCell" id="PreviousDayPrice"></div>
+                        </div>
                     </div>
--->
-                    <div class="group">
-                    <button id="input_buy" type="submit" onclick="sendorder('buy')">خرید</button>
+                </div>
+            </div>
+            <div class="boxes" id="periods">
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableHead">بازه روز</div>
+                            <div class="divTableHead" id="HighestTradePrice"></div>
+                            <div class="divTableHead" id="LowestTradePrice"></div>
+
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">قیمت مجاز</div>
+                            <div class="divTableHead" id="UpperPriceThreshold"></div>
+                            <div class="divTableHead" id="LowerPriceThreshold"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">بازه سال</div>
+                            <div class="divTableHead" id="YearHighestTradePrice"></div>
+                            <div class="divTableHead" id="YearLowestTradePrice"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="boxes" id="deals">
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableHead">تعداد معاملات</div>
+                            <div class="divTableHead" id="TotalNumberOfTrades"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">حجم معاملات</div>
+                            <div class="divTableHead" id="TotalNumberOfSharesTraded"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">ارزش معاملات</div>
+                            <div class="divTableHead" id="TotalTradeValue"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">ارزش بازار</div>
+                            <div class="divTableHead" id="InstrumentMarketValue"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- DivTable.com -->
+            </div>
+            <div class="boxes" id="rates">
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableHead">تعداد سهام</div>
+                            <div class="divTableHead" id="NumberOfSharesOrBonds"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">حجم مبنا</div>
+                            <div class="divTableHead" id="BaseQuantity"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">سهام شناور</div>
+                            <div class="divTableHead" id="FreeFloatPercent"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">میانگین حجم ماه</div>
+                            <div class="divTableHead" id="MonthAverageVolume"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sell-buy-count">
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableHead">حجم</div>
+                            <div class="divTableHead">خرید</div>
+                            <div class="divTableHead">فروش</div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">حقیقی</div>
+                            <div class="divTableHead" id="BuyIndividualVolume"></div>
+                            <div class="divTableHead" id="SellIndividualVolume"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">حقوقی</div>
+                            <div class="divTableHead" id="BuyFirmVolume"></div>
+                            <div class="divTableHead" id="SellFirmVolume"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">تعداد</div>
+                            <div class="divTableHead">خرید</div>
+                            <div class="divTableHead">فروش</div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">مجموع</div>
+                            <div class="divTableHead" id="TotalBuy"></div>
+                            <div class="divTableHead" id="TotalSell"></div>
+
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">حقیقی</div>
+                            <div class="divTableHead" id="BuyIndividualCount"></div>
+                            <div class="divTableHead" id="SellIndividualCount"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">حقوقی</div>
+                            <div class="divTableHead" id="BuyFirmCount"></div>
+                            <div class="divTableHead" id="SellFirmCount"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- DivTable.com -->
+            </div>
+            <div id="last-sell">
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableHead">آخرین معامله</div>
+                            <div class="divTableHead" id="LastTradeDate"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead">وضعیت</div>
+                            <div class="divTableHead" id="InstrumentStateTitle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="epsbox">
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableHead">EPS</div>
+                            <div class="divTableHead" id="Eps" dir="ltr"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell">P/E</div>
+                            <div class="divTableCell" id="PricePerEarning" dir="ltr"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell">P/E گروه</div>
+                            <div class="divTableCell" id="PricePerEarningGroup" dir="ltr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="queue">
+                <div class="divTable">
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableHead">تعداد</div>
+                            <div class="divTableHead">حجم</div>
+                            <div class="divTableHead">خرید</div>
+                            <div class="divTableHead">فروش</div>
+                            <div class="divTableHead">حجم</div>
+                            <div class="divTableHead">تعداد</div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead" id="zd1"></div>
+                            <div class="divTableHead" id="qd1"></div>
+                            <div class="divTableHead" id="pd1q"></div>
+                            <div class="divTableHead" id="po1q"></div>
+                            <div class="divTableHead" id="qo1"></div>
+                            <div class="divTableHead" id="zo1"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead" id="zd2"></div>
+                            <div class="divTableHead" id="qd2"></div>
+                            <div class="divTableHead" id="pd2"></div>
+                            <div class="divTableHead" id="po2"></div>
+                            <div class="divTableHead" id="qo2"></div>
+                            <div class="divTableHead" id="zo2"></div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableHead" id="zd3"></div>
+                            <div class="divTableHead" id="qd3"></div>
+                            <div class="divTableHead" id="pd3"></div>
+                            <div class="divTableHead" id="po3"></div>
+                            <div class="divTableHead" id="qo3"></div>
+                            <div class="divTableHead" id="zo3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="chart" dir="ltr"></div>
+            <div id="portfo">
+                <div class="divTable">
+                    <div class="divTableBody" id="pportfo">
+                    </div>
+                </div>
+            </div>
+            <div id="column"></div>
+            <div id="hotlist">
+                <div class="divTable">
+                    <div class="divTableBody" id="orders_place">
                     </div>
                 </div>
             </div>
         </div>
 
-        <form id="sellModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="close">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <h1>{{ title }}</h1>
-                    <br><br><br><br>
-                    <div class="group">
-                        <label for="buyModal__count">تعداد</label>
-                        <input type="text" name="buyModal__count" id="sellModal__count">
-                    </div>
+        <script>
+            var modal;
+            function trade(kind) {
+                modal = document.getElementById(kind + 'Modal');
+                modal.style.display = "block";
 
-                    <div class="group">
-                        <select>
-                            <option>حساب کارگذاری</option>
-                        </select>
-                    </div>
+            }
 
-                    <div class="group">
-                        <label for="buyModal__count">قیمت</label>
-                        <input type="text" name="buyModal__count" id="sellModal__price">
-                    </div>
-<!--
-                    <div class="group">
-                        <label for="buyModal__count">تعداد</label>
-                        <input type="text" name="buyModal__count" id="buyModal__volume">
-                    </div>
+            var spanBuy = document.getElementsByClassName("close")[0];
+            var spanSell = document.getElementsByClassName("close")[1];
 
-                    <div class="group">
-                        <select>
-                            <option>حساب کارگذاری</option>
-                        </select>
-                    </div>
-
-                    <div class="group">
-                        <button>فروش</button>
-                    </div>
--->
-                    <div class="group">
-                    <button id="input_sell" type="submit" onclick="sendorder('sell')">فروش</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-
-    </div>
-    <div class="sw__boxes" dir="rtl">
-    <div class="boxes" id="costs">
-        <div class="divTable">
-            <div class="divTableBody">
-                <div class="divTableRow">
-                    <div class="divTableCell">خرید</div>
-                    <div class="divTableCell">معامله</div>
-                    <div class="divTableCell">فروش</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell" id="pd1"></div>
-                    <div class="divTableCell" id="LastTradePrice"></div>
-                    <div class="divTableCell" id="po1"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">اولین</div>
-                    <div class="divTableCell">پایانی</div>
-                    <div class="divTableCell">دیروز</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell" id="FirstTradePrice"></div>
-                    <div class="divTableCell" id="ClosingPrice"></div>
-                    <div class="divTableCell" id="PreviousDayPrice"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="boxes" id="periods">
-        <div class="divTable">
-            <div class="divTableBody">
-                <div class="divTableRow">
-                    <div class="divTableCell">بازه روز</div>
-                    <div class="divTableCell" id="HighestTradePrice"></div>
-                    <div class="divTableCell" id="LowestTradePrice"></div>
-
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">قیمت مجاز</div>
-                    <div class="divTableCell" id="UpperPriceThreshold"></div>
-                    <div class="divTableCell" id="LowerPriceThreshold"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">بازه سال</div>
-                    <div class="divTableCell" id="YearHighestTradePrice"></div>
-                    <div class="divTableCell" id="YearLowestTradePrice"></div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="boxes" id="deals">
-        <div class="divTable">
-            <div class="divTableBody">
-                <div class="divTableRow">
-                    <div class="divTableCell">تعداد معاملات</div>
-                    <div class="divTableCell" id="TotalNumberOfTrades"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">حجم معاملات</div>
-                    <div class="divTableCell" id="TotalNumberOfSharesTraded"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">ارزش معاملات</div>
-                    <div class="divTableCell" id="TotalTradeValue"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">ارزش بازار</div>
-                    <div class="divTableCell" id="InstrumentMarketValue"></div>
-                </div>
-            </div>
-        </div>
-        <!-- DivTable.com -->
-    </div>
-    <div class="boxes" id="rates">
-        <div class="divTable">
-            <div class="divTableBody">
-                <div class="divTableRow">
-                    <div class="divTableCell">تعداد سهام</div>
-                    <div class="divTableCell" id="NumberOfSharesOrBonds"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">حجم مبنا</div>
-                    <div class="divTableCell" id="BaseQuantity"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">سهام شناور</div>
-                    <div class="divTableCell" id="FreeFloatPercent"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">میانگین حجم ماه</div>
-                    <div class="divTableCell" id="MonthAverageVolume"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="sell-buy-count">
-        <div class="divTable">
-            <div class="divTableBody">
-                <div class="divTableRow">
-                    <div class="divTableCell">حجم</div>
-                    <div class="divTableCell">خرید</div>
-                    <div class="divTableCell">فروش</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">حقیقی</div>
-                    <div class="divTableCell" id="BuyIndividualVolume"></div>
-                    <div class="divTableCell" id="SellIndividualVolume"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">حقوقی</div>
-                    <div class="divTableCell" id="BuyFirmVolume"></div>
-                    <div class="divTableCell" id="SellFirmVolume"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">تعداد</div>
-                    <div class="divTableCell">خرید</div>
-                    <div class="divTableCell">فروش</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">مجموع</div>
-                    <div class="divTableCell" id="TotalBuy"></div>
-                    <div class="divTableCell" id="TotalSell"></div>
-
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">حقیقی</div>
-                    <div class="divTableCell" id="BuyIndividualCount"></div>
-                    <div class="divTableCell" id="SellIndividualCount"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">حقوقی</div>
-                    <div class="divTableCell" id="BuyFirmCount"></div>
-                    <div class="divTableCell" id="SellFirmCount"></div>
-                </div>
-            </div>
-        </div>
-        <!-- DivTable.com -->
-    </div>
-    <div id="last-sell">
-        <div class="divTable">
-            <div class="divTableBody">
-                <div class="divTableRow">
-                    <div class="divTableCell">آخرین معامله</div>
-                    <div class="divTableCell" id="LastTradeDate"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">وضعیت</div>
-                    <div class="divTableCell" id="InstrumentStateTitle"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="epsbox">
-        <div class="divTable">
-            <div class="divTableBody">
-                <div class="divTableRow">
-                    <div class="divTableCell">EPS</div>
-                    <div class="divTableCell" id="Eps" dir="ltr"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">P/E</div>
-                    <div class="divTableCell" id="PricePerEarning" dir="ltr"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell">P/E گروه</div>
-                    <div class="divTableCell" id="PricePerEarningGroup" dir="ltr"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="queue">
-        <div class="divTable">
-            <div class="divTableBody">
-                <div class="divTableRow">
-                    <div class="divTableCell">تعداد</div>
-                    <div class="divTableCell">حجم</div>
-                    <div class="divTableCell">خرید</div>
-                    <div class="divTableCell">فروش</div>
-                    <div class="divTableCell">حجم</div>
-                    <div class="divTableCell">تعداد</div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell" id="zd1"></div>
-                    <div class="divTableCell" id="qd1"></div>
-                    <div class="divTableCell" id="pd1q"></div>
-                    <div class="divTableCell" id="po1q"></div>
-                    <div class="divTableCell" id="qo1"></div>
-                    <div class="divTableCell" id="zo1"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell" id="zd2"></div>
-                    <div class="divTableCell" id="qd2"></div>
-                    <div class="divTableCell" id="pd2"></div>
-                    <div class="divTableCell" id="po2"></div>
-                    <div class="divTableCell" id="qo2"></div>
-                    <div class="divTableCell" id="zo2"></div>
-                </div>
-                <div class="divTableRow">
-                    <div class="divTableCell" id="zd3"></div>
-                    <div class="divTableCell" id="qd3"></div>
-                    <div class="divTableCell" id="pd3"></div>
-                    <div class="divTableCell" id="po3"></div>
-                    <div class="divTableCell" id="qo3"></div>
-                    <div class="divTableCell" id="zo3"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="chart" dir="ltr"></div>
-    <div id="portfo">
-        <div class="divTable">
-            <div class="divTableBody" id="pportfo">
-            </div>
-        </div>
-    </div>
-    <div id="column"></div>
-    <div id="hotlist">
-        <div class="divTable">
-            <div class="divTableBody" id="orders_place">
-            </div>
-        </div>
-    </div>
-</div>
-
-    <script>
-        var modal;
-        function trade(kind) {
-            modal = document.getElementById(kind + 'Modal');
-            modal.style.display = "block";
-
-        }
-
-        var spanBuy = document.getElementsByClassName("close")[0];
-        var spanSell = document.getElementsByClassName("close")[1];
-
-        spanBuy.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        spanSell.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function (event) {
-            if (event.target == modal) {
+            spanBuy.onclick = function () {
                 modal.style.display = "none";
             }
-        }
+
+            spanSell.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
 
 
-    </script>
+        </script>
+costs#periods#sell-buy-count
 {% endblock bodyContent %}

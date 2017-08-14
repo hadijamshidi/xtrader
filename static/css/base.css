@@ -234,17 +234,15 @@ background-color: #1c1f32;
     position: fixed;
     margin: 0 auto;
     background:#292d48;
-    width: 92vw;
-    height: 94vh;
+    max-width: 92vw;
+    height: 92vh;
     left: 0;
     right: 0;
-    top:8%;
+    top:8vh;
     text-align: center;
     overflow-y:scroll;
     overflow-x:hidden;
     direction: ltr;
-    z-index: 0;
-    padding: 1em;
 }
 
 
@@ -278,3 +276,47 @@ background-color: #1c1f32;
 .color-n2 {
     background-color:#292d48;
 }
+
+
+/* ****************************************************** */
+
+.divTable{
+	display: table;
+	width: 100%;
+    padding: 1vh 0 2vh 0 ;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+}
+.divTableCell, .divTableHead {
+	border: none;
+	display: table-cell;
+	padding: 5px 10px;
+    text-align: center;
+    font-size: 1.5vh;
+}
+
+.divTableHead {
+    padding-top: 1vh;
+}
+.divTableHeading {
+	background-color: red;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+
+
+
+/***************************************************************/

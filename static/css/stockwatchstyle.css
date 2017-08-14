@@ -1,3 +1,118 @@
+#master__wrapper {
+    padding-top: 1.6vh;
+    overflow: auto;
+}
+
+.sw__boxes {
+    flex-direction: column;
+    position: fixed;
+    background:#292d48;
+    margin: 0 auto;
+    max-width: 91vw;
+    height: 92vh;
+    left: 0;
+    right: 0;
+    top:8vh;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    padding: 10vh 0vh 0 0;
+
+}
+.sw__boxes > div {
+    background: #22263d;
+    border: 1px solid #323651;
+    border-right-color: #00ca9d;
+    border-radius: 3px;
+    text-align: right;
+    color: #d1d1d1;
+    display: inline-block;
+    margin-bottom: 1vh;
+
+
+}
+
+.boxes {
+    height: 15vh;
+    width: 24vw;
+}
+
+#costs{
+    order: 1;
+}
+
+#periods{
+    order: 6;
+    margin-right: -15vw;
+}
+
+#deals {
+    order: 2;
+}
+
+#rates {
+    order: 7;
+    margin-right: -15vw;
+}
+
+#sell-buy-count{
+    order: 10;
+    height: 31vh;
+    width: 85vh;
+    margin: 0 1vh 0 0vh;
+}
+
+#sell-buy-count .divTableHead {
+    padding-bottom: 2vh;
+}
+
+#last-sell{
+    order: 3;
+    width: 24vw;
+    height: 10.5vh;
+}
+
+#epsbox{
+    order: 8;
+    height: 10.5vh;
+    width: 15vw;
+    margin-right: -15vw;
+}
+
+#queue{
+    order: 4;min-height: 16.5vh;min-width: 80vh;
+}
+
+#queue .divTableHead {
+    padding-bottom: 1vh;
+}
+
+#chart{
+    order: 11;
+    height: 24vh;
+    width: 51vw;
+    margin: 1vh -8.5vw 0 0;
+}
+
+#portfo{
+    order: 5;height: 18vh;min-width: 60vh;
+}
+
+#column{
+    order: 9;
+    height: 22vh;
+    margin: 14vh 0.5vw 0 0;
+    width: 3.5vw;
+}
+
+#hotlist{
+    order: 12;height: 22vh;width: 47vw;
+    margin: 1.5vh -4.5vw 0 0;
+}
+
 .sell__btn {
     float: left;
     padding: 0.4rem 1.3rem;
@@ -10,6 +125,8 @@
     font-family: IRANSans;
     color: #fff;
 }
+
+
 
 .buy__btn {
     float: left;
@@ -42,180 +159,6 @@
     padding-right:0.1rem;
 }
 
-.sw__boxes > div {
-    border: 1px solid #323651;
-    border-right-color: #00ca9d;
-}
-.boxes {
-    display: block;
-    position: absolute;
-    width: 30%;
-    height: 12vh;
-    background: #22263d;
-
-}
-#costs {
-     
-    border-radius: 3px;
-    top: 8.5%; right: 0.5%;
-    text-align: right;
-	font-family: IRANSans;
-
-}
-
-#periods {
-     
-    border-radius: 3px;
-    top: 8.5%; right: 31%;
-    text-align: right;
-
-}
-
-#deals {
-     
-    border-radius: 3px;
-    top: 22.5%; right: 0.5%;
-    text-align: right;
-}
-
-#rates {
-     
-    border-radius: 3px;
-    top: 22.5%; right: 31%;
-    text-align: right;
-}
-
-#sell-buy-count {
-     
-    border-radius: 3px;
-    display: block;
-    position: absolute;
-    width: 38%;
-    height: 26.8%;
-    background: #22263d;
-    left: 0.5%;
-    top: 8.5%;
-}
-
-#last-sell {
-     
-    border-radius: 3px;
-    display: block;
-    position: absolute;
-    width: 30%;
-    height: 9%;
-    background: #22263d;
-    top: 36.5%; right: 0.5%;
-    text-align: right;
-}
-
-#epsbox {
-     
-    border-radius: 3px;
-    display: block;
-    position: absolute;
-    width: 20%;
-    height: 9%;
-    background: #22263d;
-    top: 36.5%; right: 31%;
-    text-align: right;
-}
-
-#queue {
-     
-    border-radius: 3px;
-    display: block;
-    position: absolute;
-    width: 50.5%;
-    height: 20%;
-    background: #22263d;
-    top: 46.5%; right: 0.5%;
-    text-align: right;
-}
-
-#chart {
-     
-    border-radius: 3px;
-    display: block;
-    position: absolute;
-    width: 48%;
-    height: 30%;
-    background: #22263d;
-    left: 0.5%;
-    top: 36.5%;
-}
-
-#portfo {
-     
-    border-radius: 3px;
-    display: block;
-    position: absolute;
-    width: 50.5%;
-    height: 27%;
-    background: #22263d;
-    top: 67.5%; right: 0.5%;
-    text-align: right;
-}
-
-#column {
-     
-    border-radius: 3px;
-    display: block;
-    position: absolute;
-    width: 4%;
-    height: 27%;
-    background: #22263d;
-    top: 67.5%; right: 51.5%;
-    text-align: right;
-}
-
-#hotlist {
-     
-    border-radius: 3px;
-    display: block;
-    position: absolute;
-    width: 43.5%;
-    height: 27%;
-    background: #22263d;
-    left: 0.5%;
-    top: 67.5%;
-}
-
-/* ****************************************************** */
-
-.divTable{
-	display: table;
-	width: 100%;
-	height: 86%;
-	padding: 2% 0 2% 0;
-}
-.divTableRow {
-	display: table-row;
-}
-.divTableHeading {
-	background-color: #EEE;
-	display: table-header-group;
-}
-.divTableCell, .divTableHead {
-	border: none;
-	display: table-cell;
-	padding: 3px 10px;
-    text-align: center;
-    font-size: 0.95rem;
-}
-.divTableHeading {
-	background-color: #EEE;
-	display: table-header-group;
-	font-weight: bold;
-}
-.divTableFoot {
-	background-color: #EEE;
-	display: table-footer-group;
-	font-weight: bold;
-}
-.divTableBody {
-	display: table-row-group;
-}
 
 
 /***************************************************************/
@@ -371,13 +314,11 @@
 }
 #nav-bar2 {
     display: block;
-    position: absolute;
-    width: 99%;
-    height: 8%;
+    position: relative;
+    max-width: 91vw;
+    height: 8vh;
     background: #1c1f32;
     margin: 0 auto;
-    margin-bottom: 1%;
-    left: 0;
-    right: 0;
-    top: 1%;
+    z-index: 5;
+    border-radius: 2px;
 }

@@ -44,16 +44,16 @@ class SignupFormExtra(SignupForm):
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=75)),
                              label=_("ایمیل "))
 
-    cellPhone = forms.CharField(label=_(u'تلفن همراه *اختیاری'),
+    cellPhone = forms.CharField(label=_(u'تلفن همراه'),
                                 max_length=30,
                                 required=False)
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
-                                label=_("رمز عبور "), required=True )
+                                label=_("رمز عبور"), required=True )
     # error_messages={'required': 'assd'}
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
                                                            render_value=False),
-                                label=_("تکرار رمز "))
+                                label=_("تکرار رمز "), required=True)
     username = forms.RegexField(regex=USERNAME_RE,
                                 max_length=30,
                                 widget=forms.TextInput(attrs=attrs_dict),

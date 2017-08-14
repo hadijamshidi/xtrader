@@ -58,11 +58,27 @@
                         <input id="id_last_name" class="form-control" maxlength="30" name="last_name" type="text"
                                style="direction:rtl">
                     </div>
+                {% elif field.name == 'password1' %}
+                        <div class="form-group">
+                            <label for="{{ field.name }}">{{ field.label }}</label>
+                            <input id="id_password1" class="form-control" type="password" style="direction:ltr">
+                        </div>
 
+                {% elif field.name == 'password2' %}
+                        <div class="form-group">
+                            <label for="{{ field.name }}">{{ field.label }}</label>
+                            <input id="id_password2" class="form-control" type="password" style="direction:ltr">
+                        </div>
+
+                {% elif field.name == 'cellPhone' %}
+                        <div class="form-group">
+                            <label dir="rtl">تلفن همراه (اختیاری)</label>
+                            <input id="id_cellPhone" class="form-control" type="tel" style="direction:ltr">
+                        </div>
                 {% else %}
                     <p>
-                    <p class="errors__handle" >{{ field.label }}<span
-                            style="color: #f76060;">{% for error in field.errors %}{{ error }}{% endfor %}</span></p>
+                    <p class="errors__handle" >{{ field.label }}<span style="color: #f76060;">
+                    {% for error in field.errors %}{{ error }}{% endfor %}</span></p>
                     {% if field.errors %}
 
 
@@ -87,7 +103,7 @@
 
                             <input type="{{ field.name }}" class="form-control"
                                    name="{{ field.name }}"
-                                   id="id_{{ field.name }}"/>
+                                   id="{{ field.name }}"/>
 
                         </div>
                     {% endif %}
@@ -100,7 +116,7 @@
                         </script>
                     {% endif %}
                     </p>
-                {% endif %}
+                    {% endif %}
             {% endfor %}
 
         </fieldset>

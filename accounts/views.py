@@ -996,8 +996,8 @@ def signupsample(request, signup_form=SignupFormExtra,
 
     form = signup_form()
 
-    for field in form:
-        print(field)
+    # for field in form:
+    #     print(field)
 
     if request.method == 'POST':
         form = signup_form(request.POST, request.FILES)

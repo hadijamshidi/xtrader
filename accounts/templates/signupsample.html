@@ -60,6 +60,7 @@
                     </div>
 
                 {% else %}
+{#                    {{ field }}#}
                     <p>
                     <p class="errors__handle" >{{ field.label }}<span
                             style="color: #f76060;">{% for error in field.errors %}{{ error }}{% endfor %}</span></p>
@@ -71,12 +72,14 @@
                             d.innerHTML = 'yes00';
 
                             d.style.borderBottom = '1px solid red';
-                            {#             d.setAttribute('style.border-bottom','1px solid red');#}
+                                         d.setAttribute('style.border-bottom','1px solid red');
                         </script>
                         <div class="form-group">
 
 
-                            <input type="{{ field.name }}" class="form-control"
+                            <input
+                                 {% if field.name == 'password1' and field.name == 'password2'  %}   type="password" {% else %} type="{{ field.name }}" {% endif %}
+                                    class="form-control"
                                    name="{{ field.name }}"
                                    id="id_{{ field.name }}"/>
 
@@ -84,8 +87,14 @@
                     {% else %}
                         <div class="form-group">
 
-
-                            <input type="{{ field.name }}" class="form-control"
+{#{{ field.name }}#}
+                            <input
+                             {% if field.name == "password1" or field.name == "password2"  %}
+                                 type="password"
+                             {% else %}
+                                 type="{{ field.name }}"
+                             {% endif %}
+                                    class="form-control"
                                    name="{{ field.name }}"
                                    id="id_{{ field.name }}"/>
 

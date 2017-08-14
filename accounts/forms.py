@@ -118,7 +118,7 @@ class SignupFormExtra(SignupForm):
                     user__username__iexact=self.cleaned_data['username']).exclude(
                     activation_key=userena_settings.USERENA_ACTIVATED):
                 raise forms.ValidationError(_(
-                    'این نام کاربری قبلا ثبت شده است ولی فعال نشده است ، برای فعال سازی ایمیل خود را چک کنید'))
+                    'این نام کاربری قبلا ثبت شده است ولی فعال نشده است .، برای فعال سازی ایمیل خود را چک کنید'))
             raise forms.ValidationError(_('نام کاربری قبلا ثبت شده است'))
         if self.cleaned_data['username'].lower() in userena_settings.USERENA_FORBIDDEN_USERNAMES:
             raise forms.ValidationError(_('This username is not allowed.'))

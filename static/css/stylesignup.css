@@ -1,0 +1,280 @@
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: bold;
+	src: url('../fonts/eot/IRANSansWeb_Bold.eot');
+	src: url('../fonts/eot/IRANSansWeb_Bold.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_Bold.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_Bold.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_Bold.ttf') format('truetype');
+}
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: 500;
+	src: url('../fonts/eot/IRANSansWeb_Medium.eot');
+	src: url('../fonts/eot/IRANSansWeb_Medium.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_Medium.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_Medium.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_Medium.ttf') format('truetype');
+}
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: 300;
+	src: url('../fonts/eot/IRANSansWeb_Light.eot');
+	src: url('../fonts/eot/IRANSansWeb_Light.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_Light.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_Light.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_Light.ttf') format('truetype');
+}
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: 200;
+	src: url('../fonts/eot/IRANSansWeb_UltraLight.eot');
+	src: url('../fonts/eot/IRANSansWeb_UltraLight.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb_UltraLight.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb_UltraLight.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb_UltraLight.ttf') format('truetype');
+}
+@font-face {
+	font-family: IRANSans;
+	font-style: normal;
+	font-weight: normal;
+	src: url('../fonts/eot/IRANSansWeb.eot');
+	src: url('../fonts/eot/IRANSansWeb.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('../fonts/woff2/IRANSansWeb.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('../fonts/woff/IRANSansWeb.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('../fonts/ttf/IRANSansWeb.ttf') format('truetype');
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    font: 16px IRANSans;
+    color: #333;
+}
+
+#particle {
+    background: #05648b;
+    background: linear-gradient(#05648b 0%, #1a1c41 100%);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+}
+
+#header__box {
+    height: 11vh;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    background: #e7ecef;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+}
+
+#header__box h1 {
+    font-size: 2.5vh;
+    font-weight: 500;
+    padding: 2.5vh 5.5vh 0 0 ;
+}
+
+#header__box h3 {
+    font-size: 1.6vh;
+    font-weight: 300;
+    padding: 0em 5.5vh 0 0 ;
+    color: #a0a0a0;
+}
+
+
+#signup__wrapper {
+    background: #fff;
+    border-radius: 0.5em;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    text-align: right;
+    width: 60vh;
+    height : 75vh;
+    padding: 12vh 6.5vh 0 6.5vh;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    font-size: 1.7vh;
+
+}
+
+.form-group {
+    margin-bottom: 2vh;
+}
+/*.form-group input {*/
+    /*position: relative;*/
+    /*margin: 0 auto;*/
+    /*display: block;*/
+    /*background:  white;*/
+    /*border: none;*/
+    /*border-bottom: 1px solid #eaeaea;*/
+    /*height: 3vh;*/
+    /*margin-bottom: 1vh;*/
+    /*direction: ltr;*/
+    /*font-family:IRANSans;*/
+    /*font-size: 1.8vh;*/
+    /*box-shadow: none;*/
+    /*border-radius: 0;*/
+/*}*/
+
+
+/*.form-group input:-webkit-autofill {*/
+    /*-webkit-box-shadow: 0 0 0 30px white inset;*/
+/*}*/
+
+/*.form-group input:focus {*/
+    /*outline: none;*/
+    /*border-bottom: 1px solid #4a90e2;*/
+    /*box-shadow: none;*/
+/*}*/
+#id_username {
+    direction: ltr;
+}
+#id_cellPhone {
+    direction: ltr;
+}
+#id_email {
+    direction: ltr;
+}
+#id_password1 {
+    direction: ltr;
+}
+#id_password2 {
+    direction: ltr;
+}
+
+input {
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    background:  white;
+    border: none;
+    border-bottom: 1px solid #eaeaea;
+    height: 3vh;
+    margin-bottom: 1vh;
+    direction: rtl;
+    font-family:IRANSans;
+    font-size: 1.8vh;
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+}
+
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+input:focus {
+    outline: none;
+    border-bottom: 1px solid #4a90e2;
+    box-shadow: none;
+}
+
+
+.sign-up__btn {
+    background: #21ce99;
+    padding: 1vh 4vh;
+    font: 2vh IRANSans;
+    font-weight: 400;
+    color: white;
+    display: block;
+    float: right;
+    border: none;
+    border-radius: 2px;
+    transition: background-color 0.5s ease;
+    width:40%;
+
+}
+
+.sign-up__btn:hover {
+    color: white;
+    cursor: pointer;
+    background: #12ba87;
+    transition: background-color 0.5s ease;
+}
+
+
+.errorlist {
+    color: red;
+}
+.errors__handle li{
+    display: inline-block;
+    list-style: none;
+    color: blue;
+}
+
+#bottom-links {
+    position: relative;
+    margin-top: 12%;
+    width: 70%;
+    height: 2em;
+    top: 2em;
+    left: -2em;
+    display: block;
+
+}
+#bottom-links a{
+    color: white;
+    font-size: 0.7em;
+}
+

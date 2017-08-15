@@ -952,7 +952,7 @@ def profile_list(request, page=1, template_name='userena/profile_list.html',
 
 @secure_required
 def signupsample(request, signup_form=SignupFormExtra,
-                 template_name='signupsample.html', success_url=None,
+                 template_name='userena/signuphtml.html', success_url=None,
                  extra_context=None):
     """
     Signup of an account.

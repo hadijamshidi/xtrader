@@ -46,7 +46,7 @@
 
 #periods{
     order: 6;
-    margin-right: -15vw;
+    margin-right: -30vh;
 }
 
 #deals {
@@ -55,14 +55,14 @@
 
 #rates {
     order: 7;
-    margin-right: -15vw;
+    margin-right: -30vh;
 }
 
 #sell-buy-count{
     order: 10;
     height: 31vh;
     width: 44vw;
-    margin: 0 1vh 0 0vh;
+    margin: 0 -83.5vh 0 0vh;
 }
 
 #sell-buy-count .divTableHead {
@@ -94,23 +94,16 @@
     order: 11;
     height: 24vh;
     width: 51vw;
-    margin: 1vh -8.5vw 0 0;
+    margin: 1vh -50.5vw 0 0;
 }
 
 #portfo{
     order: 5;height: 18vh;min-width: 60vh;
 }
 
-#column{
-    order: 9;
-    height: 22vh;
-    margin: 14vh 0.5vw 0 0;
-    width: 3.5vw;
-}
-
 #hotlist{
-    order: 12;height: 22vh;width: 47vw;
-    margin: 1.5vh -4.5vw 0 0;
+    order: 9;height: 22vh;width: 50.5vw;
+    margin: 14vh 1vw 0 0;
 }
 
 .sell__btn {

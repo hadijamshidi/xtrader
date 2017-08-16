@@ -233,7 +233,7 @@ input:focus {
 
 .sign-up__btn {
     background: #21ce99;
-    padding: 1vh 4vh;
+    padding: 1vh 3vh;
     font: 2vh IRANSans;
     font-weight: 400;
     color: white;
@@ -243,7 +243,8 @@ input:focus {
     border-radius: 2px;
     transition: background-color 0.5s ease;
     width:40%;
-
+    margin: 0;
+    height: 5vh;
 }
 
 .sign-up__btn:hover {
@@ -266,10 +267,9 @@ input:focus {
 #bottom-links {
     position: relative;
     margin-top: 12%;
-    width: 70%;
-    height: 2em;
-    top: 2em;
-    left: -2em;
+    width: 80%;
+    height: 2rem;
+    right: 17vh;
     display: block;
 
 }

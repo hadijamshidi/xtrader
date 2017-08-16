@@ -266,9 +266,9 @@ input:focus {
 
 #bottom-links {
     position: relative;
-    margin-top: 12%;
+    top: 8vh;
     width: 80%;
-    height: 2rem;
+    height: 2vh;
     right: 17vh;
     display: block;
 

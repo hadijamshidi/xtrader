@@ -23,9 +23,9 @@
         <div id="nav-bar2">
             <span id="CompanyName"></span>
             <span id="InstrumentName"></span>
-            {% if request.user.username == "hadi" %}
-            <button class="sell__btn" id="" onclick="trade('sell')">فروش</button>
-            <button class="buy__btn" id="buyBtn" onclick="trade('buy')">خرید</button>
+            {% if request.user.username == "broker" %}
+            <button class="sell__btn" id="" onclick="trade('sell','order','')">فروش</button>
+            <button class="buy__btn" id="buyBtn" onclick="trade('buy','order','')">خرید</button>
             {% endif %}
 
             <!-- The Modal -->
@@ -36,6 +36,7 @@
                     </div>
                     <div class="modal-body">
                         <h1>{{ title }}</h1>
+                        <h3 style="color: black">قدرت خرید: <span id="BuyingPower"></span></h3>
                         <br><br><br><br>
                         <div class="group">
                             <label for="buyModal__count">تعداد</label>
@@ -345,31 +346,5 @@
         </div>
 
         <script>
-            var modal;
-            function trade(kind) {
-                modal = document.getElementById(kind + 'Modal');
-                modal.style.display = "block";
-
-            }
-
-            var spanBuy = document.getElementsByClassName("close")[0];
-            var spanSell = document.getElementsByClassName("close")[1];
-
-            spanBuy.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            spanSell.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-
-
         </script>
-costs#periods#sell-buy-count
 {% endblock bodyContent %}

@@ -787,7 +787,7 @@ function apply2(backtest) {
             type: 'flags',
             shape: 'circlepin',
             title: 'B',
-            name: 'buy',
+            name: 'خرید',
             id: 'back_b',
             dataGrouping: {
                 units: groupingUnits
@@ -800,7 +800,7 @@ function apply2(backtest) {
             color: 'red',
             type: 'flags',
             title: 'S',
-            name: 'sell',
+            name: 'فروش',
             id: 'back_s',
             dataGrouping: {
                 units: groupingUnits
@@ -2098,7 +2098,7 @@ function insert_strategy(data) {
         check_strategies_number();
     });
     ic.addEventListener("mouseover", function () {
-        this.parentElement.style.color = '#E35C67';
+            this.parentElement.style.color = '#E35C67';
         this.setAttribute('class', 'remove icon');
     });
     ic.addEventListener("mouseout", function () {

@@ -382,7 +382,7 @@ def testresult(price, trades, config):
             position = 0
             asset = 0
         if position == 1:
-            if takeProfit != 0 and ((1 - selling_commision) * takeProfitPrice['0'][index[i]] - asset)/asset > takeProfit and \
+            if takeProfit != 0 and ((1 - selling_commision) * takeProfitPrice['0'][index[i]] - asset) > takeProfit and \
                             result[trade_num - 1]['buy'][
                                 'date'] != str(i):
                 asset = 100 * (((1 - selling_commision) * takeProfitPrice['0'][index[i]]) - asset) / asset
@@ -403,7 +403,7 @@ def testresult(price, trades, config):
                 days_in_trade = 0
                 position = 0
                 asset = 0
-            if stopLoss != 0 and (asset - (1 - selling_commision) * stopLossPrice['0'][index[i]])/asset > stopLoss and result[trade_num - 1]['buy']['date'] != str(i):
+            if stopLoss != 0 and (asset - (1 - selling_commision) * stopLossPrice['0'][index[i]]) > stopLoss and result[trade_num - 1]['buy']['date'] != str(i):
                 asset = 100 * (((1 - selling_commision) * stopLossPrice['0'][index[i]]) - asset) / asset
                 asset = np.round(100 * asset) / 100
                 avg_returns = avg_returns + [asset]

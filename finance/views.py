@@ -10,7 +10,7 @@ import requests as r
 from xtrader.localsetting import farabi_login_data
 from data.dates import Check
 # Create your views here.
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import inspect
 from django.shortcuts import render
 from django.shortcuts import render, redirect
@@ -66,15 +66,29 @@ def market_watch(request):
 
 def filtermarket(request):
     filters = json.loads(request.GET['filters'])
-    query = ' and '.join(filters) if len(filters) != 0 else '1=1'
-    from data.models import MarketWatch
+    # order_by = request.GET['sort_by']
+    # print(order_by)
     from data import dates as d
     last = d.Check().last_market()
-    results = MarketWatch.objects.raw('select * from data_MarketWatch WHERE {}'.format(query))
-    if len(filters) == 0:
-        results = MarketWatch.objects.all()
-    results = [r.read() for r in results if str(r.stockwatch_LastTradeDate) == last]
-    return HttpResponse(json.dumps(results))
+    from data.models import MarketWatch
+    stocks = MarketWatch.objects.filter(stockwatch_LastTradeDate=last).order_by('-stockwatch_TotalTradeValue')
+    if len(filters) > 0:
+        D = {}
+        for f in filters:
+            d = json.loads(f)
+            D = {**D, **d}
+        stocks = stocks.filter(**D)
+    paginator = Paginator(stocks, 10)  # Show 25 contacts per page
+    page = request.GET.get('page')
+    try:
+        stocks = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        stocks = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        stocks = paginator.page(paginator.num_pages)
+    return render(request, 'marketwatchTable.html', {'stocks': stocks})
 
 
 def indicators_api(request):
@@ -136,6 +150,7 @@ def farabi(request):
 def ssl(request):
     return HttpResponse('_4__Dydo_r-Odxp9vmfg6O0yztz4wubxg1pI_hjN61w.roFR2cIPsmsvrAbcUKyEWeWbhw-5q0XtVPqbbDoFZzs')
 
+
 def trade(request):
     data = request.GET['order']
     data = json.loads(data)
@@ -144,29 +159,53 @@ def trade(request):
     orderId = user.post('http://api.farabixo.com/api/pub/AddOrder', data=data)
     return HttpResponse(orderId.text)
 
+
 def portfo(request):
     portfo = []
-    if request.user.username == 'hadi':
+    if request.user.username == 'broker':
         user = r.session()
         user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
         portfo = user.get('http://api.farabixo.com/api/pub/GetAssetList').text
         portfo = json.loads(portfo)
-    return render(request, 'portfo.html', {'portfo':portfo})
+    return render(request, 'portfo.html', {'portfo': portfo})
+
 
 def orders(request):
     orders = []
-    if request.user.username == 'hadi':
+    # orders = [
+    #     {'OrderState': 'درصف', 'OrderId': 5645, 'OrderSideId': 'فروش', 'SymbolId': 'IR6451313', 'InstrumentName': 'تست',
+    #      'Quantity': 'Quantity', 'Price': 'Price'}]
+    if request.user.username == 'broker':
         user = r.session()
         user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
         orders = user.get('http://api.farabixo.com/api/pub/GetOrderList').text
         orders = json.loads(orders)
         for order in orders:
-            order['OrderSideId'] = 'خرید' if order['OrderSideId'] == 1 else 'فروش' 
-    return render(request, 'orders.html', {'orders':orders})
+            order['OrderSideId'] = 'خرید' if order['OrderSideId'] == 1 else 'فروش'
+    return render(request, 'orders.html', {'orders': orders})
+
+
+def account_status(request):
+    user = r.session()
+    user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+    account = user.get('http://api.farabixo.com/api/pub/GetAccountState').text
+    # return render(request, 'status.html', {'account': json.loads(account)})
+    return HttpResponse(account)
+
+# {'WithdrawableMoneyRemain': 2089426.0, 'BlokedValue': 0.0, 'WithdrawableBlockedMoney': 0.0, 'CreditMoney': 0.0, 'CreditBlockedMoney': 0.0, 'TotalAsset': 2619560.0, 'NonWithdrawableMoneyRemain': 0.0, 'CreditMoneyRemain': 0.0, 'PercentageProfit': 26.0, 'Profit': 109384.0, 'BuyingPower': 2089426.0, 'NonWithdrawableBlockedMoney': 0.0}
 
 
 def cancelOrder(request):
     user = r.session()
     user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
-    output = user.post('http://api.farabixo.com/api/pub/CancelOrder', data={'OrderId':request.GET['OrderId']}).text
+    output = user.post('http://api.farabixo.com/api/pub/CancelOrder', data={'OrderId': request.GET['OrderId']}).text
+    return HttpResponse(output)
+
+
+def editOrder(request):
+    user = r.session()
+    user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+    data = json.loads(request.GET['order'])
+    print(data)
+    output = user.post('http://api.farabixo.com/api/pub/ModifyOrder', data=data).text
     return HttpResponse(output)

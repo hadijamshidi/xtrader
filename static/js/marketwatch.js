@@ -1,6 +1,22 @@
 /**
  * Created by hadi on 7/5/17.
  */
+    var columns = {
+        // 'num': 'ردیف',
+        'stockwatch_InstrumentName': 'نماد', 'stockwatch_InstrumentTitle': 'نام',
+        'stockwatch_TotalNumberOfTrades': 'تعداد',
+        'stockwatch_TotalNumberOfSharesTraded': 'حجم', 'stockwatch_TotalTradeValue': 'ارزش',
+        'stockwatch_PreviousDayPrice': 'دیروز', 'stockwatch_FirstTradePrice': 'اولین',
+        'stockwatch_Eps': 'Eps',
+        'stockwatch_PricePerEarning': 'P/E',
+        'stockwatch_LastTradePrice': 'آخرین معامله', 'stockwatch_ReferencePriceVariationPercent': 'درصد آخرین معامله',
+        'stockwatch_ReferencePriceVariation': 'تغییر آخرین معامله',
+        'stockwatch_ClosingPrice': 'قیمت پایانی', 'stockwatch_ClosingPriceVariation': 'تغییر قیمت پایانی',
+        'stockwatch_ClosingPriceVariationPercent': 'درصد  تغییر قیمت پایانی',
+        'stockwatch_LowestTradePrice': 'کمترین', 'stockwatch_HighestTradePrice': 'بیشترین',
+//        'ratio_roa': 'roa',
+//        'ratio_roe': 'roe',
+    };
 function show_filters_result(result) {
     var columns = {
         // 'num': 'ردیف',
@@ -18,7 +34,7 @@ function show_filters_result(result) {
 //        'ratio_roa': 'roa',
 //        'ratio_roe': 'roe',
     };
-    var place = document.getElementById("filters scan place");
+    var place = document.getElementById("filters_scan_place");
     place.innerHTML = '';
     // creating table tag and attrs:
     var table = document.createElement("div");
@@ -268,7 +284,7 @@ function insertFilterName(tr, name) {
 
 function insertFilterOptions(tr, name, select, options) {
     var td = document.createElement('td'),
-        operators = {'<': 'کمتر از ', '>': 'بیشتر از '};
+        operators = {'__lt': 'کمتر از ', '__gt': 'بیشتر از '};
     var option = document.createElement('option');
     option.innerHTML = 'همه';
     option.setAttribute('value', '');
@@ -276,8 +292,10 @@ function insertFilterOptions(tr, name, select, options) {
     Object.keys(operators).forEach(function (operator) {
         options.forEach(function (opt) {
             var option = document.createElement('option');
-            option.innerHTML = operators[operator] + opt;
-            option.setAttribute('value', name + operator + opt);
+            option.innerHTML = operators[operator] + quick_check(opt);
+            var d = {};
+            d[name+operator] = opt;
+            option.setAttribute('value', JSON.stringify(d));
             select.appendChild(option);
         });
         td.appendChild(select);
@@ -285,7 +303,7 @@ function insertFilterOptions(tr, name, select, options) {
     });
     return tr
 }
-function read_filters() {
+function read_filters(page) {
     filter_ids.forEach(function (filter) {
         var select = document.getElementById(filter);
         if (!select.value == '') {
@@ -300,16 +318,17 @@ function read_filters() {
     Object.keys(choosen_filters).forEach(function (filter) {
         filters_list.push(choosen_filters[filter]);
     });
-    filter_market(filters_list);
+    filter_market(filters_list, page);
 }
 
-function filter_market(filters) {
+function filter_market(filters, page) {
     waiting('wait');
     $.ajax({
         type: 'GET',
-        url: "/filtermarket",
+        url: "/filtermarket?page="+page,
         data: {
             filters: JSON.stringify(filters),
+            sort_by: JSON.stringify(sort_by),
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         error: function () {
@@ -317,8 +336,7 @@ function filter_market(filters) {
             waiting('default');
         },
         success: function (result) {
-            result = JSON.parse(result);
-            show_filters_result(result);
+            $('#filters_scan_place').html(result);
             waiting('default');
         }
     });
@@ -337,3 +355,83 @@ $(window).scroll(function() {
   }
 });
 
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("table");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc";
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.getElementsByClassName('divTableRow');
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("DIV")[n];
+      y = rows[i + 1].getElementsByTagName("DIV")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      // console.log(Number(x.innerHTML.toLowerCase()) + 22);
+      if (dir == "asc") {
+        if (Number(x.innerHTML.toLowerCase()) > Number(y.innerHTML.toLowerCase())) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (Number(x.innerHTML.toLowerCase()) < Number(y.innerHTML.toLowerCase())) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++; 
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+  recoloring(dir, n);
+}
+var sort_by;
+function recoloring(dir, n){
+    var table = document.getElementById("table"),
+        sort_dict = {'asc':'','desc':'-'},
+        rows = table.getElementsByClassName('divTableRow');
+    for (i = 1; i < rows.length; i++) {
+        if(i%2==1){
+            rows[i].style.background = '#4d5068';
+        }else{
+            rows[i].style.background = '#1c1f32';
+        }
+    }
+    sort_by = sort_dict[dir]+Object.keys(columns)[n];
+}
+function reset_filters(){
+    filters_data.forEach(function (filter) {
+        filter['target'].forEach(function(target){
+            Object.keys(target).forEach(function (filter_id) {
+                document.getElementById(filter_id).value = '';
+            });
+        });
+    });
+    read_filters();
+}

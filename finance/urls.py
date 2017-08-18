@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^trade', views.trade, name='trade'),
     url(r'^portfo', views.portfo, name='portfo'),
     url(r'^orders', views.orders, name='orders'),
+    url(r'^edit', views.editOrder, name='edit'),
     url(r'^cancelOrder', views.cancelOrder, name='cancelOrder'),
+    url(r'^statusaccount', views.account_status, name='status'),
 
 ]

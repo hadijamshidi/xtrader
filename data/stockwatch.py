@@ -60,12 +60,13 @@ def stockWatchInfo(symbol_id, eps=True):
         return False
     if eps:
         try:
-            Eps = epss(trades_dict['InstrumentName'])
-            trades_dict['Eps'] = Eps
-            pe = 0 if Eps == 0 else trades_dict['ClosingPrice'] / Eps
-            pe_int = int(pe)
-            pe_digt = int((pe - pe_int)*100)/100
-            trades_dict['PricePerEarning'] = pe_int + pe_digt
+            if trades_dict['Eps'] == 0:
+                Eps = epss(trades_dict['InstrumentName'])
+                trades_dict['Eps'] = Eps
+                pe = 0 if Eps == 0 else trades_dict['ClosingPrice'] / Eps
+                pe_int = int(pe)
+                pe_digt = int((pe - pe_int) * 100) / 100
+                if trades_dict['PricePerEarning'] == 0: trades_dict['PricePerEarning'] = pe_int + pe_digt
         except Exception:
             wrong_symbol_ids.append(dict(id=symbol_id, problem='no Eps'))
     return trades_dict

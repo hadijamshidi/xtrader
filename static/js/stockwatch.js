@@ -178,7 +178,9 @@ function effect(obj, status) {
         obj.style.background = '#22263d'
     }, timer * 1000)
 }
-setInterval(update_stockwatch, 5000);
+if(checkTime()){
+    setInterval(update_stockwatch, 5000);
+}
 var former = {};
 // var data;
 function update_stockwatch() {
@@ -502,6 +504,39 @@ function draw_chart() {
 
 }
 
+var modal,
+    OrderId = '',
+    order_type;
+function trade(kind, type, order_id) {
+    modal = document.getElementById(kind + 'Modal');
+    modal.style.display = "block";
+    order_type = type;
+    if (type == 'order') {
+        OrderId = '';
+    } else {
+        OrderId = order_id;
+    }
+}
+$(document).ready(function () {
+    var spanBuy = document.getElementsByClassName("close")[0];
+    var spanSell = document.getElementsByClassName("close")[1];
+
+    spanBuy.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    spanSell.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+});
+
 
 function sendorder(order) {
     var side = {'buy': 1, 'sell': 2};
@@ -511,21 +546,48 @@ function sendorder(order) {
         Quantity: Number($('#' + order + 'Modal__count').val()),
         OrderSide: side[order],
     };
-    $.ajax({
-        type: 'GET',
-        url: '/trade',
-        data: {
-            order: JSON.stringify(data),
-        },
-        success: function (result) {
-            orders();
-            portfo();
-            document.getElementById(order + 'Modal').style.display = 'none';
-        },
-        error: function (e) {
-            console.log(e);
-        },
-    });
+    // console.log(order_type);
+    switch (order_type) {
+        case 'order':
+            $.ajax({
+                type: 'GET',
+                url: '/trade',
+                data: {
+                    order: JSON.stringify(data),
+                },
+                success: function (result) {
+                    orders();
+                    portfo();
+                    document.getElementById(order + 'Modal').style.display = 'none';
+                },
+                error: function (e) {
+                    console.log(e);
+                },
+            });
+            break;
+        case 'edit':
+            data['OrderId'] = OrderId;
+            delete data['SymbolId'];
+            delete data['OrderSide'];
+            $.ajax({
+                type: 'GET',
+                url: '/edit',
+                data: {
+                    order: JSON.stringify(data),
+                },
+                success: function (result) {
+                    console.log(result);
+                    orders();
+                    portfo();
+                    document.getElementById(order + 'Modal').style.display = 'none';
+                },
+                error: function (e) {
+                    console.log(e);
+                },
+            });
+            break;
+    }
+    getAccountStatus();
 }
 
 function portfo() {
@@ -548,6 +610,20 @@ function orders() {
             $('#orders_place').html(result);
         },
     });
+    getAccountStatus();
+}
+
+function getAccountStatus() {
+    $.ajax({
+        type: 'GET',
+        url: '/statusaccount',
+        success: function (result) {
+            result = JSON.parse(result);
+            document.getElementById('BuyingPower').innerHTML = numberSeparator(result['BuyingPower']);
+            // $('#account_values').html(result);
+            // document.getElementById('account').style.display = 'block';
+        },
+    });
 }
 function cancelOrder(OrderId) {
     $.ajax({
@@ -561,5 +637,20 @@ function cancelOrder(OrderId) {
             orders();
         },
     });
+    getAccountStatus();
+}
 
+function checkTime(){
+    var opening = new JDate,
+        closing = new JDate,
+        now = new JDate;
+    opening.setHours(8);
+    opening.setMinutes(30);
+    closing.setHours(12);
+    closing.setMinutes(30);
+    if(now>opening && now<closing){
+        return true
+    }else{
+        return false
+    }
 }

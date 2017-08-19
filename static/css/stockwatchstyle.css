@@ -315,3 +315,58 @@
     z-index: 5;
     border-radius: 2px;
 }
+
+@media only screen and (max-width: 1690px) {
+
+#periods{
+    margin-right: -15.8vw;
+}
+
+#rates {
+    margin-right: -15.8vw;
+}
+
+#sell-buy-count{
+    order: 10;
+    height: 31vh;
+    width: 44.5vw;
+    margin: 0 -85vh 0 0vh;
+}
+
+#last-sell{
+    order: 3;
+    width: 24vw;
+    height: 10.5vh;
+}
+
+#epsbox{
+    order: 8;
+    height: 10.5vh;
+    width: 16vw;
+    margin-right: -15.8vw;
+}
+
+#queue{
+    order: 4;min-height: 16.5vh;min-width: 80vh;
+}
+
+#queue .divTableHead {
+    padding-bottom: 1vh;
+}
+
+#chart{
+    order: 11;
+    height: 24vh;
+    width: 50vw;
+    margin: 1vh -51vw 0 0;
+}
+
+#portfo{
+    order: 5;height: 18vh;min-width: 60vh;
+}
+
+#hotlist{
+    order: 9;height: 22vh;width: 51vw;
+    margin: 14vh 0.5vw 0 0;
+}
+}

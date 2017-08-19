@@ -25,7 +25,7 @@
     </div>
     <div class="divTableCell">
         {% if order.OrderState != 'لغو شده' %}
-            <i class="edit icon" title="ویرایش (به زودی)" style="color: #00ca9d" onclick="{% if order.OrderSideId == 'خرید' %}trade('buy','edit',{{ order.OrderId }}){% else %}trade('sell','edit',{{ order.OrderId }}){% endif %}"></i>
+            <i class="edit icon" title="ویرایش" style="color: #00ca9d" onclick="{% if order.OrderSideId == 'خرید' %}trade('buy','edit',{{ order.OrderId }}){% else %}trade('sell','edit',{{ order.OrderId }}){% endif %}"></i>
             <i class="remove icon" title="انصراف" style="color: #E35C67" onclick="cancelOrder('{{ order.OrderId }}')"></i>
         {% endif %}
     </div>

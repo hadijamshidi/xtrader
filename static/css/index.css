@@ -228,12 +228,13 @@ section {
 }
 
 #waves {
+    margin-top : -20em;
     background-size : cover;
     display: block;
     background-image: url(/media/img/waves.svg);
     background-repeat: no-repeat;
     width: 100%;
-    height: 26em;
+    height: 32em;
     bottom: 0;
 }
 

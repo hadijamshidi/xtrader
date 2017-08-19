@@ -169,13 +169,13 @@ function insert(data) {
     });
 }
 function effect(obj, status) {
-    var color = {'positive': 'green', 'negative': 'red'},
+    var color = {'positive': '#26A65B', 'negative': '#C3272B'},
+        current_color = obj.style.background,
         timer = 1;
-    // console.log(color[status]);
-    // obj.style.transition = 'color' + timer + 's';
     obj.style.background = color[status];
     setTimeout(function () {
-        obj.style.background = '#22263d'
+       // obj.style.background = '#22263d'
+        obj.style.background = current_color;
     }, timer * 1000)
 }
 if(checkTime()){

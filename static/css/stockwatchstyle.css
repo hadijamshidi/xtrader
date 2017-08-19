@@ -79,7 +79,7 @@
     order: 8;
     height: 10.5vh;
     width: 15vw;
-    margin-right: -15vw;
+    margin-right: -14.5vw;
 }
 
 #queue{
@@ -102,7 +102,7 @@
 }
 
 #hotlist{
-    order: 9;height: 22vh;width: 50.5vw;
+    order: 9;height: 22vh;width: 51vw;
     margin: 14vh 1vw 0 0;
 }
 

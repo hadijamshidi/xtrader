@@ -14,18 +14,21 @@
 <section class="fullpage" id="header">
     <div id="particle">
         <div id="overlay">
-            <h1>X-Trader</h1>
-            <h2>یک آنلاین حرفه ای ، برای یک معامله گر حرفه ای</h2>
-            <h6>با ما حرفه ای شوید</h6>
+            <img src="/media/icons/logo.svg">
+
+            <h2 style="font-size:30px">آنلاین حرفه ای، برای معامله گران حرفه ای</h2>
+
             <div id="btn_wrapper">
                 <a href="{% url 'accounts:userena_signin' %}"><h3 id="sign_in">ورود</h3></a>
                 <a href="{% url 'accounts:userena_signup' %}"><h3 id="sign_up">ثبت‌نام</h3></a>
-                <a id="what_we_do" href="#what_we_do2">ما چه می‌کنیم؟ <i></i></a>
+                <a id="what_we_do" href="#what_we_do2"> ما چه می‌کنیم؟</a>
             </div>
         </div>
+        <!--
         <div id="parallax_container">
             <div id="overview_img"></div>
         </div>
+        -->
     </div>
     <script src="{% static 'js/particle.js' %}"></script>
 </section>
@@ -76,7 +79,7 @@
 <section class="fullpage" id="what_we_do2" name="what_we_do2">
     <div id="tabletpic"></div>
     <h1>ما چه می‌کنیم؟</h1>
-    <img src="/media/img/about.png" align="left" style="width:60%;height:60%;">
+    <img src="/media/img/about.png" align="left" style="padding-left:50px;width:60%;height:60%;">
     <p>سامانه آنلاین معاملاتی در اختیار مشتریان قرار می‌دهیم، در سامانه XTrader برای راحتی کاربران و تسهیل در امر بررسی
         روزانه سهام شرکت‌ها دیده‌بان قدرتمندی طراحی کرده‌ایم. نوآوری در ابزار‌ها، اتوماتیک بودن، سهولت در استفاده، سرعت
         و دقت از ویژگی‌ها منحصر بفرد XTrader هستند.</p>
@@ -87,9 +90,9 @@
 <section class="fullpage" id="our_capabilities">
     <h1>قابلیت‌ها X-Trader</h1>
     <h2>شاید قدرت تحلیلگر محدود باشد، اما یک آنلاین می‌تواند قدرت نامحدودی داشته باشد</h2>
-    <div id="middle_img" style="width:10%;height:10%;right:42%;position:absolute;margin:5em 0 0 3em">
-        <img src="/media/img/mtrader.png">
-    </div>
+    <!--<div id="middle_img" style="width:10%;height:10%;right:42%;position:absolute;margin:5em 0 0 3em">-->
+        <!--<img src="/media/img/bull.png">-->
+    <!--</div>-->
     <div id="rightside_box">
         <h3>دیده بان قدرتمند</h3>
         <p>بدون نیاز به دانش فیلتر نویسی و تنها با کلیک کردن می توانید فیلتر خود رابسازید، بازار را فیلتر کنید و سهم
@@ -126,7 +129,7 @@
         <p>بر اساس اندیکاتورها تحلیل تکنیکال برای خود استراتژی بسازید، بازار را اسکن کنید، سهام مطلوب را پیدا کنید و به سفحه خرید بروید.</p>
     </div>
     <div id="neximg" style="margin:3em 0 0 0">
-        <img src="/media/img/laptop.png" alt="Trader-Laptop" style="width:65%;height:65%;float:left;">
+        <img src="/media/img/laptop3.jpg" alt="Trader-Laptop" style="width:65%;height:65%;float:left;">
     </div>
     <!-- my code
     <section id="guide">
@@ -237,15 +240,20 @@
 
     </div>
 </section> -->
+<section id="before_footer">
+    <p align="center">برای استفاده از دیده بان حرفه‌ای XTrader همین حالا<a href="/account/signup/" style="color:blue"> ثبت نام </a>  کنید
 
+
+    </p>
+</section>
 <section id="footer">
-    <div style="width:25%;height:25%;">
-        <h1 style="margin:5%">X-Trader<i>x</i></h1>
+    <div style="margin:3em;width:25%;height:25%;">
+        <img src="/media/icons/logo.svg" width="55%"></img>
         <p style="margin:5%">یک انلاین حرفه‌ای، مجهز به یک دیده‌بان تمام اتوماتیک</p>
     </div>
     <div id="footer_section_wrapper">
         <div class="footersec">
-            <hr/>
+            <hr style="border-color:#45E994">
             <p>تماس با ما</p>
             <ul>
                 <li>آدرس:</li>
@@ -255,12 +263,11 @@
             </ul>
         </div>
         <div class="footersec">
-            <hr/>
+            <hr style="border-color:#45E994">
             <p>همکاران ما</p>
             <ul>
                 <li><a href="http://farabi.ac">شتابدهنده فارابی</a></li>
                 <li><a href="http://soshyant.co/">سوشیانت</a></li>
-                <li><a href="https://parspack.com/">پارس پک</a></li>
             </ul>
         </div>
 <!--    
@@ -289,14 +296,12 @@
 </section>
 
     <div id="footerend">
-        <p style="display:inline-block;">کلیه حقوق مادی و معنوی متعلق است به xtrader</p>
-<!--
+        <p style="display:inline-block;margin-right:60px;">کلیه حقوق مادی و معنوی متعلق است به xtrader</p>
+
         <ul>
-            <li>telegram</li>
-            <li>instagram</li>
-            <li>twitter</li>
+            <li>میزبانی شده توسط <a href="https://parspack.com/">پارس پک</a></li>
         </ul>
---> 
+
     </div>
 
 </body>

@@ -416,7 +416,7 @@ section {
     line-height: 3em;
 }
 #before_footer {
-    display: block;
+    display: inline-flex;
     width: 100%;
     position: relative;
     bottom: 0;
@@ -462,4 +462,14 @@ section {
 
 .footersec {
     margin:3em 5em;
+}
+#sign_up_footer {
+    cursor: pointer;
+    margin-top : 0.25em;
+    text-align : center;
+    margin-right : 1em;
+    display : inline-block;
+    width : 9em;
+    background: #00CA9D;
+    border-radius: 2em;
 }

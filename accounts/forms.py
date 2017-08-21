@@ -35,16 +35,16 @@ class SignupFormExtra(SignupForm):
 
 
     """
-    first_name = forms.CharField(label=_(u'نام '),
+    first_name = forms.CharField(label=_(u'نام (فارسی) '),
                                  max_length=30,
                                  required=False)
-    last_name = forms.CharField(label=_(u'نام خانوادگی '),
+    last_name = forms.CharField(label=_(u'نام خانوادگی (فارسی) '),
                                 max_length=30,
                                 required=False)
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict, maxlength=75)),
                              label=_("ایمیل "))
 
-    cellPhone = forms.CharField(label=_(u'تلفن همراه'),
+    cellPhone = forms.CharField(label=_(u'تلفن همراه (اختیاری)'),
                                 max_length=30,
                                 required=False)
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict,
@@ -57,7 +57,7 @@ class SignupFormExtra(SignupForm):
     username = forms.RegexField(regex=USERNAME_RE,
                                 max_length=30,
                                 widget=forms.TextInput(attrs=attrs_dict),
-                                label=_("نام کاربری "),
+                                label=_("نام کاربری (انگلیسی)"),
                                 )
     # field_order = ['first_name', 'last_name', 'new_password2']
 

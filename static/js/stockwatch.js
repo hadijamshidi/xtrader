@@ -194,6 +194,11 @@ function update_stockwatch() {
             result['InstrumentName'] = '(' + result['InstrumentName'] + ')';
             result['TotalBuy'] = result['BuyIndividualCount'] + result['BuyFirmCount'];
             result['TotalSell'] = result['SellIndividualCount'] + result['SellFirmCount'];
+            var pe = result['PricePerEarning'];
+            pe *= 100;
+            pe = Math.round(pe);
+            pe /= 100;
+            result['PricePerEarning'] = pe;
             insert(result);
         },
     });

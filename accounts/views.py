@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404,render
 from django.contrib.auth import authenticate, login, logout, REDIRECT_FIELD_NAME
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
@@ -1045,3 +1045,6 @@ def signupsample(request, signup_form=SignupFormExtra,
     extra_context['form'] = form
     return ExtraContextTemplateView.as_view(template_name=template_name,
                                             extra_context=extra_context)(request)
+from finance.views import get_user
+def settings(request):
+    return render(request, 'settings.html', { **get_user(request)})

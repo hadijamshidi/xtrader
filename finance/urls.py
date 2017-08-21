@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^cancelOrder', views.cancelOrder, name='cancelOrder'),
     url(r'^statusaccount', views.account_status, name='status'),
 
+
 ]

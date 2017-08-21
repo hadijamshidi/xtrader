@@ -18,6 +18,11 @@ urlpatterns = [
     url(r'^signup/$',
         userena_views.signupsample,
         name='userena_signup'),
+
+    url(r'^settings/$',
+        userena_views.settings,
+        name='settings'),
+
     url(r'^signin/$',
         userena_views.landing,
         name='userena_signin'),

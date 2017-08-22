@@ -9,3 +9,4 @@ def update_all_data():
     for table in ['ratio', 'income', 'balance', 'marketwatch']:
         f.update(table)
     update_history_with_farabixo(update_stock_watch=False)
+#####

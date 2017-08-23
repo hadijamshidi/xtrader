@@ -473,3 +473,23 @@ section {
     background: #00CA9D;
     border-radius: 2em;
 }
+
+
+@media only screen and (max-width: 1430px) {
+    #what_we_do2 p {
+    display: flex;
+    font-size: 0.9em;
+    width: 22em;
+    padding: 3em 4em 0 0;
+    }
+}
+
+
+@media only screen and (max-width: 1080px) {
+    #what_we_do2 p {
+    display: flex;
+    font-size: 0.9em;
+    width: 16em;
+    padding: 3em 8em 0 0;
+    }
+}

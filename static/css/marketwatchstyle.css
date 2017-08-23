@@ -78,3 +78,7 @@ header {
   background: #f07057;
 }
 
+#marketwatch-btn {
+    background-position:50% 30%;
+    height: 7vh ;
+}

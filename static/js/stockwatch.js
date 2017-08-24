@@ -660,6 +660,7 @@ function checkTime(){
     var opening = new JDate,
         closing = new JDate,
         now = new JDate;
+    if(now.getDay()==4 || now.getDay()==5) return false;
     opening.setHours(8);
     opening.setMinutes(30);
     closing.setHours(12);

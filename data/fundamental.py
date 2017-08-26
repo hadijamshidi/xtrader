@@ -120,34 +120,29 @@ def createMarcketwatchTables(num=0):
 
 
 def marketwatchinfo(stock):
-    mstock = stock.read()
+    mstock = stock
     try:
-        mincome = Income.objects.filter(SymbolId=stock.SymbolId).first().read()
+        mincome = Income.objects.filter(SymbolId=stock.SymbolId).first()
     except Exception:
         mincome = {}
     try:
-        mbalanceSheet = BalanceSheet.objects.filter(SymbolId=stock.SymbolId).first().read()
+        mbalanceSheet = BalanceSheet.objects.filter(SymbolId=stock.SymbolId).first()
     except Exception:
         mbalanceSheet = {}
     try:
-        mratio = Ratio.objects.filter(SymbolId=stock.SymbolId).first().read()
+        mratio = Ratio.objects.filter(SymbolId=stock.SymbolId).first()
     except Exception:
         mratio = {}
-    rmincome = {'income_' + k: v for k, v in mincome.items() if
-                k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
-    rmbalanceSheet = {'balanceSheet_' + k: v for k, v in mbalanceSheet.items() if
-                      k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
-    rmratio = {'ratio_' + k: v for k, v in mratio.items() if
-               k not in ['InstrumentName', 'StockWatch_id', 'SymbolId', 'id']}
-    rmstock = {'stockwatch_' + k: v for k, v in mstock.items() if k not in ['id']}
+    rmincome = {'income':mincome}
+    rmbalanceSheet = {'balanceSheet':mbalanceSheet}
+    rmratio = {'ratio':mratio}
+    rmstock = {'stockWatch':mstock}
     try:
         info = {**rmstock, **rmincome, **rmbalanceSheet, **rmratio}
+        print(info)
         return info
-        # MarketWatch(**rmstock, **rmincome, **rmbalanceSheet, **rmratio).save()
     except Exception:
         return False
-
-
 def addMaketWatchTabe(info):
     MarketWatch(**info).save()
 

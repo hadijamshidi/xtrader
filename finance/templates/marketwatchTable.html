@@ -20,33 +20,33 @@
     </div>
     {% for stock in stocks %}
         <div class="divTableRow" style="background:{% cycle '#4d5068' '#1c1f32' %}">
-            <div class="divTableCell"><a href="/stockwatch/{{ stock.stockwatch_SymbolId }}">{{ stock.stockwatch_InstrumentName }}</a></div>
-            <div class="divTableCell">{{ stock.stockwatch_InstrumentTitle }}</div>
-            <div class="divTableCell">{{ stock.stockwatch_TotalNumberOfTrades }}</div>
-            <div class="divTableCell">{{ stock.stockwatch_TotalNumberOfSharesTraded }}</div>
-            <div class="divTableCell">{{ stock.stockwatch_TotalTradeValue }}</div>
-            <div class="divTableCell">{{ stock.stockwatch_PreviousDayPrice }}</div>
-            <div class="divTableCell">{{ stock.stockwatch_FirstTradePrice }}</div>
-            <div class="divTableCell" dir="ltr">{{ stock.stockwatch_Eps }}</div>
-            <div class="divTableCell" dir="ltr">{{ stock.stockwatch_PricePerEarning }}</div>
-            <div class="divTableCell">{{ stock.stockwatch_LastTradePrice }}</div>
-            <div class="divTableCell" dir="ltr">{{ stock.stockwatch_ReferencePriceVariationPercent }}</div>
-            <div class="divTableCell" dir="ltr">{{ stock.stockwatch_ReferencePriceVariation }}</div>
-{#            {% if stock.stockwatch_ReferencePriceVariation == 0 %}#}
-{#                <div class="divTableCell" dir="ltr">{{ stock.stockwatch_ReferencePriceVariationPercent }}</div>#}
-{#                <div class="divTableCell" dir="ltr">{{ stock.stockwatch_ReferencePriceVariation }}</div>#}
-{#            {% elif stock.stockwatch_ReferencePriceVariation > 0 %}#}
-{#                <div class="divTableCell" dir="ltr" style="background:green">{{ stock.stockwatch_ReferencePriceVariationPercent }}</div>#}
-{#                <div class="divTableCell" dir="ltr" style="background:green">{{ stock.stockwatch_ReferencePriceVariation }}</div>#}
-{#            {% elif stock.stockwatch_ReferencePriceVariation < 0 %}#}
-{#                <div class="divTableCell" dir="ltr" style="background:red">{{ stock.stockwatch_ReferencePriceVariationPercent }}</div>#}
-{#                <div class="divTableCell" dir="ltr" style="background:red">{{ stock.stockwatch_ReferencePriceVariation }}</div>#}
+            <div class="divTableCell"><a href="/stockwatch/{{ stock.stockWatch.SymbolId }}">{{ stock.stockWatch.InstrumentName }}</a></div>
+            <div class="divTableCell">{{ stock.stockWatch.InstrumentTitle }}</div>
+            <div class="divTableCell">{{ stock.stockWatch.TotalNumberOfTrades }}</div>
+            <div class="divTableCell">{{ stock.stockWatch.TotalNumberOfSharesTraded }}</div>
+            <div class="divTableCell">{{ stock.stockWatch.TotalTradeValue }}</div>
+            <div class="divTableCell">{{ stock.stockWatch.PreviousDayPrice }}</div>
+            <div class="divTableCell">{{ stock.stockWatch.FirstTradePrice }}</div>
+            <div class="divTableCell" dir="ltr">{{ stock.stockWatch.Eps }}</div>
+            <div class="divTableCell" dir="ltr">{{ stock.stockWatch.PricePerEarning }}</div>
+            <div class="divTableCell">{{ stock.stockWatch.LastTradePrice }}</div>
+            <div class="divTableCell" dir="ltr">{{ stock.stockWatch.ReferencePriceVariationPercent }}</div>
+            <div class="divTableCell" dir="ltr">{{ stock.stockWatch.ReferencePriceVariation }}</div>
+{#            {% if stock.stockWatch.ReferencePriceVariation == 0 %}#}
+{#                <div class="divTableCell" dir="ltr">{{ stock.stockWatch.ReferencePriceVariationPercent }}</div>#}
+{#                <div class="divTableCell" dir="ltr">{{ stock.stockWatch.ReferencePriceVariation }}</div>#}
+{#            {% elif stock.stockWatch.ReferencePriceVariation > 0 %}#}
+{#                <div class="divTableCell" dir="ltr" style="background:green">{{ stock.stockWatch.ReferencePriceVariationPercent }}</div>#}
+{#                <div class="divTableCell" dir="ltr" style="background:green">{{ stock.stockWatch.ReferencePriceVariation }}</div>#}
+{#            {% elif stock.stockWatch.ReferencePriceVariation < 0 %}#}
+{#                <div class="divTableCell" dir="ltr" style="background:red">{{ stock.stockWatch.ReferencePriceVariationPercent }}</div>#}
+{#                <div class="divTableCell" dir="ltr" style="background:red">{{ stock.stockWatch.ReferencePriceVariation }}</div>#}
 {#            {% endif %}#}
-             <div class="divTableCell">{{ stock.stockwatch_ClosingPrice }}</div>
-            <div class="divTableCell" dir="ltr">{{ stock.stockwatch_ClosingPriceVariation }}</div>
-            <div class="divTableCell" dir="ltr">{{ stock.stockwatch_ClosingPriceVariationPercent }}</div>
-            <div class="divTableCell">{{ stock.stockwatch_LowestTradePrice }}</div>
-            <div class="divTableCell">{{ stock.stockwatch_HighestTradePrice }}</div>
+             <div class="divTableCell">{{ stock.stockWatch.ClosingPrice }}</div>
+            <div class="divTableCell" dir="ltr">{{ stock.stockWatch.ClosingPriceVariation }}</div>
+            <div class="divTableCell" dir="ltr">{{ stock.stockWatch.ClosingPriceVariationPercent }}</div>
+            <div class="divTableCell">{{ stock.stockWatch.LowestTradePrice }}</div>
+            <div class="divTableCell">{{ stock.stockWatch.HighestTradePrice }}</div>
         </div>
     {% endfor %}
 </div>

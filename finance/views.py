@@ -71,7 +71,7 @@ def filtermarket(request):
     from data import dates as d
     last = d.Check().last_market()
     from data.models import MarketWatch
-    stocks = MarketWatch.objects.filter(stockwatch_LastTradeDate=last).order_by('-stockwatch_TotalTradeValue')
+    stocks = MarketWatch.objects.filter(stockWatch__LastTradeDate=last).order_by('-stockWatch__TotalTradeValue')
     if len(filters) > 0:
         D = {}
         for f in filters:

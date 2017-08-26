@@ -24,7 +24,7 @@ urlpatterns = [
     # url(r'^', include('main.urls', namespace='main')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('finance.urls', namespace='finance')),
-    url(r'^data/', include('data.urls')),
+    url(r'^data/', include('data.urls', namespace='data')),
 
 ]
 if settings.DEBUG:

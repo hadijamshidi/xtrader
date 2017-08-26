@@ -209,3 +209,4 @@ def editOrder(request):
     print(data)
     output = user.post('http://api.farabixo.com/api/pub/ModifyOrder', data=data).text
     return HttpResponse(output)
+

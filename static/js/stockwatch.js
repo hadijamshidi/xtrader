@@ -62,6 +62,9 @@ var ids = {
     'po3': "po3",
     'qo3': "qo3",
     'zo3': "zo3",
+    /***************************************************************/
+    'ClosingPriceVariationPercent': "ClosingPriceVariationPercent",
+    'ClosingPriceVariation': "ClosingPriceVariation",
 };
 
 var price_data = {
@@ -82,8 +85,8 @@ var price_data = {
     'qd1': 19,
     'InstrumentStateCode': 'A',
     'zd2': 1,
-    'ClosingPriceVariationPercent': 1.35,
-    'ClosingPriceVariation': 16.0,
+    'ClosingPriceVariationPercent': 1.35, ////////////درصد واحد خرید////////////
+    'ClosingPriceVariation': 16.0, ///////////واحد خرید//////////////
     'SymbolId': 'IRO3TKMZ0001',
     'SellIndividualCount': 11,
     'LastTradePrice': 1201.0,
@@ -150,7 +153,7 @@ function insert(data) {
         if (document.getElementById(key)) {
             var obj = document.getElementById(key);
             if (!former[key]) {
-                $('#' + key).attr('style', 'transition: background 1s');
+                document.getElementById(key).style.transition = 'background 1s';
                 obj.innerHTML = quick_check(data[ids[key]]);
             }
             if (former[key] && !isNaN(former[key])) {
@@ -166,7 +169,15 @@ function insert(data) {
             }
             former[key] = data[ids[key]]
         }
+        if (['ClosingPriceVariation', 'ClosingPriceVariationPercent'].indexOf(key)>-1){
+            if (former[key]<0) {obj.style.color='#dd4d68';} else {obj.style.color = 'green'}
+        }
     });
+    // ['ClosingPriceVariation', 'ClosingPriceVariationPercent'].forEach(function (k) {
+    //     if (['ClosingPriceVariation', 'ClosingPriceVariationPercent'].indexOf(key)>-1){
+    //         if (former[key]<0) {obj.style.color='red';} else {obj.style.color = 'green'}
+    //     }
+    // })
 }
 function effect(obj, status) {
     var color = {'positive': '#26A65B', 'negative': '#C3272B'},
@@ -649,6 +660,7 @@ function checkTime(){
     var opening = new JDate,
         closing = new JDate,
         now = new JDate;
+    if(now.getDay()==4 || now.getDay()==5) return false;
     opening.setHours(8);
     opening.setMinutes(30);
     closing.setHours(12);

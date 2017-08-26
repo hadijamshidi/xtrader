@@ -259,6 +259,15 @@ background-color: #1c1f32;
     top: 1%;
 }
 
+#navbar__title{
+    display: inline-block;
+    color:white;
+    font-size: 3vh;
+    margin-top: 1rem;
+    margin-right:2rem;
+    float: right;
+}
+
 /* MY media Queries */
 
 @media only screen and (max-width: 1380px) {

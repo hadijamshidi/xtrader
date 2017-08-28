@@ -117,10 +117,15 @@
                                         <div class="divTableHead">فروش</div>
                                     </div>
                                     <div class="divTableRow">
-                                        <div class="divTableCell" id="pd1"></div>
-                                        <div class="divTableCell" id="LastTradePrice">
+                                        <div class="divTableHead" id="pd1"></div>
+                                        <div class="divTableHead" style="padding:0.5vh 13.5vh 0 0  ;float:right">
+                                            <span style="margin-left:0.5vw" id="LastTradePrice"></span>
+                                            <span id="ReferencePriceVariation" dir="ltr"></span>
+                                            <i style="padding-right:0.5vw">%</i>
+                                            <span id="ReferencePriceVariationPercent" dir="ltr"></span>
+
                                         </div>
-                                        <div class="divTableCell" id="po1"></div>
+                                        <div class="divTableHead" id="po1"></div>
                                     </div>
                                     <div class="divTableRow">
                                         <div class="divTableHead">اولین</div>
@@ -129,7 +134,7 @@
                                     </div>
                                     <div class="divTableRow">
                                         <div class="divTableCell" id="FirstTradePrice"></div>
-                                        <div class="divTableCell" style="margin: 0 0 -1vh 0.5vw;float:left">
+                                        <div class="divTableCell" style="padding:0.5vh 13.5vh 0 0  ;float:right">
                                             <span style="margin-left:0.5vw" id="ClosingPrice"></span>
                                             <span id="ClosingPriceVariation" dir="ltr"></span>
                                             <i style="padding-right:0.5vw">%</i>
@@ -222,7 +227,7 @@
 
             </div>
             <div class="col-xl-6">
-                <div class="xyz" id="sell-buy-count" style="width: 100%;height: 234px;">
+                <div class="xyz" id="sell-buy-count" style="width: 100%;height: 31vh;">
                     <div class="divTable">
                         <div class="divTableBody">
                             <div class="divTableRow">
@@ -296,12 +301,12 @@
                                         <div class="divTableHead" id="Eps" dir="ltr"></div>
                                     </div>
                                     <div class="divTableRow">
-                                        <div class="divTableCell">P/E</div>
-                                        <div class="divTableCell" id="PricePerEarning" dir="ltr"></div>
+                                        <div class="divTableHead">P/E</div>
+                                        <div class="divTableHead" id="PricePerEarning" dir="ltr"></div>
                                     </div>
                                     <div class="divTableRow">
-                                        <div class="divTableCell">P/E گروه</div>
-                                        <div class="divTableCell" id="PricePerEarningGroup" dir="ltr"></div>
+                                        <div class="divTableHead">P/E گروه</div>
+                                        <div class="divTableHead" id="PricePerEarningGroup" dir="ltr"></div>
                                     </div>
                                 </div>
                             </div>
@@ -311,8 +316,8 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-xl-12" style="margin-right:1vw;">
-                        <div class="xyz" style="width: 100%" id="queue">
+                    <div class="col-xl-12">
+                        <div class="xyz" style="width: 101%" id="queue">
                             <div class="divTable">
                                 <div class="divTableBody">
                                     <div class="divTableRow">
@@ -357,7 +362,28 @@
             </div>
 
             <div class="col-xl-6">
-                <div class="xyz" id="chart" style="height: 218px;width: 100%" dir="ltr"></div>
+                <div class="xyz" id="chart" style="height: 28.2vh;width: 100%" dir="ltr"></div>
+            </div>
+        </div>
+
+        <div class="row">
+
+
+            <div class="col-xl-6">
+                <div class="xyz" style="width: 101%;min-height: 18vh;margin-right:0" id="portfo">
+                    <div class="divTable">
+                        <div class="divTableBody" id="pportfo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="xyz" style="width: 98%;min-height: 18vh;margin-right:0" id="hotlist">
+                    <div class="divTable">
+                        <div class="divTableBody" id="orders_place">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

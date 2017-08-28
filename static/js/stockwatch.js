@@ -65,6 +65,8 @@ var ids = {
     /***************************************************************/
     'ClosingPriceVariationPercent': "ClosingPriceVariationPercent",
     'ClosingPriceVariation': "ClosingPriceVariation",
+    'ReferencePriceVariationPercent': 'ReferencePriceVariationPercent',
+    'ReferencePriceVariation': 'ReferencePriceVariation',
 };
 
 var price_data = {
@@ -169,7 +171,7 @@ function insert(data) {
             }
             former[key] = data[ids[key]]
         }
-        if (['ClosingPriceVariation', 'ClosingPriceVariationPercent'].indexOf(key)>-1){
+        if (['ClosingPriceVariation', 'ClosingPriceVariationPercent','ReferencePriceVariationPercent', 'ReferencePriceVariation'].indexOf(key)>-1){
             if (former[key]<0) {obj.style.color='#dd4d68';} else {obj.style.color = 'green'}
         }
     });

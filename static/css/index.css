@@ -295,20 +295,6 @@ section {
     font-size: 0.8em;
 }
 
-#rightside_box {
-    top: 5em;
-    right: calc(100% - 75%);
-    position: relative;
-    width: 17em;
-}
-
-#leftside_box {
-    top: -19em;
-    right: calc(100% - 40%);
-    position: relative;
-    width: 17em;
-}
-
 #additional_info {
     height : initial;
     position: relative;

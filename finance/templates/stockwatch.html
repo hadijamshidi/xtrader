@@ -5,16 +5,24 @@
 
 {% block headContent %}
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/stockwatchstyle.css' %}"/>
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
-    <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
+
+
+    <!-- Needed stylesheets start -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stockwatch.css' %}"/>
+    <!-- Needed stylesheets end -->
+
+
+
+    <!-- Needed scripts start -->
     <script>
         var SymbolId = "{{ SymbolId }}",
             user = "{{request.user.username}}";
     </script>
     <script type="text/javascript" src="{% static 'js/stockwatch.js' %}"></script>
+    <!-- Needed scripts end -->
+
+
+
 {% endblock headContent %}
 
 {% load i18n %}
@@ -53,21 +61,7 @@
                         <label for="buyModal__count">قیمت</label>
                         <input type="number" name="buyModal__count" id="buyModal__price">
                     </div>
-                    <!--
-                                        <div class="group">
-                                            <label for="buyModal__count">تعداد</label>
-                                            <input type="text" name="buyModal__count" id="buyModal__volume">
-                                        </div>
 
-                                        <div class="group">
-                                            <select>
-                                                <option>حساب کارگذاری</option>
-                                            </select>
-                                        </div>
-                                        <div class="group">
-                                            <button>خرید</button>
-                                        </div>
-                    -->
                     <div class="group">
                         <button id="input_buy" type="submit" onclick="sendorder('buy')">خرید</button>
                     </div>
@@ -98,22 +92,7 @@
                         <label for="buyModal__count">قیمت</label>
                         <input type="text" name="buyModal__count" id="sellModal__price">
                     </div>
-                    <!--
-                                        <div class="group">
-                                            <label for="buyModal__count">تعداد</label>
-                                            <input type="text" name="buyModal__count" id="buyModal__volume">
-                                        </div>
 
-                                        <div class="group">
-                                            <select>
-                                                <option>حساب کارگذاری</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="group">
-                                            <button>فروش</button>
-                                        </div>
-                    -->
                     <div class="group">
                         <button id="input_sell" type="submit" onclick="sendorder('sell')">فروش</button>
                     </div>
@@ -121,235 +100,268 @@
             </div>
         </form>
 
-
     </div>
-    <div class="sw__boxes" dir="rtl">
-        <div class="boxes" id="costs">
-            <div class="divTable">
-                <div class="divTableBody">
-                    <div class="divTableRow">
-                        <div class="divTableHead">خرید</div>
-                        <div class="divTableHead">معامله</div>
-                        <div class="divTableHead">فروش</div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell" id="pd1"></div>
-                        <div class="divTableCell" id="LastTradePrice">
+    <div class="container-fluid" dir="rtl">
+        <div class="row row-1">
+
+            <div class="col-xl-6">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="boxes xyz" id="costs">
+                            <div class="divTable">
+                                <div class="divTableBody">
+                                    <div class="divTableRow">
+
+                                        <div class="divTableHead">خرید</div>
+                                        <div class="divTableHead">معامله</div>
+                                        <div class="divTableHead">فروش</div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableCell" id="pd1"></div>
+                                        <div class="divTableCell" id="LastTradePrice">
+                                        </div>
+                                        <div class="divTableCell" id="po1"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">اولین</div>
+                                        <div class="divTableHead">پایانی</div>
+                                        <div class="divTableHead">دیروز</div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableCell" id="FirstTradePrice"></div>
+                                        <div class="divTableCell" style="margin: 0 0 -1vh 0.5vw;float:left">
+                                            <span style="margin-left:0.5vw" id="ClosingPrice"></span>
+                                            <span id="ClosingPriceVariation" dir="ltr"></span>
+                                            <i style="padding-right:0.5vw">%</i>
+                                            <span id="ClosingPriceVariationPercent" dir="ltr"></span>
+
+                                        </div>
+                                        <div class="divTableCell" id="PreviousDayPrice"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="divTableCell" id="po1"></div>
                     </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">اولین</div>
-                        <div class="divTableHead">پایانی</div>
-                        <div class="divTableHead">دیروز</div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell" id="FirstTradePrice"></div>
-                        <div class="divTableCell" style="margin: 0 0 -1vh 0.5vw;float:left">
-                            <span style="margin-left:0.5vw" id="ClosingPrice" ></span>
-                            <span id="ClosingPriceVariation" dir="ltr" ></span>
-                            <i  style="padding-right:0.5vw" >%</i>
-                            <span id="ClosingPriceVariationPercent" dir="ltr"></span>
+                    <div class="col-xl-6">
+                        <div class="boxes xyz" id="periods">
+                            <div class="divTable">
+                                <div class="divTableBody">
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">بازه روز</div>
+                                        <div class="divTableHead" id="HighestTradePrice"></div>
+                                        <div class="divTableHead" id="LowestTradePrice"></div>
 
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">قیمت مجاز</div>
+                                        <div class="divTableHead" id="UpperPriceThreshold"></div>
+                                        <div class="divTableHead" id="LowerPriceThreshold"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">بازه سال</div>
+                                        <div class="divTableHead" id="YearHighestTradePrice"></div>
+                                        <div class="divTableHead" id="YearLowestTradePrice"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="divTableCell" id="PreviousDayPrice"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="boxes" id="periods">
-            <div class="divTable">
-                <div class="divTableBody">
-                    <div class="divTableRow">
-                        <div class="divTableHead">بازه روز</div>
-                        <div class="divTableHead" id="HighestTradePrice"></div>
-                        <div class="divTableHead" id="LowestTradePrice"></div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="boxes xyz" id="deals">
+                            <div class="divTable">
+                                <div class="divTableBody">
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">تعداد معاملات</div>
+                                        <div class="divTableHead" id="TotalNumberOfTrades"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">حجم معاملات</div>
+                                        <div class="divTableHead" id="TotalNumberOfSharesTraded"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">ارزش معاملات</div>
+                                        <div class="divTableHead" id="TotalTradeValue"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">ارزش بازار</div>
+                                        <div class="divTableHead" id="InstrumentMarketValue"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- DivTable.com -->
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="boxes xyz" style="width: 100%" id="rates">
+                            <div class="divTable">
+                                <div class="divTableBody">
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">تعداد سهام</div>
+                                        <div class="divTableHead" id="NumberOfSharesOrBonds"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">حجم مبنا</div>
+                                        <div class="divTableHead" id="BaseQuantity"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">سهام شناور</div>
+                                        <div class="divTableHead" id="FreeFloatPercent"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">میانگین حجم ماه</div>
+                                        <div class="divTableHead" id="MonthAverageVolume"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">قیمت مجاز</div>
-                        <div class="divTableHead" id="UpperPriceThreshold"></div>
-                        <div class="divTableHead" id="LowerPriceThreshold"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">بازه سال</div>
-                        <div class="divTableHead" id="YearHighestTradePrice"></div>
-                        <div class="divTableHead" id="YearLowestTradePrice"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="boxes" id="deals">
-            <div class="divTable">
-                <div class="divTableBody">
-                    <div class="divTableRow">
-                        <div class="divTableHead">تعداد معاملات</div>
-                        <div class="divTableHead" id="TotalNumberOfTrades"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">حجم معاملات</div>
-                        <div class="divTableHead" id="TotalNumberOfSharesTraded"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">ارزش معاملات</div>
-                        <div class="divTableHead" id="TotalTradeValue"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">ارزش بازار</div>
-                        <div class="divTableHead" id="InstrumentMarketValue"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- DivTable.com -->
-        </div>
-        <div class="boxes" id="rates">
-            <div class="divTable">
-                <div class="divTableBody">
-                    <div class="divTableRow">
-                        <div class="divTableHead">تعداد سهام</div>
-                        <div class="divTableHead" id="NumberOfSharesOrBonds"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">حجم مبنا</div>
-                        <div class="divTableHead" id="BaseQuantity"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">سهام شناور</div>
-                        <div class="divTableHead" id="FreeFloatPercent"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">میانگین حجم ماه</div>
-                        <div class="divTableHead" id="MonthAverageVolume"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="sell-buy-count">
-            <div class="divTable">
-                <div class="divTableBody">
-                    <div class="divTableRow">
-                        <div class="divTableHead">حجم</div>
-                        <div class="divTableHead">خرید</div>
-                        <div class="divTableHead">فروش</div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">حقیقی</div>
-                        <div class="divTableHead" id="BuyIndividualVolume"></div>
-                        <div class="divTableHead" id="SellIndividualVolume"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">حقوقی</div>
-                        <div class="divTableHead" id="BuyFirmVolume"></div>
-                        <div class="divTableHead" id="SellFirmVolume"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">تعداد</div>
-                        <div class="divTableHead">خرید</div>
-                        <div class="divTableHead">فروش</div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">مجموع</div>
-                        <div class="divTableHead" id="TotalBuy"></div>
-                        <div class="divTableHead" id="TotalSell"></div>
 
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">حقیقی</div>
-                        <div class="divTableHead" id="BuyIndividualCount"></div>
-                        <div class="divTableHead" id="SellIndividualCount"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">حقوقی</div>
-                        <div class="divTableHead" id="BuyFirmCount"></div>
-                        <div class="divTableHead" id="SellFirmCount"></div>
-                    </div>
-                </div>
             </div>
-            <!-- DivTable.com -->
-        </div>
-        <div id="last-sell">
-            <div class="divTable">
-                <div class="divTableBody">
-                    <div class="divTableRow">
-                        <div class="divTableHead">آخرین معامله</div>
-                        <div class="divTableHead" id="LastTradeDate"></div>
+            <div class="col-xl-6">
+                <div class="xyz" id="sell-buy-count" style="width: 100%;height: 234px;">
+                    <div class="divTable">
+                        <div class="divTableBody">
+                            <div class="divTableRow">
+                                <div class="divTableHead">حجم</div>
+                                <div class="divTableHead">خرید</div>
+                                <div class="divTableHead">فروش</div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableHead">حقیقی</div>
+                                <div class="divTableHead" id="BuyIndividualVolume"></div>
+                                <div class="divTableHead" id="SellIndividualVolume"></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableHead">حقوقی</div>
+                                <div class="divTableHead" id="BuyFirmVolume"></div>
+                                <div class="divTableHead" id="SellFirmVolume"></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableHead">تعداد</div>
+                                <div class="divTableHead">خرید</div>
+                                <div class="divTableHead">فروش</div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableHead">مجموع</div>
+                                <div class="divTableHead" id="TotalBuy"></div>
+                                <div class="divTableHead" id="TotalSell"></div>
+
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableHead">حقیقی</div>
+                                <div class="divTableHead" id="BuyIndividualCount"></div>
+                                <div class="divTableHead" id="SellIndividualCount"></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableHead">حقوقی</div>
+                                <div class="divTableHead" id="BuyFirmCount"></div>
+                                <div class="divTableHead" id="SellFirmCount"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead">وضعیت</div>
-                        <div class="divTableHead" id="InstrumentStateTitle"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="epsbox">
-            <div class="divTable">
-                <div class="divTableBody">
-                    <div class="divTableRow">
-                        <div class="divTableHead">EPS</div>
-                        <div class="divTableHead" id="Eps" dir="ltr"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">P/E</div>
-                        <div class="divTableCell" id="PricePerEarning" dir="ltr"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">P/E گروه</div>
-                        <div class="divTableCell" id="PricePerEarningGroup" dir="ltr"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="queue">
-            <div class="divTable">
-                <div class="divTableBody">
-                    <div class="divTableRow">
-                        <div class="divTableHead" style="color: #26A65B">تعداد</div>
-                        <div class="divTableHead" style="color: #26A65B">حجم</div>
-                        <div class="divTableHead" style="color: #26A65B">خرید</div>
-                        <div class="divTableHead" style="color: #dd4d68">فروش</div>
-                        <div class="divTableHead" style="color: #dd4d68">حجم</div>
-                        <div class="divTableHead" style="color: #dd4d68">تعداد</div>
-                    </div>
-                    <div class="divTableRow" style="background: #4d5068 ">
-                        <div class="divTableHead" id="zd1"></div>
-                        <div class="divTableHead" id="qd1"></div>
-                        <div class="divTableHead" id="pd1q"></div>
-                        <div class="divTableHead" id="po1q"></div>
-                        <div class="divTableHead" id="qo1"></div>
-                        <div class="divTableHead" id="zo1"></div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableHead" id="zd2"></div>
-                        <div class="divTableHead" id="qd2"></div>
-                        <div class="divTableHead" id="pd2"></div>
-                        <div class="divTableHead" id="po2"></div>
-                        <div class="divTableHead" id="qo2"></div>
-                        <div class="divTableHead" id="zo2"></div>
-                    </div>
-                    <div class="divTableRow" style="background: #4d5068 ">
-                        <div class="divTableHead" id="zd3"></div>
-                        <div class="divTableHead" id="qd3"></div>
-                        <div class="divTableHead" id="pd3"></div>
-                        <div class="divTableHead" id="po3"></div>
-                        <div class="divTableHead" id="qo3"></div>
-                        <div class="divTableHead" id="zo3"></div>
-                    </div>
+
                 </div>
             </div>
         </div>
-        <div id="chart" dir="ltr"></div>
-        <div id="portfo">
-            <div class="divTable">
-                <div class="divTableBody" id="pportfo">
+
+        <div class="row row-2">
+            <div class="col-xl-6">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="xyz" style="width: 100%" id="last-sell">
+                            <div class="divTable">
+                                <div class="divTableBody">
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">آخرین معامله</div>
+                                        <div class="divTableHead" id="LastTradeDate"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">وضعیت</div>
+                                        <div class="divTableHead" id="InstrumentStateTitle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="xyz" style="width: 100%" id="epsbox">
+                            <div class="divTable">
+                                <div class="divTableBody">
+                                    <div class="divTableRow">
+                                        <div class="divTableHead">EPS</div>
+                                        <div class="divTableHead" id="Eps" dir="ltr"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableCell">P/E</div>
+                                        <div class="divTableCell" id="PricePerEarning" dir="ltr"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableCell">P/E گروه</div>
+                                        <div class="divTableCell" id="PricePerEarningGroup" dir="ltr"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
+                <div class="row">
+                    <div class="col-xl-12" style="margin-right:1vw;">
+                        <div class="xyz" style="width: 100%" id="queue">
+                            <div class="divTable">
+                                <div class="divTableBody">
+                                    <div class="divTableRow">
+                                        <div class="divTableHead" style="color: #26A65B">تعداد</div>
+                                        <div class="divTableHead" style="color: #26A65B">حجم</div>
+                                        <div class="divTableHead" style="color: #26A65B">خرید</div>
+                                        <div class="divTableHead" style="color: #dd4d68">فروش</div>
+                                        <div class="divTableHead" style="color: #dd4d68">حجم</div>
+                                        <div class="divTableHead" style="color: #dd4d68">تعداد</div>
+                                    </div>
+                                    <div class="divTableRow" style="background: #4d5068 ">
+                                        <div class="divTableHead" id="zd1"></div>
+                                        <div class="divTableHead" id="qd1"></div>
+                                        <div class="divTableHead" id="pd1q"></div>
+                                        <div class="divTableHead" id="po1q"></div>
+                                        <div class="divTableHead" id="qo1"></div>
+                                        <div class="divTableHead" id="zo1"></div>
+                                    </div>
+                                    <div class="divTableRow">
+                                        <div class="divTableHead" id="zd2"></div>
+                                        <div class="divTableHead" id="qd2"></div>
+                                        <div class="divTableHead" id="pd2"></div>
+                                        <div class="divTableHead" id="po2"></div>
+                                        <div class="divTableHead" id="qo2"></div>
+                                        <div class="divTableHead" id="zo2"></div>
+                                    </div>
+                                    <div class="divTableRow" style="background: #4d5068 ">
+                                        <div class="divTableHead" id="zd3"></div>
+                                        <div class="divTableHead" id="qd3"></div>
+                                        <div class="divTableHead" id="pd3"></div>
+                                        <div class="divTableHead" id="po3"></div>
+                                        <div class="divTableHead" id="qo3"></div>
+                                        <div class="divTableHead" id="zo3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-xl-6">
+                <div class="xyz" id="chart" style="height: 218px;width: 100%" dir="ltr"></div>
             </div>
         </div>
-        <div id="hotlist">
-            <div class="divTable">
-                <div class="divTableBody" id="orders_place">
-                </div>
-            </div>
-        </div>
+
+
     </div>
 
     <script>

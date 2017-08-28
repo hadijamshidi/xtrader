@@ -1,92 +1,121 @@
 {% load static %}
-<html lang="en" >
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %}</title>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css" />
-        <link rel="icon" type="image/png" href="/media/icons/backtest.png">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
-        <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script> {# Remember to link jQuery min by CDN #}
-        <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
-        {% block headContent %}
-        {% endblock headContent %}
-            <script>
-                $(document).ready(function(){
-                    $("#search-btn").click(function(){
-                        $("#search-bar").toggle();
-                    });
-                });
-            </script>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="/media/icons/backtest.png">
 
-    <body style="overflow-y:hidden; background: #1c1f32 ">
 
-        <div id="t-r-elements">
-            <div id="user-box" class="color-n2">
-                <img src="{{ img_url }}" alt="Profile Picture"/>
-                <a href="#">{{ name }}</a>
-            </div>
-            <a href="#" id="notif-btn" class="color-n2"></a>
+
+    <!-- Needed stylesheets start -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
+    <!-- Needed stylesheets end -->
+
+
+
+    <!-- Needed scripts start -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="//raw.githack.com/tahajahangir/jdate/master/jdate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search-btn").click(function () {
+                $("#search-bar").toggle();
+            });
+        });
+    </script>
+    <!-- Needed scripts start -->
+
+
+
+    {% block headContent %}
+    {% endblock headContent %}
+</head>
+
+<body>
+
+    <!-- username text and picture + notification button -->
+
+    <div id="top-right-elements-container">
+        <div id="user-info">
+            <img src="{{ img_url }}" alt="Profile Picture"/>
+            <a href="#">{{ name }}</a>
         </div>
+        <a href="#" id="notif-btn"></a>
+    </div>
 
 
-     <div class="ui container" id="search-bar" dir="rtl" style="position: relative;top:2.4%; left:0; right:0;text-align:center; display:none;">
-        <div id="search" class="ui fluid category search"  >
+    <!-- Search box whith semantic UI -->
+
+    <div class="ui container" id="search-bar" dir="rtl"
+         style="position: relative;top:2.4%; left:0; right:0;text-align:center; display:none;">
+        <div id="search" class="ui fluid category search">
             <div class="ui icon input" style="width:50%;">
                 <input class="prompt" type="search" placeholder="جستجو نماد">
                 <i class="search icon"></i>
             </div>
-            <div class="results" style="width:50%; margin-left: 25%; display:none; z-index:1000; position:absolute" dir="ltr" ></div>
+            <div class="results" style="width:50%; margin-left: 25%; display:none; z-index:1000; position:absolute"
+                 dir="ltr"></div>
         </div>
     </div>
 
 
-        <img src="/media/pictures/logo.svg" id="logo-svg">
-        <ul id="top-btns">
-            <a href="{% url 'finance:stockwatch' %}">
-                <li class="main-btns" id="home-btn"></li>
-            </a>
-                <li class="main-btns" id="search-btn"></li>
+    <!-- Logo and top left menu buttons -->
+
+    <img src="/media/pictures/logo.svg" id="logo-svg">
+    <ul id="top-btns">
+        <a href="{% url 'finance:stockwatch' %}">
+            <li class="main-btns" id="home-btn"></li>
+        </a>
+        <li class="main-btns" id="search-btn"></li>
 
 
-            <a href="{% url 'finance:marketwatch' %}">
-                <li class="main-btns" id="marketwatch-btn"></li>
-            </a>
-            <a href="{% url 'finance:backtest' %}">
-                <li class="main-btns" id="backtest-btn"></li>
-            </a>
-        </ul>
+        <a href="{% url 'finance:marketwatch' %}">
+            <li class="main-btns" id="marketwatch-btn"></li>
+        </a>
+        <a href="{% url 'finance:backtest' %}">
+            <li class="main-btns" id="backtest-btn"></li>
+        </a>
+    </ul>
 
-        <ul id="left-btns">
-            <a href="#">
-{#                {% url 'accounts:settings' %}#}
-        <li class="main-btns" id="setting-btn"></li>
-            </a>
-    <a href="#">
-        <li class="main-btns" id="info-btn"></li>
-            </a>
-    <a href="{% url 'accounts:userena_signout' %}">
-        <li class="main-btns" id="logout-btn"></li>
-    </a>
-        </ul>
 
-        <div id="master__wrapper">
-            {% block bodyContent %}
-            {% endblock bodyContent %}
-        </div>
+    <!-- left menu buttons -->
+
+    <ul id="left-btns">
+        <a href="#">
+            {# {% url 'accounts:settings' %} #}
+            <li class="main-btns" id="setting-btn"></li>
+        </a>
+        <a href="#">
+            <li class="main-btns" id="info-btn"></li>
+        </a>
+        <a href="{% url 'accounts:userena_signout' %}">
+            <li class="main-btns" id="logout-btn"></li>
+        </a>
+    </ul>
+
+    <div id="master__wrapper">
+        {% block bodyContent %}
+        {% endblock bodyContent %}
+    </div>
     <div id="modal" class="modal" style="display: none;z-index:20" dir="rtl">
         <div class="ui icon floating message" style="background-color:#00ca9d">
             <i class="notched circle loading icon"></i>
             <div class="content">
-                <div class="header" style="font-family: IRANSans">
-                    لطفا صبر کنید.
-                </div>
+                <div class="header" style="font-family: IRANSans">لطفا صبر کنید.</div>
                 <p> Xtrader در حال محاسبه است.</p>
             </div>
         </div>
     </div>
 
-    </body>
+</body>
 
 </html>

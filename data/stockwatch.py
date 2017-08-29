@@ -73,9 +73,11 @@ def stockWatchInfo(symbol_id, eps=True):
 
 
 def addStockWatchTable(info):
-    StockWatch(**info).save()
-    print('successful progress')
-
+    try:
+        StockWatch(**info).save()
+        print('successful progress')
+    except Exception:
+        print ("This symbol doesn't exist.")
 
 def read_portfo():
     user = r.session()

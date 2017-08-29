@@ -143,7 +143,7 @@ def marketwatchinfo(stock):
         return info
     except Exception:
         return False
-def addMaketWatchTabe(info):
+def addMarketWatchTable(info):
     MarketWatch(**info).save()
 
 

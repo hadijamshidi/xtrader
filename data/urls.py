@@ -2,6 +2,8 @@ from django.conf.urls import url
 from data import views, update
 
 urlpatterns = [
+
+    url(r'^add', update.add_symbol, name='add'),
     url(r'^update', update.update_all_data, name='update'),
     url(r'^mabna/$', views.mabnaAPI, name='mabna api'),
     url(r'^history/$', views.history),

@@ -114,7 +114,7 @@ def createMarcketwatchTables(num=0):
             try:
                 info = marketwatchinfo(stock)
                 if info:
-                    addMaketWatchTabe(info)
+                    addMarketWatchTable(info)
             except Exception:
                 wrong_symbol_ids.append(dict(instrumentName=stock.InstrumentName, problem='create marketwatch'))
 

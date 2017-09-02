@@ -77,7 +77,8 @@ def addStockWatchTable(info):
         StockWatch(**info).save()
         print('successful progress')
     except Exception:
-        print ("This symbol doesn't exist.")
+        print("This symbol doesn't exist.")
+
 
 def read_portfo():
     user = r.session()
@@ -92,7 +93,7 @@ def read_portfo():
             symbols[symbol_name] = symbol['SymbolId']
         else:
             print('namad tekrari: {}'.format(symbol_name))
-
+    return symbols
 
 def cleanduplicate():
     for row in StockWatch.objects.all():

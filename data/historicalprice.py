@@ -2,16 +2,20 @@ import requests as r, json
 from data import redis, dates
 from data.models import StockWatch
 
-server_url = 'http://66.70.160.142:8000/mabna/api'
+server_url = 'http://66.70.160.142:8000/data/mabna/'
 
 
 # read historical price data:
 def create_historical_table(num=0):
     stocks = StockWatch.objects.all()[num:]
     for index, stock in enumerate(stocks):
-        data = get_historical_data_stock(stock, index + num)
-        for key in data:
-            redis.hset(stock.SymbolId, key, data[key])
+        add_new_history(stock, index + num)
+
+
+def add_new_history(stock, index=0):
+    data = get_historical_data_stock(stock, index)
+    for key in data:
+        redis.hset(stock.SymbolId, key, data[key])
 
 
 def get_historical_data_stock(stock, index, step=100):
@@ -76,10 +80,13 @@ def find_bad_historical_data():
             incorrect_keys.append(keys)
     return incorrect_keys
 
-database_history = r.get('https://xtrader.ir/data/history/', verify=False).text
+
+database_history = ''
 
 
-def read_historical_data_from_server_db():
+def read_historical_data_from_server_db(auto=False):
+    if auto:
+        database_history = r.get('https://xtrader.ir/data/history/', verify=False).text
     history = database_history
     history_data = json.loads(history)
     redis.flushall()

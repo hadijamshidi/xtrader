@@ -4,33 +4,32 @@ from data.update_history import update_history_with_farabixo
 from django.http import HttpResponse
 from data import fundamental
 from data import stockwatch
+from data.historicalprice import add_new_history
 from data.models import StockWatch, MarketWatch, BalanceSheet, Income, Ratio
 
 
-def update_all_data(self):
+def update_all_data(only_history=False):
+    if only_history:
+        return update_history_with_farabixo(update_stock_watch=False)
     update_stock_watch()
     f = Fundamental()
     for table in ['ratio', 'income', 'balance', 'marketwatch']:
         f.update(table)
-    update_history_with_farabixo(update_stock_watch=False)
+    return update_history_with_farabixo(update_stock_watch=False)
 
 
-def add_symbol(request):
-    symbol_id = request.GET['symbol_id']
+def add_symbol(symbol_id):
     is_exist = StockWatch.objects.filter(SymbolId=symbol_id).count()
-
     if is_exist >= 1:
-        return HttpResponse("This Symbol is exist.")
-    else:
-
-        stockwatch.addStockWatchTable(stockwatch.stockWatchInfo(symbol_id))
-        stock = StockWatch.objects.get(SymbolId=symbol_id)
-        fundamental.addBalanceTable(fundamental.BalanceInfo(stock, stock.InstrumentName))
-        fundamental.addIncomeTable(fundamental.IncomeInfo(stock, stock.InstrumentName))
-        fundamental.addMarketWatchTable(fundamental.marketwatchinfo(stock))
-        fundamental.addRatioTable(fundamental.RatioInfo(stock, stock.InstrumentName))
-
-        return HttpResponse("Your stock added successfully.")
+        return "This Symbol is exist."
+    stockwatch.addStockWatchTable(stockwatch.stockWatchInfo(symbol_id))
+    stock = StockWatch.objects.get(SymbolId=symbol_id)
+    fundamental.addBalanceTable(fundamental.BalanceInfo(stock, stock.InstrumentName))
+    fundamental.addIncomeTable(fundamental.IncomeInfo(stock, stock.InstrumentName))
+    fundamental.addRatioTable(fundamental.RatioInfo(stock, stock.InstrumentName))
+    fundamental.addMarketWatchTable(fundamental.marketwatchinfo(stock))
+    add_new_history(stock)
+    return "Your stock added successfully."
 
 
 def remove_symbol(symbol_id):

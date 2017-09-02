@@ -6,6 +6,7 @@ from data import redis
 from django.http import HttpResponse
 from .models import StockWatch as Symbol
 from django.http import JsonResponse
+from data.update import add_symbol, update_all_data
 
 
 def mabnaAPI(request):
@@ -73,3 +74,20 @@ def get_data(request, SymbolId):
     stock_history = df.to_json(orient='values')
     stock_information['items'] = stock_history
     return JsonResponse(json.dumps(stock_information), safe=False)
+
+
+def add_new_symbol(request):
+    symbol_id = request.GET['symbol_id']
+    result = add_symbol(symbol_id)
+    return HttpResponse(result)
+
+
+def update(request):
+    status = 'failed'
+    only_history = False
+    while status == 'failed':
+        try:
+            status = update_all_data(only_history)
+        except Exception:
+            only_history = True
+    return HttpResponse(status)

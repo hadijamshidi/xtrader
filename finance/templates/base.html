@@ -72,16 +72,16 @@
 
     <img src="/media/pictures/logo.svg" id="logo-svg">
     <ul id="top-btns">
-        <a href="{% url 'finance:stockwatch' %}">
+        <a href="{% url 'finance:stockwatch' %}" title="خانه">
             <li class="main-btns" id="home-btn"></li>
         </a>
-        <li class="main-btns" id="search-btn"></li>
+        <li class="main-btns" id="search-btn" title="جستجو نماد"></li>
 
 
         <a href="{% url 'finance:marketwatch' %}">
-            <li class="main-btns" id="marketwatch-btn"></li>
+            <li class="main-btns" id="marketwatch-btn" title="دیده بان"></li>
         </a>
-        <a href="{% url 'finance:backtest' %}">
+        <a href="{% url 'finance:backtest' %}" title="بک تست">
             <li class="main-btns" id="backtest-btn"></li>
         </a>
     </ul>

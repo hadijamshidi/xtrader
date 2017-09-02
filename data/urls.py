@@ -1,10 +1,9 @@
 from django.conf.urls import url
-from data import views, update
+from data import views
 
 urlpatterns = [
-
-    url(r'^add', update.add_symbol, name='add'),
-    url(r'^update', update.update_all_data, name='update'),
+    url(r'^add', views.add_new_symbol, name='add'),
+    url(r'^update', views.update, name='update'),
     url(r'^mabna/$', views.mabnaAPI, name='mabna api'),
     url(r'^history/$', views.history),
     url(r'^stockwatch/(?P<SymbolId>\w+)/$', views.stockwatch),

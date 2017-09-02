@@ -62,8 +62,9 @@
     {% endif %}
       <div align="left">
                   <form action="{% url 'data:add' %}">
-                      <input type="submit" value="Add" />
-                      <input type="text" placeholder="Add name of symbol" name="symbol_id" style="height:25px"/>
+                      <input type="submit" value="Add" name="Add" />
+                      <input type="submit" value="Remove" name="Remove" />
+                      <input type="text" placeholder="Enter Symbol ID"  name="symbol_id" style="height:25px"/>
 
             </form>
       </div>

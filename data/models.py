@@ -243,3 +243,12 @@ class MarketWatch(models.Model):
     balanceSheet = models.ForeignKey(BalanceSheet, null=True, blank=True)
     ratio = models.ForeignKey(Ratio, null=True, blank=True)
     income = models.ForeignKey(Income, null=True, blank=True)
+
+    def get_instrument_name(self):
+        return self.stockWatch.InstrumentName
+
+    def get_SymbolId(self):
+        return self.stockWatch.SymbolId
+
+    def get_CompanyName(self):
+        return self.stockWatch.CompanyName

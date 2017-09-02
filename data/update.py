@@ -40,4 +40,4 @@ def remove_symbol(symbol_id):
     BalanceSheet.objects.filter(SymbolId=symbol_id).delete()
     Ratio.objects.filter(SymbolId=symbol_id).delete()
     Income.objects.filter(SymbolId=symbol_id).delete()
-    return HttpResponse("Removed Successfully.")
+    return "Removed Successfully."

@@ -6,7 +6,7 @@ from data import redis
 from django.http import HttpResponse
 from .models import StockWatch as Symbol
 from django.http import JsonResponse
-from data.update import add_symbol, update_all_data
+from data.update import add_symbol, update_all_data,  remove_symbol
 
 
 def mabnaAPI(request):
@@ -77,8 +77,12 @@ def get_data(request, SymbolId):
 
 
 def add_new_symbol(request):
-    symbol_id = request.GET['symbol_id']
-    result = add_symbol(symbol_id)
+    if 'Add' in request.GET:
+        symbol_id = request.GET['symbol_id']
+        result = add_symbol(symbol_id)
+    else:
+        symbol_id = request.GET['symbol_id']
+        result = remove_symbol(symbol_id)
     return HttpResponse(result)
 
 

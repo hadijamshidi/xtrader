@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^edit', views.editOrder, name='edit'),
     url(r'^cancelOrder', views.cancelOrder, name='cancelOrder'),
     url(r'^statusaccount', views.account_status, name='status'),
-
+    url(r'^volume', views.manage_volume, name='mange volume'),
+    url(r'^test', views.test_volume, name='test volume'),
 
 ]

@@ -192,6 +192,7 @@ def account_status(request):
     # return render(request, 'status.html', {'account': json.loads(account)})
     return HttpResponse(account)
 
+
 # {'WithdrawableMoneyRemain': 2089426.0, 'BlokedValue': 0.0, 'WithdrawableBlockedMoney': 0.0, 'CreditMoney': 0.0, 'CreditBlockedMoney': 0.0, 'TotalAsset': 2619560.0, 'NonWithdrawableMoneyRemain': 0.0, 'CreditMoneyRemain': 0.0, 'PercentageProfit': 26.0, 'Profit': 109384.0, 'BuyingPower': 2089426.0, 'NonWithdrawableBlockedMoney': 0.0}
 
 
@@ -210,3 +211,10 @@ def editOrder(request):
     output = user.post('http://api.farabixo.com/api/pub/ModifyOrder', data=data).text
     return HttpResponse(output)
 
+
+def test_volume(request):
+    return render(request, 'test_volume.html', {'SymbolId': 'IRO1IKCO0001', **get_user(request=request)})
+
+
+def manage_volume(request):
+    return HttpResponse('hi')

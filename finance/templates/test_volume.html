@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %}بک تست{% endblock %}
+{% block title %}تست{% endblock %}
 {% block headContent %}
     {% csrf_token %}
 
@@ -19,7 +19,7 @@
         </div>
     </div>
     <br>
-
+    <div></div>
     <script>
         var symbol_id = "{{SymbolId}}";
         $(function () {
@@ -44,38 +44,15 @@
                 chart: {
                     backgroundColor: {
                         color: '#fff',
-                        /*linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
-                         stops: [
-                         [0, '#2a2a2b'],
-                         [1, '#3e3e40']
-                         ]
-                         },*/
                         style: {
                             fontFamily: 'IRANSans'
                         },
                         plotBorderColor: '#606063',
-
-                        // zooming:
-                        // zoomType: 'x',
-                        // panning: true,
-                        // panKey: 'shift'
                     },
-                    // backgroundColor: {
-                    //     linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
-                    //     stops: [
-                    //         [0, '#2a2a2b'],
-                    //         [1, '#3e3e40']
-                    //     ]
-                    // },
                     style: {
                         fontFamily: 'IranSanc'
                     },
                     plotBorderColor: '#606063',
-
-                    // zooming:
-{#                    zoomType: 'x',#}
-{#                    panning: true,#}
-{#                    panKey: 'shift'#}
                 },
                 title: {
                     style: {
@@ -335,9 +312,8 @@
                     //test
                     events: {
                         click: function (e) {
-                            var chart = $('#container').highcharts();
-                            console.log(e.xAxis[0]);
-{#                            [e.xAxis[0].value, e.yAxis[0].value]#}
+                            {#                            var chart = $('#container').highcharts();#}
+                            run_test(e.xAxis[0].value);
                         },
                     },
                 },
@@ -433,7 +409,26 @@
                 $('.ui.search').transition('jiggle');
             });
         });
+
+        function run_test(date) {
+            var data = {'date':date,'stoploss':'','takeprofit':''};
+            $.ajax({
+                type: 'GET',
+                url: "/update-indicators",
+                data: {
+                    param: JSON.stringify(),
+                },
+                error: function () {
+                    // console.log('Sorry something went wrong \nCheck your network connection please.');
+                },
+                success: function (result) {
+                    var ids = [];
+                    Object.keys(params['outputs']).forEach(function (output) {
+                        ids.push(params['outputs'][output]['id']);
+
+                    })
+                }
+            })
+        }
     </script>
-
-
 {% endblock bodyContent %}

@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/marketwatchstyle.css' %}"/>
     <script src="{% static 'js/marketwatch.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.11/semantic.min.js"></script>
+
 {% endblock headContent %}
 
 {% load i18n %}
@@ -13,6 +14,14 @@
 
     <div id="nav-bar">
         <span id="navbar__title">دیده بان</span>
+        <ul style="display:flex;">
+            <a onclick="reset_filters()">
+                <li class="other-btns" id="refresh-btn" title="تنظیمات پیش فرض"></li>
+            </a>
+            <a onclick="change_dir()">
+                <li class="other-btns" id="align-btn" title="تغییر جهت"></li>
+            </a>
+        </ul>
     </div>
     <div id="filters-parent">
         <div id="filters-place" dir="rtl"></div>

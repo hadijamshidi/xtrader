@@ -435,3 +435,12 @@ function reset_filters(){
     });
     read_filters();
 }
+
+/******************************************/
+function change_dir(){
+    var obj = document.getElementById('filters-place'),
+        dict = {'rtl':'ltr','ltr':'rtl'},
+        dir = obj.dir;
+        obj.dir = dict[dir];
+
+}

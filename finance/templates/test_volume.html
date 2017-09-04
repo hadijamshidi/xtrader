@@ -411,7 +411,8 @@
         });
 
         function run_test(date) {
-            var data = {'date':date,'stoploss':'','takeprofit':''};
+            console.log(date);
+            var data = {'date':date,'stoploss':'','takeprofit':'','SymbolId':SymbolId};
             $.ajax({
                 type: 'GET',
                 url: "/update-indicators",

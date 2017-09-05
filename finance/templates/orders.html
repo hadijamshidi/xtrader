@@ -7,48 +7,32 @@
     <div class="divTableHead"></div>
 </div>
 {% for order in orders %}
-<div class="divTableRow">
-    <div class="divTableCell">
-        {{ order.OrderSideId }}
+    <div class="divTableRow">
+        <div class="divTableCell">
+            {{ order.OrderSideId }}
+        </div>
+        <a class="divTableCell" onclick="window.location='/stockwatch/'+'{{ order.SymbolId }}'">
+            {{ order.InstrumentName }}
+        </a>
+        <div class="divTableCell">
+            {{ order.Quantity }}
+        </div>
+        <div class="divTableCell">
+            {{ order.Price }}
+        </div>
+        <div class="divTableCell">
+            {{ order.OrderState }}
+        </div>
+        <div class="divTableCell">
+            {% if order.OrderState != 'لغو شده' and order.OrderState != 'کامل معامله شده' %}
+                <i class="edit icon" title="ویرایش" style="color: #00ca9d"
+                   onclick="{% if order.OrderSideId == 'خرید' %}trade('buy','edit',{{ order.OrderId }}){% else %}trade('sell','edit',{{ order.OrderId }}){% endif %}"></i>
+                <i class="remove icon" title="انصراف" style="color: #E35C67"
+                   onclick="cancelOrder('{{ order.OrderId }}')"></i>
+            {% endif %}
+        </div>
     </div>
-    <a class="divTableCell" onclick="window.location='/stockwatch/'+'{{ order.SymbolId }}'">
-        {{ order.InstrumentName }}
-    </a>
-    <div class="divTableCell">
-        {{ order.Quantity }}
-    </div>
-    <div class="divTableCell">
-        {{ order.Price }}
-    </div>
-    <div class="divTableCell">
-        {{ order.OrderState }}
-    </div>
-    <div class="divTableCell">
-        {% if order.OrderState != 'لغو شده' %}
-            <i class="edit icon" title="ویرایش" style="color: #00ca9d" onclick="{% if order.OrderSideId == 'خرید' %}trade('buy','edit',{{ order.OrderId }}){% else %}trade('sell','edit',{{ order.OrderId }}){% endif %}"></i>
-            <i class="remove icon" title="انصراف" style="color: #E35C67" onclick="cancelOrder('{{ order.OrderId }}')"></i>
-        {% endif %}
-    </div>
-</div>
 {% endfor %}
-<!--
-{#<div class="divTableRow" id="account">#}
-{#    <div class="divTableCell">پرتفو</div>#}
-{#    <div class="divTableCell">مانده</div>#}
-{#    <div class="divTableCell">خالص دارایی</div>#}
-{#    <div class="divTableCell">بلوکه شده</div>#}
-{#    <div class="divTableCell">قدرت خرید</div>#}
-{#    <div class="divTableCell">درصد سود/زیان</div>#}
-{#</div>#}
-{#<div class="divTableRow" id="account_values">#}
-{#    <div class="divTableCell">{{ account.TotalAsset }}</div>#}
-{#    <div class="divTableCell">{{ account.TotalAsset }}</div>#}
-{#    <div class="divTableCell">{{ account.TotalAsset }}</div>#}
-{#    <div class="divTableCell">{{ account.TotalAsset }}</div>#}
-{#    <div class="divTableCell">{{ account.TotalAsset }}</div>#}
-{#    <div class="divTableCell">{{ account.TotalAsset }}</div>#}
-{#</div>#}
--->
 <style>
     i:hover {
         cursor: pointer;

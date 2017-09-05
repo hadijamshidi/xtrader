@@ -17,9 +17,14 @@
         <div id="container1" style="background-color: #1c1f32;">
             <div id="container" style=" min-width: 310px;min-height: 600px; width: 100%"></div>
         </div>
+        <br>
+        <div dir="rtl">
+            <p>حد سود: <input id="tp" value="0.2"></p>
+            <p>حد ضرر: <input id="sl" value="0.1"></p>
+            <br>
+            <div id="result"></div>
+        </div>
     </div>
-    <br>
-    <div></div>
     <script>
         var symbol_id = "{{SymbolId}}";
         $(function () {
@@ -312,7 +317,6 @@
                     //test
                     events: {
                         click: function (e) {
-                            {#                            var chart = $('#container').highcharts();#}
                             run_test(e.xAxis[0].value);
                         },
                     },
@@ -411,23 +415,15 @@
         });
 
         function run_test(date) {
-            console.log(date);
-            var data = {'date':date,'stoploss':'','takeprofit':'','SymbolId':SymbolId};
+            var data = {'index':date,'stoploss': Number($('#sl').val()) ,'takeprofit':Number($('#tp').val()),'symbol_id': symbol_id};
             $.ajax({
                 type: 'GET',
-                url: "/update-indicators",
+                url: "/volume",
                 data: {
-                    param: JSON.stringify(),
-                },
-                error: function () {
-                    // console.log('Sorry something went wrong \nCheck your network connection please.');
+                    param: JSON.stringify(data),
                 },
                 success: function (result) {
-                    var ids = [];
-                    Object.keys(params['outputs']).forEach(function (output) {
-                        ids.push(params['outputs'][output]['id']);
-
-                    })
+                    $('#result').html(result);
                 }
             })
         }

@@ -1,4 +1,4 @@
-from finance import data_handling
+from finance import data_handling, volume
 from django.http import HttpResponse, JsonResponse
 import json
 from . import strategy, scan, marketwatch
@@ -217,4 +217,7 @@ def test_volume(request):
 
 
 def manage_volume(request):
-    return HttpResponse('hi')
+    data = json.loads(request.GET['param'])
+    result = volume.run_test(data)
+    # print(result['history'])
+    return render(request, 'volumetest.html', result)

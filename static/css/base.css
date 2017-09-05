@@ -249,7 +249,7 @@ body{
 #nav-bar {
     display: block;
     position: relative;
-    width: 99%;
+    width: 98.5%;
     height: 8%;
     background: #1c1f32;
     margin: 0 auto;
@@ -319,20 +319,4 @@ body{
 
 
 /***************************************************************/
-#refresh-btn {
-    background-image: url(/media/icons/refresh.svg);
-    margin:0.75em 3px 5px 3px;
-}
-#align-btn{
-    background-image: url(/media/icons/group.svg);
-    margin:0.75em auto;
-}
-.other-btns {
-    background:#4d5068 no-repeat center;
-    background-size: 2.75vh;
-    border-radius: 3px;
-    width: 4vh;
-    height: 4vh;
-    margin-right: 0.8vh;
-    cursor: pointer;
-}
+

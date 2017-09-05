@@ -14,7 +14,17 @@
 
     <div id="nav-bar">
         <span id="navbar__title">دیده بان</span>
-        <ul style="display:flex;">
+
+    </div>
+    <div style="margin-bottom:-0.5em;">
+    <span style="float: right; direction: rtl;margin-right:0.35em;padding-top:0.5em;">
+        <div class="ui mini button btn" style="background-color : #1c1f32; color : white;" onclick="show_kind('all')">همه</div>
+        <div class="ui mini button" style="background-color : #1c1f32; color : white;" onclick="show_kind('stockwatch')">تابلو</div>
+        <div class="ui mini button" style="background-color : #1c1f32; color : white;" onclick="show_kind('fundamental')">بنیادی</div>
+        <div class="ui mini button" style="background-color : #1c1f32; color : white;" title="اعضا ویژه">VIP</div>
+    </span>
+    <span>
+        <ul style="display:flex;margin-left:0.34em;margin-top:-0.5em;">
             <a onclick="reset_filters()">
                 <li class="other-btns" id="refresh-btn" title="تنظیمات پیش فرض"></li>
             </a>
@@ -22,13 +32,8 @@
                 <li class="other-btns" id="align-btn" title="تغییر جهت"></li>
             </a>
         </ul>
-    </div>
-    <span style="float: right; direction: rtl;">
-        <button onclick="show_kind('all')">همه</button>
-        <button onclick="show_kind('stockwatch')">تابلو</button>
-        <button onclick="show_kind('fundamental')">بنیادی</button>
-        <button title="اعضا ویژه">VIP</button>
     </span>
+    </div>
     <div id="filters-parent">
         <div id="filters-place" dir="rtl">
             <div id="stockwatch"></div>

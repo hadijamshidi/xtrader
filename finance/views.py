@@ -84,11 +84,14 @@ def filtermarket(request):
         stocks = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
+        page = 1
         stocks = paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
+        page = paginator.num_pages
         stocks = paginator.page(paginator.num_pages)
-    return render(request, 'marketwatchTable.html', {'stocks': stocks})
+    d = {'last':paginator.num_pages, 'former':paginator.num_pages-1,'former2':paginator.num_pages-2}
+    return render(request, 'marketwatchTable.html', {'stocks': stocks, **d})
 
 
 def indicators_api(request):
@@ -221,3 +224,5 @@ def manage_volume(request):
     result = volume.run_test(data)
     # print(result['history'])
     return render(request, 'volumetest.html', result)
+
+

@@ -50,18 +50,48 @@
         </div>
     {% endfor %}
 </div>
-<div class="pagination">
+<div class="pagination" style="margin-left:42%;direction:ltr;">
     <span class="step-links">
         {% if stocks.has_previous %}
-            <a onclick="read_filters({{ stocks.previous_page_number }})">قبلی</a>
+        <a style="cursor: pointer" onclick="read_filters({{ stocks.previous_page_number }})"><i class="angle double left icon"></i></a>
         {% endif %}
+        {% if stocks.number != 2 and stocks.number != 1 %}
+            <a onclick="read_filters(1)">
+                <div class="ui icon buttons">
+                    <button class="ui icon button">1</button>
+                </div>
+            </a>
 
+        {% endif %}
+        {% if stocks.number >= 3 %}
+             <div class="ui icon buttons">
+                    <button class="ui icon button">...</button>
+                </div>
+        {% endif %}
+        {% if stocks.has_previous %}
+            <a onclick="read_filters({{ stocks.previous_page_number }})"><button class="ui icon button">{{ stocks.previous_page_number }}</button></a>
+        {% endif %}
         <span class="current">
-            صفحه {{ stocks.number }} از {{ stocks.paginator.num_pages }}
-        </span>
+            <div class="ui icon buttons">
+                <button class="ui icon button" style="background: #4d5068">{{ stocks.number }}</button>
+            </div>
 
+
+        </span>
         {% if stocks.has_next %}
-            <a onclick="read_filters({{ stocks.next_page_number }})"></a>
+            <a onclick="read_filters({{ stocks.next_page_number }})"><button class="ui icon button">{{ stocks.next_page_number }}</button></a>
+        {% endif %}
+        {% if stocks.number <= former2 %}
+            <div class="ui icon buttons">
+                    <button class="ui icon button">...</button>
+                </div>
+        {% endif %}
+        {% if stocks.number != former and stocks.number != last %}
+        <a onclick="read_filters({{ stocks.page_range | length }})"><button class="ui icon button">{{ stocks.paginator.num_pages }}</button></a>
+        {% endif %}
+        {% if stocks.has_next %}
+        <a style="cursor: pointer" onclick="read_filters({{ stocks.next_page_number }})"><i class="angle double right icon"></i></a>
         {% endif %}
     </span>
 </div>
+<!-- صفحه {{ stocks.number }} از {{ stocks.paginator.num_pages }} -->

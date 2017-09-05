@@ -23,8 +23,17 @@
             </a>
         </ul>
     </div>
+    <span style="float: right; direction: rtl;">
+        <button onclick="show_kind('all')">همه</button>
+        <button onclick="show_kind('stockwatch')">تابلو</button>
+        <button onclick="show_kind('fundamental')">بنیادی</button>
+        <button title="اعضا ویژه">VIP</button>
+    </span>
     <div id="filters-parent">
-        <div id="filters-place" dir="rtl"></div>
+        <div id="filters-place" dir="rtl">
+            <div id="stockwatch"></div>
+                <div id="fundamental" style="display: none"></div>
+        </div>
     </div>
 
 

@@ -18,3 +18,11 @@ class Profile(UserenaBaseProfile):
     # date_of_birth = DateField(blank=True, null=True)
     # firts_name=
     cellPhone = models.CharField(max_length=11, verbose_name='شماره تلفن ',null=True,blank=True)
+
+
+    def last_login(self):
+        return self.user.last_login
+    def first_name(self):
+        return self.user.first_name
+    def last_name(self):
+        return self.user.last_name

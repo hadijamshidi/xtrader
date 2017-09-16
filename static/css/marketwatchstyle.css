@@ -100,4 +100,5 @@ header {
     height: 4vh;
     margin-right: 0.8vh;
     cursor: pointer;
+    margin:0.75em auto;
 }

@@ -398,9 +398,9 @@ $(window).scroll(function () {
     }
 });
 
-function sortTable(n) {
+function sortTable(n,tablekind) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("table");
+    table = document.getElementById("table_"+tablekind);
     switching = true;
     //Set the sorting direction to ascending:
     dir = "asc";
@@ -494,4 +494,14 @@ function show_kind(kind) {
         document.getElementById(idd).style.display = (kind != 'all') ? 'none' : 'block';
     });
     if (kind != 'all') document.getElementById(kind).style.display = 'block';
+}
+
+function show_table(tablekind) {
+    console.log(tablekind);
+    ['_stockwatch', '_ratio', '_balanceSheet', '_income'].forEach(function (idd) {
+        document.getElementById(idd).style.background = '#1c1f32';
+        document.getElementById('table'+idd).style.display = 'none';
+    });
+    document.getElementById(tablekind).style.background = '#4d5068';
+    document.getElementById('table'+tablekind).style.display = 'block';
 }

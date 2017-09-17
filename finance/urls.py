@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^scan_market', views.scan_market, name='scan market'),
     url(r'^update-indicators', views.update_indicators, name='update_indicators'),
     url(r'^marketwatch', views.market_watch, name='marketwatch'),
+    url(r'^getfilters', views.getfilters, name='getfilters'),
     url(r'^filtermarket', views.filtermarket, name='filtermarket'),
     url(r'^indicators-api', views.indicators_api, name='indicatoss_api'),
     url(r'^backtest', views.display, name='backtest'),
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^cancelOrder', views.cancelOrder, name='cancelOrder'),
     url(r'^statusaccount', views.account_status, name='status'),
     url(r'^volume', views.manage_volume, name='mange volume'),
-    url(r'^test', views.test_volume, name='test volume'),
+    url(r'^testvolume', views.test_volume, name='test volume'),
+    url(r'^testAPI', views.testAPI, name='testAPI'),
 
 ]

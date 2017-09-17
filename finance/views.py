@@ -8,7 +8,7 @@ from django.http import JsonResponse, HttpResponse, Http404, HttpResponseNotFoun
 from accounts.forms import AuthenticationForm
 import requests as r
 from xtrader.localsetting import farabi_login_data
-from data.dates import Check
+from data.backup import filters_data
 # Create your views here.
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import inspect
@@ -62,6 +62,10 @@ def update_indicators(request):
 @login_required(login_url='accounts:userena_signin')
 def market_watch(request):
     return render(request, 'marketwatch.html', get_user(request))
+
+
+def getfilters(request):
+    return HttpResponse(json.dumps(filters_data))
 
 
 def filtermarket(request):
@@ -226,3 +230,5 @@ def manage_volume(request):
     return render(request, 'volumetest.html', result)
 
 
+def testAPI(request):
+    return render(request, 'testAPI.html', {'SymbolId': 'IRO1IKCO0001', **get_user(request=request)})

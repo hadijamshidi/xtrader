@@ -1,295 +1,27 @@
 /**
  * Created by hadi on 7/5/17.
  */
-var columns = {
-    // 'num': 'ردیف',
-    'stockwatch_InstrumentName': 'نماد', 'stockwatch_InstrumentTitle': 'نام',
-    'stockwatch_TotalNumberOfTrades': 'تعداد',
-    'stockwatch_TotalNumberOfSharesTraded': 'حجم', 'stockwatch_TotalTradeValue': 'ارزش',
-    'stockwatch_PreviousDayPrice': 'دیروز', 'stockwatch_FirstTradePrice': 'اولین',
-    'stockwatch_Eps': 'Eps',
-    'stockwatch_PricePerEarning': 'P/E',
-    'stockwatch_LastTradePrice': 'آخرین معامله', 'stockwatch_ReferencePriceVariationPercent': 'درصد آخرین معامله',
-    'stockwatch_ReferencePriceVariation': 'تغییر آخرین معامله',
-    'stockwatch_ClosingPrice': 'قیمت پایانی', 'stockwatch_ClosingPriceVariation': 'تغییر قیمت پایانی',
-    'stockwatch_ClosingPriceVariationPercent': 'درصد  تغییر قیمت پایانی',
-    'stockwatch_LowestTradePrice': 'کمترین', 'stockwatch_HighestTradePrice': 'بیشترین',
-//        'ratio_roa': 'roa',
-//        'ratio_roe': 'roe',
-};
-function show_filters_result(result) {
-    var columns = {
-        // 'num': 'ردیف',
-        'stockwatch_InstrumentName': 'نماد', 'stockwatch_InstrumentTitle': 'نام',
-        'stockwatch_TotalNumberOfTrades': 'تعداد',
-        'stockwatch_TotalNumberOfSharesTraded': 'حجم', 'stockwatch_TotalTradeValue': 'ارزش',
-        'stockwatch_PreviousDayPrice': 'دیروز', 'stockwatch_FirstTradePrice': 'اولین',
-        'stockwatch_Eps': 'Eps',
-        'stockwatch_PricePerEarning': 'P/E',
-        'stockwatch_LastTradePrice': 'آخرین معامله', 'stockwatch_ReferencePriceVariationPercent': 'درصد آخرین معامله',
-        'stockwatch_ReferencePriceVariation': 'تغییر آخرین معامله',
-        'stockwatch_ClosingPrice': 'قیمت پایانی', 'stockwatch_ClosingPriceVariation': 'تغییر قیمت پایانی',
-        'stockwatch_ClosingPriceVariationPercent': 'درصد  تغییر قیمت پایانی',
-        'stockwatch_LowestTradePrice': 'کمترین', 'stockwatch_HighestTradePrice': 'بیشترین',
-//        'ratio_roa': 'roa',
-//        'ratio_roe': 'roe',
-    };
-    var place = document.getElementById("filters_scan_place");
-    place.innerHTML = '';
-    // creating table tag and attrs:
-    var table = document.createElement("div");
-    table.setAttribute("id", "table");
-    // table.setAttribute("style", "text-align:right");
-    // table.setAttribute("class", "ui selectable inverted celled  table");
-    place.appendChild(table);
 
-    //creating tr for th tags:
-    var tr = document.createElement('div');
-    tr.setAttribute('class', 'divTableRow main-nav');
-    Object.keys(columns).forEach(function (column) {
-        var th = document.createElement('div');
-        th.setAttribute('class', 'divTableCell');
-        th.appendChild(document.createTextNode(columns[column]));
-        tr.appendChild(th);
-    });
-    table.appendChild(tr);
-
-    // creating tr for td tags:
-    // var div = document.createElement('table');
-    // div.setAttribute('style', 'height: 400px; overflow: auto');
-    var div = table;
-    var num2 = 1;
-    result.forEach(function (stock) {
-        stock['num'] = num2;
-        var tr = document.createElement('div');
-        tr.setAttribute('class', 'divTableRow');
-        if (num2 % 2 == 1) tr.setAttribute('style', 'background:#4d5068');
-        num2 += 1;
-        var num = 0;
-        Object.keys(columns).forEach(function (column) {
-            var td = document.createElement('div');
-            td.setAttribute('class', 'divTableCell');
-            if (num == 0) {
-                var a = document.createElement('a');
-                a.appendChild(document.createTextNode(quick_check(stock[column])));
-                a.setAttribute('href', '/stockwatch/' + stock['stockwatch_SymbolId']);
-                td.appendChild(a);
-                tr.appendChild(td);
-
-            } else {
-                td.appendChild(document.createTextNode(quick_check(stock[column])));
-                tr.appendChild(td);
-            }
-            num += 1;
-        });
-        div.appendChild(tr);
-    });
-    place.appendChild(div);
-    place.appendChild(document.createElement('br'));
-    place.style.display = 'block';
-}
-
-var filters_data = [
-    {
-        'kind': 'fundamental',
-        'filters':[
-            {
-                'benchmark': [0.1, 0, 25, 0.5, 0, 75, 0.9],
-                'target': [
-                    {'ratio__cash_ratio': 'نسبت نقد'}
-                ]
-            },
-            /****************************************************3*************************************************************/
-            {
-                "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
-                "target": [
-                    {'ratio__roe': 'ROE'}
-                ]
-            },
-            /****************************************************4*************************************************************/
-            {
-                "benchmark": [20, 40, 50, 60, 80],
-                'target': [
-                    {'ratio__da': 'D/A'}
-                ]
-            },
-            /****************************************************11*************************************************************/
-            {
-                "benchmark": [0, 18, 25, 50, 75, 90],
-                "target": [
-                    {'ratio__profit_margin': 'حاشيه سود خالص'}
-                ]
-            },
-            /****************************************************5*************************************************************/
-            {
-                'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
-                'target': [
-                    {'ratio__quick_ratio': 'نسبت آني'}
-                ]
-            },
-
-            /****************************************************7*************************************************************/
-            {
-                "benchmark": [0, 18, 25, 50, 75, 100, 200, 300],
-                "target": [
-                    {'ratio__roa': 'ROA'}
-                ]
-            },
-
-            /****************************************************8*************************************************************/
-
-            {
-                'benchmark': [0.25, 0.5, 1, 2, 4,],
-                'target': [
-                    {'ratio__de': 'D/E'}
-                ]
-            },
-            /****************************************************15*************************************************************/
-            {
-                "benchmark": [0, 18, 25, 50, 75, 90],
-                "target": [
-                    {'ratio__gross_profit_margin': 'حاشيه سود ناخالص'}
-                ]
-            },
-            /****************************************************9*************************************************************/
-            {
-                'benchmark': [0.1, 0, 5, 1, 1.25, 1.5, 1, 2],
-                'target': [
-                    {'ratio__current_ratio': 'نسبت جاري'}
-                ]
-            },
-            /****************************************************9*************************************************************/
-            {
-                'benchmark': [10, 30, 50, 70, 90],
-                'target': [
-                    {'ratio__ebit_gross_profit': 'سود عملیاتی به سود ناخالص'}
-                ]
-            },
-            /****************************************************9*************************************************************/
-            {
-                'benchmark': [10, 30, 50, 70, 90],
-                'target': [
-                    {'ratio__r_ebit': 'هزینه بهره به سود عملیاتی'}
-                ]
-            },
-            /****************************************************9*************************************************************/
-            {
-                'benchmark': [10*1000000, 30*1000000, 50*1000000, 100*1000000, 200*1000000],
-                'target': [
-                    {'balanceSheet__total_current_liabilities': '<span>بدهی جاری<br>(میلیون ریال)</span>'}
-                ]
-            },
-        ]
-    },
-    {
-        'kind': 'stockwatch',
-        'filters': [
-            {
-                /****************************************************1*************************************************************/
-                'benchmark': [25, 50, 75],
-                'target': [
-
-                    {'stockWatch__BuyIndividualVolumePercentage': 'درصد حجم خرید حقیقی'}
-
-                ]
-            },
-            /****************************************************2*************************************************************/
-            {
-                'benchmark': [25, 50, 75],
-                'target': [
-
-                    {'stockWatch__SellIndividualVolumePercentage': 'درصد حجم فروش حقیقی'}
-                ]
-            },
-            /****************************************************14*************************************************************/
-            {
-                'benchmark': [1000000, 5000000, 10000000],
-                'target': [
-                    {'stockWatch__TotalNumberOfSharesTraded': 'حجم معاملات'}
-                ]
-            },
-            /****************************************************18*************************************************************/
-
-            {
-                'benchmark': [10, 100000, 500000, 1000000, 5000000],
-                'target': [
-                    {'stockWatch__BaseQuantity': 'حجم مبنا'},
-                ]
-            },
-            /****************************************************6*************************************************************/
-            {
-                'benchmark': [25, 50, 75],
-                'target': [
-                    {'stockWatch__BuyFirmVolumePercentage': 'درصد حجم خرید حقوقی'}
-                ]
-            },
-            /****************************************************10*************************************************************/
-
-            /****************************************************13*************************************************************/
-            {
-                'benchmark': [25, 50, 75],
-                'target': [
-                    {'stockWatch__SellFirmVolumePercentage': 'درصد حجم فروش حقوقی'}
-                ]
-            },
-            /****************************************************12*************************************************************/
-            {
-                'benchmark': [-2000, -1000, 0, 200, 500, 1000, 2000],
-                'target': [
-                    {'stockWatch__Eps': 'EPS'}
-                ]
-            },
-            /****************************************************16*************************************************************/
-            {
-                'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
-                'target': [
-                    {'stockWatch__PricePerEarning': 'P/E'}
-                ]
-            },
-
-            /****************************************************17*************************************************************/
-            {
-                'benchmark': [-4, -3, -2, -1, 0, 1, 2, 3, 4],
-                'target': [
-                    {'stockWatch__ClosingPriceVariationPercent': 'درصد تغییر قیمت پایانی'}
-                ]
-            },
-
-            /****************************************************19*************************************************************/
-            {
-                'benchmark': [-4, -3, -2, -1, 0, 1, 2, 3, 4],
-                'target': [
-                    {'stockWatch__ReferencePriceVariationPercent': 'درصد تغییر آخرین معامله'}
-                ]
-            },
-            /****************************************************20*************************************************************/
-            {
-                'benchmark': [0, 100, 200, 500, 1000, 2000],
-                'target': [
-                    {'stockWatch__TotalNumberOfTrades': 'تعداد معاملات'}
-                ]
-            },
-            /****************************************************20*************************************************************/
-            {
-                'benchmark': [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 20, 40, 80, 100],
-                'target': [
-                    {'stockWatch__PricePerEarningGroup': 'P/E گروه'}
-                ]
-            },
-
-        ]
-    },
-];
 
 var filter_ids = [];
 var choosen_filters = {};
 $(document).ready(function () {
-    insertfilters(filters_data);
-    read_filters();
-    $("select").change(function () {
-        read_filters();
+    $.ajax({
+        url:'http://localhost:8000/getfilters',
+        success:function (givenfilters) {
+            var filters_data = JSON.parse(givenfilters);
+            insertfilters(filters_data);
+            read_filters();
+            $("select").change(function () {
+                read_filters();
+            });
+        },
+        error: function (e) {
+            console.log(e)
+        }
     });
 });
+
 
 function insertfilters(filters) {
     filters.forEach(function (kind) {
@@ -504,4 +236,55 @@ function show_table(tablekind) {
     });
     document.getElementById(tablekind).style.background = '#4d5068';
     document.getElementById('table'+tablekind).style.display = 'block';
+}
+function quick_check(str) {
+    if (!isNaN(str)) {
+        var sign = '';
+        if (Number(str)<0) {
+            str = -1*Number(str);
+            sign = '-';
+        }
+        str = String(str);
+        var str1 = '',
+            str2 = '',
+            l = str.length;
+        for (var i = 0; i < l; i++) {
+            if(str.substring(i,i+1) == '.'){
+                str2 = str.substring(i+1,l);
+                str2 = '.' + str2;
+                break
+            }else{
+                str1 += str.substring(i, i+1);
+            }
+        }
+        var l = str.length;
+        if(l>6 & l<=9){
+            return str.substring(0,l-6)+'.'+str.substring(l-6,l-5)+' M'
+        }
+        if(l>9){
+            return quick_check(str.substring(0,l-9)) +'.'+str.substring(l-9,l-8)+' B'
+        }
+        return sign + numberSeparator(str1) + str2;
+    } else {
+        return str
+    }
+}
+function numberSeparator(n) {
+    n = String(n);
+    var m = [],
+        ll = n.length;
+    for (var i = 0; i < ll; i++) {
+        m.push(n.substring(i, i + 1));
+    }
+    m.reverse();
+    var i = 0,
+        n = '';
+    m.forEach(function (digit) {
+        i++;
+        n = digit + n;
+        if (i % 3 == 0 & i != ll) {
+            n = ',' + n;
+        }
+    });
+    return n
 }

@@ -5,23 +5,23 @@
 
 var filter_ids = [];
 var choosen_filters = {};
-$(document).ready(function () {
-    $.ajax({
-        url:'http://localhost:8000/getfilters',
-        success:function (givenfilters) {
-            var filters_data = JSON.parse(givenfilters);
-            insertfilters(filters_data);
-            read_filters();
-            $("select").change(function () {
-                read_filters();
-            });
-        },
-        error: function (e) {
-            console.log(e)
-        }
-    });
-});
-
+// $(document).ready(function () {
+//     $.ajax({
+//         url:'http://localhost:8000/getfilters',
+//         success:function (givenfilters) {
+//             var filters_data = JSON.parse(givenfilters);
+//             insertfilters(filters_data);
+//             read_filters();
+//             $("select").change(function () {
+//                 read_filters();
+//             });
+//         },
+//         error: function (e) {
+//             console.log(e)
+//         }
+//     });
+// });
+//
 
 function insertfilters(filters) {
     filters.forEach(function (kind) {

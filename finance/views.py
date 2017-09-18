@@ -95,7 +95,8 @@ def filtermarket(request):
         page = paginator.num_pages
         stocks = paginator.page(paginator.num_pages)
     d = {'last':paginator.num_pages, 'former':paginator.num_pages-1,'former2':paginator.num_pages-2}
-    return render(request, 'marketwatchTable.html', {'stocks': stocks, **d})
+    a = render(request, 'marketwatchTable.html', {'stocks': stocks, **d})
+    return a
 
 
 def indicators_api(request):
@@ -231,4 +232,4 @@ def manage_volume(request):
 
 
 def testAPI(request):
-    return render(request, 'testAPI.html', {'SymbolId': 'IRO1IKCO0001', **get_user(request=request)})
+    return render(request, 'testAPI.html', {'SymbolId': 'IRO1IKCO0001'})

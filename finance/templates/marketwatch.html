@@ -48,7 +48,7 @@
     <script type="text/javascript">
 $(document).ready(function () {
     $.ajax({
-        url:'http://localhost:8000/getfilters',
+        url:'/getfilters',
         success:function (givenfilters) {
             var filters_data = JSON.parse(givenfilters);
             insertfilters(filters_data);

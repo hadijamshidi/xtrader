@@ -17,9 +17,12 @@
     </div>
     <div style="margin-bottom:-0.5em;">
         <span style="float: right; direction: rtl;margin-right:0.35em;padding-top:0.5em;">
-            <div class="ui mini button btn" style="background-color : #1c1f32; color : white;" onclick="show_kind('all')">همه</div>
-            <div class="ui mini button" style="background-color : #1c1f32; color : white;" onclick="show_kind('stockwatch')">تابلو</div>
-            <div class="ui mini button" style="background-color : #1c1f32; color : white;" onclick="show_kind('fundamental')">بنیادی</div>
+            <div class="ui mini button btn" style="background-color : #1c1f32; color : white;"
+                 onclick="show_kind('all')">همه</div>
+            <div class="ui mini button" style="background-color : #1c1f32; color : white;"
+                 onclick="show_kind('stockwatch')">تابلو</div>
+            <div class="ui mini button" style="background-color : #1c1f32; color : white;"
+                 onclick="show_kind('fundamental')">بنیادی</div>
             <div class="ui mini button" style="background-color : #1c1f32; color : white;" title="اعضا ویژه">VIP</div>
         </span>
         <span>
@@ -46,21 +49,22 @@
         </div>
     </div>
     <script type="text/javascript">
-$(document).ready(function () {
-    $.ajax({
-        url:'/getfilters',
-        success:function (givenfilters) {
-            var filters_data = JSON.parse(givenfilters);
-            insertfilters(filters_data);
-            read_filters();
-            $("select").change(function () {
-                read_filters();
+        var filters_data;
+        $(document).ready(function () {
+            $.ajax({
+                url: '/getfilters',
+                success: function (givenfilters) {
+                    filters_data = JSON.parse(givenfilters);
+                    insertfilters(filters_data);
+                    read_filters();
+                    $("select").change(function () {
+                        read_filters();
+                    });
+                },
+                error: function (e) {
+                    console.log(e)
+                }
             });
-        },
-        error: function (e) {
-            console.log(e)
-        }
-    });
-});
-</script>
+        });
+    </script>
 {% endblock bodyContent %}

@@ -132,3 +132,7 @@ input {
     text-align: left;
 }
 
+#backtest-btn {
+    background-position:50% 30%;
+    height: 7vh ;
+}

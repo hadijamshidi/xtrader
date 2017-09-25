@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block headContent %}
+    <meta charset="UTF-8">
+
+
+    <!-- Needed stylesheets start -->
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'css/stockwatch.css' %}"/>#}
+    <!-- Needed stylesheets end -->
+
+
+
+    <!-- Needed scripts start -->
+    {#    <script>#}
+    {#        var SymbolId = "{{ SymbolId }}",#}
+    {#            user = "{{request.user.username}}";#}
+    {#    </script>#}
+    {#    <script type="text/javascript" src="{% static 'js/stockwatch.js' %}"></script>#}
+    <!-- Needed scripts end -->
+
+
+
+{% endblock headContent %}
+
+{% load i18n %}
+{% block bodyContent %}
+    <br>
+    <div dir="rtl">
+        برای استفاده از خدمات دیده‌بان و ابزار‌ها تکنیکال لطفا حساب کاربری خود را ارتقا دهید.
+        <br>
+        <br>
+        <ul>
+            {% for subscribe in subscribes %}
+                <li> اشتراک {{ subscribe.name }}، {{ subscribe.value }} ماهه، قیمت {{ subscribe.price }} <a href="#">
+                    <button>خرید</button>
+                </a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock bodyContent %}

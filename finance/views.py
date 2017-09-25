@@ -12,9 +12,10 @@ from data.backup import filters_data
 # Create your views here.
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import inspect
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from accounts.models import Profile, Subscribe
+from datetime import datetime
 
 all_functions = dict(inspect.getmembers(data_handling, inspect.isfunction))
 
@@ -61,7 +62,22 @@ def update_indicators(request):
 
 @login_required(login_url='accounts:userena_signin')
 def market_watch(request):
-    return render(request, 'marketwatch.html', get_user(request))
+    profile = Profile.objects.get(user=User.objects.get_by_natural_key(request.user))
+    if profile.expire >= datetime.today().date():
+        return render(request, 'marketwatch.html', get_user(request))
+    else:
+        subscribtions = Subscribe.objects.all()
+        return render(request, 'payment.html', {'subscribes': subscribtions, **get_user(request)})
+
+
+@login_required(login_url='accounts:userena_signin')
+def display(request):
+    profile = Profile.objects.get(user=User.objects.get_by_natural_key(request.user))
+    if profile.expire >= datetime.today().date():
+        return render(request, 'back.html', {'SymbolId': 'IRO1IKCO0001', **get_user(request=request)})
+    else:
+        subscribtions = Subscribe.objects.all()
+        return render(request, 'payment.html', {'subscribes': subscribtions, **get_user(request)})
 
 
 def getfilters(request):
@@ -70,8 +86,6 @@ def getfilters(request):
 
 def filtermarket(request):
     filters = json.loads(request.GET['filters'])
-    # order_by = request.GET['sort_by']
-    # print(order_by)
     from data import dates as d
     last = d.Check().last_market()
     from data.models import MarketWatch
@@ -94,7 +108,7 @@ def filtermarket(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         page = paginator.num_pages
         stocks = paginator.page(paginator.num_pages)
-    d = {'last':paginator.num_pages, 'former':paginator.num_pages-1,'former2':paginator.num_pages-2}
+    d = {'last': paginator.num_pages, 'former': paginator.num_pages - 1, 'former2': paginator.num_pages - 2}
     a = render(request, 'marketwatchTable.html', {'stocks': stocks, **d})
     return a
 
@@ -115,11 +129,6 @@ def back_test(request):
         return JsonResponse(result, safe=False)
     else:
         return Http404('this is not a GET!')
-
-
-@login_required(login_url='accounts:userena_signin')
-def display(request):
-    return render(request, 'back.html', {'SymbolId': 'IRO1IKCO0001', **get_user(request=request)})
 
 
 def about_us(request):

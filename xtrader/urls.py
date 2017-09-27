@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('finance.urls', namespace='finance')),
     url(r'^data/', include('data.urls', namespace='data')),
+    url(r'^accounting/', include('sales.urls', namespace='pay')),
+
 
 ]
 if settings.DEBUG:

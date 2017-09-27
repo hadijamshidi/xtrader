@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'finance',
     'data',
+    'sales',
     'userena',
     'guardian',
     'easy_thumbnails',

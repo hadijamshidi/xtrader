@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block bodyContent %}
+    <div>
+        <form id="myForm" action="https://sep.shaparak.ir/Payment.aspx" method="POST">
+            <input type="hidden" name="Token" value="{{ payment.token }}">
+            <input type="hidden" name="RedirectURL" value="https://xtrader.ir/accounting/payment_callback/">
+            <input type="submit" style="display: none;">
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#myForm").submit();
+        });
+    </script>
+{% endblock %}

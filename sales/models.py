@@ -33,7 +33,7 @@ class Payment(models.Model):
                 # callback = 'https://xtrader.ir/accounting/payment_callback/'
                 site = Site.objects.get_current()
                 callback = 'http://' + site.domain + '/accounting/payment_callback/'
-                response = client.bpPayRequest(terminalId=27, userName='scipub', userPassword='M0sci#ew_Tps@s12',
+                response = client.bpPayRequest(terminalId=2820803, userName='trader20', userPassword='48988491',
                                                orderId=payment.id, amount=amount * 10, callBackUrl=callback,
                                                localDate=datetime.now().date().strftime("%Y%m%d"),
                                                localTime=datetime.now().time().strftime("%H%M%S"), additionalData='hi')
@@ -55,17 +55,17 @@ class Payment(models.Model):
         for i in range(1, 6):
             try:
                 client = SoapClient(wsdl="http://services.yaser.ir/PaymentService/Mellat.svc?wsdl", trace=False)
-                response = client.bpGetOrderId(terminalId=27, userName='scipub', userPassword='M0sci#ew_Tps@s12',
+                response = client.bpGetOrderId(terminalId=2820803, userName='trader20', userPassword='48988491',
                                                mapOrderId=original_id)
                 my_id = response['bpGetOrderIdResult']
-                verfiy_response = client.bpVerifyRequest(terminalId=27, userName='scipub',
-                                                         userPassword='M0sci#ew_Tps@s12',
+                verfiy_response = client.bpVerifyRequest(terminalId=2820803, userName='trader20',
+                                                         userPassword='48988491',
                                                          orderId=my_id, saleOrderId=my_id, saleReferenceId=saleRefId)
                 ver_rescode = verfiy_response['bpVerifyRequestResult']
                 self.verify_rescode = ver_rescode
                 if ver_rescode == '0':
-                    settle_response = client.bpSettleRequest(terminalId=27, userName='scipub',
-                                                             userPassword='M0sci#ew_Tps@s12',
+                    settle_response = client.bpSettleRequest(terminalId=2820803, userName='trader20',
+                                                             userPassword='48988491',
                                                              orderId=my_id, saleOrderId=my_id,
                                                              saleReferenceId=saleRefId)
                     settle_rescode = settle_response['bpSettleRequestResult']

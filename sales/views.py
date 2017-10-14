@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from accounts.models import Membership , Subscribe
+from accounts.models import Membership , Subscribe ,Profile
 from django.views.decorators.csrf import csrf_exempt
 from .models import Payment
 from finance.views import get_user
@@ -19,22 +19,22 @@ def start_pay(request, subscribe_id):
 
 @csrf_exempt
 def payment_callback(request):
-    state = request.POST.get("State")
-    RefNum = request.POST.get("RefNum")
-    ResNum = request.POST.get("ResNum")
-    MID = request.POST.get("MID")
+    refId = request.POST.get("RefId")
+    saleReferenceId = request.POST.get("SaleReferenceId")
+    saleOrderId = request.POST.get("SaleOrderId")
+    resCode = request.POST.get("ResCode")
 
+    if resCode != '0':
+        return render(request, 'result.html', {'token': {'success': False, 'verify_rescode': 'Incomplete Transaction'}})
 
-    if state != '0':
-        from .dicerror import errorbank
-        payment = Payment.objects.filter(id=ResNum).first()
-        payment.success = False
-        payment.failureerror = state
-        return render(request, 'result.html', {'token': {'success': False, 'verify_rescode': errorbank[state]}})
-
-    else:
-
-        payment = Payment.objects.filter(id=ResNum).first()
-        payment.verify(RefNum, MID)
-        payment = Payment.objects.filter(id=ResNum).first()
+    payment = Payment.objects.filter(refId=refId).first()
+    payment.verify(saleReferenceId, saleOrderId)
+    if payment.success:
+        #what i can do in this
+        a = payment.membership.subscribe.value
+        p=Profile.Objects.filter(id=payment.membership.profile_id)
+        import datetime
+        p.expire =(datetime.date.today() + datetime.timedelta(a*365/12))
+        p.save()
         return render(request, 'result.html', {'payment': payment})
+

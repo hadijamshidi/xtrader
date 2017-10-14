@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 {% block bodyContent %}
     <div>
-        <form id="myForm" action="https://sep.shaparak.ir/Payment.aspx" method="POST">
-            <input type="hidden" name="Token" value="{{ payment.token }}">
-            <input type="hidden" name="RedirectURL" value="https://xtrader.ir/accounting/payment_callback/">
-            <input type="submit" style="display: none;">
+        <form id="myForm" action="https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl" method="POST">
+            <input type="hidden" name="RefId" value="{{ payment.refId }}">
+            <input type="submit" value="go" style="display: none;">
         </form>
     </div>
     <script type="text/javascript">

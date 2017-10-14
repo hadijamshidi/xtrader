@@ -71,3 +71,21 @@ def updateHistory(symbol_id, today_data, index):
                 print('problem at set data redis for symbolId: {} and index: {}'.format(symbol_id, index))
         except Exception:
             print('problem at loading from redis for symbolId: {} and index: {}'.format(symbol_id, index))
+'''
+import requests as r
+import json
+farabi_login_data = {
+    'UserName': 'xtrader',
+    'Password': 'hH159753159753'
+}
+headers = {"Content-Type": "application/json", "Accept": "text/plain"}
+a=r.post('http://api.farabixo.com/api/account/repo/login', data=json.dumps(farabi_login_data),headers=headers)
+
+////
+import requests as r
+payload = "UserName=xtrader;Password=hH159753159753;"
+s1 = requests.post(
+    'http://api.farabixo.com/api/account/repo/login', 
+    headers={"content-type":"application/x-www-form-urlencoded"},
+    data=payload)
+'''

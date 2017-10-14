@@ -172,8 +172,8 @@ def trade(request):
     data = request.GET['order']
     data = json.loads(data)
     user = r.session()
-    user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
-    orderId = user.post('http://api.farabixo.com/api/pub/AddOrder', data=data)
+    user.post('https://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+    orderId = user.post('https://api.farabixo.com/api/pub/AddOrder', data=data)
     return HttpResponse(orderId.text)
 
 
@@ -194,8 +194,8 @@ def orders(request):
     #      'Quantity': 'Quantity', 'Price': 'Price'}]
     if request.user.username == 'broker':
         user = r.session()
-        user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
-        orders = user.get('http://api.farabixo.com/api/pub/GetOrderList').text
+        user.post('https://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+        orders = user.get('https://api.farabixo.com/api/pub/GetOrderList').text
         orders = json.loads(orders)
         for order in orders:
             order['OrderSideId'] = 'خرید' if order['OrderSideId'] == 1 else 'فروش'

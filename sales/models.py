@@ -12,7 +12,8 @@ class Payment(models.Model):
     membership = models.ForeignKey(Membership)
     amount = models.IntegerField()
     token = models.CharField(max_length=40, null=True, blank=True)
-    refNum = models.CharField(max_length=40, null=True, blank=True)
+    refId = models.CharField(max_length=40, null=True, blank=True)
+    saleRefId = models.CharField(max_length=40, null=True, blank=True)
     takingDate = models.DateTimeField(default=datetime.now)
     success = models.BooleanField(default=False)
     failureerror=models.CharField(max_length=3,null=True,blank=True)
@@ -23,38 +24,59 @@ class Payment(models.Model):
 
     @classmethod
     def create(cls, amount, membership):
-        termID = '10827265'  # کد پذیرنده     #
+        # termID = '10827265'  # کد پذیرنده     #
         payment = cls(amount=amount, membership=membership)
         payment.save()
         for i in range(1, 6):
             try:
-                client = SoapClient("https://sep.shaparak.ir/Payments/InitPayment.asmx", trace=False)
+                client = SoapClient(wsdl="https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl", trace=False)
                 # callback = 'https://xtrader.ir/accounting/payment_callback/'
-                response = client.RequestToken(TermID=termID,
-                                               ResNUM=payment.id, TotalAmount=amount * 10,
-                                               )
-                Token = response
-                payment.token = Token
+                site = Site.objects.get_current()
+                callback = 'http://' + site.domain + '/accounting/payment_callback/'
+                response = client.bpPayRequest(terminalId=27, userName='scipub', userPassword='M0sci#ew_Tps@s12',
+                                               orderId=payment.id, amount=amount * 10, callBackUrl=callback,
+                                               localDate=datetime.now().date().strftime("%Y%m%d"),
+                                               localTime=datetime.now().time().strftime("%H%M%S"), additionalData='hi')
+                response = response['bpPayRequestResult']
+                print(response + ':: response')
+                print('initial response:' + str(response))
+                # try:
+                refId = response.split(',')[1]
+                payment.refId = refId
                 payment.save()
                 return payment
+
             except:
                 print(traceback.format_exc())
 
         return payment
 
-    def verify(self, refNum, mid,):
+    def verify(self, saleRefId, original_id):
         for i in range(1, 6):
             try:
-                client = SoapClient(wsdl="https://sep.shaparak.ir/Payments/InitPayment.asmx", trace=False)
-                response = client.verifyTransaction(RefNum=refNum,
-                                                    MerchantID=mid,)
-                self.refNum=refNum
-                if self.amount == response:
-                    self.success=True
-                    self.save()
-                else:
-                    self.success=False
-                    self.failureerror='تایید نکردن بانک'
-                    self.save()
+                client = SoapClient(wsdl="http://services.yaser.ir/PaymentService/Mellat.svc?wsdl", trace=False)
+                response = client.bpGetOrderId(terminalId=27, userName='scipub', userPassword='M0sci#ew_Tps@s12',
+                                               mapOrderId=original_id)
+                my_id = response['bpGetOrderIdResult']
+                verfiy_response = client.bpVerifyRequest(terminalId=27, userName='scipub',
+                                                         userPassword='M0sci#ew_Tps@s12',
+                                                         orderId=my_id, saleOrderId=my_id, saleReferenceId=saleRefId)
+                ver_rescode = verfiy_response['bpVerifyRequestResult']
+                self.verify_rescode = ver_rescode
+                if ver_rescode == '0':
+                    settle_response = client.bpSettleRequest(terminalId=27, userName='scipub',
+                                                             userPassword='M0sci#ew_Tps@s12',
+                                                             orderId=my_id, saleOrderId=my_id,
+                                                             saleReferenceId=saleRefId)
+                    settle_rescode = settle_response['bpSettleRequestResult']
+                    if settle_rescode == '0':
+                        self.success = True
+                        self.saleRefId = saleRefId
+                        self.save()
+
+                        # self.profile.credit = self.profile.credit + self.amount
+                        # self.profile.save()
+                        return 0
+
             except:
                 print(traceback.format_exc())

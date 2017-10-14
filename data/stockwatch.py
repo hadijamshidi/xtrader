@@ -28,9 +28,9 @@ def createStockWatchTables(num=0):
 
 def stockWatchInfo(symbol_id, eps=True):
     user = r.session()
-    user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+    a = user.post('https://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
     print('trying to get data for symbol with id: {}'.format(symbol_id))
-    output = user.get('http://api.farabixo.com/api/pub/GetSymbol', params={'SymbolId': symbol_id}).text
+    output = user.get('https://api.farabixo.com/api/pub/GetSymbol', params={'SymbolId': symbol_id}).text
     try:
         trades_data = json.loads(output)
     except Exception:

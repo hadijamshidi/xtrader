@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+from django.utils import timezone
 # from pysimplesoap.client import SoapClient
 from zeep import Client
 from django.contrib.sites.models import Site
@@ -15,7 +15,7 @@ class Payment(models.Model):
     token = models.CharField(max_length=40, null=True, blank=True)
     refId = models.CharField(max_length=40, null=True, blank=True)
     saleRefId = models.CharField(max_length=40, null=True, blank=True)
-    takingDate = models.DateTimeField(default=datetime.now)
+    takingDate = models.DateTimeField(default=timezone.now())
     success = models.BooleanField(default=False)
     failureerror=models.CharField(max_length=3,null=True,blank=True)
 
@@ -36,8 +36,8 @@ class Payment(models.Model):
                 callback = 'http://' + site.domain + '/accounting/payment_callback/'
                 response = client.service.bpPayRequest(terminalId=2820803, userName='trader20', userPassword='48988491',
                                                orderId=payment.id, amount=amount * 10, callBackUrl=callback,
-                                               localDate=datetime.now().date().strftime("%Y%m%d"),
-                                               localTime=datetime.now().time().strftime("%H%M%S"), additionalData='hi',payerId=0)
+                                               localDate=timezone.now().date().strftime("%Y%m%d"),
+                                               localTime=timezone.now().time().strftime("%H%M%S"), additionalData='hi',payerId=0)
                 # response = response['bpPayRequestResult']
                 print(response + ':: response')
                 print('initial response:' + str(response))

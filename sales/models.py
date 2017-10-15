@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
-from pysimplesoap.client import SoapClient
+# from pysimplesoap.client import SoapClient
+from zeep import Client
 from django.contrib.sites.models import Site
 import traceback
 from accounts.models import Profile, Membership, Subscribe
@@ -29,15 +30,15 @@ class Payment(models.Model):
         payment.save()
         for i in range(1, 6):
             try:
-                client = SoapClient(wsdl="https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl", trace=False)
+                client = Client(wsdl="https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl")
                 # callback = 'https://xtrader.ir/accounting/payment_callback/'
                 site = Site.objects.get_current()
                 callback = 'http://' + site.domain + '/accounting/payment_callback/'
-                response = client.bpPayRequest(terminalId=2820803, userName='trader20', userPassword='48988491',
+                response = client.service.bpPayRequest(terminalId=2820803, userName='trader20', userPassword='48988491',
                                                orderId=payment.id, amount=amount * 10, callBackUrl=callback,
                                                localDate=datetime.now().date().strftime("%Y%m%d"),
                                                localTime=datetime.now().time().strftime("%H%M%S"), additionalData='hi')
-                response = response['bpPayRequestResult']
+                # response = response['bpPayRequestResult']
                 print(response + ':: response')
                 print('initial response:' + str(response))
                 # try:
@@ -54,17 +55,17 @@ class Payment(models.Model):
     def verify(self, saleRefId, original_id):
         for i in range(1, 6):
             try:
-                client = SoapClient(wsdl="http://services.yaser.ir/PaymentService/Mellat.svc?wsdl", trace=False)
-                response = client.bpGetOrderId(terminalId=2820803, userName='trader20', userPassword='48988491',
+                client = Client(wsdl="http://services.yaser.ir/PaymentService/Mellat.svc?wsdl")
+                response = client.service.bpGetOrderId(terminalId=2820803, userName='trader20', userPassword='48988491',
                                                mapOrderId=original_id)
                 my_id = response['bpGetOrderIdResult']
-                verfiy_response = client.bpVerifyRequest(terminalId=2820803, userName='trader20',
+                verfiy_response = client.service.bpVerifyRequest(terminalId=2820803, userName='trader20',
                                                          userPassword='48988491',
                                                          orderId=my_id, saleOrderId=my_id, saleReferenceId=saleRefId)
                 ver_rescode = verfiy_response['bpVerifyRequestResult']
                 self.verify_rescode = ver_rescode
                 if ver_rescode == '0':
-                    settle_response = client.bpSettleRequest(terminalId=2820803, userName='trader20',
+                    settle_response = client.service.bpSettleRequest(terminalId=2820803, userName='trader20',
                                                              userPassword='48988491',
                                                              orderId=my_id, saleOrderId=my_id,
                                                              saleReferenceId=saleRefId)
@@ -80,3 +81,22 @@ class Payment(models.Model):
 
             except:
                 print(traceback.format_exc())
+''''
+from zeep import Client
+client = Client(wsdl="https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl")
+from datetime import datetime
+amount=10000
+from django.contrib.sites.models import Site
+site = Site.objects.get_current()
+callback = 'http://' + site.domain + '/accounting/payment_callback/'
+response = client.service.bpPayRequest(terminalId=2820803, userName='trader20', userPassword='48988491',
+                                               orderId=21, amount=amount * 10, callBackUrl=callback,
+                                               localDate=datetime.now().date().strftime("%Y%m%d"),
+                                               localTime=datetime.now().time().strftime("%H%M%S"), additionalData='hi',payerId=0)
+           
+
+verfiy_response = client.service.bpVerifyRequest(terminalId=2820803, userName='trader20',
+                                                         userPassword='48988491',
+                                                         orderId=421, saleOrderId=421, saleReferenceId=saleRefId)
+                                                         
+'''

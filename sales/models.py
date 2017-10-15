@@ -37,7 +37,7 @@ class Payment(models.Model):
                 response = client.service.bpPayRequest(terminalId=2820803, userName='trader20', userPassword='48988491',
                                                orderId=payment.id, amount=amount * 10, callBackUrl=callback,
                                                localDate=datetime.now().date().strftime("%Y%m%d"),
-                                               localTime=datetime.now().time().strftime("%H%M%S"), additionalData='hi',payerId=payment.membership.profile_id)
+                                               localTime=datetime.now().time().strftime("%H%M%S"), additionalData='hi',payerId=0)
                 # response = response['bpPayRequestResult']
                 print(response + ':: response')
                 print('initial response:' + str(response))

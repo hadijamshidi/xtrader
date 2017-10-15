@@ -23,7 +23,7 @@ class Profile(UserenaBaseProfile):
                          related_name='my_profile')
     cellPhone = models.CharField(max_length=11, verbose_name='شماره تلفن ', null=True, blank=True)
 
-    expire = models.DateField(default=timezone.now() + datetime.timedelta(3))
+    expire = models.DateField(default=timezone.now() + datetime.timedelta(10))
 
     def last_login(self):
         return self.user.last_login

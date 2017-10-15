@@ -1,5 +1,5 @@
 from django.db import models
-# from django.utils import timezone
+from django.utils import timezone
 # Create your models here.
 import datetime
 from django.db.models import (Model,
@@ -23,7 +23,7 @@ class Profile(UserenaBaseProfile):
                          related_name='my_profile')
     cellPhone = models.CharField(max_length=11, verbose_name='شماره تلفن ', null=True, blank=True)
 
-    expire = models.DateField(datetime.date.today() + datetime.timedelta(3))
+    expire = models.DateField(default=timezone.now() + datetime.timedelta(3))
 
     def last_login(self):
         return self.user.last_login

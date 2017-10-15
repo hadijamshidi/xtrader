@@ -92,7 +92,7 @@ from django.contrib.sites.models import Site
 site = Site.objects.get_current()
 callback = 'http://' + site.domain + '/accounting/payment_callback/'
 response = client.service.bpPayRequest(terminalId=2820803, userName='trader20', userPassword='48988491',
-                                               orderId=21, amount=amount * 10, callBackUrl=callback,
+                                               orderId=6, amount=amount * 10, callBackUrl=callback,
                                                localDate=datetime.now().date().strftime("%Y%m%d"),
                                                localTime=datetime.now().time().strftime("%H%M%S"), additionalData='hi',payerId=0)
            

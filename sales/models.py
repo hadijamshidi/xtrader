@@ -55,22 +55,24 @@ class Payment(models.Model):
     def verify(self, saleRefId, original_id):
         for i in range(1, 6):
             try:
-                client = Client(wsdl="http://services.yaser.ir/PaymentService/Mellat.svc?wsdl")
-                response = client.service.bpGetOrderId(terminalId=2820803, userName='trader20', userPassword='48988491',
-                                               mapOrderId=original_id)
-                my_id = response['bpGetOrderIdResult']
+                client = Client(wsdl="https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl")
+                # response = client.service.bpGetOrderId(terminalId=2820803, userName='trader20', userPassword='48988491',
+                #                                mapOrderId=original_id)
+                # my_id = response['bpGetOrderIdResult']
                 verfiy_response = client.service.bpVerifyRequest(terminalId=2820803, userName='trader20',
                                                          userPassword='48988491',
-                                                         orderId=my_id, saleOrderId=my_id, saleReferenceId=saleRefId)
-                ver_rescode = verfiy_response['bpVerifyRequestResult']
-                self.verify_rescode = ver_rescode
-                if ver_rescode == '0':
+                                                         orderId=original_id, saleOrderId=original_id, saleReferenceId=saleRefId)
+                print('verfiy_response   ::'+ verfiy_response)
+                # ver_rescode = verfiy_response['bpVerifyRequestResult']
+                self.verify_rescode = verfiy_response
+                if verfiy_response == '0':
                     settle_response = client.service.bpSettleRequest(terminalId=2820803, userName='trader20',
                                                              userPassword='48988491',
-                                                             orderId=my_id, saleOrderId=my_id,
+                                                             orderId=original_id, saleOrderId=original_id,
                                                              saleReferenceId=saleRefId)
-                    settle_rescode = settle_response['bpSettleRequestResult']
-                    if settle_rescode == '0':
+                    # settle_rescode = settle_response['bpSettleRequestResult']
+                    print('settle_response   ::' + settle_response)
+                    if settle_response == '0':
                         self.success = True
                         self.saleRefId = saleRefId
                         self.save()

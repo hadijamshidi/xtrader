@@ -23,7 +23,10 @@ def payment_callback(request):
     saleReferenceId = request.POST.get("SaleReferenceId")
     saleOrderId = request.POST.get("SaleOrderId")
     resCode = request.POST.get("ResCode")
-
+    print('refId :: ' + str(refId))
+    print('saleReferenceId :: ' + str(saleReferenceId))
+    print('saleOrderId :: ' + str(saleOrderId))
+    print('resCode :: ' + str(resCode))
     if resCode != '0':
         return render(request, 'result.html', {'token': {'success': False, 'verify_rescode': 'Incomplete Transaction'}})
 

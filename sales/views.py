@@ -20,14 +20,16 @@ def start_pay(request, subscribe_id):
 @csrf_exempt
 def payment_callback(request):
     print(request)
-    refId = request.POST.get("RefId")
-    saleReferenceId = request.POST.get("SaleReferenceId")
-    saleOrderId = request.POST.get("SaleOrderId")
-    resCode = request.POST.get("ResCode")
+    refId = request.GET.get("RefId")
+    resCode1 = request.POST.get('resCode','')
+    saleReferenceId = request.GET.get("SaleReferenceId")
+    saleOrderId = request.GET.get("SaleOrderId")
+    resCode = request.GET.get("ResCode")
     print('refId :: ' + str(refId))
     print('saleReferenceId :: ' + str(saleReferenceId))
     print('saleOrderId :: ' + str(saleOrderId))
     print('resCode :: ' + str(resCode))
+    print('resCode1 :: ' + str(resCode1))
     if resCode != '0':
         return render(request, 'result.html', {'token': {'success': False, 'verify_rescode': 'Incomplete Transaction'}})
 

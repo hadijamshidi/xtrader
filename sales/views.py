@@ -21,7 +21,7 @@ def start_pay(request, subscribe_id):
 def payment_callback(request):
     print(request.method)
     refId = request.GET.get("RefId")
-    resCode1 = request.GET.get('ResCode','')
+    resCode1 = request.GET.get('ResCode')
     saleReferenceId = request.GET.get("SaleReferenceId1")
     saleOrderId = request.GET.get("SaleOrderId1")
     resCode = request.POST.get("ResCode")

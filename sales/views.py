@@ -25,6 +25,7 @@ def payment_callback(request):
     resCode = request.POST.get("ResCode")
     print(resCode)
     if resCode != '0':
+        print('ridi')
         return render(request, 'result.html', {'token': {'success': False, 'verify_rescode': 'Incomplete Transaction'}})
 
     payment = Payment.objects.filter(refId=refId).first()

@@ -19,7 +19,7 @@ def start_pay(request, subscribe_id):
 
 @csrf_exempt
 def payment_callback(request):
-    print(request)
+    print(request.method)
     refId = request.GET.get("RefId")
     resCode1 = request.POST.get('resCode1','')
     saleReferenceId = request.GET.get("SaleReferenceId1")

@@ -22,7 +22,7 @@ def payment_callback(request):
     print('get')
     print(request.GET)
     print('post')
-    print(request.OST)
+    print(request.POST)
     refId = request.POST.get("refId")
     resCode1 = request.POST.get('ResCode')
     saleReferenceId = request.POST.get("SaleReferenceId")

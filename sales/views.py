@@ -24,7 +24,7 @@ def payment_callback(request):
     resCode1 = request.POST.get('resCode','')
     saleReferenceId = request.GET.get("SaleReferenceId1")
     saleOrderId = request.GET.get("SaleOrderId1")
-    resCode = request.GET.get("ResCode")
+    resCode = request.POST.get("ResCode")
     print('refId :: ' + str(refId))
     print('saleReferenceId :: ' + str(saleReferenceId))
     print('saleOrderId :: ' + str(saleOrderId))

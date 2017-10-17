@@ -38,6 +38,8 @@ def payment_callback(request):
 
     payment = Payment.objects.filter(refId=refId).first()
     payment.verify(saleReferenceId, saleOrderId)
+    print('payment')
+    print(payment.success)
     if payment.success:
         #what i can do in this
         a = payment.membership.subscribe.value

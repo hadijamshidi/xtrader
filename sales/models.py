@@ -33,7 +33,7 @@ class Payment(models.Model):
                 client = Client(wsdl="https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl")
                 # callback = 'https://xtrader.ir/accounting/payment_callback/'
                 site = Site.objects.get_current()
-                callback = 'http://' + site.domain + '/accounting/payment_callback/'
+                callback = 'https://' + site.domain + '/accounting/payment_callback/'
                 response = client.service.bpPayRequest(terminalId=2820803, userName='trader20', userPassword='48988491',
                                                orderId=payment.id, amount=amount * 10, callBackUrl=callback,
                                                localDate=timezone.now().date().strftime("%Y%m%d"),

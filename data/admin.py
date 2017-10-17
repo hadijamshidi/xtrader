@@ -33,6 +33,7 @@ class income_admin(admin.ModelAdmin):
         'SymbolId',
     )
 
+
 class ratio_admin(admin.ModelAdmin):
     list_display = (
         'InstrumentName',
@@ -42,12 +43,14 @@ class ratio_admin(admin.ModelAdmin):
         'SymbolId',
     )
 
+
 class marketwatch_admin(admin.ModelAdmin):
-        list_display = (
+    list_display = (
         'get_CompanyName',
         'get_instrument_name',
         'get_SymbolId',
-        )
+    )
+
 
 # Register your models here.
 admin.site.register(StockWatch, stockwatch_admin)

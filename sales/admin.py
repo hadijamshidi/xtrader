@@ -9,5 +9,4 @@ class payment_admin(admin.ModelAdmin):
         'success',
     )
 
-# Register your models here.
 admin.site.register(Payment,payment_admin)

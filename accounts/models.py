@@ -15,6 +15,9 @@ class Subscribe(models.Model):
     price = models.IntegerField()
     value = models.IntegerField()
 
+    def __str__(self):
+        return self.name
+
 
 class Profile(UserenaBaseProfile):
     user = OneToOneField(User,

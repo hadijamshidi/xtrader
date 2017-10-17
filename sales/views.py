@@ -42,10 +42,10 @@ def payment_callback(request):
     print(payment.success)
     if payment.success:
         #what i can do in this
-        a = payment.membership.subscribe.value
-        p=Profile.Objects.filter(id=payment.membership.profile_id)
-        import datetime
-        p.expire =(datetime.date.today() + datetime.timedelta(a*365/12))
-        p.save()
+        # a = payment.membership.subscribe.value
+        # p=Profile.Objects.filter(id=payment.membership.profile_id)
+        # import datetime
+        # p.expire =(datetime.date.today() + datetime.timedelta(a*365/12))
+        # p.save()
         return render(request, 'result.html', {'payment': payment})
 

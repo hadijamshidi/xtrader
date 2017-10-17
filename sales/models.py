@@ -55,6 +55,7 @@ class Payment(models.Model):
     def verify(self, saleRefId, original_id):
         for i in range(1, 6):
             try:
+                print('rsdi')
                 client = Client(wsdl="https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl")
                 # response = client.service.bpGetOrderId(terminalId=2820803, userName='trader20', userPassword='48988491',
                 #                                mapOrderId=original_id)

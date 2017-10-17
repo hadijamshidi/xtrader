@@ -17,11 +17,14 @@ class Payment(models.Model):
     saleRefId = models.CharField(max_length=40, null=True, blank=True)
     takingDate = models.DateTimeField(default=timezone.now())
     success = models.BooleanField(default=False)
-    failureerror=models.CharField(max_length=3,null=True,blank=True)
+    failureerror = models.CharField(max_length=3, null=True, blank=True)
 
     class Meta:
         verbose_name = 'پرداخت'
         verbose_name_plural = 'پرداخت ها'
+
+    def __str__(self):
+        return self.membership
 
     @classmethod
     def create(cls, amount, membership):
@@ -35,9 +38,10 @@ class Payment(models.Model):
                 site = Site.objects.get_current()
                 callback = 'https://' + site.domain + '/accounting/payment_callback/'
                 response = client.service.bpPayRequest(terminalId=2820803, userName='trader20', userPassword='48988491',
-                                               orderId=payment.id, amount=amount * 10, callBackUrl=callback,
-                                               localDate=timezone.now().date().strftime("%Y%m%d"),
-                                               localTime=timezone.now().time().strftime("%H%M%S"), additionalData='hi',payerId=0)
+                                                       orderId=payment.id, amount=amount * 10, callBackUrl=callback,
+                                                       localDate=timezone.now().date().strftime("%Y%m%d"),
+                                                       localTime=timezone.now().time().strftime("%H%M%S"),
+                                                       additionalData='hi', payerId=0)
                 # response = response['bpPayRequestResult']
                 print(response + ':: response')
                 print('initial response:' + str(response))
@@ -60,16 +64,17 @@ class Payment(models.Model):
                 #                                mapOrderId=original_id)
                 # my_id = response['bpGetOrderIdResult']
                 verfiy_response = client.service.bpVerifyRequest(terminalId=2820803, userName='trader20',
-                                                         userPassword='48988491',
-                                                         orderId=original_id, saleOrderId=original_id, saleReferenceId=saleRefId)
-                print('verfiy_response   ::'+ verfiy_response)
+                                                                 userPassword='48988491',
+                                                                 orderId=original_id, saleOrderId=original_id,
+                                                                 saleReferenceId=saleRefId)
+                print('verfiy_response   ::' + verfiy_response)
                 # ver_rescode = verfiy_response['bpVerifyRequestResult']
                 self.verify_rescode = verfiy_response
                 if verfiy_response == '0':
                     settle_response = client.service.bpSettleRequest(terminalId=2820803, userName='trader20',
-                                                             userPassword='48988491',
-                                                             orderId=original_id, saleOrderId=original_id,
-                                                             saleReferenceId=saleRefId)
+                                                                     userPassword='48988491',
+                                                                     orderId=original_id, saleOrderId=original_id,
+                                                                     saleReferenceId=saleRefId)
                     # settle_rescode = settle_response['bpSettleRequestResult']
                     print('settle_response   ::' + settle_response)
                     if settle_response == '0':
@@ -83,6 +88,8 @@ class Payment(models.Model):
 
             except:
                 print(traceback.format_exc())
+
+
 ''''
 from zeep import Client
 client = Client(wsdl="https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl")

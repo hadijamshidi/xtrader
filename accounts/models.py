@@ -38,3 +38,6 @@ class Profile(UserenaBaseProfile):
 class Membership(models.Model):
     subscribe = models.ForeignKey(Subscribe)
     profile = models.ForeignKey(Profile)
+
+    def __str__(self):
+        return self.subscribe.name + self.profile.user.username

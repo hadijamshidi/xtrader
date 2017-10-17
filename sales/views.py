@@ -43,7 +43,11 @@ def payment_callback(request):
     if payment.success:
         #what i can do in this
         a = payment.membership.subscribe.value
+        print('a')
+        print(a)
         p=Profile.objects.filter(id=payment.membership.profile_id).first()
+        print('p')
+        print(p)
         import datetime
         p.expire =(datetime.date.today() + datetime.timedelta(a*365/12))
         p.save()

@@ -28,7 +28,7 @@ def get_updated_stocks_symbol_ids(num=0, update_stock_watch=True):
 
 def login_farabi():
     user = r.session()
-    user.post('http://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
+    user.post('https://api.farabixo.com/api/account/repo/login', data=farabi_login_data)
     return user
 
 
@@ -36,7 +36,7 @@ def update_stocks_with_farabixo(symbol_ids, num):
     user = login_farabi()
     for index, symbol_id in enumerate(symbol_ids):
         try:
-            output = user.get('http://api.farabixo.com/api/pub/GetSymbol', params={'SymbolId': symbol_id}).text
+            output = user.get('https://api.farabixo.com/api/pub/GetSymbol', params={'SymbolId': symbol_id}).text
             output = eval(output)
         except Exception:
             print('problem at sending request of SymbolId: {} and num {}'.format(symbol_id, index + num))

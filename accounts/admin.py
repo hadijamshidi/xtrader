@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'first_name', 'last_name', 'cellPhone', 'email', 'last_login',)
+    list_display = ('__str__', 'first_name', 'last_name', 'cellPhone', 'email', 'last_login', 'expire')
 
     # list_filter = ['gender','people_type','level_type','personwith','interstToCoaoprat']
     # ('user__first_name', 'user__last_name', 'user__username',)

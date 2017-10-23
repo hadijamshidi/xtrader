@@ -85,6 +85,7 @@ database_history = ''
 
 
 def read_historical_data_from_server_db(auto=False):
+    database_history = ''
     if auto:
         database_history = r.get('https://xtrader.ir/data/history/', verify=False).text
     history = database_history
@@ -108,3 +109,11 @@ def find_mabna_id(SymbolId):
             return False
     except Exception:
         return False
+
+
+
+'''
+from data import historicalprice as h
+
+
+'''

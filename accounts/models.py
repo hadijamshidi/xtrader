@@ -14,6 +14,7 @@ class Subscribe(models.Model):
     name = models.CharField(max_length=11, verbose_name='نام پکیج')
     price = models.IntegerField()
     value = models.IntegerField()
+    vipfilter = models.BooleanField(default=0, verbose_name='ویژه')
 
     def __str__(self):
         return self.name
@@ -39,13 +40,12 @@ class Profile(UserenaBaseProfile):
 
 
 class Membership(models.Model):
-
     subscribe = models.ForeignKey(Subscribe)
     profile = models.ForeignKey(Profile)
 
-    # def success(self):
-    #     from sales.models import Payment
-    #     return Payment.objects.all().filter(membership=self).first().success
+    def success(self):
+        from sales.models import Payment
+        return Payment.objects.all().filter(membership=self).first().success
 
     def __str__(self):
         return self.subscribe.name + self.profile.user.username

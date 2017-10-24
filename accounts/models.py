@@ -60,4 +60,4 @@ class Membership(models.Model):
         return Payment.objects.all().filter(membership=self).first().success
 
     def __str__(self):
-        return self.id
+        return str(self.id)

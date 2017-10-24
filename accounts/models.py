@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 # Create your models here.
 import datetime
+from datetime import datetime as dt
 from django.db.models import (Model,
                               OneToOneField,
                               DateField, )
@@ -14,10 +15,10 @@ class Subscribe(models.Model):
     name = models.CharField(max_length=11, verbose_name='نام پکیج')
     price = models.IntegerField()
     value = models.IntegerField()
-    vipfilter = models.BooleanField(default=0, verbose_name='ویژه')
+    vip = models.BooleanField(default=0, verbose_name='ویژه')
 
     def __str__(self):
-        return self.name
+        return self.name + str(self.value)
 
 
 class Profile(UserenaBaseProfile):
@@ -38,6 +39,17 @@ class Profile(UserenaBaseProfile):
     def last_name(self):
         return self.user.last_name
 
+    def have_subscribe(self):
+        from sales.models import Payment
+        payment = Payment.objects.filter(membership__profile=self).filter(success=True).last()
+        if payment:
+            if self.expire >= dt.today().date():
+                return payment.membership.subscribe.name
+            else:
+                return 0
+        else:
+            return 0
+
 
 class Membership(models.Model):
     subscribe = models.ForeignKey(Subscribe)
@@ -47,5 +59,5 @@ class Membership(models.Model):
         from sales.models import Payment
         return Payment.objects.all().filter(membership=self).first().success
 
-    def __str__(self):
-        return self.subscribe.name + self.profile.user.username
+        # def __str__(self):
+        #     return self.subscribe.name + self.profile.user.username

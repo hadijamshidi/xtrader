@@ -60,4 +60,4 @@ class Membership(models.Model):
         return Payment.objects.all().filter(membership=self).first().success
 
     def __str__(self):
-        return self.subscribe.name + self.profile.user.username
+        return self.subscribe.name

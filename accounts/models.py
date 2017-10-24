@@ -57,7 +57,11 @@ class Membership(models.Model):
 
     def success(self):
         from sales.models import Payment
-        return Payment.objects.all().filter(membership=self).first().success
+        try:
+            p=Payment.objects.all().filter(membership=self).first().success
+            return p
+        except Exception:
+            return 0
 
     def __str__(self):
         return self.subscribe.name + self.profile.user.username

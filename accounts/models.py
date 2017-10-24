@@ -59,5 +59,5 @@ class Membership(models.Model):
         from sales.models import Payment
         return Payment.objects.all().filter(membership=self).first().success
 
-        # def __str__(self):
-        #     return self.subscribe.name + self.profile.user.username
+    def __str__(self):
+        return self.subscribe.name + self.profile.user.username

@@ -165,7 +165,7 @@ def farabi(request):
 
 
 def ssl(request):
-    return HttpResponse('_4__Dydo_r-Odxp9vmfg6O0yztz4wubxg1pI_hjN61w.roFR2cIPsmsvrAbcUKyEWeWbhw-5q0XtVPqbbDoFZzs')
+    return HttpResponse('28mhleVYwkj9yxT5d6xJDAMYJqn5jBVIkxX5qP1_QQA.VifSIePybnZiM0_HwWVLKm7N8fghld9aemONCdkVDU0')
 
 
 def trade(request):

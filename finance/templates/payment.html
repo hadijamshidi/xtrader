@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
+{% load humanize %}
 {% block title %}{{ title }}{% endblock %}
 
 {% block headContent %}
@@ -39,7 +39,7 @@
                              onclick="choose(this)">
                             اشتراک {{ subscribe.name }}
                             <br>
-                            {{ subscribe.value }}/{{ subscribe.price }} ماه
+{{ subscribe.price | intcomma:False }}                            تومان/{{ subscribe.value | intcomma }} ماه
                             <br>
                         </div>
                     </td>

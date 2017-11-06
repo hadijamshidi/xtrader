@@ -111,9 +111,8 @@ def find_mabna_id(SymbolId):
         return False
 
 
-
 '''
 from data import historicalprice as h
-
+h.create_historical_table()
 
 '''
